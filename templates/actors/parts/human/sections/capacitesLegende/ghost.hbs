@@ -1,13 +1,15 @@
 
 <div class="ghost">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             {{#unless active.horsconflit}}
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -20,7 +22,9 @@
             {{/unless}}
 
             {{#unless active.conflit}}
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -33,8 +37,10 @@
             {{/unless}}
 
             {{#if active.conflit}}
-            <button class="prolonger"
-                data-type="legende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
+                data-type="prolonger"
                 data-capacite="{{key}}"
                 data-special="conflit">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
@@ -46,8 +52,10 @@
             {{/if}}
 
             {{#if active.horsconflit}}
-            <button class="prolonger"
-                data-type="legende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
+                data-type="prolonger"
                 data-capacite="{{key}}"
                 data-special="horsconflit">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}

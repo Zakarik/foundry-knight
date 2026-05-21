@@ -5,7 +5,7 @@
     {{#each actor.distinctions as | key distinctions|}}
     <div class="block item" data-item-id="{{key._id}}">
         <header class="summary header js-toggler" data-item-id="{{key._id}}">
-            <i class="far fa-plus-square extendButton"></i>
+            {{~> knight.jsToggle}}
             {{~> knight.itemButtons}}
             <span>{{key.name}}</span>
         </header>

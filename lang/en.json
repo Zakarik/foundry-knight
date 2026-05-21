@@ -2522,13 +2522,13 @@
       }
     },
     "AUTRE": {
+      "Label":"Other",
       "Type":"Type",
       "Inconscient":"Unconscious for {time}",
       "RecuperationEnergie":"PE recovery",
       "Heure":"hour",
       "Heures":"hours",
       "And": "and",
-      "Label":"Other",
       "Standard":"Standard",
       "Base":"Base",
       "Total": "Total",
@@ -3050,6 +3050,7 @@
       "Resettype":"Cancel stance selection"
     },
     "RECUPERER":{
+      "Label":"Recoveries",
       "Espoir":"Restoring hope",
       "Sante":"Restoring health",
       "Armure":"Restoring armour",

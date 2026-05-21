@@ -7,11 +7,8 @@
     {{#each actor.cyberware}}
     <div class="block item" data-item-id="{{_id}}">
         <header class="summary header js-toggler" data-item-id="{{_id}}">
-            <i class="far fa-plus-square extendButton"></i>
-            <div class="gestionButton">
-                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-            </div>
+            {{~> knight.jsToggle}}
+            {{~> knight.itemButtons}}
             <span>{{name}}</span>
             {{#if (and system.recuperation.has (gt system.recuperation.limite.max 0))}}
             <label class="recuperation" data-tooltip="{{localize "KNIGHT.CYBERWARE.RecuperationLimite"}}">
@@ -19,16 +16,15 @@
                 <span>/{{system.recuperation.limite.max}}</span>
             </label>
             {{/if}}
-            {{log ../this}}
             {{#if (and system.activation.has (ne system.activation.permanent true))}}
             {{#unless (and (eq ../actor.system.whatWear 'armure') (ne system.activation.withMetaArmure true))}}
-            <button class="activation" data-name="{{key.name}}">
+            <button data-action="activateHuman" data-type="activation" data-name="{{key.name}}">
                 {{localize (ifThen system.active "KNIGHT.AUTRE.Desactiver" "KNIGHT.AUTRE.Activer")}}
             </button>
             {{/unless}}
             {{else}}
             {{#if system.recuperation.has}}
-            <button class="recuperation" data-name="{{key.name}}">
+            <button data-action="activateHuman" data-type="recuperation" data-name="{{key.name}}">
                 {{localize "KNIGHT.CYBERWARE.Utiliser"}}
             </button>
             {{/if}}

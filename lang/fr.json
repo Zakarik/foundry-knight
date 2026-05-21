@@ -2522,13 +2522,13 @@
       }
     },
     "AUTRE": {
+      "Label":"Autre",
       "Type":"Type",
       "Inconscient":"Inconscient pour {time}",
       "RecuperationEnergie":"Récupération de PE",
       "Heure":"heure",
       "Heures":"heures",
       "And": "et",
-      "Label":"Autre",
       "Standard":"Standard",
       "Base":"Base",
       "Total": "Total",
@@ -3050,6 +3050,7 @@
       "Resettype":"Annuler les choix de type"
     },
     "RECUPERER":{
+      "Label":"Récupérations",
       "Espoir":"Restaurer l'espoir",
       "Sante":"Restaurer la santé",
       "Armure":"Restaurer l'armure",

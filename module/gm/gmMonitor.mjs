@@ -1,5 +1,3 @@
-import toggler from '../helpers/toggler.js';
-
 /**
  * Knight Boîte à outil
  * @extends {FormApplication}
@@ -108,8 +106,6 @@ import toggler from '../helpers/toggler.js';
         if (!game.user.isGM) {
             return;
         }
-
-        toggler.init(this.id, html);
 
         html.find('i.masquer').click(async ev => {
             const target = $(ev.currentTarget);

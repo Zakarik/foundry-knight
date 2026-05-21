@@ -1,0 +1,39 @@
+
+    div.autre {
+        div {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 5px;
+            align-items: flex-start;
+            align-content: flex-start;
+            border: 1px solid $lightBlue;
+            padding-bottom: 5px;
+
+            @include header();
+
+            h2.header {
+                grid-column: 1 / 3;
+                margin-bottom: 5px;
+            }
+
+            &.bRecover,
+            &.bRollback {
+                margin-top: 5px;
+            }
+        }
+
+        @include buttons() {
+            width:calc(100% - 10px);
+            margin-left: 5px;
+            margin-right: 5px;
+            text-align: center;
+            justify-content: center;
+
+            &.recover {
+                &:hover {
+                    background:$lightBlack;
+                    border-color:$black;
+                }
+            }
+        };
+    }

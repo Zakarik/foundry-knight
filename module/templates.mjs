@@ -162,6 +162,9 @@ export const PreloadTemplates = async function() {
     "knight.armes": `${path}/actors/parts/common/sections/armes.hbs`,
     "knight.effets": `${path}/common/parts/sections/effets.hbs`,
     "knight.itemButtons": `${path}/actors/parts/common/itemButtons.hbs`,
+    "knight.itemCreate": `${path}/actors/parts/common/itemCreate.hbs`,
+    "knight.jsToggle": `${path}/actors/parts/common/jsToggle.hbs`,
+    "knight.hideLimited": `${path}/actors/parts/common/hideLimited.hbs`,
   }
 
   const humanPartials = {
@@ -245,6 +248,8 @@ export const PreloadTemplates = async function() {
 
   const pcPartials = {
     "knight.distinctions": `${path}/actors/parts/pc/sections/distinctions.hbs`,
+    "knight.capaciteultime": `${path}/actors/parts/pc/sections/capaciteultime.hbs`,
+    "knight.overdrives": `${path}/actors/parts/pc/sections/overdrives.hbs`,
   };
 
   const creaturePartials = {};

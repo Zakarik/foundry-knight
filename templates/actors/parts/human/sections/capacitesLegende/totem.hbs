@@ -1,7 +1,7 @@
 
 <div class="totem">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
@@ -11,7 +11,9 @@
                     min="0" max="{{this.nombre}}" />
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totems"}}</span>
                 </label>
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -22,8 +24,10 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localizeactivate active}}
                 </button>
                 {{#if this.active}}
-                <button class="prolonger"
-                    data-type="^legende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
+                    data-type="prolonger"
                     data-capacite="{{key}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>

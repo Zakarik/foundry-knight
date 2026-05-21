@@ -1,19 +1,25 @@
 
 <div class="impregnation">
-    <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+    <h3 class="header">
+        {{~> knight.jsToggle}}
         {{label}}
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             {{#if (getCarac this.jets.c1a)}}
-            <button class="roll" data-label="{{this.label}}" data-caracteristique="{{this.jets.c1a}}" data-caracAdd="{{this.jets.c2a}}" data-caracLock="{{this.jets.c1a}},{{this.jets.c2a}}">
+            <button
+                data-action="activateHuman"
+                data-capacite="impregnation"
+                data-special="a">
                 {{localize "KNIGHT.JETS.Label"}} : {{getCarac this.jets.c1a}} / {{getCarac this.jets.c2a}}
             </button>
             {{/if}}
 
             {{#if (getCarac this.jets.c1b)}}
-            <button class="roll" data-label="{{this.label}}" data-caracteristique="{{this.jets.c1b}}" data-caracAdd="{{this.jets.c2b}}" data-caracLock="{{this.jets.c1b}},{{this.jets.c2b}}">
+            <button
+                data-action="activateHuman"
+                data-capacite="impregnation"
+                data-special="b">
                 {{localize "KNIGHT.JETS.Label"}} : {{getCarac this.jets.c1b}} / {{getCarac this.jets.c2b}}
             </button>
             {{/if}}

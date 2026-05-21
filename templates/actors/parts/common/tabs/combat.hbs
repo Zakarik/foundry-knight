@@ -5,10 +5,7 @@
             <div class="block item-list">
                 <h2 class="header">
                     {{localize "KNIGHT.COMBAT.ARMES.CONTACT.Label"}}
-                    <a
-                    data-action="itemCreate"
-                    data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.COMBAT.ARMES.CONTACT.Label")}}"
-                    data-type="arme" data-subtype="contact"><i class="fas fa-plus"></i></a>
+                    {{~> knight.itemCreate strLoc="KNIGHT.COMBAT.ARMES.CONTACT.Label" data=(object type="arme" subtype="contact")}}
                 </h2>
 
                 {{#each actor.armesContactEquipee as | key arme|}}
@@ -49,7 +46,7 @@
                 <h2 class="header">
                     {{localize "KNIGHT.COMBAT.ARMES.DISTANCE.Label"}}
                     {{#unless actor.cannotUseDistance}}
-                    <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance"><i class="fas fa-plus"></i></a>
+                        {{~> knight.itemCreate strLoc="KNIGHT.COMBAT.ARMES.CONTACT.Label" data=(object type="arme" subtype="distance")}}
                     {{/unless}}
                 </h2>
 
@@ -93,14 +90,14 @@
 
     <div class="main">
         <div class="armesImprovisees">
-            <h2 class="header js-toggler">
-                <i class="far fa-minus-square"></i>
+            <h2 class="header">
+                {{~> knight.jsToggle}}
                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact"}}
             </h2>
             {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                 <div class="block">
-                    <h3 class="header js-toggler">
-                        <i class="far fa-plus-square"></i>
+                    <h3 class="header">
+                        {{~> knight.jsToggle}}
                         {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
                     </h3>
                     {{#each kAI.liste as | key arme|}}
@@ -147,14 +144,14 @@
         </div>
 
         <div class="armesImprovisees">
-            <h2 class="header  js-toggler">
-                <i class="far fa-minus-square"></i>
+            <h2 class="header">
+                {{~> knight.jsToggle}}
                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance"}}
             </h2>
             {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                 <div class="block">
-                    <h3 class="header js-toggler">
-                        <i class="far fa-plus-square"></i>
+                    <h3 class="header">
+                        {{~> knight.jsToggle}}
                         {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
                     </h3>
                     {{#each kAI.liste as | key arme|}}
@@ -210,7 +207,7 @@
                 <div class="block item-list">
                     <h2 class="header">
                         {{localize "KNIGHT.COMBAT.ARMES.TOURELLE.Label"}}
-                        <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance" data-tourelle="true"><i class="fas fa-plus"></i></a>
+                        {{~> knight.itemCreate strLoc="KNIGHT.COMBAT.ARMES.CONTACT.Label" data=(object type="arme" subtype="distance" tourelle="true")}}
                     </h2>
 
                     {{#each actor.armesTourelles as | key arme|}}

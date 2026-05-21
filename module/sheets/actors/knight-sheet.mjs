@@ -15,7 +15,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["knight"],
-    position: { width: 1020, height: 720 }
+    position: { width: 1020, height: 720 },
   }
 
   static PARTS = {
@@ -52,8 +52,8 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       classes:['tab', 'progression'],
     },
     options: {
-      template: "systems/knight/templates/actors/parts/common/tabs/options.hbs",
-      classes:['tab', 'options'],
+      template: "systems/knight/templates/actors/parts/common/tabs/autre.hbs",
+      classes:['tab', 'autre'],
     },
   }
 
@@ -67,7 +67,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
         { id:'combat', label:'KNIGHT.COMBAT.Label' },
         { id:'historique', label:'KNIGHT.HISTORIQUE.Label' },
         { id:'progression', label:'KNIGHT.PROGRESSION.Label' },
-        { id:'options', label:'KNIGHT.OPTIONS.Label' },
+        { id:'autre', label:'KNIGHT.AUTRE.Label' },
       ],
       initial:'personnage',
     },
@@ -113,10 +113,22 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   }
 
   async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
     context.tab = context.tabs[partId];
 
-    if(partId === 'armure') {
-      context.subTab = this._subTab;
+    switch(partId) {
+      case 'armure':
+        context.subTab = this._subTab;
+        break;
+
+      case 'personnage':
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.actor.system.description, { async: true, });
+        context.enrichedDescriptionLimitee = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.actor.system.descriptionLimitee, { async: true, });
+        break;
+
+      case 'historique':
+        context.enrichedHistoire = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.actor.system.histoire, { async: true, });
+        break;
     }
 
     return await super._preparePartContext(partId, context, options);

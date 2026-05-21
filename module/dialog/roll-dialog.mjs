@@ -1,4 +1,3 @@
-import toggler from '../helpers/toggler.js';
 import {
     getModStyle,
     listEffects,
@@ -231,7 +230,6 @@ export class KnightRollDialog extends Dialog {
 
     #renderHTML(html) {
         this.data.roll.html = html;
-        toggler.init(this.id, html);
         this.#renderSTD(html);
         this.#renderWpn(html);
 

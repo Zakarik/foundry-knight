@@ -41,34 +41,34 @@
         <div class="buttonSelectArmure {{#unless systemData.jauges.sante}} centered {{/unless}}">
             {{#unless (ascension systemData.wear)}}
                 {{#unless actor.armureData._id}}
-                <button type="action" class="creerArmure unselected item-create" data-type="armure">{{localize "KNIGHT.ARMURE.CreerArmure"}}</button>
+                <button type="action" class="creerArmure unselected" data-action="itemCreate" data-type="armure">{{localize "KNIGHT.ARMURE.CreerArmure"}}</button>
                 {{/unless}}
 
                 {{#if actor.armureData._id}}
-                <div class="blockArmure {{#if (armure systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
-                    <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                <div class="blockArmure {{ifThen (armure systemData.wear) 'selected' 'unselected'}} summary" data-item-id="{{actor.armureData._id}}">
+                    <a class="item-edit" data-action="itemEdit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
                     <button type="action" class="armure" data-type="armure">
                     {{actor.armureData.name}}
                     </button>
-                    <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                    <a class="item-delete" data-action="itemDelete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                 </div>
                 {{/if}}
             {{/unless}}
 
             {{#if (ascension systemData.wear)}}
                 <div class="blockArmure {{#if (ascension systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
-                    <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                    <a class="item-edit" data-action="itemEdit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
                     <button type="action" class="armure" data-type="armure">
                     {{actor.armureData.name}}
                     </button>
-                    <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                    <a class="item-delete" data-action="itemDelete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                 </div>
             {{/if}}
 
             {{#unless (ascension systemData.wear)}}
                 {{#if systemData.jauges.sante}}
-                <button type="action" class="armure {{#if (guardian systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="guardian">{{localize "KNIGHT.ARMURE.Guardian"}}</button>
-                <button type="action" class="armure {{#if (civil systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="tenueCivile">{{localize "KNIGHT.ARMURE.TenueCivile"}}</button>
+                <button type="action" class="armure {{ifThen (guardian systemData.wear) 'selected' 'unselected'}}" data-type="guardian">{{localize "KNIGHT.ARMURE.Guardian"}}</button>
+                <button type="action" class="armure {{ifThen (civil systemData.wear) 'selected' 'unselected'}}" data-type="tenueCivile">{{localize "KNIGHT.ARMURE.TenueCivile"}}</button>
                 {{/if}}
             {{/unless}}
         </div>

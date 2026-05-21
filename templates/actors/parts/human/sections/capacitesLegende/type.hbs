@@ -1,7 +1,7 @@
 
 <div class="type">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.Label"}}
         {{log this}}
         {{#if ("armure" @root/systemData/wear)}}
@@ -9,7 +9,9 @@
             <div class="blockMultiline">
                 {{#if type.soldier.selectionne}}
                     {{#if (typeCanBeActivate this 'soldier' 'conflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -23,7 +25,9 @@
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'soldier' 'horsconflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -37,8 +41,10 @@
                     {{/if}}
 
                     {{#if type.soldier.conflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="soldier"
                         data-variant="conflit">
@@ -47,8 +53,10 @@
                     {{/if}}
 
                     {{#if type.soldier.horsconflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="soldier"
                         data-variant="horsconflit">
@@ -59,7 +67,9 @@
 
                 {{#if type.hunter.selectionne}}
                     {{#if (typeCanBeActivate this 'hunter' 'conflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -73,7 +83,9 @@
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'hunter' 'horsconflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -87,8 +99,10 @@
                     {{/if}}
 
                     {{#if type.hunter.conflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="hunter"
                         data-variant="conflit">
@@ -97,8 +111,10 @@
                     {{/if}}
 
                     {{#if this.type.hunter.horsconflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="hunter"
                         data-variant="horsconflit">
@@ -109,7 +125,9 @@
 
                 {{#if type.scholar.selectionne}}
                     {{#if (typeCanBeActivate this 'scholar' 'conflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -123,7 +141,9 @@
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'scholar' 'horsconflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -137,8 +157,10 @@
                     {{/if}}
 
                     {{#if type.scholar.conflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="scholar"
                         data-variant="conflit">
@@ -147,8 +169,10 @@
                     {{/if}}
 
                     {{#if type.scholar.horsconflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="scholar"
                         data-variant="horsconflit">
@@ -159,7 +183,9 @@
 
                 {{#if type.herald.selectionne}}
                     {{#if (typeCanBeActivate this 'herald' 'conflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -173,7 +199,9 @@
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'herald' 'horsconflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -187,8 +215,10 @@
                     {{/if}}
 
                     {{#if type.herald.conflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="herald"
                         data-variant="conflit">
@@ -197,8 +227,10 @@
                     {{/if}}
 
                     {{#if type.herald.horsconflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="herald"
                         data-variant="horsconflit">
@@ -209,7 +241,9 @@
 
                 {{#if type.scout.selectionne}}
                     {{#if (typeCanBeActivate this 'scout' 'conflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -223,7 +257,9 @@
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'scout' 'horsconflit' 'true')}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -237,8 +273,10 @@
                     {{/if}}
 
                     {{#if type.scout.conflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="scout"
                         data-variant="conflit">
@@ -247,8 +285,10 @@
                     {{/if}}
 
                     {{#if type.scout.horsconflit}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="scout"
                         data-variant="horsconflit">
@@ -265,6 +305,7 @@
                     choisi
                     {{/if}}
                     "
+                    data-action="choisirHuman"
                     data-type="capacites"
                     data-capacite="{{key}}Legende"
                     data-special="soldier"
@@ -278,6 +319,7 @@
                     choisi
                     {{/if}}
                     "
+                    data-action="choisirHuman"
                     data-type="capacites"
                     data-capacite="{{key}}Legende"
                     data-special="hunter"
@@ -291,6 +333,7 @@
                     choisi
                     {{/if}}
                     "
+                    data-action="choisirHuman"
                     data-type="capacites" data-capacite="{{key}}Legende"
                     data-special="scholar"
                     data-value="{{type.scholar.selectionne}}">
@@ -303,6 +346,7 @@
                     choisi
                     {{/if}}
                     "
+                    data-action="choisirHuman"
                     data-type="capacites"
                     data-capacite="{{key}}Legende"
                     data-special="herald"
@@ -316,6 +360,7 @@
                     choisi
                     {{/if}}
                     "
+                    data-action="choisirHuman"
                     data-type="capacites"
                     data-capacite="{{key}}Legende"
                     data-special="scout"

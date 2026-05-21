@@ -7,27 +7,20 @@
     div.tab {
         margin-left: 5px;
         margin-top: 5px;
-    }
 
-    div.editor {
-        padding-left:2px;
-        padding-right:2px;
-
-        .tox {
-        min-height:inherit;
-        }
-
-        div.tox-tinymce {
-        border-radius:0px;
+        &.active {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            height: calc(100% - 5px);
         }
     }
 
-    .editor-edit {
-        background: $black;
-    }
-
-    .tox-editor-container {
-        background: whitesmoke;
+    prose-mirror {
+        div.editor-content {
+            padding-left:2px;
+            padding-right:2px;
+        }
     }
 
     header.sheet-header {
@@ -117,7 +110,6 @@
             display:flex;
             width:100%;
             justify-content: space-between;
-            margin-bottom:5px;
             padding-left:10px;
             padding-right:10px;
 
@@ -129,6 +121,7 @@
             color:$white;
             border:2px solid;
             position:relative;
+            max-height: 32px;
 
             button {
                 width:calc(200px -  25px - 25px);
@@ -165,6 +158,7 @@
             cursor:pointer;
             border:2px solid;
             position:relative;
+            min-height: 32px;
 
             &.unselected {
                 background:$black;
@@ -190,13 +184,12 @@
         border:1px solid $white;
         flex-flow: column;
         background: $lightBlack;
-        margin-top:-1px;
         padding-top:1px;
         grid-row: 2 / 4;
         height: 100%;
     }
 
-    i.hideShowLimited {
+    i.canBeHide {
         cursor: pointer;
         font-size: 14px;
         position: absolute;
@@ -204,7 +197,7 @@
         right: 5px;
 
         &:hover {
-        text-shadow: 0 0 10px $blue;
+            text-shadow: 0 0 10px $blue;
         }
     }
 }

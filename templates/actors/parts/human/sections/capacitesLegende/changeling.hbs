@@ -1,11 +1,13 @@
 <div class="changeling">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -16,7 +18,9 @@
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationPersonnelle"}} : {{localizeactivate active.personnel}}
             </button>
 
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -27,8 +31,11 @@
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationEtendue"}} : {{localizeactivate active.etendue}}
             </button>
             {{#if (or active.fauxEtre active.personnel active.etendue)}}
-            <button class="buttonSupp prolonger"
-                data-type="legende"
+            <button
+                class="buttonSupp prolonger"
+                data-action="activateHuman"
+                data-type="prolonger"
+                data-type-armure="legend"
                 data-capacite="{{key}}">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
@@ -40,7 +47,9 @@
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtres"}}</span>
             </label>
 
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"

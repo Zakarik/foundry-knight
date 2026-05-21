@@ -1,12 +1,14 @@
 <div class="nanoc">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             {{#unless active.detaille}}
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -19,7 +21,9 @@
             {{/unless}}
 
             {{#unless active.base}}
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -32,8 +36,10 @@
             {{/unless}}
 
             {{#if active.base}}
-            <button class="prolonger"
-                data-type="legende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
+                data-type="prolonger"
                 data-capacite="{{key}}"
                 data-special="base">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
@@ -41,8 +47,10 @@
             {{/if}}
 
             {{#if active.detaille}}
-            <button class="prolonger"
-                data-type="legende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
+                data-type="prolonger"
                 data-capacite="{{key}}"
                 data-special="detaille">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}

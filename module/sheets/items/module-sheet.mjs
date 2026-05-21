@@ -3,7 +3,7 @@ import {
   listEffects,
   getAllEffects,
  } from "../../helpers/common.mjs";
-import toggler from '../../helpers/toggler.js';
+
 /**
  * @extends {ItemSheet}
  */
@@ -138,8 +138,6 @@ export class ModuleSheet extends ItemSheet {
   /** @inheritdoc */
 	activateListeners(html) {
     super.activateListeners(html);
-
-    toggler.init(this.id, html);
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;

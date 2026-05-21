@@ -1,0 +1,5 @@
+<i
+data-action="btnToggle"
+data-path="system.limited.{{path}}"
+data-tooltip="{{ifThen (lookup systemData.limited path) (localize 'KNIGHT.HIDESHOW.Hide') (localize 'KNIGHT.HIDESHOW.Show')}}"
+class="canBeHide fa-solid {{ifThen (lookup systemData.limited path) 'fa-eye' 'fa-eye-slash'}}"></i>

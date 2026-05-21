@@ -1,0 +1,104 @@
+
+{{#if actor.capaciteultime}}
+    <div class="capacites capacitesultime">
+        <h2 class="header js-toggler summary" data-item-id="{{actor.capaciteultime._id}}">
+            {{~> knight.jsToggle}}
+            {{actor.capaciteultime.name}}
+
+            {{#if ("armure" actor.system.wear)}}
+                {{#with actor.capaciteultime}}
+                    {{#if (isValue this.system.type 'passive')}}
+                        {{#if this.system.passives.capacites.actif}}
+                            {{#if this.system.passives.capacites.ascension.actif}}
+                                {{#if this.system.passives.capacites.ascension.update.permanent}}
+                                <div class="blockActive">
+                                    <button
+                                        data-action="activateHuman"
+                                        data-type="ascension">
+                                        {{localize 'KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.Maj'}}
+                                    </button>
+                                </div>
+                                {{/if}}
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+                    {{#if (isValue this.system.type 'active')}}
+                        <div class="blockActive">
+                            {{#if this.system.actives.isActivable}}
+                            <button
+                                data-action="activateHuman"
+                                data-type="activation">
+                                {{localize (concat 'KNIGHT.AUTRE' (ifThen system.active 'Desactiver' 'Activer'))}}
+                            </button>
+                            {{/if}}
+
+                            {{#if this.system.actives.jet.actif}}
+                                {{#unless this.system.actives.jet.isfixe}}
+                                    {{#if this.system.actives.jet.variable.caracteristiques}}
+                                    <div class="blockRoll">
+                                        {{#each this.system.actives.jet.variable.caracteristiques}}
+                                            <button
+                                                data-action="activateHuman"
+                                                data-type="roll"
+                                                data-special="jet"
+                                                data-variant="{{this}}">
+
+                                                {{localize 'KNIGHT.JETS.Label'}} : {{getCarac this}}
+                                            </button>
+                                        {{/each}}
+                                    </div>
+                                    {{/if}}
+                                {{/unless}}
+                            {{/if}}
+
+                            {{#if this.system.actives.degats.actif}}
+                                {{#unless this.system.actives.degats.isfixe}}
+                                    {{#if this.system.actives.degats.variable.paliers}}
+                                    <div class="blockDgts">
+                                        <button
+                                            data-action="activateHuman"
+                                            data-type="roll"
+                                            data-special="degats">
+
+                                            {{localize 'KNIGHT.AUTRE.Degats'}} :
+                                        </button>
+                                        <select class="dgtsCUList">
+                                        {{#each this.system.actives.degats.variable.paliers}}
+                                            <option value="{{@index}}">{{this}}</option>
+                                        {{/each}}
+                                        </select>
+                                    </div>
+                                    {{/if}}
+                                {{/unless}}
+                            {{/if}}
+
+                            {{#if this.system.actives.violence.actif}}
+                                {{#unless this.system.actives.violence.isfixe}}
+                                    {{#if this.system.actives.violence.variable.paliers}}
+                                    <div class="blockDgts">
+                                        <button
+                                            data-action="activateHuman"
+                                            data-type="roll"
+                                            data-special="violence">
+
+                                            {{localize 'KNIGHT.AUTRE.Violence'}} :
+                                        </button>
+                                        <select class="violCUList">
+                                        {{#each this.system.actives.violence.variable.paliers}}
+                                            <option value="{{@index}}">{{this}}</option>
+                                        {{/each}}
+                                        </select>
+                                    </div>
+                                    {{/if}}
+                                {{/unless}}
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                {{/with}}
+            {{/if}}
+
+            {{~> knight.itemButtons onlyInner=true}}
+        </h2>
+        <span class="description">{{{actor.capaciteultime.system.description}}}</span>
+    </div>
+{{/if}}

@@ -13,10 +13,7 @@
                 {{#unless systemData.espoir.recuperation.aucun}}
                 <button type="action" class="motivationAccomplie">{{localize "KNIGHT.PERSONNAGE.MotivationAccomplie"}}</button>
                 {{/unless}}
-                <a
-                data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.PERSONNAGE.MotivationMineures")}}"
-                data-type="motivationMineure"
-                data-action="itemCreate"><i class="fas fa-plus"></i></a>
+                {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.MotivationMineures" data=(object type="motivationMineure")}}
             </h2>
             {{#each actor.motivationMineure as | key motivation|}}
             <div class="block summary item" data-item-id="{{key._id}}">
@@ -35,15 +32,12 @@
         <div class="av item-list">
             <h2 class="header">
                 {{localize "KNIGHT.PERSONNAGE.Avantages"}}
-                <a
-                data-action="itemCreate"
-                data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.PERSONNAGE.Avantages")}}"
-                data-type="avantage"><i class="fas fa-plus"></i></a>
+                {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.Avantages" data=(object type="avantage")}}
             </h2>
             {{#each actor.avantages as | key avantages|}}
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
-                    <i class="far fa-plus-square extendButton"></i>
+                    {{~> knight.jsToggle}}
                     {{~> knight.itemButtons}}
                     <span>{{key.name}}</span>
                 </header>
@@ -57,15 +51,12 @@
         <div class="dv item-list">
             <h2 class="header">
                 {{localize "KNIGHT.PERSONNAGE.Inconvenient"}}
-                <a
-                data-action="itemCreate"
-                data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.PERSONNAGE.Inconvenient")}}"
-                data-type="inconvenient"><i class="fas fa-plus"></i></a>
+                {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.Inconvenient" data=(object type="inconvenient")}}
             </h2>
             {{#each actor.inconvenient as | key inconvenient|}}
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
-                    <i class="far fa-plus-square extendButton"></i>
+                    {{~> knight.jsToggle}}
                     {{~> knight.itemButtons}}
                     <span>{{key.name}}</span>
                 </header>
@@ -85,12 +76,12 @@
         <div class="liste item-list">
             <h2 class="header">
                 {{localize "KNIGHT.HEROISME.CARTE.Label"}}
-                <a class="item-control item-create" title="Create Item" data-type="carteheroique"><i class="fas fa-plus"></i></a>
+                {{~> knight.itemCreate strLoc="KNIGHT.HEROISME.CARTE.Label" data=(object type="carteheroique")}}
             </h2>
             {{#each actor.carteHeroique as | key heroisme|}}
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
-                    <i class="far fa-plus-square extendButton"></i>
+                    {{~> knight.jsToggle}}
                     {{~> knight.itemButtons}}
                     <span>{{key.name}}</span>
                 </header>
@@ -104,12 +95,12 @@
         <div class="liste item-list">
             <h2 class="header">
                 {{localize "KNIGHT.HEROISME.CAPACITE.Label"}}
-                <a class="item-control item-create" title="Create Item" data-type="capaciteheroique"><i class="fas fa-plus"></i></a>
+                {{~> knight.itemCreate strLoc="KNIGHT.HEROISME.CAPACITE.Label" data=(object type="capaciteheroique")}}
             </h2>
             {{#each actor.capaciteHeroique as | key heroisme|}}
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
-                    <i class="far fa-plus-square extendButton"></i>
+                    {{~> knight.jsToggle}}
                     {{~> knight.itemButtons}}
                     <span>{{key.name}}</span>
                 </header>
@@ -124,20 +115,34 @@
     <div class="description hideShowLimited" data-toverify="showDescriptionFull" data-default="false" data-onlygm="false">
         <h2 class="header">
             {{localize "KNIGHT.Description"}}
-            <i data-toupdate="showDescriptionFull" data-value="true" class="fa-solid fa-eye-slash hideLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Show"}}"></i>
-            <i data-toupdate="showDescriptionFull" data-value="false" class="fa-solid fa-eye showLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Hide"}}"></i>
+            {{~> knight.hideLimited path='showDescriptionFull'}}
         </h2>
 
-        {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+        {{formInput
+            systemFields.description
+            enriched=enrichedDescription
+            value=systemData.description
+            documentUUID=actor.uuid
+            name="system.description"
+            collaborate="false"
+            toggled="true"
+        }}
     </div>
 
-    <div class="description hideShowLimited" data-toverify="showDescriptionLimited" data-default="true" data-onlygm="false">
+    <div class="description marginTop hideShowLimited" data-toverify="showDescriptionLimited" data-default="true" data-onlygm="false">
         <h2 class="header">
             {{localize "KNIGHT.DescriptionLimitee"}}
-            <i data-toupdate="showDescriptionLimited" data-value="true" class="fa-solid fa-eye-slash hideLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Show"}}"></i>
-            <i data-toupdate="showDescriptionLimited" data-value="false" class="fa-solid fa-eye showLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Hide"}}"></i>
+            {{~> knight.hideLimited path='showDescriptionLimited'}}
         </h2>
 
-        {{editor systemData.descriptionLimitee target="system.descriptionLimitee" button=true owner=owner editable=editable}}
+        {{formInput
+            systemFields.descriptionLimitee
+            enriched=enrichedDescriptionLimitee
+            value=systemData.descriptionLimitee
+            documentUUID=actor.uuid
+            name="system.descriptionLimitee"
+            collaborate="false"
+            toggled="true"
+        }}
     </div>
 </div>

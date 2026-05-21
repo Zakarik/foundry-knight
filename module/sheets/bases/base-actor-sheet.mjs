@@ -1,33 +1,21 @@
 import {
   confirmationDialog,
   getDefaultImg,
-  diceHover,
-  includeOptions,
-  hideShowLimited,
   dragMacro,
   actualiseRoll,
   getArmor,
 } from "../../helpers/common.mjs";
 
-import toggler from '../../helpers/toggler.js';
-
 import prepareCharacterItems from "../../processor/items/main.mjs";
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
+import JsTogglerMixin from "./mixin-js-toggler.mjs";
 
 /**
  * @extends {ActorSheet}
  */
-export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
-  /*static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "actor"],
-      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
-      dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
-    });
-  }*/
-
+export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplicationMixin(ActorSheetV2)) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["sheet", "actor"],
@@ -35,7 +23,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
     form: {
       submitOnChange: true,
-      closeOnSubmit: false
     },
     actions: {
       switchSubTab: BaseActorSheet.#onSwitchSubTab,
@@ -50,6 +37,8 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
       useWpn: BaseActorSheet.#onUseWpn,
       chargeurClick: BaseActorSheet.#onChargeurClick,
       optionsClick: BaseActorSheet.#onOptionsClick,
+      recoverClick: BaseActorSheet.#onRecoverClick,
+      btnToggle: BaseActorSheet.#onBtnToggle,
     }
   }
 
@@ -68,6 +57,7 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
   get hasGloire() {
     return false;
   }
+
 
   // GESTION DES ACTIONS
 
@@ -162,7 +152,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
 
     const item = this.actor.items.get(itemId);
 
-    console.error(item);
     if(!item) return;
 
     item.system.toggleEffect(id, type, munition, pnj, wpn);
@@ -305,11 +294,27 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
         break;
 
       default:
-        const result = value ? false : true;
+        const result = value !== "true";
 
         this.actor.update({[`system.options.${option}`]:result});
         break;
     }
+  }
+
+  static #onRecoverClick(event, target) {
+    const data = target.dataset;
+    const type = data.type;
+
+    this.actor.system.askToRestore(type);
+  }
+
+  static #onBtnToggle(event, target) {
+    const data = target.dataset;
+    const path = data.path;
+    const value = foundry.utils.getProperty(this.actor, path);
+    const result = value ? false : true;
+
+    this.actor.update({[path]:result});
   }
 
   /* -------------------------------------------- */
@@ -322,6 +327,7 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     this._prepareActor(actor);
 
     context.actor = actor;
+    context.systemFields = this.document.system.schema.fields;
     context.systemData = actor.system;
 
     actualiseRoll(actor);
@@ -339,7 +345,7 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
   * Return a light sheet if in "limited" state
   * @override
   */
-  _configureRenderParts(options) {
+  /*_configureRenderParts(options) {
     const parts = super._configureRenderParts(options);
 
     if (!game.user.isGM && this.actor.limited) {
@@ -349,47 +355,94 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     }
 
     return parts;
-  }
+  }*/
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
   _onRender(context, options) {
     super._onRender(context, options);
-    const html = $(this.element)
 
-    toggler.init(this.id, html);
-    hideShowLimited(this.actor, html);
+    this._onRender_init(this.element);
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
-    diceHover(html);
-    includeOptions(html, context.document);
 
-    html.find('div.combat div.armesContact select.wpnMainChange').change(ev => {
-      const target = $(ev.currentTarget);
-      const id = target.data("id");
-      const value = target.val();
-
-      this.actor.items.get(id).update({['system.options2mains.actuel']:value});
-    });
-
-    html.find('div.combat div.armesDistance select.wpnMunitionChange').change(ev => {
-      const target = $(ev.currentTarget);
-      const id = target.data("id");
-      const niveau = target.data("niveau");
-      const value = target.val();
-      const item = this.actor.items.get(id);
-
-      if(item.type === 'module') {
-        item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
-      } else {
-        item.update({['system.optionsmunitions.actuel']:value});
-      }
-    });
+    this.element.addEventListener('change', this._onChange.bind(this));
+    this._onDiceHover(this.element);
   }
 
   /* -------------------------------------------- */
+  _onRender_init(element) {
+    const actor = this.actor;
+    const system = actor.system;
+    const isLimited = actor.limited;
+
+    this.element.querySelectorAll('div.personnage div.hideShowLimited').forEach(el => {
+      const hType = el.dataset.toverify;
+      const defaut = el.dataset.default;
+      const onlygm = el.dataset.onlygm;
+      const show = system?.limited?.[hType] ?? defaut;
+
+      if(!show) {
+        if(isLimited) el.style.setProperty('display', 'none');
+        if(!game.user.isGM && onlygm) el.style.setProperty('display', 'none');
+
+        el.querySelector('i.showLimited')?.style.setProperty('display', 'none');
+      } else {
+        el.querySelector('i.hideLimited')?.style.setProperty('display', 'none');
+      }
+
+      if(onlygm && !isLimited && !game.user.isGM) el.style.setProperty('display', 'none');
+      if(!game.user.isGM) el.querySelector('h2.header i')?.style.setProperty('display', 'none');
+    });
+  }
+
+  _onDiceHover(element) {
+    this.element.querySelectorAll('img.dice').forEach(el => {
+      el.addEventListener('mouseenter', (event) => {
+        event.currentTarget.src = 'systems/knight/assets/icons/D6White.svg';
+      });
+
+      el.addEventListener('mouseleave', (event) => {
+        event.currentTarget.src = 'systems/knight/assets/icons/D6Black.svg';
+      });
+    });
+
+    this.element.querySelectorAll('img.diceTarget').forEach(el => {
+      el.addEventListener('mouseenter', (event) => {
+        event.currentTarget.src = 'systems/knight/assets/icons/D6TargetBlack.svg';
+      });
+
+      el.addEventListener('mouseleave', (event) => {
+        event.currentTarget.src = 'systems/knight/assets/icons/D6TargetWhite.svg';
+      });
+    });
+  }
+
+  async _onChange(event) {
+    const target = event.target;
+
+    if (target.matches('div.combat div.armesContact select.wpnMainChange')) {
+      const tgt = event.currentTarget;
+      const id = tgt.dataset.id;
+      const value = tgt.value;
+
+      this.actor.items.get(id).update({['system.options2mains.actuel']:value});
+    }
+
+    if (target.matches('div.combat div.armesDistance select.wpnMunitionChange')) {
+      const tgt = event.currentTarget;
+      const id = tgt.dataset.id;
+      const niveau = target.dataset.niveau;
+      const value = tgt.value;
+      const item = this.actor.items.get(id);
+
+      if(item.type === 'module') item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
+      else item.update({['system.optionsmunitions.actuel']:value});
+    }
+  }
+
   async _onItemCreate_on(header, itemData) {
     const type = header.dataset?.type || false;
     const subtype = header.dataset?.subtype || false;
@@ -444,8 +497,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
   async _onDropItemCreate(itemData) {
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
-
-    console.error(itemBaseType)
 
     if (!this.itemTypesValides.includes(itemBaseType)) return;
 

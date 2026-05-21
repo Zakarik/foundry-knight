@@ -1,12 +1,17 @@
 
 <div class="windtalker">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WINDTALKER.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="activationLegende" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
                 data-cout="{{energie}}" data-flux="{{flux}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WINDTALKER.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
             </button>

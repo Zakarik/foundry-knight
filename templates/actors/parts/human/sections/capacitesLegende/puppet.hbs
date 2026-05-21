@@ -1,7 +1,7 @@
 
 <div class="puppet">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
@@ -14,7 +14,9 @@
                 min="0" max="{{creatures}}" />
                 <span>{{localize "KNIGHT.AUTRE.CibleSupplementaire"}}</span>
             </label>
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -25,8 +27,10 @@
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}} : {{localizeactivate active}}
             </button>
             {{#if active}}
-            <button class="prolonger"
-                data-type="legende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
+                data-type="prolonger"
                 data-capacite="{{key}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>

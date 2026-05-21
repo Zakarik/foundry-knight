@@ -16,13 +16,15 @@
             <input type="number" name="system.combat.nods.{{nods}}.max" value="{{key.max}}" />
         </div>
         <div class="blockRoll">
-            <img src="systems/knight/assets/icons/D6Black.svg" title='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice draggable"
+            <img src="systems/knight/assets/icons/D6Black.svg" data-tooltip='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice draggable"
                 data-label="{{getNodsName nods}}"
+                data-action="use"
                 data-type="nods"
                 data-key="self"
                 data-nods="{{nods}}" data-number="{{key.value}}" data-dices="{{key.dices}}" />
-            <img src="systems/knight/assets/icons/D6TargetBlack.svg" title='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget draggable"
+            <img src="systems/knight/assets/icons/D6TargetBlack.svg" data-tooltip='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget draggable"
                 data-label="{{getNodsName nods}}"
+                data-action="use"
                 data-type="nods"
                 data-key="target"
                 data-nods="{{nods}}" data-number="{{key.value}}" data-dices="{{key.dices}}" />

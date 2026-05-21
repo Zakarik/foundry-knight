@@ -1,12 +1,13 @@
 <div class="warlord">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
         {{#unless impulsions.choisi}}
         <div class="blockMultiline">
             <button class="aChoisir"
+                data-action="choisirHuman"
                 data-type="capacites"
                 data-capacite="{{key}}Legende"
                 data-name="{{label}}"
@@ -18,6 +19,7 @@
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}} : {{localizechoix impulsions.force.choisi}}
             </button>
             <button class="aChoisir"
+                data-action="choisirHuman"
                 data-type="capacites"
                 data-capacite="{{key}}Legende"
                 data-name="{{label}}"
@@ -29,6 +31,7 @@
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ENERGIE.Label"}} : {{localizechoix impulsions.energie.choisi}}
             </button>
             <button class="aChoisir"
+                data-action="choisirHuman"
                 data-type="capacites"
                 data-capacite="{{key}}Legende"
                 data-name="{{label}}"
@@ -40,6 +43,7 @@
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}} : {{localizechoix impulsions.esquive.choisi}}
             </button>
             <button class="aChoisir"
+                data-action="choisirHuman"
                 data-type="capacites"
                 data-capacite="{{key}}Legende"
                 data-name="{{label}}"
@@ -53,7 +57,9 @@
         </div>
         {{else}}
         <div class="blockMultiline">
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -65,7 +71,9 @@
                 data-value="{{active.action.allie}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ACTION.Label"}} : {{localizeactivate active.action.allie}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Allie"}})
             </button>
-            <button class="activationLegende"
+            <button
+                data-action="activateHuman"
+                data-type-armure="legend"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-name="{{label}}"
@@ -86,7 +94,9 @@
                     min="1" />
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Allie"}} - {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}}</span>
                 </label>
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -98,7 +108,9 @@
                     data-value="{{active.force.allie}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}} : {{localizeactivate active.force.allie}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Allie"}})
                 </button>
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -111,8 +123,10 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}} : {{localizeactivate active.force.porteur}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Porteur"}})
                 </button>
                 {{#if (or active.force.allie active.force.porteur)}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-name="force">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
@@ -120,7 +134,9 @@
                 {{/if}}
             {{/if}}
             {{#if impulsions.esquive.choisi}}
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -139,7 +155,9 @@
                         min="1" />
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Allie"}} - {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}}</span>
                 </label>
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -152,8 +170,10 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}} : {{localizeactivate active.esquive.allie}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Allie"}})
                 </button>
                 {{#if (or active.esquive.allie active.esquive.porteur)}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="esquive">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
@@ -168,7 +188,9 @@
                     min="{{impulsions.energie.energie.min}}" max="{{impulsions.energie.energie.max}}" />
                     <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}} - {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ENERGIE.Label"}}</span>
                 </label>
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -186,7 +208,9 @@
                         min="1" />
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Allie"}} - {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.GUERRE.Label"}}</span>
                 </label>
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -198,7 +222,9 @@
                     data-value="{{active.guerre.allie}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.GUERRE.Label"}} : {{localizeactivate active.guerre.allie}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Allie"}})
                 </button>
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -213,8 +239,10 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.GUERRE.Label"}} : {{localizeactivate active.guerre.porteur}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Porteur"}})
                 </button>
                 {{#if (or active.guerre.allie active.guerre.porteur)}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="guerre">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.GUERRE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}

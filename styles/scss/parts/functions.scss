@@ -734,15 +734,18 @@ $news:#00ffcc44;
   }
 }
 
-@mixin buttons($class) {
-  button.#{$class} {
+@mixin buttons($class: null) {
+  $selector: if($class, "button.#{$class}", "button");
+
+  #{$selector} {
     display:flex;
     justify-content: space-between;
     width: 100%;
     color: $white;
+    min-height: 32px;
     cursor: pointer;
-    border: 1px solid $lightBlack;
-    border-radius:0px;
+    border: 2px solid $lightBlack;
+    border-radius:5px;
 
     &.unselected {
         background:$black;
@@ -751,7 +754,6 @@ $news:#00ffcc44;
 
     &.selected {
         background:$lightBlack;
-        border-color:$white;
     }
 
     i {
@@ -763,5 +765,7 @@ $news:#00ffcc44;
         color: $lightGreen;
       }
     }
+
+    @content;
   }
 }

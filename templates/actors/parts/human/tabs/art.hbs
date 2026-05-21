@@ -4,36 +4,34 @@
             {{#if actor.art.name}}
 
             {{actor.art.name}}
-            <div class="multiButton">
-                {{#if (canRoll 'pj' actor.art.system.jet.c1)}}
-                <button type="action" class="roll" data-caracteristique="{{actor.art.system.jet.c1}}" data-caraclock="{{actor.art.system.jet.c1}}" data-label="{{actor.art.name}}" data-nood="true">
-                    {{localize "KNIGHT.JETS.Label"}} : {{getCarac actor.art.system.jet.c1}}
-                </button>
-                {{/if}}
-                {{#if (canRoll 'pj' actor.art.system.jet.c2)}}
-                <button type="action" class="roll" data-caracteristique="{{actor.art.system.jet.c2}}" data-caraclock="{{actor.art.system.jet.c2}}" data-label="{{actor.art.name}}" data-nood="true">
-                    {{localize "KNIGHT.JETS.Label"}} : {{getCarac actor.art.system.jet.c2}}
-                </button>
-                {{/if}}
-            </div>
-            {{~> knight.itemButtons}}
+                <div class="multiButton">
+                    {{#if (canRoll 'pj' actor.art.system.jet.c1)}}
+                    <button type="action" data-action="dialogRoll" data-caracteristique="{{actor.art.system.jet.c1}}" data-caraclock="{{actor.art.system.jet.c1}}" data-label="{{actor.art.name}}" data-nood="true">
+                        {{localize "KNIGHT.JETS.Label"}} : {{getCarac actor.art.system.jet.c1}}
+                    </button>
+                    {{/if}}
+                    {{#if (canRoll 'pj' actor.art.system.jet.c2)}}
+                    <button type="action" data-action="dialogRoll" data-caracteristique="{{actor.art.system.jet.c2}}" data-caraclock="{{actor.art.system.jet.c2}}" data-label="{{actor.art.name}}" data-nood="true">
+                        {{localize "KNIGHT.JETS.Label"}} : {{getCarac actor.art.system.jet.c2}}
+                    </button>
+                    {{/if}}
+                </div>
+                {{~> knight.itemButtons}}
 
             {{else}}
                 {{localize "KNIGHT.ART.Label"}}
-                <a
-                data-action="itemCreate"
-                data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.ART.Label")}}"
-                data-type="art"><i class="fas fa-plus"></i></a>
+                {{~> knight.itemCreate strLoc="KNIGHT.ART.Label" data=(object type="art")}}
             {{/if}}
         </h2>
         <span class="description">
             {{{actor.art.system.description}}}
         </span>
+
         {{#if actor.art.system.pratique.has}}
             <div class="col">
                 <div class="pratique">
                     <h2 class="header js-toggler">
-                        <i class="far fa-minus-square"></i>
+                        {{~> knight.jsToggle}}
                         {{localize "KNIGHT.ART.PRATIQUE.Label"}}
                     </h2>
                     <h3>{{localize "KNIGHT.ART.PRATIQUE.Base"}}
@@ -92,7 +90,7 @@
             <div class="col">
                 <div class="oeuvre">
                     <h2 class="header js-toggler">
-                        <i class="far fa-minus-square"></i>
+                        {{~> knight.jsToggle}}
                         {{localize "KNIGHT.ART.OEUVRE.Label"}}
                     </h2>
                     <div class="shortspan">
@@ -112,7 +110,7 @@
 
                 <div class="listeoeuvre">
                     <h2 class="header js-toggler">
-                        <i class="far fa-minus-square"></i>
+                        {{~> knight.jsToggle}}
                         {{localize "KNIGHT.ART.OEUVRE.Liste"}}
                     </h2>
                     {{#each actor.art.system.oeuvre.liste  as | key oeuvre|}}

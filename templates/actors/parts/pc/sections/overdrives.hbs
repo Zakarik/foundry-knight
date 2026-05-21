@@ -1,0 +1,27 @@
+
+
+<div class="overdrives">
+    <h2 class="header js-toggler">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.Overdrives"}}
+    </h2>
+
+    {{#each actor.translations.overdrives as | kAspect aspect|}}
+        {{#each kAspect as | kCarac carac|}}
+            <div class="data">
+                <h3 class="header js-toggler">
+                    {{~> knight.jsToggle}}
+
+                    {{getCarac carac}}
+                </h3>
+                <h4 style="display:none;">{{kCarac.titre}}</h4>
+                {{#each kCarac.liste as | key od|}}
+                    <div class="line" style="display:none;">
+                        <span class="label">{{key.value}}</span>
+                        <span class="description">{{{key.description}}}</span>
+                    </div>
+                {{/each}}
+            </div>
+        {{/each}}
+    {{/each}}
+</div>

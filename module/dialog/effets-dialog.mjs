@@ -1,4 +1,3 @@
-import toggler from '../helpers/toggler.js';
 import {
     getAllEffects,
 } from "../helpers/common.mjs";
@@ -303,7 +302,6 @@ export class KnightEffetsDialog extends FormApplication {
 
   activateListeners(html) {
     super.activateListeners(html);
-    toggler.init(this.id, html);
 
     this.renderBtn(html);
 

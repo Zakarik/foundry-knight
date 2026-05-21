@@ -1,0 +1,99 @@
+
+div.motivations {
+    display:flex;
+    width:100%;
+    flex:none;
+    align-items:flex-start;
+    align-content: flex-start;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+
+    div.majeure,
+    div.mineure {
+        display:flex;
+        width:100%;
+        flex:none;
+        align-items:flex-start;
+        align-content: flex-start;
+        flex-wrap: wrap;
+
+        textarea {
+            width: 100%;
+            color:white;
+            font-family: var(--font-primary);
+            background:$lightBlack;
+            border-top:0px;
+            border-radius:0px;
+            border-color:$lightBlack;
+            border-left-color: $lightBlue;
+            border-right-color: $lightBlue;
+            border-bottom-color: $lightBlue;
+        }
+    }
+
+    div.mineure {
+        margin-top:5px;
+
+        h2.header {
+            display: flex;
+
+            a {
+                position:absolute;
+                right:5px;
+                line-height:22px;
+            }
+
+            button {
+                width: 205px;
+                line-height: 100%;
+                background:$black;
+                border-top: 1px solid $black;
+                border-left: 1px solid $lightBlack;
+                border-right: 1px solid $black;
+                border-bottom: 1px solid $lightBlack;
+                border-radius: 0px;
+                font-variant: small-caps;
+                color:$white;
+                cursor:pointer;
+                min-height: 0px;
+                height: 18px;
+                margin-top: auto;
+            }
+        }
+
+        div.block {
+        display:flex;
+        width:100%;
+        min-height: 50px;
+        flex-wrap: wrap;
+        border:1px solid $lightBlue;
+        position:relative;
+
+        span.description {
+            display:block;
+            padding-left:2px;
+            padding-right:2px;
+            width:100%;
+            text-align: justify;
+            word-break:break-all;
+            background:$lightBlack;
+        }
+
+        div.gestionButton {
+            display:none;
+            height:26px;
+            justify-content: space-between;
+            position:absolute;
+            right:5px;
+            width: 30px;
+            align-items: center;
+        }
+
+        &:hover {
+            div.gestionButton {
+            display:flex;
+            }
+        }
+        }
+    }
+}

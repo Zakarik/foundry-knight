@@ -41,7 +41,6 @@ import { KnightEditDialog } from "./dialog/edit-dialog.mjs";
 import { KnightEffetsDialog } from "./dialog/effets-dialog.mjs";
 import { KnightCompendiumDialog } from "./dialog/compendium-dialog.mjs";
 import { MigrationKnight } from "./migration.mjs";
-import toggler from './helpers/toggler.js';
 
 // GM Helper
 import { GmTool } from "./gm/gmTool.mjs";
@@ -499,8 +498,31 @@ Hooks.once('init', HooksKnight.init);
 Hooks.once("ready", HooksKnight.ready);
 Hooks.once("socketlib.ready", knightSocketReady);
 
-Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
-Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
+Hooks.on("deleteActor", (actor) => {
+  cleanupTogglesFor(actor.id);
+});
+
+Hooks.on("deleteItem", (item) => {
+  cleanupTogglesFor(item.id);
+});
+
+function cleanupTogglesFor(id) {
+  const raw = localStorage.getItem("knight.togglers");
+  if (!raw) return;
+
+  const data = JSON.parse(raw);
+  let changed = false;
+
+  for (const key of Object.keys(data)) {
+    if (key.startsWith(`${id}-`)) {
+      delete data[key];
+      changed = true;
+    }
+  }
+
+  if (changed) localStorage.setItem("knight.togglers", JSON.stringify(data));
+}
+
 
 Hooks.on("createActiveEffect", async function(effect, data) {
   const status = effect.statuses;

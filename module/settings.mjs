@@ -1,4 +1,3 @@
-import toggler from './helpers/toggler.js';
 import {
     listLogo,
   } from "./helpers/common.mjs";
@@ -191,22 +190,6 @@ export const RegisterSettings = function () {
         config: false,
         type: Boolean,
         default: true,
-    });
-
-    game.settings.register("knight", "clearTogglers", {
-        name: "KNIGHT.SETTINGS.TOGGLERS.Label",
-        hint: "KNIGHT.SETTINGS.TOGGLERS.Hint",
-        scope: "client",
-        config: true,
-        type: Boolean,
-        default: false,
-        onChange: value => {
-            if (value) {
-                toggler.clearAll();
-
-                game.settings.set('knight', 'clearTogglers', false);
-            }
-        }
     });
 
     game.settings.register("knight", "systemVersion", {

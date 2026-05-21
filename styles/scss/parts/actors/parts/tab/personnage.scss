@@ -1,0 +1,13 @@
+
+div.personnage {
+    @include header();
+    @import "../sections/cyberware";
+    @import "../sections/avDv";
+    @import "../sections/motivations";
+    @import "../sections/distinction";
+    @import "../sections/heroisme";
+
+    div.marginTop {
+        margin-top: 10px;
+    }
+}

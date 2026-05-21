@@ -11,182 +11,424 @@ const HumanMixinSheet = (superclass) => class extends superclass {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["human"],
+    actions: {
+      levelUp: this.#onLevelUp,
+      levelDown: this.#onLevelDown,
+      activateHuman: this.#onActivateHuman,
+      choisirHuman: this.#onChoisirHuman,
+      configurationWolf: this.#onConfigurationWolf,
+      specialCreate: this.#onSpecialCreate,
+      specialDelete: this.#onSpecialDelete,
+      unlocked: this.#onUnlocked,
+      use: this.#onUse,
+    }
+  }
+
+  static #onLevelUp(event, target) {
+    const tgt = target.dataset;
+    const key = tgt.key;
+    const niveau = Number(tgt.niveau)+1;
+    const item = this.actor.items.get(key);
+    if(!item) return;
+
+    const gloireListe = this.actor.system.progression.gloire.depense.liste;
+    const gloireMax = this._getHighestOrder(gloireListe);
+
+    const data = {
+      "niveau":{
+        "value":niveau,
+        "details":{
+          [`n${niveau}`]:{
+            "addOrder":gloireMax+1
+          }
+        }
+      }
+    }
+
+    item.update({[`system`]:data});
+  }
+
+  static #onLevelDown(event, target) {
+    const tgt = target.dataset;
+    const key = tgt.key;
+    const niveau = Number(tgt.niveau)-1;
+    const item = this.actor.items.get(key);
+    if(!item) return;
+
+    const data = {
+      "niveau":{
+        "value":niveau
+      }
+    }
+
+    item.update({[`system`]:data});
+  }
+
+  static async #onActivateHuman(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    const special = tgt.special;
+    const variant = tgt.variant;
+    const header = target.closest(".summary");
+    const id = header.dataset.itemId;
+    const item = this.actor.items.get(id);
+
+    if(!item) return;
+
+    switch(item.type) {
+      case 'cyberware':
+        if(type === 'activation') item.system.activate();
+        else if(type === 'recuperation') item.system.recuperer();
+        break;
+
+      case 'module':
+      case 'armure':
+      case 'armurelegende':
+        const typeArmure = tgt.typeArmure;
+        const subtype = tgt.subtype;
+        const value = tgt.value ? false : true;
+        const capacite = tgt.capacite;
+        const module = tgt.module;
+        const index = tgt.index;
+        const cout = tgt?.cout ?? 0;
+        const armure = typeArmure === 'legend' ? await getArmorLegend(this.actor) : await getArmor(this.actor);
+
+        if(type === 'capacites') armure.system.activateCapacity({capacite, special, variant});
+        else if(type === 'special') armure.system.activateSpecial({capacite, special, variant});
+        else if(type === 'module') item.system.activate(value, subtype);
+        else if(type === 'modulePnj') item.system.activateNPC(value, subtype, index);
+        else if(type === 'supplementaire') await this._depensePE('', eval(cout), true, false, false, true);
+        else if(type === 'prolonger') await armure.system.prolongateCapacity({capacite, special, variant});
+        break;
+
+      case 'capaciteultime':
+        if(type === 'activation') item.system.activate();
+        else if(type === 'roll') {
+          let cuVariant = '';
+
+          if(special === 'degats') {
+            const select = target.parentElement.querySelector(".dgtsCUList");
+            cuVariant = select.value;
+          } else if(special === 'violence') {
+            const select = target.parentElement.querySelector(".violCUList");
+            cuVariant = select.value;
+          } else variant = tgt.variant;
+
+          item.system.roll(special, cuVariant);
+        } else if(type === 'ascension') item.system.ascension();
+        break;
+    }
+  }
+
+  static async #onChoisirHuman(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    const capacite = tgt.capacite;
+    const special = tgt.special;
+    const value = tgt.value;
+
+    const armure = await getArmor(this.actor);
+    const armureLegende = await getArmorLegend(this.actor);
+
+    let result = true;
+    if(value === true) { result = false; }
+
+    /*let update = {};
+    update[`system.equipements.armure.${type}.${capacite}.choix.${special}`] = result;*/
+
+    let itemUpdate = {};
+
+    if(capacite === 'warlordLegende') {
+      itemUpdate[`system.capacites.selected.warlord`] = {};
+    } else if(capacite === 'typeLegende') {
+      itemUpdate[`system.capacites.selected.type`] = {};
+    } else {
+      itemUpdate[`system.capacites.selected.${capacite}`] = {};
+    }
+
+    let calcul;
+
+    switch(capacite) {
+      case "illumination":
+        const illumination = armure.system.capacites.selected[capacite];
+        const illuminationSelectionne = illumination.selectionne || 0;
+        calcul = illuminationSelectionne;
+
+        if(result == true) {
+          calcul += 1;
+        } else {
+          calcul -= 1;
+
+          if(calcul < 0) { calcul = 0; }
+        }
+
+        itemUpdate[`system.capacites.selected.${capacite}.selectionne`] = calcul;
+        itemUpdate[`system.capacites.selected.${capacite}.${special}.selectionne`] = result;
+
+        armure.update(itemUpdate);
+        break;
+      case "type":
+        const type = armure.system.capacites.selected[capacite];
+        const typeSelectionne = type.selectionne || 0;
+        calcul = typeSelectionne;
+
+        if(result == true) {
+          calcul += 1;
+        } else {
+          calcul -= 1;
+
+          if(calcul < 0) { calcul = 0; }
+        }
+
+        itemUpdate[`system.capacites.selected.${capacite}.selectionne`] = calcul;
+        itemUpdate[`system.capacites.selected.${capacite}.type.${special}.selectionne`] = result;
+
+        armure.update(itemUpdate);
+        break;
+      case "typeLegende":
+        const typeLegende = armureLegende.system.capacites.selected['type'];
+        const typeLegendeSelectionne = typeLegende.selectionne || 0;
+        calcul = typeLegendeSelectionne;
+
+        if(result == true) {
+          calcul += 1;
+        } else {
+          calcul -= 1;
+
+          if(calcul < 0) { calcul = 0; }
+        }
+
+        itemUpdate[`system.capacites.selected.type.selectionne`] = calcul;
+        itemUpdate[`system.capacites.selected.type.type.${special}.selectionne`] = result;
+
+        armureLegende.update(itemUpdate);
+        break;
+      case "warlord":
+        const warlord = armure.system.capacites.selected[capacite];
+        const warlordSelectionne = warlord.impulsions.selectionne || 0;
+        calcul = warlordSelectionne;
+
+        if(result == true) {
+          calcul += 1;
+        } else {
+          calcul -= 1;
+
+          if(calcul < 0) { calcul = 0; }
+        }
+
+        itemUpdate[`system.capacites.selected.${capacite}.impulsions.selectionne`] = calcul;
+        itemUpdate[`system.capacites.selected.${capacite}.impulsions.${special}.choisi`] = result;
+
+        armure.update(itemUpdate);
+        break;
+      case "warlordLegende":
+        const warlordLegende = armureLegende.system.capacites.selected['warlord'];
+        const warlordLegendeSelectionne = warlordLegende.impulsions.selectionne || 0;
+        calcul = warlordLegendeSelectionne;
+
+        if(result == true) {
+          calcul += 1;
+        } else {
+          calcul -= 1;
+
+          if(calcul < 0) { calcul = 0; }
+        }
+
+        itemUpdate[`system.capacites.selected.warlord.impulsions.selectionne`] = calcul;
+        itemUpdate[`system.capacites.selected.warlord.impulsions.${special}.choisi`] = result;
+
+        armureLegende.update(itemUpdate);
+        break;
+      case "companions":
+          const companions = armureLegende.system.capacites.selected[capacite];
+          const nbreChoix = companions.nbreChoix;
+          const isLionSelected = companions.lion.choisi;
+          const isWolfSelected = companions.wolf.choisi;
+          const isCrowSelected = companions.crow.choisi;
+          let choixActuel = 0;
+
+          if(isLionSelected || (special === 'lion' && result === true)) choixActuel += 1;
+          if(isWolfSelected || (special === 'wolf' && result === true)) choixActuel += 1;
+          if(isCrowSelected || (special === 'crow' && result === true)) choixActuel += 1;
+
+          if(nbreChoix === choixActuel) itemUpdate[`system.capacites.selected.${capacite}.choixFaits`] = true;
+
+          itemUpdate[`system.capacites.selected.${capacite}.${special}.choisi`] = result;
+
+          armureLegende.update(itemUpdate);
+        break;
+    }
+  }
+
+  static async #onConfigurationWolf(event, target) {
+    const tgt = target.dataset;
+    const configuration = tgt.configuration;
+    const armure = await getArmor(this.actor);
+    const armorCapacites = armure.system.capacites.selected.companions;
+    const idWolf = armorCapacites.wolf.id;
+
+    const actor1Wolf = game.actors.get(idWolf.id1);
+    const actor2Wolf = game.actors.get(idWolf.id2);
+    const actor3Wolf = game.actors.get(idWolf.id3);
+
+    const wolf1Energie = +actor1Wolf.system.energie.value;
+    const wolf2Energie = +actor2Wolf.system.energie.value;
+    const wolf3Energie = +actor3Wolf.system.energie.value;
+    let fonctionne = false;
+
+    if(wolf1Energie-4 >= 0) {
+      actor1Wolf.update({[`system`]:{
+        'energie':{
+          'value':wolf1Energie-4
+        },
+        'configurationActive':configuration
+      }});
+      fonctionne = true;
+    }
+
+    if(wolf2Energie-4 >= 0) {
+      actor2Wolf.update({[`system`]:{
+        'energie':{
+          'value':wolf2Energie-4
+        },
+        'configurationActive':configuration
+      }});
+      fonctionne = true;
+    }
+
+    if(wolf3Energie-4 >= 0) {
+      actor3Wolf.update({[`system`]:{
+        'energie':{
+          'value':wolf3Energie-4
+        },
+        'configurationActive':configuration
+      }});
+      fonctionne = true
+    }
+
+    if(fonctionne) {
+      const msgCompanions = {
+        flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Change")}`,
+        main:{
+          total:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.${configuration.toUpperCase()}.Label`)}`
+        }
+      };
+
+      const msgActiveCompanions = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+        sound: CONFIG.sounds.dice
+      };
+
+      await ChatMessage.create(msgActiveCompanions);
+    }
+  }
+
+  static #onSpecialCreate(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    let update = {};
+
+    switch(type) {
+      case 'grenade':
+        const getGrenades = this.actor.system.combat.grenades.liste;
+        let maxGrenadeNumber = 5; // commence à 5 car on veut au moins 6
+
+        Object.keys(getGrenades).forEach(key => {
+          const match = key.match(/^grenade_(\d+)$/);
+          if (match) {
+            const num = parseInt(match[1], 10);
+            if (num > maxGrenadeNumber) {
+              maxGrenadeNumber = num;
+            }
+          }
+        });
+
+        update[`system.combat.grenades.liste`] = {
+          [`grenade_${maxGrenadeNumber + 1}`]: {
+            "custom":true,
+            "label":"",
+            "degats": {
+              "dice": getGrenades.antiblindage.degats.dice
+            },
+            "violence": {
+              "dice": getGrenades.antiblindage.violence.dice
+            },
+            "effets":{
+              "liste":[],
+              "raw":[],
+              "custom":[]
+            }
+          }
+        }
+        break;
+    }
+
+    this.actor.update(update);
+  }
+
+  static #onSpecialDelete(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    const id = tgt.id;
+    let update = {};
+
+    switch(type) {
+      case 'grenade':
+        update[`system.combat.grenades.liste.-=${id}`] = null;
+        break;
+    }
+
+    this.actor.update(update);
+  }
+
+  static #onUnlocked(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    const id = tgt.id;
+    let update = {};
+
+    switch(type) {
+      case 'grenade':
+        const grenades = this.actor.system.combat.grenades.liste[id];
+        const unlocked = grenades?.unlocked ?? false;
+        update[`system.combat.grenades.liste.${id}.unlocked`] = !unlocked;
+        break;
+    }
+
+    this.actor.update(update);
+  }
+
+  static #onUse(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    const key = tgt.key;
+
+    switch(type) {
+      case 'nods':
+        const nods = tgt.nods;
+
+        if(key === 'target') this.actor.system.useNods(nods);
+        else this.actor.system.useNods(nods, true);
+        break;
+    }
   }
 
   _onRender(context, options) {
     super._onRender(context, options);
     const html = $(this.element)
 
-    this.#cyberwareListeners(html);
-    this.#itemsListeners(html);
     this.#armoredListeners(html);
-
-    html.find('button.recover').click(async ev => {
-      const target = $(ev.currentTarget);
-      const type = target.data("type");
-
-      this.actor.system.askToRestore(type);
-    });
-
-    html.find('i.moduleArrowUp').click(ev => {
-      const target = $(ev.currentTarget);
-      const key = target.data("key");
-      const niveau = Number(target.data("niveau"))+1;
-      const item = this.actor.items.get(key);
-
-      const gloireListe = this.actor.system.progression.gloire.depense.liste;
-      const gloireMax = this._getHighestOrder(gloireListe);
-
-      const data = {
-        "niveau":{
-          "value":niveau,
-          "details":{
-            [`n${niveau}`]:{
-              "addOrder":gloireMax+1
-            }
-          }
-        }
-      }
-
-      item.update({[`system`]:data});
-    });
-
-    html.find('i.moduleArrowDown').click(ev => {
-      const target = $(ev.currentTarget);
-      const key = target.data("key");
-      const niveau = Number(target.data("niveau"))-1;
-      const item = this.actor.items.get(key);
-
-      const data = {
-        "niveau":{
-          "value":niveau
-        }
-      }
-
-      item.update({[`system`]:data});
-    });
-  }
-
-  #cyberwareListeners(html) {
-    html.find('.cyberware .activation').click(async ev => {
-      const header = $(ev.currentTarget).parents(".summary");
-      const item = this.actor.items.get(header.data("item-id"));
-
-      item.system.activate();
-    });
-
-    html.find('.cyberware button.recuperation').click(async ev => {
-      const header = $(ev.currentTarget).parents(".summary");
-      const item = this.actor.items.get(header.data("item-id"));
-
-      item.system.recuperer();
-    });
-
-    html.find('div.cyberware input.cyberwareRecuperation').change(async ev => {
-      const tgt = $(ev.currentTarget);
-      const header = tgt.parents(".summary");
-      const item = this.actor.items.get(header.data("item-id"));
-      const value = tgt.val();
-
-      item.update({['system.recuperation.limite.value']:value},
-      { render: false });
-
-      if(item.system.recuperation.limite.max < value) {
-        tgt.val(item.system.recuperation.limite.max)
-      }
-    });
-  }
-
-  #itemsListeners(html) {
-    html.find('a.add').click(ev => {
-      const target = $(ev.currentTarget);
-      const type = target.data("type");
-
-      let update = {};
-
-      switch(type) {
-        case 'grenade':
-          const getGrenades = this.actor.system.combat.grenades.liste;
-          let maxGrenadeNumber = 5; // commence à 5 car on veut au moins 6
-
-          Object.keys(getGrenades).forEach(key => {
-            const match = key.match(/^grenade_(\d+)$/);
-            if (match) {
-              const num = parseInt(match[1], 10);
-              if (num > maxGrenadeNumber) {
-                maxGrenadeNumber = num;
-              }
-            }
-          });
-
-          update[`system.combat.grenades.liste`] = {
-            [`grenade_${maxGrenadeNumber + 1}`]: {
-              "custom":true,
-              "label":"",
-              "degats": {
-                "dice": getGrenades.antiblindage.degats.dice
-              },
-              "violence": {
-                "dice": getGrenades.antiblindage.violence.dice
-              },
-              "effets":{
-                "liste":[],
-                "raw":[],
-                "custom":[]
-              }
-            }
-          }
-          break;
-      }
-
-      this.actor.update(update);
-    });
-
-    html.find('a.delete').click(ev => {
-      const target = $(ev.currentTarget);
-      const type = target.data("type");
-      const id = target.data("id");
-
-      let update = {};
-
-      switch(type) {
-        case 'grenade':
-          update[`system.combat.grenades.liste.-=${id}`] = null;
-          break;
-      }
-
-      this.actor.update(update);
-    });
-
-    html.find('div.grenades a.unlocked').click(ev => {
-      const target = $(ev.currentTarget);
-      const id = target.data("id");
-      const grenades = this.actor.system.combat.grenades.liste[id];
-      const unlocked = grenades?.unlocked ?? false;
-
-      let update = {};
-      update[`system.combat.grenades.liste.${id}.unlocked`] = !unlocked;
-
-      this.actor.update(update);
-    });
-
-    html.find('div.nods img.dice').click(async ev => {
-      const target = $(ev.currentTarget);
-      const nods = target.data("nods");
-
-      this.actor.system.useNods(nods, true);
-    });
-
-    html.find('div.nods img.diceTarget').click(async ev => {
-      const targetFrom = $(ev.currentTarget);
-      const nods = targetFrom.data("nods");
-
-      this.actor.system.useNods(nods);
-    });
   }
 
   #armoredListeners(html) {
-    html.find('.armure .activation, .capacites .bModule .activation').click(async ev => {
+    /*html.find('.armure .activation, .capacites .bModule .activation').click(async ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
       const subtype = target.data("subtype");
@@ -210,9 +452,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       if(type === 'modulePnj') {
         this.actor.items.get(module).system.activateNPC(value, subtype, index);
       }
-    });
+    });*/
 
-    html.find('.armure .activationLegende').click(async ev => {
+    /*html.find('.armure .activationLegende').click(async ev => {
       const target = $(ev.currentTarget);
       const capacite = target.data("capacite");
       const special = target.data("special");
@@ -224,9 +466,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
         capacite,
         special,
         variant});
-    });
+    });*/
 
-    html.find('.armure .special').click(async ev => {
+    /*html.find('.armure .special').click(async ev => {
       const target = $(ev.currentTarget);
       const special = target.data("special");
       const label = target.data("name");
@@ -294,9 +536,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
           await this._gainPE(rTotal);
           break;
       }
-    });
+    });*/
 
-    html.find('.armure .specialLegende').click(async ev => {
+    /*html.find('.armure .specialLegende').click(async ev => {
       const target = $(ev.currentTarget);
       const special = target.data("special");
       const label = target.data("name");
@@ -340,9 +582,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
           });
           break;
       }
-    });
+    });*/
 
-    html.find('.armure .capacitesultime .activateCU').click(async ev => {
+    /*html.find('.armure .capacitesultime .activateCU').click(async ev => {
       const target = $(ev.currentTarget);
       const label = target.data("label");
       const id = target.data("id");
@@ -478,9 +720,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       } else if(!isinstant) item.update({[`system.${toupdate}`]:value});
 
       if(Object.keys(update).length > 0) actor.update(update);
-    });
+    });*/
 
-    html.find('.armure .capacitesultime .rollCU').click(async ev => {
+    /*html.find('.armure .capacitesultime .rollCU').click(async ev => {
       const target = $(ev.currentTarget);
       const label = target.data("label");
       const id = target.data("id");
@@ -603,9 +845,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
           break;
         }
       }
-    });
+    });*/
 
-    html.find('.armure .capacitesultime .majAscension').click(async ev => {
+    /*html.find('.armure .capacitesultime .majAscension').click(async ev => {
       const target = $(ev.currentTarget);
       const id = target.data("id");
       const permanent = target.data("permanent");
@@ -680,15 +922,15 @@ const HumanMixinSheet = (superclass) => class extends superclass {
           item.update(itmUpdate)
         }
       }
-    });
+    });*/
 
-    html.find('.armure .supplementaire').click(async ev => {
+    /*html.find('.armure .supplementaire').click(async ev => {
       const cout = eval($(ev.currentTarget).data("cout"));
 
       await this._depensePE('', cout, true, false, false, true);
-    });
+    });*/
 
-    html.find('.armure .prolonger').click(async ev => {
+    /*html.find('.armure .prolonger').click(async ev => {
       const type = $(ev.currentTarget).data("type");
       const capacite = $(ev.currentTarget).data("capacite");
       const special = $(ev.currentTarget).data("special");
@@ -696,9 +938,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       const armor = type === 'legende' ? await getArmorLegend(this.actor) : await getArmor(this.actor);
 
       await armor.system.prolongateCapacity({capacite, special, variant});
-    });
+    });*/
 
-    html.find('.armure .configurationWolf').click(async ev => {
+    /*html.find('.armure .configurationWolf').click(async ev => {
       const target = $(ev.currentTarget);
       const configuration = target.data("configuration");
       const armure = await getArmor(this.actor);
@@ -766,7 +1008,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
         await ChatMessage.create(msgActiveCompanions);
       }
-    });
+    });*/
 
     html.find('.armure .useConfigurationWolf').click(async ev => {
       const target = $(ev.currentTarget);
@@ -858,7 +1100,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       }
     });
 
-    html.find('.armure input.update').change(async ev => {
+    /*html.find('.armure input.update').change(async ev => {
       const capacite = $(ev.currentTarget).data("capacite");
       const newV = $(ev.currentTarget).val();
       const oldV = $(ev.currentTarget).data("old");
@@ -877,197 +1119,10 @@ const HumanMixinSheet = (superclass) => class extends superclass {
           if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux, true); }
           break;
       }
-    });
+    });*/
 
-    html.find('.armure .aChoisir').click(async ev => {
-      const type = $(ev.currentTarget).data("type");
-      const capacite = $(ev.currentTarget).data("capacite");
-      const special = $(ev.currentTarget).data("special");
-      const value = $(ev.currentTarget).data("value");
-
-      const armure = await getArmor(this.actor);
-      const armureLegende = await getArmorLegend(this.actor);
-
-      let result = true;
-      if(value === true) { result = false; }
-
-      let update = {
-        system:{
-          equipements:{
-            armure:{
-              [type]:{
-                [capacite]:{
-                  choix:{
-                    [special]:result
-                  }
-                }
-              }
-            }
-          }
-        }
-      };
-
-      let itemUpdate;
-
-      if(capacite === 'warlordLegende') {
-        itemUpdate =  {
-          system:{
-            capacites:{
-              selected:{
-                ['warlord']:{}
-              }
-            }
-          }
-        };
-      } else if(capacite === 'typeLegende') {
-        itemUpdate = {
-          system:{
-            capacites:{
-              selected:{
-                ['type']:{}
-              }
-            }
-          }
-        };
-      } else {
-        itemUpdate = {
-          system:{
-            capacites:{
-              selected:{
-                [capacite]:{}
-              }
-            }
-          }
-        };
-      }
-
-
-      let calcul;
-
-      switch(capacite) {
-        case "illumination":
-          const illumination = armure.system.capacites.selected[capacite];
-          const illuminationSelectionne = illumination.selectionne || 0;
-          calcul = illuminationSelectionne;
-
-          if(result == true) {
-            calcul += 1;
-          } else {
-            calcul -= 1;
-
-            if(calcul < 0) { calcul = 0; }
-          }
-
-          itemUpdate.system.capacites.selected[capacite].selectionne = calcul;
-          itemUpdate.system.capacites.selected[capacite][special] = {};
-          itemUpdate.system.capacites.selected[capacite][special].selectionne = result;
-
-          armure.update(itemUpdate);
-          break;
-        case "type":
-          const type = armure.system.capacites.selected[capacite];
-          const typeSelectionne = type.selectionne || 0;
-          calcul = typeSelectionne;
-
-          if(result == true) {
-            calcul += 1;
-          } else {
-            calcul -= 1;
-
-            if(calcul < 0) { calcul = 0; }
-          }
-
-          itemUpdate.system.capacites.selected[capacite].selectionne = calcul;
-          itemUpdate.system.capacites.selected[capacite].type = {};
-          itemUpdate.system.capacites.selected[capacite].type[special] = {};
-          itemUpdate.system.capacites.selected[capacite].type[special].selectionne = result;
-
-          armure.update(itemUpdate);
-          break;
-        case "typeLegende":
-          const typeLegende = armureLegende.system.capacites.selected['type'];
-          const typeLegendeSelectionne = typeLegende.selectionne || 0;
-          calcul = typeLegendeSelectionne;
-
-          if(result == true) {
-            calcul += 1;
-          } else {
-            calcul -= 1;
-
-            if(calcul < 0) { calcul = 0; }
-          }
-
-          itemUpdate.system.capacites.selected['type'].selectionne = calcul;
-          itemUpdate.system.capacites.selected['type'].type = {};
-          itemUpdate.system.capacites.selected['type'].type[special] = {};
-          itemUpdate.system.capacites.selected['type'].type[special].selectionne = result;
-
-          armureLegende.update(itemUpdate);
-          break;
-        case "warlord":
-          const warlord = armure.system.capacites.selected[capacite];
-          const warlordSelectionne = warlord.impulsions.selectionne || 0;
-          calcul = warlordSelectionne;
-
-          if(result == true) {
-            calcul += 1;
-          } else {
-            calcul -= 1;
-
-            if(calcul < 0) { calcul = 0; }
-          }
-
-          itemUpdate.system.capacites.selected[capacite].impulsions = {};
-          itemUpdate.system.capacites.selected[capacite].impulsions.selectionne = calcul;
-
-          itemUpdate.system.capacites.selected[capacite].impulsions[special] = {};
-          itemUpdate.system.capacites.selected[capacite].impulsions[special].choisi = result;
-
-          armure.update(itemUpdate);
-          break;
-        case "warlordLegende":
-          const warlordLegende = armureLegende.system.capacites.selected['warlord'];
-          const warlordLegendeSelectionne = warlordLegende.impulsions.selectionne || 0;
-          calcul = warlordLegendeSelectionne;
-
-          if(result == true) {
-            calcul += 1;
-          } else {
-            calcul -= 1;
-
-            if(calcul < 0) { calcul = 0; }
-          }
-
-          itemUpdate.system.capacites.selected['warlord'] = {};
-          itemUpdate.system.capacites.selected['warlord'].impulsions = {};
-          itemUpdate.system.capacites.selected['warlord'].impulsions.selectionne = calcul;
-
-          itemUpdate.system.capacites.selected['warlord'].impulsions[special] = {};
-          itemUpdate.system.capacites.selected['warlord'].impulsions[special].choisi = result;
-
-          armureLegende.update(itemUpdate);
-          break;
-        case "companions":
-            const companions = armureLegende.system.capacites.selected[capacite];
-            const nbreChoix = companions.nbreChoix;
-            const isLionSelected = companions.lion.choisi;
-            const isWolfSelected = companions.wolf.choisi;
-            const isCrowSelected = companions.crow.choisi;
-            let choixActuel = 0;
-
-            if(isLionSelected || (special === 'lion' && result === true)) choixActuel += 1;
-            if(isWolfSelected || (special === 'wolf' && result === true)) choixActuel += 1;
-            if(isCrowSelected || (special === 'crow' && result === true)) choixActuel += 1;
-
-            if(nbreChoix === choixActuel) itemUpdate.system.capacites.selected[capacite].choixFaits = true;
-
-            itemUpdate.system.capacites.selected[capacite][special] = {};
-            itemUpdate.system.capacites.selected[capacite][special].choisi = result;
-
-            armureLegende.update(itemUpdate);
-          break;
-      }
-    });
+    /*html.find('.armure .aChoisir').click(async ev => {
+    });*/
 
     html.find('.armure .degatsViolence').click(async ev => {
       const target = $(ev.currentTarget);
@@ -1274,7 +1329,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       await roll.doRollViolence(flags);
     });
 
-    html.find('div.armure div.capacites img.info').click(ev => {
+    /*html.find('div.armure div.capacites img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
       const width = $(ev.currentTarget).parents("div.mainData").width() / 2;
       const isW50 = $(ev.currentTarget).parents("div.data").width();
@@ -1359,7 +1414,51 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
       span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
-    });
+    });*/
+  }
+
+  async _onChange(event) {
+    super._onChange(event);
+
+    const target = event.target;
+
+    if (target.matches('div.cyberware input.cyberwareRecuperation')) {
+      const tgt = event.currentTarget;
+      const header = tgt.closest(".summary");
+      const id = header.dataset.itemId;
+      const item = this.actor.items.get(id);
+      const value = tgt.valueAsNumber;
+
+      item.update({['system.recuperation.limite.value']:value},
+      { render: false });
+
+      if(item.system.recuperation.limite.max < value) {
+        tgt.value = item.system.recuperation.limite.max;
+      }
+    }
+
+    if (target.matches('.armure input.update')) {
+      const tgt = event.currentTarget;
+      const data = tgt.dataset;
+      const capacite = data.capacite;
+      const newV = tgt.valueAsNumber;
+      const oldV = data.old;
+      const cout = data.cout;
+      const flux = data.flux || false;
+
+      const effect = [];
+
+      switch(capacite) {
+        case "goliath":
+          if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux, true); }
+          break;
+        case "puppet":
+        case "totem":
+        case "warlord":
+          if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux, true); }
+          break;
+      }
+    }
   }
 
   async _onItemCreate_on(header, itemData) {
@@ -1706,35 +1805,38 @@ const HumanMixinSheet = (superclass) => class extends superclass {
   };
 
   async _resetArmure(actor) {
-      const armor = await getArmor(actor)
+      const armor = await getArmor(actor);
+
+      if(!armor) return;
+
       const armorAPI = new ArmureAPI(armor);
 
-      const btnActivations = actor.sheet.element.find('.armure .capacites .activation');
+      const btnActivations = this.element.querySelectorAll('.armure .capacites .activation');
 
-      for(let b of btnActivations) {
-        const target = $(b);
-        const special = target?.data("special") ?? '';
-        const capacite = target?.data("capacite") ?? '';
-        const variant = target?.data("variant") ?? '';
+      btnActivations.forEach(sel => {
+        const tgt = sel.dataset;
+        const special = tgt.special ?? '';
+        const capacite = tgt.capacite ?? '';
+        const variant = tgt.variant ?? '';
 
         if(armorAPI.isCapaciteActive(capacite, special, variant)) armor.system.activateCapacity({capacite, special, variant});
-      }
+      });
   }
 
   async _resetModules(actor) {
-      const btnActivations = actor.sheet.element.find('.armure .modules .activation');
+      const btnActivations = this.element.querySelectorAll('.armure .modules .activation');
 
-      for(let b of btnActivations) {
-        const target = $(b);
-        const type = target.data("type");
-        const module = target.data("module");
-        const value = target.data("value") ? false : true;
-        const subtype = target.data("subtype");
-        const index = target.data("index");
+      btnActivations.forEach(sel => {
+        const tgt = sel.dataset;
+        const type = tgt.type;
+        const module = tgt.module;
+        const value = tgt.value === 'true' ? false : true;
+        const subtype = tgt.subtype;
+        const index = tgt.index;
 
         if(type === 'module' && !value) actor.items.get(module).system.activate(false, subtype);
         else if(type === 'modulePnj') actor.items.get(module).system.activateNPC(value, subtype, index);
-      }
+      });
   }
 
 

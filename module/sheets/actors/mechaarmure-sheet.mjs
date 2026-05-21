@@ -2,9 +2,6 @@ import {
   listEffects,
   confirmationDialog,
   getDefaultImg,
-  diceHover,
-  includeOptions,
-  hideShowLimited,
   dragMacro,
   getAllEffects
 } from "../../helpers/common.mjs";
@@ -13,9 +10,6 @@ import {
   dialogRoll,
   actualiseRoll,
 } from "../../helpers/dialogRoll.mjs";
-
-import toggler from '../../helpers/toggler.js';
-
 
 /**
  * @extends {ActorSheet}
@@ -70,8 +64,6 @@ export class MechaArmureSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    toggler.init(this.id, html);
-
     html.find('div.combat img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
       const width = $(ev.currentTarget).parents("div.modules").width() / 2;
@@ -101,13 +93,8 @@ export class MechaArmureSheet extends ActorSheet {
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    hideShowLimited(this.actor, html);
-
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
-
-    diceHover(html);
-    includeOptions(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 

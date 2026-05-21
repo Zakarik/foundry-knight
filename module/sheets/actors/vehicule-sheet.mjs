@@ -2,15 +2,10 @@ import {
   listEffects,
   confirmationDialog,
   getDefaultImg,
-  diceHover,
-  includeOptions,
-  hideShowLimited,
   dragMacro,
   actualiseRoll,
   getAllEffects,
 } from "../../helpers/common.mjs";
-
-import toggler from '../../helpers/toggler.js';
 
 /**
  * @extends {ActorSheet}
@@ -65,10 +60,6 @@ export class VehiculeSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    toggler.init(this.id, html);
-
-    hideShowLimited(this.actor, html);
-
     html.find('div.combat div.armesDistance img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
       const width = $(ev.currentTarget).parents("div.main").width() / 2;
@@ -100,9 +91,6 @@ export class VehiculeSheet extends ActorSheet {
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
-
-    diceHover(html);
-    includeOptions(html, this.actor);
 
     html.find('.modules .activation').click(async ev => {
       const target = $(ev.currentTarget);

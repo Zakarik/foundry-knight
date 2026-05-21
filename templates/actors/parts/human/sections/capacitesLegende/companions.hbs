@@ -1,6 +1,6 @@
 <div class="companions">
-    <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+    <h3 class="header">
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
@@ -13,7 +13,9 @@
                     {{/if}}
 
                     {{#if lion.choisi}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -27,7 +29,9 @@
                     {{/if}}
 
                     {{#if wolf.choisi}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -41,7 +45,9 @@
                     {{/if}}
 
                     {{#if crow.choisi}}
-                    <button class="activationLegende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-name="{{label}}"
@@ -55,8 +61,10 @@
                     {{/if}}
 
                     {{#if active.base}}
-                    <button class="prolonger"
-                        data-type="legende"
+                    <button
+                        data-action="activateHuman"
+                        data-type-armure="legend"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="{{#if active.wolf}}wolf{{/if}}{{#if active.lion}}lion{{/if}}{{#if active.crow}}crow{{/if}}">
                         {{localize "KNIGHT.AUTRE.Prolonger"}}
@@ -68,22 +76,22 @@
                             {{selectOptions (getTypeCompanions) selected=data.companions.type blank=''}}
                         </select>
 
-                        <button class="configurationWolf" data-configuration="{{data.companions.type}}">
+                        <button class="configurationWolf" data-action="configurationWolf" data-configuration="{{data.companions.type}}">
                             {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                         </button>
                     {{/if}}
                 </div>
             {{else}}
                 <div class="blockMultiline">
-                    <button class="aChoisir" data-type="capacites" data-capacite="{{key}}" data-special="lion" data-value="{{lion.choisi}}">
+                    <button class="aChoisir" data-action="choisirHuman" data-type="capacites" data-capacite="{{key}}" data-special="lion" data-value="{{lion.choisi}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}} : {{localizechoix lion.choisi}}
                     </button>
 
-                    <button class="aChoisir" data-type="capacites" data-capacite="{{key}}" data-special="wolf" data-value="{{wolf.choisi}}">
+                    <button class="aChoisir" data-action="choisirHuman" data-type="capacites" data-capacite="{{key}}" data-special="wolf" data-value="{{wolf.choisi}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}} : {{localizechoix wolf.choisi}}
                     </button>
 
-                    <button class="aChoisir" data-type="capacites" data-capacite="{{key}}" data-special="crow" data-value="{{crow.choisi}}">
+                    <button class="aChoisir" data-action="choisirHuman" data-type="capacites" data-capacite="{{key}}" data-special="crow" data-value="{{crow.choisi}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}} : {{localizechoix crow.choisi}}
                     </button>
                 </div>

@@ -1,13 +1,15 @@
 
 <div class="shrine">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
             <div class="blockMultiline">
             {{#unless active.base}}
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -18,7 +20,9 @@
                     {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Personnel"}}
                 </button>
 
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -30,7 +34,9 @@
                 </button>
             {{else}}
                 {{#if active.personnel}}
-                    <button class="activationLegende"
+                    <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-name="{{label}}"
@@ -43,7 +49,9 @@
                 {{/if}}
 
                 {{#if this.active.distance}}
-                <button class="activationLegende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
                     data-type="capacites"
                     data-capacite="{{this.key}}"
                     data-name="{{this.label}}"
@@ -55,8 +63,10 @@
                 </button>
                 {{/if}}
 
-                <button class="prolonger"
-                    data-type="legende"
+                <button
+                    data-action="activateHuman"
+                    data-type-armure="legend"
+                    data-type="prolonger"
                     data-capacite="{{key}}"
                     data-special="{{#if active.personnel}}personnel{{/if}}{{#if active.distance}}distance{{/if}}{{#if active.personnel6}}personnel6{{/if}}{{#if active.distance6}}distance6{{/if}}">
                     {{localize "KNIGHT.AUTRE.Prolonger"}}

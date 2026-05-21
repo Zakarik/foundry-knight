@@ -1,15 +1,14 @@
 <div class="energiedeficiente">
     <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
+        {{~> knight.jsToggle}}
         {{label}}
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             {{#each (whileBetweenNumber this.min this.max) as | key num|}}
-                <button class="special"
-                    data-special="energiedeficiente"
-                    data-name="{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.EnergiePonctionnee"}}"
-                    data-value="{{key}}">
+                <button
+                    data-action="activateHuman"
+                    data-capacite="energiedeficiente">
                     {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.Ponctionner"}} ({{key}}{{localize "KNIGHT.JETS.Des-short"}}6)
                 </button>
             {{/each}}
