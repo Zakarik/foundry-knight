@@ -1,3 +1,7 @@
+## v3.58.20
+### Bugfix
+- Application du même correctif qu'en v3.57.19
+
 ## v3.58.19
 ### Bugfix
 - Application du même correctif qu'en v3.57.18
@@ -74,6 +78,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.19
+### Bugfix
+- Correction d'un bug empêchant le drag & drop d'armes à distance sur les fiches de PNJ.
 
 ## v3.57.18
 ### Bugfix

@@ -1583,7 +1583,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
         const isRangedWpn = itemData[0].system.type;
 
         if(isRangedWpn === 'distance') {
-          const cantHaveRangedWpn = actorData.restrictions.noArmeDistance;
+          const cantHaveRangedWpn = actorData?.restrictions?.noArmeDistance ?? false;
 
           if(cantHaveRangedWpn) return;
         }
