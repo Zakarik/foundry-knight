@@ -5,45 +5,45 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="activation "
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
-                data-special="personnel"
-                data-value="{{active.personnel}}">
+                data-special="personnel">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationPersonnelle"}} : {{localizeactivate active.personnel}}
             </button>
 
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
-                data-special="etendue"
-                data-value="{{active.etendue}}">
+                data-special="etendue">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationEtendue"}} : {{localizeactivate active.etendue}}
             </button>
             {{#if active.fauxEtre}}
-            <button class="buttonSupp prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                data-cout="
-                {{#if active.fauxEtre}}({{data.changeling.fauxetres}}*{{energie.fauxEtre.value}}){{else}}0{{/if}}
-                {{#if active.personnel}}+{{energie.personnel}}{{else}}+0{{/if}}
-                {{#if active.etendue}}+{{energie.etendue}}{{else}}+0{{/if}}">
+            <button
+                data-action="activateHuman"
+                data-type="prolonger"
+                data-capacite="{{key}}"
+                data-special="fauxEtre">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
             {{else}}
                 {{#if active.personnel}}
-                <button class="buttonSupp prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-cout="
-                    {{#if active.fauxEtre}}({{data.changeling.fauxetres}}*{{energie.fauxEtre.value}}){{else}}0{{/if}}
-                    {{#if active.personnel}}+{{energie.personnel}}{{else}}+0{{/if}}
-                    {{#if active.etendue}}+{{energie.etendue}}{{else}}+0{{/if}}">
+                <button
+                    data-action="activateHuman"
+                    data-type="prolonger"
+                    data-capacite="{{key}}"
+                    data-special="personnel">
                     {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
                 {{else}}
                     {{#if active.etendue}}
-                    <button class="buttonSupp prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                        data-cout="
-                        {{#if active.fauxEtre}}({{data.changeling.fauxetres}}*{{energie.fauxEtre.value}}){{else}}0{{/if}}
-                        {{#if active.personnel}}+{{energie.personnel}}{{else}}+0{{/if}}
-                        {{#if active.etendue}}+{{energie.etendue}}{{else}}+0{{/if}}">
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
+                        data-capacite="{{key}}"
+                        data-special="etendue">
                         {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}

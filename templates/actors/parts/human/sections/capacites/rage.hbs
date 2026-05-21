@@ -19,7 +19,8 @@
                 {{/if}}
             </span>
             {{/if}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-value="{{active}}">
@@ -28,14 +29,17 @@
 
             {{#if active}}
                 {{#unless niveau.fureur}}
-                    <button class="activation" data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="niveau"
                         data-variant="espoir">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir"}}
                     </button>
 
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="niveau"
@@ -45,46 +49,52 @@
                 {{/unless}}
 
                 {{#if niveau.fureur}}
-                    <button class="degats violence"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
-                        data-name="{{label}}"
-                        data-special="blaze"
-                        data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}"
-                        data-degats="{{blaze.degats}}" data-violence="{{blaze.violence}}">
+                        data-special="blaze">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}} / {{localize "KNIGHT.AUTRE.Violence"}}
                     </button>
                 {{/if}}
 
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="degats">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats"}}
                 </button>
 
-                <button class="activation" data-type="capacites"
+                <button
+                    data-action="activateHuman"
+                    data-type="capacites"
                     data-capacite="{{key}}"
                     data-variant="proche"
                     data-special="recuperation">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche"}}
                 </button>
 
-                <button class="activation" data-type="capacites"
+                <button
+                    data-action="activateHuman"
+                    data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="recuperation"
                     data-variant="humain/hostile">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Hostile"}}
                 </button>
 
-                <button class="activation" data-type="capacites"
+                <button
+                    data-action="activateHuman"
+                    data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="recuperation"
                     data-variant="humain/salopard">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Salopard"}}
                 </button>
 
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="recuperation"
@@ -92,14 +102,17 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Patron"}}
                 </button>
 
-                <button class="activation" data-type="capacites"
+                <button
+                    data-action="activateHuman"
+                    data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="recuperation"
                     data-variant="humain/bande">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Bande"}}
                 </button>
 
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="recuperation"
@@ -107,7 +120,8 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Hostile"}}
                 </button>
 
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="recuperation"
@@ -115,7 +129,8 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Salopard"}}
                 </button>
 
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="recuperation"
@@ -123,7 +138,8 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Patron"}}
                 </button>
 
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
                     data-capacite="{{key}}"
                     data-special="recuperation"

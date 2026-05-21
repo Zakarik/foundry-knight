@@ -12,39 +12,40 @@
             {{/if}}
 
             {{#if (companionsCanBeActivate this 'lion')}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
-                data-special="lion"
-                data-value="{{active.lion}}">
+                data-special="lion">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}} : {{localizeactivate active.lion}}
             </button>
             {{/if}}
 
             {{#if (companionsCanBeActivate this 'wolf')}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
-                data-special="wolf"
-                data-value="{{active.wolf}}">
+                data-special="wolf">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}} : {{localizeactivate active.wolf}}
             </button>
             {{/if}}
 
             {{#if (companionsCanBeActivate this 'crow')}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
-                data-special="crow"
-                data-value="{{active.crow}}">
+                data-special="crow">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}} : {{localizeactivate active.crow}}
             </button>
             {{/if}}
 
 
             {{#if active.base}}
-            <button class="prolonger"
-                data-type="capacites"
+            <button
+                data-action="activateHuman"
+                data-type="prolonger"
                 data-capacite="{{key}}">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
@@ -55,11 +56,17 @@
                     {{selectOptions (getTypeCompanions) selected=data.companions.type blank=''}}
                 </select>
 
-                <button class="configurationWolf" data-configuration="{{data.companions.type}}">
+                <button
+                    data-action="configurationWolf"
+                    data-configuration="{{data.companions.type}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                 </button>
 
-                <button class="useConfigurationWolf double" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Utiliser-hint"}}" data-configuration="{{data.companions.type}}">
+                <button
+                    data-action="useConfigurationWolf"
+                    class="double"
+                    data-tooltip="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Utiliser-hint"}}"
+                    data-configuration="{{data.companions.type}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Utiliser"}}
                 </button>
             {{/if}}

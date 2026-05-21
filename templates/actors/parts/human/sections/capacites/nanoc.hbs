@@ -7,11 +7,11 @@
         <div class="blockMultiline">
             {{#unless active.detaille}}
             {{#unless active.mecanique}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
-                data-special="base"
-                data-value="{{active.base}}">
+                data-special="base">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localizeactivate active.base}}
             </button>
             {{/unless}}
@@ -19,11 +19,11 @@
 
             {{#unless active.base}}
             {{#unless active.mecanique}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
-                data-special="detaille"
-                data-value="{{active.detaille}}">
+                data-special="detaille">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localizeactivate active.detaille}}
             </button>
             {{/unless}}
@@ -31,35 +31,38 @@
 
             {{#unless active.base}}
             {{#unless active.detaille}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
-                data-special="mecanique"
-                data-value="{{active.mecanique}}">
+                data-special="mecanique">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetMecanique"}} : {{localizeactivate active.mecanique}}
             </button>
             {{/unless}}
             {{/unless}}
 
             {{#if this.active.base}}
-            <button class="prolonger"
-                data-type="capacites"
+            <button
+                data-action="activateHuman"
+                data-type="prolonger"
                 data-capacite="{{key}}"
                 data-special="base">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
             {{else}}
                 {{#if this.active.detaille}}
-                <button class="prolonger"
-                    data-type="capacites"
+                <button
+                    data-action="activateHuman"
+                    data-type="prolonger"
                     data-capacite="{{key}}"
                     data-special="detaille">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
                 {{else}}
                     {{#if this.active.mecanique}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="mecanique">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetMecanique"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}

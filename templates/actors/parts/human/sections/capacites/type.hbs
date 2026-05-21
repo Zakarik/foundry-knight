@@ -9,18 +9,19 @@
             <div class="blockMultiline">
                 {{#if type.soldier.selectionne}}
                     {{#if (typeCanBeActivate this 'soldier' 'conflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="soldier"
-                        data-variant="conflit"
-                        data-value="{{type.soldier.conflit}}">
+                        data-variant="conflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.soldier.conflit}}
                     </button>
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'soldier' 'horsconflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="soldier"
@@ -31,8 +32,9 @@
                     {{/if}}
 
                     {{#if type.soldier.conflit}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="soldier"
                         data-variant="conflit">
@@ -41,8 +43,9 @@
                     {{/if}}
 
                     {{#if type.soldier.horsconflit}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="soldier"
                         data-variant="horsconflit">
@@ -53,29 +56,31 @@
 
                 {{#if type.hunter.selectionne}}
                     {{#if (typeCanBeActivate this 'hunter' 'conflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="hunter"
-                        data-variant="conflit"
-                        data-value="{{type.hunter.conflit}}">
+                        data-variant="conflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.hunter.conflit}}
                     </button>
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'hunter' 'horsconflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="hunter"
-                        data-variant="horsconflit"
-                        data-value="{{type.hunter.horsconflit}}">
+                        data-variant="horsconflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.hunter.horsconflit}}
                     </button>
                     {{/if}}
 
                     {{#if type.hunter.conflit}}
-                    <button class="prolonger" data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="hunter"
                         data-variant="conflit">
@@ -84,8 +89,9 @@
                     {{/if}}
 
                     {{#if type.hunter.horsconflit}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="hunter"
                         data-variant="horsconflit">
@@ -96,30 +102,31 @@
 
                 {{#if type.scholar.selectionne}}
                     {{#if (typeCanBeActivate this 'scholar' 'conflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="scholar"
-                        data-variant="conflit"
-                        data-value="{{type.scholar.conflit}}">
+                        data-variant="conflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.scholar.conflit}}
                     </button>
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'scholar' 'horsconflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="scholar"
-                        data-variant="horsconflit"
-                        data-value="{{type.scholar.horsconflit}}">
+                        data-variant="horsconflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.scholar.horsconflit}}
                     </button>
                     {{/if}}
 
                     {{#if type.scholar.conflit}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="scholar"
                         data-variant="conflit">
@@ -128,8 +135,9 @@
                     {{/if}}
 
                     {{#if type.scholar.horsconflit}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="scholar"
                         data-variant="horsconflit">
@@ -140,29 +148,31 @@
 
                 {{#if type.herald.selectionne}}
                     {{#if (typeCanBeActivate this 'herald' 'conflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="herald"
-                        data-variant="conflit"
-                        data-value="{{type.herald.conflit}}">
+                        data-variant="conflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.herald.conflit}}
                     </button>
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'herald' 'horsconflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="herald"
-                        data-variant="horsconflit"
-                        data-value="{{type.herald.horsconflit}}">
+                        data-variant="horsconflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.herald.horsconflit}}
                     </button>
                     {{/if}}
 
                     {{#if type.herald.conflit}}
-                    <button class="prolonger" data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="herald"
                         data-variant="conflit">
@@ -171,8 +181,9 @@
                     {{/if}}
 
                     {{#if type.herald.horsconflit}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="herald"
                         data-variant="horsconflit">
@@ -183,30 +194,31 @@
 
                 {{#if type.scout.selectionne}}
                     {{#if (typeCanBeActivate this 'scout' 'conflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="scout"
-                        data-variant="conflit"
-                        data-value="{{type.scout.conflit}}">
+                        data-variant="conflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.scout.conflit}}
                     </button>
                     {{/if}}
 
                     {{#if (typeCanBeActivate this 'scout' 'horsconflit' legend)}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="scout"
-                        data-variant="horsconflit"
-                        data-value="{{type.scout.horsconflit}}">
+                        data-variant="horsconflit">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.scout.horsconflit}}
                     </button>
                     {{/if}}
 
                     {{#if type.scout.conflit}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="scout"
                         data-variant="conflit">
@@ -215,8 +227,9 @@
                     {{/if}}
 
                     {{#if type.scout.horsconflit}}
-                    <button class="prolonger"
-                        data-type="capacites"
+                    <button
+                        data-action="activateHuman"
+                        data-type="prolonger"
                         data-capacite="{{key}}"
                         data-special="scout"
                         data-variant="horsconflit">
@@ -227,52 +240,52 @@
             </div>
             {{else}}
             <div class="blockMultiline">
-                <button class="
-                    aChoisir
-                    {{#if type.soldier.selectionne}}
-                    choisi
-                    {{/if}}
-                    " data-type="capacites" data-capacite="{{key}}" data-special="soldier"
+                <button
+                    class="aChoisir {{ifThen type.soldier.selectionne 'choisi' ''}}"
+                    data-action="choisirHuman"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="soldier"
                     data-value="{{type.soldier.selectionne}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} : {{localizechoix type.soldier.selectionne}}
                 </button>
 
-                <button class="
-                    aChoisir
-                    {{#if type.hunter.selectionne}}
-                    choisi
-                    {{/if}}
-                " data-type="capacites" data-capacite="{{key}}" data-special="hunter"
+                <button
+                    class="aChoisir {{ifThen type.hunter.selectionne 'choisi' ''}}"
+                    data-action="choisirHuman"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="hunter"
                     data-value="{{type.hunter.selectionne}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} : {{localizechoix type.hunter.selectionne}}
                 </button>
 
-                <button class="
-                    aChoisir
-                    {{#if type.scholar.selectionne}}
-                    choisi
-                    {{/if}}
-                " data-type="capacites" data-capacite="{{key}}" data-special="scholar"
+                <button
+                    class="aChoisir {{ifThen type.scholar.selectionne 'choisi' ''}}"
+                    data-action="choisirHuman"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="scholar"
                     data-value="{{type.scholar.selectionne}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} : {{localizechoix type.scholar.selectionne}}
                 </button>
 
-                <button class="
-                    aChoisir
-                    {{#if type.herald.selectionne}}
-                    choisi
-                    {{/if}}
-                " data-type="capacites" data-capacite="{{key}}" data-special="herald"
+                <button
+                    class="aChoisir {{ifThen type.herald.selectionne 'choisi' ''}}"
+                    data-action="choisirHuman"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="herald"
                     data-value="{{type.herald.selectionne}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} : {{localizechoix type.herald.selectionne}}
                 </button>
 
-                <button class="
-                    aChoisir
-                    {{#if type.scout.selectionne}}
-                    choisi
-                    {{/if}}
-                " data-type="capacites" data-capacite="{{key}}" data-special="scout"
+                <button
+                    class="aChoisir {{ifThen type.scout.selectionne 'choisi' ''}}"
+                    data-action="choisirHuman"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="scout"
                     data-value="{{type.scout.selectionne}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} : {{localizechoix type.scout.selectionne}}
                 </button>

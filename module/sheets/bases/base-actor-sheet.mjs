@@ -4,6 +4,7 @@ import {
   dragMacro,
   actualiseRoll,
   getArmor,
+  capitalizeFirstLetter,
 } from "../../helpers/common.mjs";
 
 import prepareCharacterItems from "../../processor/items/main.mjs";
@@ -319,6 +320,121 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
 
   /* -------------------------------------------- */
 
+  _generate_inputWithSpanMax(key) {
+    const entries = {};
+    entries[key] = {
+      key:'inputWithSpanMax',
+      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+      value:`${key}.value`,
+      min:0,
+      max:`${key}.max`,
+      tooltip:key,
+      submenu:{
+        base:{
+          key:'input',
+          label:'KNIGHT.AUTRE.Base',
+          value:`${key}.base`
+        },
+        bonus:{
+          key:'input',
+          label:'KNIGHT.BONUS.Label',
+          value:`${key}.bonus.user`
+        },
+        malus:{
+          key:'input',
+          label:'KNIGHT.MALUS.Label',
+          value:`${key}.malus.user`
+        }
+      },
+    }
+
+    return entries
+  }
+
+  _generate_onlySpan(key) {
+    const entries = {};
+    entries[key] = {
+      key:'onlySpan',
+      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+      value:`${key}.value`,
+      tooltip:key,
+      submenu:{
+        base:{
+          key:'input',
+          label:'KNIGHT.AUTRE.Base',
+          value:`${key}.base`
+        },
+        bonus:{
+          key:'input',
+          label:'KNIGHT.BONUS.Label',
+          value:`${key}.bonus.user`
+        },
+        malus:{
+          key:'input',
+          label:'KNIGHT.MALUS.Label',
+          value:`${key}.malus.user`
+        }
+      },
+    }
+
+    return entries;
+  }
+
+  _menu_entries() {
+    const inputWithSpanMax = ['armure', 'energie'];
+    const onlySpan = ['reaction', 'defense', 'initiative'];
+    let entries = {};
+
+    for(const key of inputWithSpanMax) {
+      entries = {
+        ...entries,
+        ...this._generate_inputWithSpanMax(key),
+      };
+    }
+
+    for(const key of onlySpan) {
+      entries = {
+        ...entries,
+        ...this._generate_onlySpan(key),
+      };
+    }
+
+    entries.separateur = {
+      key:'separateur',
+    };
+
+    return entries;
+  }
+
+  _build_menu(list=[], sublist={}) {
+    function buildMenuArray(entries, order=[], suborder={}) {
+      return order
+          .map(key => {
+              const entry = entries[key];
+              if (!entry) return null;
+
+              const result = { ...entry };
+
+              // Si submenu présent, on le transforme récursivement
+              if (entry.submenu) {
+                  const subOrder = suborder?.[key] ?? []; // ordre naturel de l'objet
+                  result.submenu = buildMenuArray(entry.submenu, subOrder);
+              }
+
+              return result;
+          })
+          .filter(Boolean);
+    }
+
+    const entries = this._menu_entries();
+
+    let menu = buildMenuArray(entries, list, sublist);
+
+    return menu;
+  }
+
+  /* -------------------------------------------- */
+
   /** @inheritdoc */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
@@ -331,8 +447,6 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     context.systemData = actor.system;
 
     actualiseRoll(actor);
-
-    console.error(context);
 
     return context;
   }
@@ -471,17 +585,11 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     }
   }
 
-  async _onItemCreate_post(create) {
-    return true;
-  }
+  async _onItemCreate_post(create) {}
 
-  async _onItemEdit_on(item, header) {
-    return true;
-  }
+  async _onItemEdit_on(item, header) {}
 
-  async _onItemDelete_on(item) {
-    return true;
-  };
+  async _onItemDelete_on(item) {};
 
   async _onDropItemCreate_on(itemData) {
     return true;

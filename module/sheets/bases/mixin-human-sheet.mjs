@@ -1,4 +1,5 @@
 import {
+  capitalizeFirstLetter,
   confirmationDialog,
   getArmor,
   getArmorLegend,
@@ -17,6 +18,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       activateHuman: this.#onActivateHuman,
       choisirHuman: this.#onChoisirHuman,
       configurationWolf: this.#onConfigurationWolf,
+      useConfigurationWolf: this.#onUseConfigurationWolf,
       specialCreate: this.#onSpecialCreate,
       specialDelete: this.#onSpecialDelete,
       unlocked: this.#onUnlocked,
@@ -330,6 +332,96 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     }
   }
 
+  static async #onUseConfigurationWolf(event, target) {
+    const tgt = target.dataset;
+    const configuration = tgt.configuration;
+    const armure = await getArmor(this.actor);
+    const armorCapacites = armure.system.capacites.selected.companions;
+    const detailsConfigurations = armorCapacites.wolf.configurations;
+    const idWolf = armorCapacites.wolf.id;
+
+    const actor1Wolf = game.actors.get(idWolf.id1);
+    const actor2Wolf = game.actors.get(idWolf.id2);
+    const actor3Wolf = game.actors.get(idWolf.id3);
+
+    const wolf1Energie = +actor1Wolf.system.energie.value;
+    const wolf2Energie = +actor2Wolf.system.energie.value;
+    const wolf3Energie = +actor3Wolf.system.energie.value;
+    const depenseEnergie = +detailsConfigurations[configuration].energie;
+    let fonctionne = false;
+
+    if(wolf1Energie-depenseEnergie >= 0) {
+      actor1Wolf.update({[`system`]:{
+        'energie':{
+          'value':wolf1Energie-depenseEnergie
+        },
+        'configurationActive':configuration
+      }});
+      fonctionne = true
+    }
+
+    if(wolf2Energie-depenseEnergie >= 0) {
+      actor2Wolf.update({[`system`]:{
+        'energie':{
+          'value':wolf2Energie-depenseEnergie
+        },
+        'configurationActive':configuration
+      }});
+      fonctionne = true
+    }
+
+    if(wolf3Energie-depenseEnergie >= 0) {
+      actor3Wolf.update({[`system`]:{
+        'energie':{
+          'value':wolf3Energie-depenseEnergie
+        },
+        'configurationActive':configuration
+      }});
+      fonctionne = true
+    }
+
+    if(fonctionne) {
+      const msgCompanions = {
+        flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Use")}`,
+        main:{
+          total:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.${configuration.toUpperCase()}.Label`)}`
+        }
+      };
+
+      const msgActiveCompanions = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+        sound: CONFIG.sounds.dice
+      };
+
+      await ChatMessage.create(msgActiveCompanions);
+    } else {
+      const payload = {
+        flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Use")}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.Notenergie`)}` }
+      };
+      const msgActiveCompanions = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+
+      await ChatMessage.create(msgActiveCompanions);
+    }
+  }
+
   static #onSpecialCreate(event, target) {
     const tgt = target.dataset;
     const type = tgt.type;
@@ -420,12 +512,12 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     }
   }
 
-  _onRender(context, options) {
+  /*_onRender(context, options) {
     super._onRender(context, options);
     const html = $(this.element)
 
     this.#armoredListeners(html);
-  }
+  }*/
 
   #armoredListeners(html) {
     /*html.find('.armure .activation, .capacites .bModule .activation').click(async ev => {
@@ -1010,95 +1102,8 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       }
     });*/
 
-    html.find('.armure .useConfigurationWolf').click(async ev => {
-      const target = $(ev.currentTarget);
-      const configuration = target.data("configuration");
-      const armure = await getArmor(this.actor);
-      const armorCapacites = armure.system.capacites.selected.companions;
-      const detailsConfigurations = armorCapacites.wolf.configurations;
-      const idWolf = armorCapacites.wolf.id;
-
-      const actor1Wolf = game.actors.get(idWolf.id1);
-      const actor2Wolf = game.actors.get(idWolf.id2);
-      const actor3Wolf = game.actors.get(idWolf.id3);
-
-      const wolf1Energie = +actor1Wolf.system.energie.value;
-      const wolf2Energie = +actor2Wolf.system.energie.value;
-      const wolf3Energie = +actor3Wolf.system.energie.value;
-      const depenseEnergie = +detailsConfigurations[configuration].energie;
-      let fonctionne = false;
-
-      if(wolf1Energie-depenseEnergie >= 0) {
-        actor1Wolf.update({[`system`]:{
-          'energie':{
-            'value':wolf1Energie-depenseEnergie
-          },
-          'configurationActive':configuration
-        }});
-        fonctionne = true
-      }
-
-      if(wolf2Energie-depenseEnergie >= 0) {
-        actor2Wolf.update({[`system`]:{
-          'energie':{
-            'value':wolf2Energie-depenseEnergie
-          },
-          'configurationActive':configuration
-        }});
-        fonctionne = true
-      }
-
-      if(wolf3Energie-depenseEnergie >= 0) {
-        actor3Wolf.update({[`system`]:{
-          'energie':{
-            'value':wolf3Energie-depenseEnergie
-          },
-          'configurationActive':configuration
-        }});
-        fonctionne = true
-      }
-
-      if(fonctionne) {
-        const msgCompanions = {
-          flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Use")}`,
-          main:{
-            total:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.${configuration.toUpperCase()}.Label`)}`
-          }
-        };
-
-        const msgActiveCompanions = {
-          user: game.user.id,
-          speaker: {
-            actor: this.actor?.id || null,
-            token: this.actor?.token?.id || null,
-            alias: this.actor?.name || null,
-          },
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER,
-          content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
-          sound: CONFIG.sounds.dice
-        };
-
-        await ChatMessage.create(msgActiveCompanions);
-      } else {
-        const payload = {
-          flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Use")}`,
-          main: { total: `${game.i18n.localize(`KNIGHT.JETS.Notenergie`)}` }
-        };
-        const msgActiveCompanions = {
-          user: game.user.id,
-          speaker: {
-            actor: this.actor?.id || null,
-            token: this.actor?.token?.id || null,
-            alias: this.actor?.name || null,
-          },
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER,
-          content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
-          sound: CONFIG.sounds.dice
-        };
-
-        await ChatMessage.create(msgActiveCompanions);
-      }
-    });
+    /*html.find('.armure .useConfigurationWolf').click(async ev => {
+    });*/
 
     /*html.find('.armure input.update').change(async ev => {
       const capacite = $(ev.currentTarget).data("capacite");
@@ -1124,7 +1129,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     /*html.find('.armure .aChoisir').click(async ev => {
     });*/
 
-    html.find('.armure .degatsViolence').click(async ev => {
+    /*html.find('.armure .degatsViolence').click(async ev => {
       const target = $(ev.currentTarget);
       const label = target.data("label");
       const eRaw = target?.data("raw") || false;
@@ -1327,7 +1332,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       const flags = roll.getRollData(weapon, {targets:allTargets})
       roll.setWeapon(weapon);
       await roll.doRollViolence(flags);
-    });
+    });*/
 
     /*html.find('div.armure div.capacites img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
@@ -1415,6 +1420,41 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
     });*/
+  }
+
+  _menu_entries() {
+    const base = super._menu_entries();
+    let entries = {
+      ...base,
+    };
+
+    const inputWithSpanMax = ['sante'];
+    const onlySpan = ['champDeForce'];
+
+    for(const key of inputWithSpanMax) {
+      entries = {
+        ...entries,
+        ...this._generate_inputWithSpanMax(key),
+      };
+    }
+
+    for(const key of onlySpan) {
+      entries = {
+        ...entries,
+        ...this._generate_onlySpan(key),
+      };
+    }
+
+    entries.espoir = {
+      key:'doubleInput',
+      label:'KNIGHT.LATERAL.Espoir',
+      value:'espoir.value',
+      min:0,
+      max:'espoir.max',
+      tooltip:'espoir',
+    };
+
+    return entries;
   }
 
   async _onChange(event) {
@@ -1525,6 +1565,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
   }
 
   async _onItemCreate_post(create) {
+    super._onItemCreate_post(create);
     const type = create.type;
     let actorUpdate = {};
 
@@ -1541,6 +1582,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
   }
 
   async _onItemEdit_on(item, header) {
+    super._onItemEdit_on(item, header);
     const actor = this.actor;
 
     if(item.type === 'armure') this._resetArmure(actor);
@@ -1560,6 +1602,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
   };
 
   async _onItemDelete_on(item) {
+    super._onItemDelete_on(item);
     const actor = this.actor;
 
     switch(item.type) {
@@ -1582,6 +1625,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
   };
 
   async _onDropItemCreate_on(itemData) {
+    super._onDropItemCreate_on(itemData);
     const actor = this.actor;
     const items = actor.items;
     const actorData = actor.system;
@@ -1759,6 +1803,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
   }
 
   async _onDropItemCreate_post(dropCreateOn, itemCreate) {
+    super._onDropItemCreate_post(dropCreateOn, itemCreate)
     const actor = this.actor;
     const item = itemCreate[0];
     const itemBaseType = item.type;
@@ -1838,7 +1883,6 @@ const HumanMixinSheet = (superclass) => class extends superclass {
         else if(type === 'modulePnj') actor.items.get(module).system.activateNPC(value, subtype, index);
       });
   }
-
 
   async _depensePE(label, depense, autosubstract=true, forceEspoir=false, flux=false, capacite=true) {
     const data = this.actor;

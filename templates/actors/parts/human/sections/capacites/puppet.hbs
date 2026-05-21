@@ -16,15 +16,16 @@
                 min="0" max="{{creatures}}" />
                 <span>{{localize "KNIGHT.AUTRE.CibleSupplementaire"}}</span>
             </label>
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
-                data-capacite="{{key}}"
-                data-value="{{active}}">
+                data-capacite="{{key}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}} : {{localizeactivate active}}
             </button>
             {{#if active}}
-            <button class="prolonger"
-                data-type="capacites"
+            <button
+                data-action="activateHuman"
+                data-type="prolonger"
                 data-capacite="{{key}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>

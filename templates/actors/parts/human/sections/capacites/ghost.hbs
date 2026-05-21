@@ -7,7 +7,8 @@
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             {{#unless active.horsconflit}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-special="conflit">
@@ -16,7 +17,8 @@
             {{/unless}}
 
             {{#unless active.conflit}}
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-special="horsconflit">
@@ -25,8 +27,9 @@
             {{/unless}}
 
             {{#if active.conflit}}
-            <button class="prolonger"
-                data-type="capacites"
+            <button
+                data-action="activateHuman"
+                data-type="prolonger"
                 data-capacite="{{key}}"
                 data-special="conflit">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
@@ -39,8 +42,9 @@
             {{/if}}
 
             {{#if active.horsconflit}}
-            <button class="prolonger"
-                data-type="capacites"
+            <button
+                data-action="activateHuman"
+                data-type="prolonger"
                 data-capacite="{{key}}"
                 data-special="horsconflit">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}

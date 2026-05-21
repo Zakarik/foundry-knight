@@ -16,15 +16,16 @@
                     min="0" max="{{nombre}}" />
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totems"}}</span>
                 </label>
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
-                    data-capacite="{{key}}"
-                    data-value="{{active}}">
+                    data-capacite="{{key}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localizeactivate active}}
                 </button>
                 {{#if active}}
-                <button class="prolonger"
-                    data-type="capacites"
+                <button
+                    data-action="activateHuman"
+                    data-type="prolonger"
                     data-capacite="{{key}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>

@@ -14,19 +14,19 @@
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.AllieAffecte"}}</span>
                 </label>
 
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
                     data-capacite="{{key}}"
-                    data-special="support"
-                    data-value="{{active.support}}">
+                    data-special="support">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Label"}} : {{localizeactivate active.support}}
                 </button>
 
-                <button class="activation"
+                <button
+                    data-action="activateHuman"
                     data-type="capacites"
                     data-capacite="{{key}}"
-                    data-special="utilitaire"
-                    data-value="{{active.utilitaire}}">
+                    data-special="utilitaire">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.UTILITAIRE.Label"}} : {{localizeactivate active.utilitaire}}
                 </button>
             </div>

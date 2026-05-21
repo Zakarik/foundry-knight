@@ -6,66 +6,66 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
-                data-capacite="{{key}}"
-                data-value="{{active.morph}}">
+                data-capacite="{{key}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.Label"}} : {{localizeactivate active.morph}}
             </button>
 
             {{#if active.morph}}
                 {{#unless choisi.fait}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="vol"
-                        data-variant="choix"
-                        data-value="{{choisi.vol}}">
+                        data-variant="choix">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.VOL.Label"}} : {{localizechoix choisi.vol}}
                     </button>
 
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="phase"
-                        data-variant="choix"
-                        data-value="{{choisi.phase}}">
+                        data-variant="choix">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}} : {{localizechoix choisi.phase}}
                     </button>
 
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="etirement"
-                        data-variant="choix"
-                        data-value="{{choisi.etirement}}">
+                        data-variant="choix">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}} : {{localizechoix choisi.etirement}}
                     </button>
 
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="metal"
-                        data-variant="choix"
-                        data-value="{{choisi.metal}}">
+                        data-variant="choix">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.METAL.Label"}} : {{localizechoix choisi.metal}}
                     </button>
 
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="fluide"
-                        data-variant="choix"
-                        data-value="{{choisi.fluide}}">
+                        data-variant="choix">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.FLUIDE.Label"}} : {{localizechoix choisi.fluide}}
                     </button>
 
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="polymorphie"
-                        data-variant="choix"
-                        data-value="{{choisi.polymorphie}}">
+                        data-variant="choix">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} : {{localizechoix choisi.polymorphie}}
                     </button>
                 {{else}}
@@ -74,14 +74,16 @@
                     {{/if}}
 
                     {{#if choisi.phase}}
-                    <button class="activation"
+                    <button
+                        data-action="activateHuman"
                         data-type="capacites"
                         data-capacite="{{key}}"
                         data-special="phase">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                     </button>
                         {{#if phase.niveau2.acces}}
-                        <button class="activation"
+                        <button
+                            data-action="activateHuman"
                             data-type="capacites"
                             data-capacite="{{key}}"
                             data-special="phaseN2">
@@ -109,65 +111,65 @@
 
                     {{#if choisi.polymorphie}}
                         {{#unless polymorphie.max}}
-                            <button class="activation"
+                            <button
+                                data-action="activateHuman"
                                 data-type="capacites"
                                 data-capacite="{{key}}"
-                                data-special="polymorphieLame"
-                                data-value="{{active.polymorphieLame}}">
+                                data-special="polymorphieLame">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame"}}) : {{localizeactivate active.polymorphieLame}}
                             </button>
 
                             {{#if active.polymorphieLame}}
-                            <button class="activation"
+                            <button
+                                data-action="activateHuman"
                                 data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="polymorphieLame2"
                                 data-toupdate="capacites.selected.morph.choisi"
-                                data-cout="0"
-                                data-value="{{active.polymorphieLame2}}">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame"}} 2) : {{localizeactivate active.polymorphieLame2}}
                             </button>
                             {{/if}}
 
-                            <button class="activation"
+                            <button
+                                data-action="activateHuman"
                                 data-type="capacites"
                                 data-capacite="{{key}}"
-                                data-special="polymorphieGriffe"
-                                data-value="{{active.polymorphieGriffe}}">
+                                data-special="polymorphieGriffe">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe"}}) : {{localizeactivate active.polymorphieGriffe}}
                             </button>
 
                             {{#if active.polymorphieGriffe}}
-                            <button class="activation"
-                                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="polymorphieGriffe2"
-                                data-toupdate="capacites.selected.morph.choisi"
-                                data-cout="0"
-                                data-value="{{active.polymorphieGriffe2}}">
+                            <button
+                                data-action="activateHuman"
+                                data-type="capacites"
+                                data-capacite="{{key}}"
+                                data-special="polymorphieGriffe2"
+                                data-toupdate="capacites.selected.morph.choisi">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe"}} 2) : {{localizeactivate active.polymorphieGriffe2}}
                             </button>
                             {{/if}}
 
-                            <button class="activation"
+                            <button
+                                data-action="activateHuman"
                                 data-type="capacites"
                                 data-capacite="{{key}}"
-                                data-special="polymorphieCanon"
-                                data-value="{{active.polymorphieCanon}}">
+                                data-special="polymorphieCanon">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon"}}) : {{localizeactivate active.polymorphieCanon}}
                             </button>
 
                             {{#if active.polymorphieCanon}}
-                            <button class="activation"
-                                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="polymorphieCanon2"
-                                data-toupdate="capacites.selected.morph.choisi"
-                                data-cout="0"
-                                data-value="{{active.polymorphieCanon2}}">
+                            <button
+                                data-action="activateHuman"
+                                data-type="capacites" data-capacite="{{key}}"
+                                data-special="polymorphieCanon2"
+                                data-toupdate="capacites.selected.morph.choisi">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon"}} 2) : {{localizeactivate active.polymorphieCanon2}}
                             </button>
                             {{/if}}
                         {{else}}
-                            <button class="activation"
+                            <button
+                                data-action="activateHuman"
                                 data-type="capacites"
                                 data-capacite="{{key}}"
-                                data-special="polymorphieReset"
-                                data-value="false">
+                                data-special="polymorphieReset">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} : {{localize "KNIGHT.AUTRE.Reset"}}
                             </button>
 

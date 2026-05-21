@@ -6,7 +6,8 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.FALCON.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}

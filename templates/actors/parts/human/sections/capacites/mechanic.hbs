@@ -6,14 +6,16 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-special="contact">
                 {{localize "KNIGHT.AUTRE.Contact"}} : {{localize "KNIGHT.AUTRE.Activer"}}
             </button>
 
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}"
                 data-special="distance">

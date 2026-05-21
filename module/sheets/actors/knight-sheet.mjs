@@ -3,6 +3,7 @@ import {
   getCaracValue,
   getODValue,
   getDefaultImg,
+  capitalizeFirstLetter,
 } from "../../helpers/common.mjs";
 
 import BaseActorSheet from "../bases/base-actor-sheet.mjs";
@@ -21,7 +22,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   static PARTS = {
     upperheader: { template: "systems/knight/templates/actors/parts/pc/sections/upperheader.hbs" },
     header: { template: "systems/knight/templates/actors/parts/human/sections/header.hbs" },
-    menu: { template: "systems/knight/templates/actors/parts/common/sections/menu.hbs" },
+    menu: { template: "systems/knight/templates/actors/parts/common/sections/menu.hbs", },
     nav: { template: "templates/generic/tab-navigation.hbs" },
     personnage: {
       template: "systems/knight/templates/actors/parts/human/tabs/personnage.hbs",
@@ -95,6 +96,18 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   get hasGloire() {
     return true;
   }
+  /* -------------------------------------------- */
+
+  _menu_entries() {
+    const base = super._menu_entries();
+    let entries = {
+      ...base,
+    };
+
+    entries.heroisme = this._generate_inputWithSpanMax('heroisme');
+
+    return entries;
+  }
 
   /* -------------------------------------------- */
   _prepareTabs(group) {
@@ -113,10 +126,33 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   }
 
   async _preparePartContext(partId, context, options) {
+    const system = this.actor.system;
+
     context = await super._preparePartContext(partId, context, options);
     context.tab = context.tabs[partId];
 
     switch(partId) {
+      case 'menu':
+        const jauges = system.jauges;
+        const listMenu = [];
+        const listSubMenu = {};
+        const baseSubMenu = ['bonus', 'malus'];
+
+        if(jauges.sante) {
+          listMenu.push('sante');
+          listSubMenu['sante'] = baseSubMenu;
+        }
+
+        if(jauges.espoir) {
+          listMenu.push('espoir');
+          listSubMenu['espoir'] = baseSubMenu;
+        }
+
+        listMenu.push('heroisme');
+
+        context.menu = this._build_menu(listMenu, listSubMenu);
+        break;
+
       case 'armure':
         context.subTab = this._subTab;
         break;

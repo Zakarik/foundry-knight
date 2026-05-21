@@ -11,7 +11,8 @@
                 min="{{this.energie.min}}" max="{{this.energie.max}}" />
                 <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
             </label>
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
                 data-capacite="{{key}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.VISION.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}

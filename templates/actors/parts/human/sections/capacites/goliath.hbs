@@ -17,10 +17,10 @@
                 max="{{taille.max}}" />
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.MetreBonus"}}</span>
             </label>
-            <button class="activation"
+            <button
+                data-action="activateHuman"
                 data-type="capacites"
-                data-capacite="{{key}}"
-                data-value="{{active}}">
+                data-capacite="{{key}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Label"}} : {{localizeactivate active}}
             </button>
         </div>
