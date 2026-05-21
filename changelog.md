@@ -1,3 +1,7 @@
+## v3.57.19
+### Bugfix
+- Application du même correctif qu'en v3.57.18
+
 ## v3.58.18
 ### Bugfix
 - Application du même correctif qu'en v3.57.17
@@ -70,6 +74,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.18
+### Bugfix
+- Correction du bouton "Ajouter la Chair divisé par 2 aux dégâts" qui avait mystérieusement disparu lors d'une mise à jour !
 
 ## v3.57.17
 ### Bugfix

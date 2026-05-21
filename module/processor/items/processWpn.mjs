@@ -41,6 +41,7 @@ export default function prepareWpn(item, ctx, collections) {
     data.distance.liste = listEffects(data.distance, allEffects, data.distance?.chargeur);
     data.ornementales.liste = listEffects(data.ornementales, allEffects, data.ornementales?.chargeur);
     data.structurelles.liste = listEffects(data.structurelles, allEffects, data.structurelles?.chargeur);
+    data.pnj = !isPj;
 
     const dataMunitions = data.optionsmunitions,
             hasDM = dataMunitions?.has ?? false,
