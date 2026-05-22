@@ -1,6 +1,7 @@
 
 div.personnage {
     @include header();
+    @import "../sections/description";
     @import "../sections/cyberware";
     @import "../sections/avDv";
     @import "../sections/motivations";

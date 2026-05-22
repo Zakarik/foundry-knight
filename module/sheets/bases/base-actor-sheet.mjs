@@ -35,11 +35,13 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
       sendMsg: BaseActorSheet.#onSendMsg,
       dialogRoll: BaseActorSheet.#onDialogRoll,
       roll: BaseActorSheet.#onRoll,
+      rollSuccess: BaseActorSheet.#onRollSuccess,
       useWpn: BaseActorSheet.#onUseWpn,
       chargeurClick: BaseActorSheet.#onChargeurClick,
       optionsClick: BaseActorSheet.#onOptionsClick,
       recoverClick: BaseActorSheet.#onRecoverClick,
       btnToggle: BaseActorSheet.#onBtnToggle,
+      lockTooltip: BaseActorSheet.#onLockTooltip,
     }
   }
 
@@ -214,6 +216,20 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     await roll.doRoll(updates);
   }
 
+  static async #onRollSuccess(event, target) {
+    const data = target.dataset;
+    const name = data?.name ?? '';
+    const value = data?.value ?? 0;
+    const updates = data?.updates ?? {};
+
+    const roll = new game.knight.RollKnight(this.actor, {
+      name:name,
+      dices:`${value}`,
+    });
+
+    await roll.doRoll(updates);
+  }
+
   static #onUseWpn(event, target) {
     const data = target.dataset;
     const isDistance = data?.isdistance ?? false;
@@ -318,17 +334,47 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     this.actor.update({[path]:result});
   }
 
+  static #onLockTooltip(event, target) {
+    const element = target;
+
+    if (element._lockedTooltip) {
+        game.tooltip.dismissLockedTooltip(element._lockedTooltip);
+        element._lockedTooltip = null;
+        return;
+    }
+
+    // Sinon, on active puis on verrouille
+    game.tooltip.activate(element);
+    element._lockedTooltip = game.tooltip.lockTooltip();
+  }
+
   /* -------------------------------------------- */
 
-  _generate_inputWithSpanMax(key) {
+  _generate_selectWithTooltip(key, path, label, tooltip, options) {
+    const entries = {};
+    entries[key] = {
+      key:'selectWithTooltip',
+      class:`block ${key}`,
+      label:`${label}`,
+      path:`${path}`,
+      tooltip:tooltip,
+      options:options,
+    }
+
+    return entries
+  }
+
+  _generate_inputWithSpanMax(key, subMenu=true, short=false) {
     const entries = {};
     entries[key] = {
       key:'inputWithSpanMax',
-      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+      class:`block ${key}`,
+      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
       value:`${key}.value`,
       min:0,
       max:`${key}.max`,
       tooltip:key,
+      hasSubMenu:subMenu,
       submenu:{
         base:{
           key:'input',
@@ -351,13 +397,49 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     return entries
   }
 
-  _generate_onlySpan(key) {
+  _generate_inputWithSpanMaxWithButtons(key, subMenu=true, short=false, btn={}) {
+    const entries = {};
+    entries[key] = {
+      key:'inputWithSpanMaxWithButtons',
+      class:`block ${key}`,
+      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
+      value:`${key}.value`,
+      min:0,
+      max:`${key}.max`,
+      tooltip:key,
+      hasSubMenu:subMenu,
+      btn:btn,
+      submenu:{
+        base:{
+          key:'input',
+          label:'KNIGHT.AUTRE.Base',
+          value:`${key}.base`
+        },
+        bonus:{
+          key:'input',
+          label:'KNIGHT.BONUS.Label',
+          value:`${key}.bonus.user`
+        },
+        malus:{
+          key:'input',
+          label:'KNIGHT.MALUS.Label',
+          value:`${key}.malus.user`
+        }
+      }
+    }
+
+    return entries
+  }
+
+  _generate_onlySpan(key, subMenu=true, short=false) {
     const entries = {};
     entries[key] = {
       key:'onlySpan',
-      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+      class:`block ${key}`,
+      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
       value:`${key}.value`,
       tooltip:key,
+      hasSubMenu:subMenu,
       submenu:{
         base:{
           key:'input',
@@ -380,9 +462,86 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     return entries;
   }
 
+  _generate_onlySpanWithButtons(key, subMenu=true, short=false, btn={}) {
+    const entries = {};
+    entries[key] = {
+      key:'onlySpanWithButtons',
+      class:`block ${key}`,
+      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
+      value:`${key}.value`,
+      tooltip:key,
+      hasSubMenu:subMenu,
+      btn:btn,
+      submenu:{
+        base:{
+          key:'input',
+          label:'KNIGHT.AUTRE.Base',
+          value:`${key}.base`
+        },
+        bonus:{
+          key:'input',
+          label:'KNIGHT.BONUS.Label',
+          value:`${key}.bonus.user`
+        },
+        malus:{
+          key:'input',
+          label:'KNIGHT.MALUS.Label',
+          value:`${key}.malus.user`
+        }
+      },
+    }
+
+    return entries;
+  }
+
+  _generate_onlySpanWithDice(key, subMenu=true, short=false) {
+    const entries = {};
+    entries[key] = {
+      key:'onlySpanWithDice',
+      class:`block ${key}`,
+      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
+      dice:`${key}.dice`,
+      value:`${key}.value`,
+      tooltip:key,
+      hasSubMenu:subMenu,
+      submenu:{
+        dice:{
+          key:'input',
+          label:'KNIGHT.JETS.Des',
+          value:`${key}.diceBase`
+        },
+        bonus:{
+          key:'input',
+          label:'KNIGHT.BONUS.Label',
+          value:`${key}.bonus.user`
+        },
+        malus:{
+          key:'input',
+          label:'KNIGHT.MALUS.Label',
+          value:`${key}.malus.user`
+        }
+      },
+    }
+
+    return entries;
+  }
+
+  _generate_simpleInput(path, label) {
+    const entries = {};
+    entries[label] = {
+      key:'simpleInput',
+      class:`block ${label}`,
+      label:`KNIGHT.LATERAL.${label}`,
+      path:`${path}`,
+    }
+
+    return entries;
+  }
+
   _menu_entries() {
     const inputWithSpanMax = ['armure', 'energie'];
-    const onlySpan = ['reaction', 'defense', 'initiative'];
+    const onlySpan = ['reaction', 'defense'];
+    const onlySpanWithDice = ['initiative'];
     let entries = {};
 
     for(const key of inputWithSpanMax) {
@@ -396,6 +555,13 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
       entries = {
         ...entries,
         ...this._generate_onlySpan(key),
+      };
+    }
+
+    for(const key of onlySpanWithDice) {
+      entries = {
+        ...entries,
+        ...this._generate_onlySpanWithDice(key),
       };
     }
 
@@ -483,6 +649,10 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     if ( !this.isEditable ) return;
 
     this.element.addEventListener('change', this._onChange.bind(this));
+    this.element.querySelectorAll('[data-action="lockTooltip"]').forEach(el => {
+      el.addEventListener('mouseenter', this._onMouseEnter.bind(this));
+      el.addEventListener('mouseleave', this._onMouseLeave.bind(this));
+    });
     this._onDiceHover(this.element);
   }
 
@@ -523,6 +693,18 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
       });
     });
 
+    this.element.querySelectorAll('.diceHover').forEach(el => {
+      el.addEventListener('mouseenter', (event) => {
+        const img = event.currentTarget.querySelector('img.dice');
+        img.src = 'systems/knight/assets/icons/D6White.svg';
+      });
+
+      el.addEventListener('mouseleave', (event) => {
+        const img = event.currentTarget.querySelector('img.dice');
+        img.src = 'systems/knight/assets/icons/D6Black.svg';
+      });
+    });
+
     this.element.querySelectorAll('img.diceTarget').forEach(el => {
       el.addEventListener('mouseenter', (event) => {
         event.currentTarget.src = 'systems/knight/assets/icons/D6TargetBlack.svg';
@@ -555,6 +737,16 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
       if(item.type === 'module') item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
       else item.update({['system.optionsmunitions.actuel']:value});
     }
+  }
+
+  async _onMouseEnter(event) {
+    const target = event.target;
+    game.tooltip.activate(target);
+  }
+
+  async _onMouseLeave(event) {
+    const target = event.target;
+    game.tooltip.deactivate();
   }
 
   async _onItemCreate_on(header, itemData) {

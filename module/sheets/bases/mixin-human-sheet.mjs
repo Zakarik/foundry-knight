@@ -1429,7 +1429,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     };
 
     const inputWithSpanMax = ['sante'];
-    const onlySpan = ['champDeForce'];
+    const onlySpan = [];
 
     for(const key of inputWithSpanMax) {
       entries = {
@@ -1443,6 +1443,11 @@ const HumanMixinSheet = (superclass) => class extends superclass {
         ...entries,
         ...this._generate_onlySpan(key),
       };
+    }
+
+    entries = {
+      ...entries,
+      ...this._generate_onlySpan('champDeForce', true, true),
     }
 
     entries.espoir = {
@@ -1731,7 +1736,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
         const isRangedWpn = itemData[0].system.type;
 
         if(isRangedWpn === 'distance') {
-          const cantHaveRangedWpn = actorData.restrictions.noArmeDistance;
+          const cantHaveRangedWpn = actorData?.restrictions?.noArmeDistance ?? false;
 
           if(cantHaveRangedWpn) return;
         }

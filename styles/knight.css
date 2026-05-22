@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .knight .window-content,
 .ia .window-content,
 .pnj .window-content,
@@ -3298,6 +3299,9 @@ li.chat-message.emote {
   background: RGB(76 74 90);
   margin-right: 0px;
   object-fit: contain;
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
 }
 .sheet.actor header.sheet-header .headerData {
   display: flex;
@@ -10765,625 +10769,6 @@ li.chat-message.emote {
 .actor.knight div.evolutionsAchetables button:not(:first-of-type) {
   border-top: 1px solid black;
 }
-.actor.knight section.menu div.espoir div.line,
-.actor.knight section.menu div.sante div.line,
-.actor.knight section.menu div.armure div.line,
-.actor.knight section.menu div.energie div.line {
-  display: grid;
-  width: 100%;
-  line-height: 29px;
-  grid-template-columns: 30px 1fr 36px 8px 36px;
-}
-.actor.knight section.menu div.espoir div.line span.option,
-.actor.knight section.menu div.sante div.line span.option,
-.actor.knight section.menu div.armure div.line span.option,
-.actor.knight section.menu div.energie div.line span.option {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  text-align: center;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.espoir div.line span.option img,
-.actor.knight section.menu div.sante div.line span.option img,
-.actor.knight section.menu div.armure div.line span.option img,
-.actor.knight section.menu div.energie div.line span.option img {
-  height: 29px;
-  width: 29px;
-  border: 0px;
-  cursor: pointer;
-}
-.actor.knight section.menu div.espoir div.line span.option img:hover,
-.actor.knight section.menu div.sante div.line span.option img:hover,
-.actor.knight section.menu div.armure div.line span.option img:hover,
-.actor.knight section.menu div.energie div.line span.option img:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.actor.knight section.menu div.espoir div.line span.option.withoutBorder img,
-.actor.knight section.menu div.sante div.line span.option.withoutBorder img,
-.actor.knight section.menu div.armure div.line span.option.withoutBorder img,
-.actor.knight section.menu div.energie div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.actor.knight section.menu div.espoir div.line span.label,
-.actor.knight section.menu div.sante div.line span.label,
-.actor.knight section.menu div.armure div.line span.label,
-.actor.knight section.menu div.energie div.line span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.espoir div.line input,
-.actor.knight section.menu div.sante div.line input,
-.actor.knight section.menu div.armure div.line input,
-.actor.knight section.menu div.energie div.line input {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
-  padding-bottom: 1px;
-  z-index: 10;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.espoir div.line span.separation,
-.actor.knight section.menu div.sante div.line span.separation,
-.actor.knight section.menu div.armure div.line span.separation,
-.actor.knight section.menu div.energie div.line span.separation {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.espoir div.line span.score,
-.actor.knight section.menu div.sante div.line span.score,
-.actor.knight section.menu div.armure div.line span.score,
-.actor.knight section.menu div.energie div.line span.score {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.espoir div.subLine,
-.actor.knight section.menu div.sante div.subLine,
-.actor.knight section.menu div.armure div.subLine,
-.actor.knight section.menu div.energie div.subLine {
-  display: grid;
-  width: 100%;
-  line-height: 30px;
-  grid-template-columns: 1fr 80px;
-}
-.actor.knight section.menu div.espoir div.subLine span.label,
-.actor.knight section.menu div.sante div.subLine span.label,
-.actor.knight section.menu div.armure div.subLine span.label,
-.actor.knight section.menu div.energie div.subLine span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 16px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.espoir div.subLine input,
-.actor.knight section.menu div.sante div.subLine input,
-.actor.knight section.menu div.armure div.subLine input,
-.actor.knight section.menu div.energie div.subLine input {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu button {
-  width: 100%;
-  font-size: 11px;
-  line-height: 20px;
-  background: RGB(43 42 51);
-  border-bottom: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  border-top: 1px solid RGB(76 74 90);
-  border-radius: 0px;
-  font-variant: small-caps;
-  color: white;
-  cursor: pointer;
-  margin: 0px;
-}
-.actor.knight section.menu div.champDeForce div.line,
-.actor.knight section.menu div.egide div.line {
-  display: grid;
-  width: 100%;
-  line-height: 29px;
-  grid-template-columns: 30px 1fr 80px;
-}
-.actor.knight section.menu div.champDeForce div.line span.option,
-.actor.knight section.menu div.egide div.line span.option {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  text-align: center;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.champDeForce div.line span.option img,
-.actor.knight section.menu div.egide div.line span.option img {
-  height: 29px;
-  width: 29px;
-  border: 0px;
-  cursor: pointer;
-}
-.actor.knight section.menu div.champDeForce div.line span.option img:hover,
-.actor.knight section.menu div.egide div.line span.option img:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.actor.knight section.menu div.champDeForce div.line span.label,
-.actor.knight section.menu div.egide div.line span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.champDeForce div.line span.score,
-.actor.knight section.menu div.egide div.line span.score {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.champDeForce div.subLine,
-.actor.knight section.menu div.egide div.subLine {
-  display: grid;
-  grid-template-columns: 1fr 80px;
-  width: 100%;
-  line-height: 30px;
-}
-.actor.knight section.menu div.champDeForce div.subLine span.label,
-.actor.knight section.menu div.egide div.subLine span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 16px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.champDeForce div.subLine input,
-.actor.knight section.menu div.egide div.subLine input {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.flux div.line,
-.actor.knight section.menu div.contrecoups div.line,
-.actor.knight section.menu div.impregnation div.line {
-  display: grid;
-  width: 100%;
-  line-height: 29px;
-  grid-template-columns: 1fr 80px;
-}
-.actor.knight section.menu div.flux div.line span.label,
-.actor.knight section.menu div.contrecoups div.line span.label,
-.actor.knight section.menu div.impregnation div.line span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.flux div.line input,
-.actor.knight section.menu div.contrecoups div.line input,
-.actor.knight section.menu div.impregnation div.line input {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
-  padding-bottom: 1px;
-  z-index: 10;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.heroisme div.line {
-  display: grid;
-  width: 100%;
-  line-height: 29px;
-  grid-template-columns: 1fr 36px 8px 36px;
-}
-.actor.knight section.menu div.heroisme div.line span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.heroisme div.line input {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
-  padding-bottom: 1px;
-  z-index: 10;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.heroisme div.line span.separation {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.heroisme div.line span.score {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.reductionPEs div.line {
-  display: grid;
-  width: 100%;
-  line-height: 20px;
-  grid-template-columns: 1fr 45px;
-}
-.actor.knight section.menu div.reductionPEs div.line span.label {
-  display: inline-block;
-  width: 100%;
-  height: 40px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.reductionPEs div.line input {
-  display: inline-block;
-  width: 100%;
-  height: 40px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
-  padding-bottom: 1px;
-  z-index: 10;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.reaction div.line,
-.actor.knight section.menu div.defense div.line {
-  display: grid;
-  width: 100%;
-  line-height: 29px;
-  grid-template-columns: 30px 1fr 45px;
-}
-.actor.knight section.menu div.reaction div.line span.option,
-.actor.knight section.menu div.defense div.line span.option {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  text-align: center;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.reaction div.line span.option img,
-.actor.knight section.menu div.defense div.line span.option img {
-  height: 29px;
-  width: 29px;
-  border: 0px;
-  cursor: pointer;
-}
-.actor.knight section.menu div.reaction div.line span.option img:hover,
-.actor.knight section.menu div.defense div.line span.option img:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.actor.knight section.menu div.reaction div.line span.label,
-.actor.knight section.menu div.defense div.line span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.reaction div.line span.score,
-.actor.knight section.menu div.defense div.line span.score {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.reaction div.subLine,
-.actor.knight section.menu div.defense div.subLine {
-  display: grid;
-  grid-template-columns: 1fr 45px;
-  width: 100%;
-  line-height: 30px;
-}
-.actor.knight section.menu div.reaction div.subLine span.label,
-.actor.knight section.menu div.defense div.subLine span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.reaction div.subLine input,
-.actor.knight section.menu div.defense div.subLine input {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.initiative div.line {
-  display: grid;
-  grid-template-columns: 30px 1fr 45px;
-  width: 100%;
-  line-height: 29px;
-}
-.actor.knight section.menu div.initiative div.line span.option {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  text-align: center;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.initiative div.line span.option img {
-  height: 29px;
-  width: 29px;
-  border: 0px;
-  cursor: pointer;
-}
-.actor.knight section.menu div.initiative div.line span.option img:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.actor.knight section.menu div.initiative div.line span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.initiative div.line span.score {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 12px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.initiative div.subLine {
-  display: grid;
-  grid-template-columns: 1fr 45px;
-  width: 100%;
-  line-height: 30px;
-}
-.actor.knight section.menu div.initiative div.subLine span.label {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  border-top: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu div.initiative div.subLine input {
-  display: inline-block;
-  width: 100%;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu div.styleCombat {
-  position: relative;
-}
-.actor.knight section.menu div.styleCombat span.label {
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 16px;
-  letter-spacing: 1px;
-  line-height: 30px;
-}
-.actor.knight section.menu div.styleCombat span.info {
-  display: inline-block;
-  position: absolute;
-  width: 21px;
-  height: 21px;
-  line-height: 21px;
-  font-size: 15px;
-  border: 1px solid black;
-  border-radius: 50%;
-  text-align: center;
-  background: RGB(76 74 90);
-  bottom: 3px;
-  left: 5px;
-  cursor: pointer;
-}
-.actor.knight section.menu div.styleCombat span.info:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.actor.knight section.menu div.styleCombat span.clicked {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.actor.knight section.menu div.styleCombat span.hideInfo {
-  display: none;
-  position: absolute;
-  width: 400px;
-  height: max-content;
-  border: 1px solid black;
-  background: RGB(43 42 51);
-  text-align: justify;
-  left: 30px;
-  z-index: 90;
-  border-radius: 10px;
-  color: white;
-  padding: 2px;
-}
-.actor.knight section.menu div.styleCombat span.showInfo {
-  display: block;
-  position: absolute;
-  width: 400px;
-  height: max-content;
-  border: 1px solid black;
-  background: RGB(43 42 51);
-  text-align: justify;
-  left: 30px;
-  z-index: 90;
-  border-radius: 10px;
-  color: white;
-  padding: 2px;
-}
-.actor.knight section.menu div.styleCombat select {
-  width: 100%;
-  text-align: center;
-  padding-left: 13px;
-  border: 0px;
-  margin: 0px;
-  padding-top: 0px;
-  padding-right: 0px;
-  padding-bottom: 0px;
-  text-align: center;
-  background: RGB(43 42 51);
-  color: white;
-  font-variant: small-caps;
-}
-.actor.knight section.menu div.styleCombat select option {
-  background: RGB(43 42 51);
-}
-.actor.knight section.menu section.mainBlock {
-  display: block;
-}
-.actor.knight section.menu section.mainBlock > div:first-of-type div.line span,
-.actor.knight section.menu section.mainBlock > div:first-of-type div.line input,
-.actor.knight section.menu section.mainBlock > div:first-of-type div.subline span,
-.actor.knight section.menu section.mainBlock > div:first-of-type div.subline input {
-  border-top: 0px;
-}
-.actor.knight section.menu section.mainBlock > div:last-of-type {
-  border-bottom: 1px solid black;
-}
-.actor.knight section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
-  border-top: 1px solid black;
-}
-.actor.knight section.menu section.mainBlock:not(:last-of-type) {
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-  border-bottom: 5px double RGB(43 42 51);
-}
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type {
-  border-bottom: 0px;
-  margin-bottom: 1px;
-}
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.option,
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.score,
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line input {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.option,
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.score,
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type input {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:nth-of-type(2) span,
-.actor.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:nth-of-type(2) input {
-  border-top: 0px;
-}
-.actor.knight section.menu section.hidden {
-  display: none;
-}
 .actor.knight div.aspectsCaracteristiques h2.header {
   display: block;
   position: relative;
@@ -18351,6 +17736,452 @@ li.chat-message.emote {
   background: RGB(76 74 90);
   border-color: RGB(43 42 51);
 }
+.actor.knight section.menu {
+  padding-top: 5px;
+}
+.actor.knight section.menu div.block.selectWithTooltip {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+  position: relative;
+}
+.actor.knight section.menu div.block.selectWithTooltip span.label {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  height: 100%;
+  font-variant: small-caps;
+  font-size: 16px;
+  letter-spacing: 1px;
+  justify-content: center;
+  align-items: center;
+}
+.actor.knight section.menu div.block.selectWithTooltip span.tooltip {
+  display: inline-block;
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  line-height: 21px;
+  font-size: 15px;
+  border: 1px solid black;
+  border-radius: 50%;
+  text-align: center;
+  background: RGB(76 74 90);
+  bottom: 5px;
+  left: 5px;
+  cursor: pointer;
+}
+.actor.knight section.menu div.block.selectWithTooltip span.tooltip:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.actor.knight section.menu div.block.selectWithTooltip select {
+  width: 100%;
+  text-align: center;
+  padding-left: 13px;
+  border: 0px;
+  margin: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
+}
+.actor.knight section.menu div.block.selectWithTooltip select option {
+  background: RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.header, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.header {
+  display: grid;
+  width: 100%;
+  min-height: 30px;
+  grid-template-columns: 1fr 36px 8px 36px;
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.header button, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.header button {
+  grid-column: 1/5;
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.header.submenu, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.header.submenu {
+  grid-template-columns: 30px 1fr 36px 8px 36px;
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.header.submenu button, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.header.submenu button {
+  grid-column: 1/6;
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.header img, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.header img {
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.header img:hover, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.header img:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.subline, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.subline {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 36px 8px 36px;
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.subline input, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.subline input {
+  grid-column: 2/5;
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.subline img, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.subline img {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.subline span.label, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.subline span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.subline span.score, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.subline span.score {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.subline span.separation, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.subline span.separation {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.inputWithSpanMax div.subline input, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons div.subline input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.inputWithSpanMax span.label, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons span.label {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  align-items: center;
+  min-height: 30px;
+}
+.actor.knight section.menu div.block.inputWithSpanMax span.separation, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons span.separation {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  align-items: center;
+}
+.actor.knight section.menu div.block.inputWithSpanMax span.score, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons span.score {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  align-items: center;
+  justify-content: center;
+}
+.actor.knight section.menu div.block.inputWithSpanMax input, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons input {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 1px;
+  z-index: 10;
+}
+.actor.knight section.menu div.block.inputWithSpanMax button, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons button {
+  width: 100%;
+  font-size: 11px;
+  line-height: 20px;
+  background: RGB(43 42 51);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  cursor: pointer;
+  margin: 0px;
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderTop img, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderTop img {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderTop span.label, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderTop span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderTop span.score, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderTop span.score {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderTop span.separation, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderTop span.separation {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderTop input, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderTop input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderBottom img, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderBottom img {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderBottom span.label, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderBottom span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderBottom span.score, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderBottom span.score {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderBottom span.separation, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderBottom span.separation {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.inputWithSpanMax.borderBottom input, .actor.knight section.menu div.block.inputWithSpanMaxWithButtons.borderBottom input {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan, .actor.knight section.menu div.block.onlySpanWithDice, .actor.knight section.menu div.block.onlySpanWithButtons {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+}
+.actor.knight section.menu div.block.onlySpan div.header, .actor.knight section.menu div.block.onlySpanWithDice div.header, .actor.knight section.menu div.block.onlySpanWithButtons div.header {
+  display: grid;
+  width: 100%;
+  min-height: 30px;
+  grid-template-columns: 1fr 80px;
+}
+.actor.knight section.menu div.block.onlySpan div.header.submenu, .actor.knight section.menu div.block.onlySpanWithDice div.header.submenu, .actor.knight section.menu div.block.onlySpanWithButtons div.header.submenu {
+  grid-template-columns: 30px 1fr 80px;
+}
+.actor.knight section.menu div.block.onlySpan div.header.submenu button, .actor.knight section.menu div.block.onlySpanWithDice div.header.submenu button, .actor.knight section.menu div.block.onlySpanWithButtons div.header.submenu button {
+  grid-column: 1/6;
+}
+.actor.knight section.menu div.block.onlySpan div.header img, .actor.knight section.menu div.block.onlySpanWithDice div.header img, .actor.knight section.menu div.block.onlySpanWithButtons div.header img {
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+}
+.actor.knight section.menu div.block.onlySpan div.header img:hover, .actor.knight section.menu div.block.onlySpanWithDice div.header img:hover, .actor.knight section.menu div.block.onlySpanWithButtons div.header img:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.actor.knight section.menu div.block.onlySpan div.subline, .actor.knight section.menu div.block.onlySpanWithDice div.subline, .actor.knight section.menu div.block.onlySpanWithButtons div.subline {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: 1fr 80px;
+}
+.actor.knight section.menu div.block.onlySpan div.subline img, .actor.knight section.menu div.block.onlySpanWithDice div.subline img, .actor.knight section.menu div.block.onlySpanWithButtons div.subline img {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan div.subline span.label, .actor.knight section.menu div.block.onlySpanWithDice div.subline span.label, .actor.knight section.menu div.block.onlySpanWithButtons div.subline span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan div.subline span.score, .actor.knight section.menu div.block.onlySpanWithDice div.subline span.score, .actor.knight section.menu div.block.onlySpanWithButtons div.subline span.score {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.onlySpan div.subline span.separation, .actor.knight section.menu div.block.onlySpanWithDice div.subline span.separation, .actor.knight section.menu div.block.onlySpanWithButtons div.subline span.separation {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.onlySpan div.subline input, .actor.knight section.menu div.block.onlySpanWithDice div.subline input, .actor.knight section.menu div.block.onlySpanWithButtons div.subline input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.onlySpan span.label, .actor.knight section.menu div.block.onlySpanWithDice span.label, .actor.knight section.menu div.block.onlySpanWithButtons span.label {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  align-items: center;
+  min-height: 30px;
+}
+.actor.knight section.menu div.block.onlySpan span.separation, .actor.knight section.menu div.block.onlySpanWithDice span.separation, .actor.knight section.menu div.block.onlySpanWithButtons span.separation {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  align-items: center;
+}
+.actor.knight section.menu div.block.onlySpan span.score, .actor.knight section.menu div.block.onlySpanWithDice span.score, .actor.knight section.menu div.block.onlySpanWithButtons span.score {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  align-items: center;
+  justify-content: center;
+}
+.actor.knight section.menu div.block.onlySpan input, .actor.knight section.menu div.block.onlySpanWithDice input, .actor.knight section.menu div.block.onlySpanWithButtons input {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 1px;
+  z-index: 10;
+}
+.actor.knight section.menu div.block.onlySpan button, .actor.knight section.menu div.block.onlySpanWithDice button, .actor.knight section.menu div.block.onlySpanWithButtons button {
+  width: 100%;
+  font-size: 11px;
+  line-height: 20px;
+  background: RGB(43 42 51);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  cursor: pointer;
+  margin: 0px;
+}
+.actor.knight section.menu div.block.onlySpan.borderTop img, .actor.knight section.menu div.block.onlySpanWithDice.borderTop img, .actor.knight section.menu div.block.onlySpanWithButtons.borderTop img {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan.borderTop span.label, .actor.knight section.menu div.block.onlySpanWithDice.borderTop span.label, .actor.knight section.menu div.block.onlySpanWithButtons.borderTop span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan.borderTop span.score, .actor.knight section.menu div.block.onlySpanWithDice.borderTop span.score, .actor.knight section.menu div.block.onlySpanWithButtons.borderTop span.score {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.onlySpan.borderTop span.separation, .actor.knight section.menu div.block.onlySpanWithDice.borderTop span.separation, .actor.knight section.menu div.block.onlySpanWithButtons.borderTop span.separation {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.onlySpan.borderTop input, .actor.knight section.menu div.block.onlySpanWithDice.borderTop input, .actor.knight section.menu div.block.onlySpanWithButtons.borderTop input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.onlySpan.borderBottom img, .actor.knight section.menu div.block.onlySpanWithDice.borderBottom img, .actor.knight section.menu div.block.onlySpanWithButtons.borderBottom img {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan.borderBottom span.label, .actor.knight section.menu div.block.onlySpanWithDice.borderBottom span.label, .actor.knight section.menu div.block.onlySpanWithButtons.borderBottom span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan.borderBottom span.score, .actor.knight section.menu div.block.onlySpanWithDice.borderBottom span.score, .actor.knight section.menu div.block.onlySpanWithButtons.borderBottom span.score {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan.borderBottom span.separation, .actor.knight section.menu div.block.onlySpanWithDice.borderBottom span.separation, .actor.knight section.menu div.block.onlySpanWithButtons.borderBottom span.separation {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.onlySpan.borderBottom input, .actor.knight section.menu div.block.onlySpanWithDice.borderBottom input, .actor.knight section.menu div.block.onlySpanWithButtons.borderBottom input {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.simpleInput {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+}
+.actor.knight section.menu div.block.simpleInput div.header {
+  display: grid;
+  width: 100%;
+  min-height: 30px;
+  grid-template-columns: 1fr 40px;
+}
+.actor.knight section.menu div.block.simpleInput span.label {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  align-items: center;
+}
+.actor.knight section.menu div.block.simpleInput input {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 1px;
+  z-index: 10;
+}
+.actor.knight section.menu div.block.simpleInput button {
+  width: 100%;
+  font-size: 11px;
+  line-height: 20px;
+  background: RGB(43 42 51);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  cursor: pointer;
+  margin: 0px;
+}
+.actor.knight section.menu div.block.simpleInput.borderTop img {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.simpleInput.borderTop span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.simpleInput.borderTop span.score {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.simpleInput.borderTop span.separation {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.simpleInput.borderTop input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight section.menu div.block.simpleInput.borderBottom img {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.simpleInput.borderBottom span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.simpleInput.borderBottom span.score {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.simpleInput.borderBottom span.separation {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.block.simpleInput.borderBottom input {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight section.menu div.separateur {
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 1px solid RGB(43 42 51);
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.actor.knight section.menu div.separateur hr {
+  border: none;
+  /* supprime le style par défaut */
+  height: 0;
+  margin: 0px;
+  border-top: 5px double RGB(43 42 51);
+}
+.actor.knight section.menu div.separateur + div.borderTop div.header img {
+  border-top: 0px !important;
+}
+.actor.knight section.menu div.separateur + div.borderTop div.header span.label {
+  border-top: 0px !important;
+}
+.actor.knight section.menu div.separateur + div.borderTop div.header span.score {
+  border-top: 0px !important;
+}
+.actor.knight section.menu div.separateur + div.borderTop div.header span.separation {
+  border-top: 0px !important;
+}
+.actor.knight section.menu div.separateur + div.borderTop div.header input {
+  border-top: 0px !important;
+}
 .actor.knight div.personnage h2.header {
   display: block;
   position: relative;
@@ -18422,6 +18253,16 @@ li.chat-message.emote {
 }
 .actor.knight div.personnage h2.header .far {
   cursor: pointer;
+}
+.actor.knight div.personnage div.description {
+  flex: 1;
+}
+.actor.knight div.personnage div.description prose-mirror {
+  min-height: 130px;
+  border-bottom: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
 }
 .actor.knight div.personnage div.cyberware {
   display: grid;

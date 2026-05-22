@@ -1090,7 +1090,6 @@ import {
         return cfg;
     });
 
-
     Handlebars.registerHelper('menuTooltip', function (type, data) {
         let tooltip = [];
         let allData;
@@ -1219,5 +1218,10 @@ import {
         if(getCFGTYPE) input = getCFGTYPE;
 
         return input;
+    });
+
+    Handlebars.registerHelper('getProperty', function(obj, path) {
+        if (!obj || !path) return undefined;
+        return foundry.utils.getProperty(obj, path);
     });
  };

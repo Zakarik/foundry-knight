@@ -102,9 +102,23 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     const base = super._menu_entries();
     let entries = {
       ...base,
+      ...this._generate_inputWithSpanMax('heroisme', false),
+      ...this._generate_onlySpanWithButtons('egide', true, false, {
+        action:'rollSuccess',
+        name:game.i18n.localize("KNIGHT.JETS.JetEgide"),
+        label:game.i18n.localize("KNIGHT.JETS.JetEgide"),
+        value:`${this.actor.system.egide.value}D6`,
+      }),
+      ...this._generate_inputWithSpanMaxWithButtons('espoir', true, false, {
+        action:'dialogRoll',
+        label:game.i18n.localize("KNIGHT.JETS.JetEspoir"),
+        name:game.i18n.localize("KNIGHT.JETS.JetEspoir"),
+        caracteristique:'hargne',
+        caracAdd:'sangFroid',
+      }),
+      ...this._generate_simpleInput('espoir.reduction', 'ReductionPEs'),
+      ...this._generate_selectWithTooltip('style', 'combat.style', 'KNIGHT.COMBAT.STYLES.Label', this.actor.system.combat.styleInfo, CONFIG?.KNIGHT?.LIST?.style ?? {})
     };
-
-    entries.heroisme = this._generate_inputWithSpanMax('heroisme');
 
     return entries;
   }
@@ -133,14 +147,21 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
 
     switch(partId) {
       case 'menu':
-        const jauges = system.jauges;
-        const listMenu = [];
-        const listSubMenu = {};
         const baseSubMenu = ['bonus', 'malus'];
+        const jauges = system.jauges;
+        const listMenu = [
+          'style', 'separateur'
+        ];
+        const listSubMenu = {};
 
         if(jauges.sante) {
           listMenu.push('sante');
           listSubMenu['sante'] = baseSubMenu;
+        }
+
+        if(jauges.egide) {
+          listMenu.push('egide');
+          listSubMenu['egide'] = ['base', ...baseSubMenu];
         }
 
         if(jauges.espoir) {
@@ -149,6 +170,27 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
         }
 
         listMenu.push('heroisme');
+        listMenu.push('separateur');
+
+        if(jauges.armure) {
+          listMenu.push('armure');
+          listSubMenu['armure'] = baseSubMenu;
+        }
+
+        if(jauges.energie) {
+          listMenu.push('energie');
+          listSubMenu['energie'] = baseSubMenu;
+        }
+
+        if(jauges.champDeForce) {
+          listMenu.push('champDeForce');
+          listSubMenu['champDeForce'] = baseSubMenu;
+        }
+
+        listMenu.push('separateur', 'defense', 'reaction', 'initiative', 'separateur', 'ReductionPEs');
+        listSubMenu['defense'] = baseSubMenu;
+        listSubMenu['reaction'] = baseSubMenu;
+        listSubMenu['initiative'] = ['dice',...baseSubMenu];
 
         context.menu = this._build_menu(listMenu, listSubMenu);
         break;
@@ -176,17 +218,6 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     super._onRender(context, options);
     const html = $(this.element)
 
-    /*this.element.querySelectorAll('[data-sub-tab]').forEach(el => {
-      if (el.tagName === 'A') {
-        el.addEventListener('click', ev => {
-          ev.preventDefault();
-
-          this._subTab = ev.currentTarget.dataset.subTab;
-          this.render({ parts: ["armure"] });
-        });
-      }
-    });*/
-
     html.find('div.progression div.evolutionsAAcheter button').hover(ev => {
       const span = html.find('div.progression div.evolutionsAAcheter span.hideInfo');
       const target = $(ev.currentTarget);
@@ -202,7 +233,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
 
-    html.find('div.listeAspects div.line').hover(ev => {
+    /*html.find('div.listeAspects div.line').hover(ev => {
       $(ev.currentTarget).children('img').attr("src", "systems/knight/assets/icons/D6White.svg");
     }, ev => {
       $(ev.currentTarget).children('img').attr("src", "systems/knight/assets/icons/D6Black.svg");
@@ -234,16 +265,12 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       };
 
       this.actor.update(update);
-    });
+    });*/
 
-    html.find('div.styleCombat > select').change(async ev => {
-      this.actor.update({['system.combat.data']:{
-        tourspasses:1,
-        type:"degats"
-      }});
-    });
+    /*html.find('div.styleCombat > select').change(async ev => {
+    });*/
 
-    html.find('.jetEspoir').click(async ev => {
+    /*html.find('.jetEspoir').click(async ev => {
       const hasShift = ev.shiftKey;
       const label = game.i18n.localize('KNIGHT.JETS.JetEspoir');
 
@@ -276,7 +303,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
 
         dialog.open();
       }
-    });
+    });*/
 
     html.find('.jetEgide').click(async ev => {
       const value = $(ev.currentTarget).data("value");
@@ -1051,6 +1078,18 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
 
         await actor.update(update, { render: false });
       });
+  }
+
+  async _onChange(event) {
+    super._onChange(event);
+    const target = event.target;
+
+    if (target.matches('div.style > select')) {
+      this.actor.update({['system.combat.data']:{
+        tourspasses:1,
+        type:"degats"
+      }});
+    }
   }
 
   /* -------------------------------------------- */

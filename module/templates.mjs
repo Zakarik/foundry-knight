@@ -165,6 +165,7 @@ export const PreloadTemplates = async function() {
     "knight.itemCreate": `${path}/actors/parts/common/itemCreate.hbs`,
     "knight.jsToggle": `${path}/actors/parts/common/jsToggle.hbs`,
     "knight.hideLimited": `${path}/actors/parts/common/hideLimited.hbs`,
+    "knight.subMenu": `${path}/actors/parts/common/sections/parts/subMenu.hbs`,
   }
 
   const humanPartials = {
