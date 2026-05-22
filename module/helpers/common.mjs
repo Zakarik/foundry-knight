@@ -4169,8 +4169,10 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, effetsWpn, stru
 
 export function getSpecial(actor) {
     const wear = actor.system.wear;
-    const armor = actor?.system?.dataArmor || undefined;
+    const armor = actor.items.find(itm => itm.type === 'armure') || undefined;
+    const armorLegend = actor.items.find(itm => itm.type === 'armurelegende') || undefined;
     const getArmorData = armor !== undefined &&  wear === 'armure' ? armor?.system || false : false;
+    const getArmorLegendData = armor !== undefined && wear === 'armure' ? armorLegend?.system || false : false;
 
     let result = {
       raw:[],
@@ -4178,6 +4180,7 @@ export function getSpecial(actor) {
     }
 
     if(getArmorData !== false && wear === 'armure') {
+      const capaciteList = getArmorData.capacites.selected;
       const specialList = getArmorData.special.selected;
 
       let raw = [];
@@ -4193,9 +4196,35 @@ export function getSpecial(actor) {
         };
       };
 
+      for (let [key, special] of Object.entries(capaciteList)) {
+        switch(key) {
+            case 'goliath':
+              const taille = foundry.utils.getProperty(actor, 'system.equipements.armure.capacites.goliath.metre');
+
+              if(taille >= 4) raw.push('antivehicule');
+              break;
+        };
+      }
+
       result = {
         raw:raw,
         custom:custom
+      }
+    }
+
+    if(getArmorLegendData !== false && wear === 'armure') {
+      const capaciteLegendList = getArmorLegendData.capacites.selected;
+
+      for (let [key, special] of Object.entries(capaciteLegendList)) {
+        switch(key) {
+            case 'goliath':
+              if(!special?.active ?? false) continue;
+
+              const taille = foundry.utils.getProperty(actor, 'system.equipements.armure.capacites.goliath.metre');
+
+              if(taille >= 4) result.raw.push('antivehicule');
+              break;
+        };
       }
     }
 
