@@ -4199,6 +4199,7 @@ export function getSpecial(actor) {
       for (let [key, special] of Object.entries(capaciteList)) {
         switch(key) {
             case 'goliath':
+              if(!special?.active ?? false) continue;
               const taille = foundry.utils.getProperty(actor, 'system.equipements.armure.capacites.goliath.metre');
 
               if(taille >= 4) raw.push('antivehicule');

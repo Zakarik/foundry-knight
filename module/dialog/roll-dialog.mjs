@@ -2352,7 +2352,28 @@ export class KnightRollDialog extends Dialog {
                 }
 
                 for(let list in system.liste) {
-                    let dataC = {
+                    let dataC = this.#addWpnContact({
+                        name:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
+                        id:`${ai}${list}c`,
+                        system:{
+                            type:'contact',
+                            options:[],
+                            degats:{
+                                addchair:true,
+                                dice:system.liste[list].degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:system.liste[list].violence.dice,
+                                fixe:0
+                            },
+                            effets:{
+                                raw:[],
+                                custom:[],
+                            },
+                        }
+                    }, {});
+                    /*{
                         label:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
                         classes:'btnWpn',
                         type:'contact',
@@ -2371,9 +2392,30 @@ export class KnightRollDialog extends Dialog {
                             raw:[],
                             custom:[],
                         },
-                    };
+                    };*/
 
-                    let dataD = {
+                    let dataD = this.#addWpnDistance({
+                        name:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
+                        id:`${ai}${list}d`,
+                        system:{
+                            type:'distance',
+                            options:[],
+                            degats:{
+                                addchair:true,
+                                dice:system.liste[list].degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:system.liste[list].violence.dice,
+                                fixe:0
+                            },
+                            effets:{
+                                raw:[],
+                                custom:[],
+                            },
+                        }
+                    }, {});
+                    /*{
                         label:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
                         classes:'btnWpn',
                         type:'distance',
@@ -2391,7 +2433,7 @@ export class KnightRollDialog extends Dialog {
                             raw:[],
                             custom:[],
                         },
-                    }
+                    };*/
 
                     aicontact.push(dataC);
                     aidistance.push(dataD);
@@ -3016,6 +3058,7 @@ export class KnightRollDialog extends Dialog {
     #addWpnContact(wpn, modules, addSpecial=true) {
         const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const armureLegend = this.actor.items.find(itm => itm.type === 'armurelegende');
         const avantages = this.actor.items.filter(itm =>
             itm.type === 'avantage' &&
             itm.system.type === 'standard' &&
@@ -3023,7 +3066,7 @@ export class KnightRollDialog extends Dialog {
               itm.system.bonus?.devasterAnatheme ||
               itm.system.bonus?.bourreauTenebres
             )
-          );
+        );
 
           // Les trois flags à surveiller
           const flags = ['devasterAnatheme', 'bourreauTenebres'];
@@ -3068,10 +3111,28 @@ export class KnightRollDialog extends Dialog {
 
         data.id = wpn.id;
 
-        if(armure && addSpecial) {
+        if(armure && addSpecial && this.armorIsWear) {
             if(armure.system.special.selected?.porteurlumiere ?? undefined) {
                 specialRaw = specialRaw.concat(armure.system.special.selected.porteurlumiere.bonus.effets.raw)
                 specialCustom = specialCustom.concat(armure.system.special.selected.porteurlumiere.bonus.effets.custom)
+            }
+
+            if(armure?.system?.capacites?.selected?.goliath ?? undefined) {
+                if(armure?.system?.capacites?.selected?.goliath?.active) {
+                    const taille = foundry.utils.getProperty(this.actor, 'system.equipements.armure.capacites.goliath.metre');
+
+                    if(taille >= 4) specialRaw.push('antivehicule');
+                }
+            }
+        }
+
+        if(armureLegend && addSpecial && this.armorIsWear) {
+            if(armureLegend?.system?.capacites?.selected?.goliath ?? undefined) {
+                if(armureLegend?.system?.capacites?.selected?.goliath?.active) {
+                    const taille = foundry.utils.getProperty(this.actor, 'system.equipements.armure.capacites.goliath.metre');
+
+                    if(taille >= 4) specialRaw.push('antivehicule');
+                }
             }
         }
 
@@ -3538,6 +3599,7 @@ export class KnightRollDialog extends Dialog {
     #addWpnDistance(wpn, modules, addSpecial=true) {
         const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const armureLegend = this.actor.items.find(itm => itm.type === 'armurelegende');
         const avantages = this.actor.items.filter(itm =>
             itm.type === 'avantage' &&
             itm.system.type === 'standard' &&
@@ -3596,10 +3658,28 @@ export class KnightRollDialog extends Dialog {
         if(system?.portee ?? undefined) data.portee = system.portee;
         data.id = wpn.id;
 
-        if(armure && addSpecial) {
+        if(armure && addSpecial && this.armorIsWear) {
             if(armure.system.special.selected?.porteurlumiere ?? undefined) {
                 specialRaw = specialRaw.concat(armure.system.special.selected.porteurlumiere.bonus.effets.raw)
                 specialCustom = specialCustom.concat(armure.system.special.selected.porteurlumiere.bonus.effets.custom)
+            }
+
+            if(armure?.system?.capacites?.selected?.goliath ?? undefined) {
+                if(armure?.system?.capacites?.selected?.goliath?.active) {
+                    const taille = foundry.utils.getProperty(this.actor, 'system.equipements.armure.capacites.goliath.metre');
+
+                    if(taille >= 4) specialRaw.push('antivehicule');
+                }
+            }
+        }
+
+        if(armureLegend && addSpecial && this.armorIsWear) {
+            if(armureLegend?.system?.capacites?.selected?.goliath ?? undefined) {
+                if(armureLegend?.system?.capacites?.selected?.goliath?.active) {
+                    const taille = foundry.utils.getProperty(this.actor, 'system.equipements.armure.capacites.goliath.metre');
+
+                    if(taille >= 4) specialRaw.push('antivehicule');
+                }
             }
         }
 

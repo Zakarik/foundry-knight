@@ -554,7 +554,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
 
     _getWeaponHandlers() {
         return {
-          armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
+          armesimprovisees: ({ id, name, num }) => this.useAI(id, name, num),
           grenades: ({ num }) => this.useGrenade(num),
           longbow: () => this.useLongbow(),
         };

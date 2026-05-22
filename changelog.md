@@ -1,3 +1,7 @@
+## v3.58.22
+### Bugfix
+- Application du même correctif qu'en v3.57.21
+
 ## v3.58.21
 ### Bugfix
 - Application du même correctif qu'en v3.57.20
@@ -82,6 +86,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.21
+### Bugfix
+- Correction de quelques bugs suite à la dernière mise à jour, ahah !
 
 ## v3.57.20
 ### Bugfix

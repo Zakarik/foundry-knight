@@ -737,7 +737,7 @@ export class MechaArmureDataModel extends BaseActorDataModel {
   // Méthode à surcharger dans les enfants
   _getWeaponHandlers() {
       return {
-        armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
+        armesimprovisees: ({ id, name, num }) => this.useAI(id, name, num),
       };
   }
 
