@@ -1,3 +1,7 @@
+## v3.58.21
+### Bugfix
+- Application du même correctif qu'en v3.57.20
+
 ## v3.58.20
 ### Bugfix
 - Application du même correctif qu'en v3.57.19
@@ -78,6 +82,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.20
+### Bugfix
+- Ajout d'un oubli (qui a peut être sauté avec les versions) de l'effet anti-véhicule si Barbarian => 6 mètres.
 
 ## v3.57.19
 ### Bugfix
