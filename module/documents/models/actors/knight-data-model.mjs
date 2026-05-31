@@ -25,7 +25,7 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
                 ia:["schema", {
                     code:["str", { initial: "", nullable:false}],
                     surnom:["str", { initial: "", nullable:false}],
-                    caractere:["str", { initial: "", nullable:false}],
+                    caractere:["html", { initial: "", nullable:false}],
                 }],
                 armure:["schema", {
                     hasArmor:["bool", { initial: false}],

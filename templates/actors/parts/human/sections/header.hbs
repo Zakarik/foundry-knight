@@ -47,7 +47,7 @@
                 {{#if actor.armureData._id}}
                 <div class="blockArmure {{ifThen (armure systemData.wear) 'selected' 'unselected'}} summary" data-item-id="{{actor.armureData._id}}">
                     <a class="item-edit" data-action="itemEdit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                    <button type="action" class="armure" data-type="armure">
+                    <button type="action" data-action="changeEquip" data-type="armure">
                     {{actor.armureData.name}}
                     </button>
                     <a class="item-delete" data-action="itemDelete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
@@ -58,7 +58,7 @@
             {{#if (ascension systemData.wear)}}
                 <div class="blockArmure {{#if (ascension systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
                     <a class="item-edit" data-action="itemEdit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                    <button type="action" class="armure" data-type="armure">
+                    <button type="action" data-action="changeEquip" data-type="armure">
                     {{actor.armureData.name}}
                     </button>
                     <a class="item-delete" data-action="itemDelete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
@@ -67,8 +67,8 @@
 
             {{#unless (ascension systemData.wear)}}
                 {{#if systemData.jauges.sante}}
-                <button type="action" class="armure {{ifThen (guardian systemData.wear) 'selected' 'unselected'}}" data-type="guardian">{{localize "KNIGHT.ARMURE.Guardian"}}</button>
-                <button type="action" class="armure {{ifThen (civil systemData.wear) 'selected' 'unselected'}}" data-type="tenueCivile">{{localize "KNIGHT.ARMURE.TenueCivile"}}</button>
+                <button type="action" data-action="changeEquip" class="{{ifThen (guardian systemData.wear) 'selected' 'unselected'}}" data-type="guardian">{{localize "KNIGHT.ARMURE.Guardian"}}</button>
+                <button type="action" data-action="changeEquip" class="{{ifThen (civil systemData.wear) 'selected' 'unselected'}}" data-type="tenueCivile">{{localize "KNIGHT.ARMURE.TenueCivile"}}</button>
                 {{/if}}
             {{/unless}}
         </div>

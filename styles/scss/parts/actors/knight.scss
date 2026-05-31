@@ -575,16 +575,12 @@
         align-items: flex-start;
         align-content: flex-start;
 
-        div.editor {
+        prose-mirror {
             min-height: 55px;
             width:100%;
 
-            &.tinymce {
-            min-height:150px;
-            }
-
-            div.tox-tinymce {
-            border-radius:0px;
+            &.active {
+                min-height: 200px;
             }
         }
 

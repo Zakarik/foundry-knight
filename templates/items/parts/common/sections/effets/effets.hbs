@@ -1,0 +1,25 @@
+<div class="blockEffets">
+    <h2 class="header js-toggler">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.EFFETS.Label"}}
+        {{#unless (isWpnDistance systemData.type)}}
+            {{#if systemData.options2mains.has}}
+                - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain"}}
+            {{/if}}
+        {{/unless}}
+        {{#if (isWpnDistance systemData.type)}}
+            {{#if systemData.optionsmunitions.has}}
+                - {{localize "KNIGHT.AUTRE.Base"}}
+            {{/if}}
+        {{/if}}
+    </h2>
+
+    <div class="effets">
+        {{#each systemData.effets.liste as | key effet|}}
+            {{~> knight.effets type='base'}}
+        {{/each}}
+        <a class="edit" data-action="editEffects" data-limit-effects="true" data-path="{{wpnPath}}effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>

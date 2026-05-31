@@ -1,112 +1,134 @@
-import {
-    getAllEffects,
-} from "../helpers/common.mjs";
+
+const { DialogV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
  * Effets dialog
- * @extends {Application}
+ * @extends {DialogV2}
  */
-export class KnightEffetsDialog extends FormApplication {
+/*export class KnightEffetsDialog extends HandlebarsApplicationMixin(DialogV2) {
   constructor(object={}, options={}) {
-  super(options);
-      this.object.actor = object.actor;
-      this.object.id = object.item;
-      this.object.raw = object?.raw === undefined ? [] : object.raw;
-      this.object.activable = object?.activable === undefined ? [] : object.activable;
-      this.object.isToken = object?.isToken || false;
-      this.object.token = object?.token || null;
-      this.object.custom = object?.custom === undefined ? [] : object.custom;
-      this.object.toUpdate = object.toUpdate;
-      this.object.aspects = object.aspects;
-      this.object.typeEffets = object?.typeEffets ?? 'effets';
-      this.object.maxEffets = object.maxEffets;
-      this.object.data = {
-        custom:{
-          nom:'',
-          description:'Description',
-          attaque:{
-            reussite:0,
-            jet:0,
-            carac:{
-              fixe:'',
-              odInclusFixe:false,
-              jet:'',
-              odInclusJet:false
-            },
-            aspect:{
-              fixe:'',
-              aeInclusFixe:false,
-              jet:'',
-              aeInclusJet:false
-            },
-            conditionnel:{
-              has:false,
-              condition:''
-            }
+    options.buttons = [{
+      action:"",
+      label:"",
+      default: true,
+    }]
+
+    super(options);
+
+    const {
+      uuid,
+      raw,
+      activable,
+      maxEffets,
+      type,
+      name,
+    } = object;
+
+    this.data = {
+      uuid,
+      raw,
+      activable,
+      maxEffets,
+      type,
+      name,
+    }
+
+    this.custom = {
+        nom:'',
+        description:'Description',
+        attaque:{
+          reussite:0,
+          jet:0,
+          carac:{
+            fixe:'',
+            odInclusFixe:false,
+            jet:'',
+            odInclusJet:false
           },
-          degats:{
-            fixe:0,
-            jet:0,
-            carac:{
-              fixe:'',
-              odInclusFixe:false,
-              jet:'',
-              odInclusJet:false
-            },
-            aspect:{
-              fixe:'',
-              aeInclusFixe:false,
-              jet:'',
-              aeInclusJet:false
-            },
-            conditionnel:{
-              has:false,
-              condition:''
-            }
+          aspect:{
+            fixe:'',
+            aeInclusFixe:false,
+            jet:'',
+            aeInclusJet:false
           },
-          violence:{
-            fixe:0,
-            jet:0,
-            carac:{
-              fixe:'',
-              odInclusFixe:false,
-              jet:'',
-              odInclusJet:false
-            },
-            aspect:{
-              fixe:'',
-              aeInclusFixe:false,
-              jet:'',
-              aeInclusJet:false
-            },
-            conditionnel:{
-              has:false,
-              condition:''
-            }
-          },
-          other:{
-            cdf:0
+          conditionnel:{
+            has:false,
+            condition:''
           }
+        },
+        degats:{
+          fixe:0,
+          jet:0,
+          carac:{
+            fixe:'',
+            odInclusFixe:false,
+            jet:'',
+            odInclusJet:false
+          },
+          aspect:{
+            fixe:'',
+            aeInclusFixe:false,
+            jet:'',
+            aeInclusJet:false
+          },
+          conditionnel:{
+            has:false,
+            condition:''
+          }
+        },
+        violence:{
+          fixe:0,
+          jet:0,
+          carac:{
+            fixe:'',
+            odInclusFixe:false,
+            jet:'',
+            odInclusJet:false
+          },
+          aspect:{
+            fixe:'',
+            aeInclusFixe:false,
+            jet:'',
+            aeInclusJet:false
+          },
+          conditionnel:{
+            has:false,
+            condition:''
+          }
+        },
+        other:{
+          cdf:0
         }
+    }
+  }
+
+  static DEFAULT_OPTIONS = {
+    position: { width: 900, height: 500 },
+    window: { resizable: true },
+    classes: ["dialog", "knight", "effetsDialog"],
+      form: {
+          submitOnChange: true,
       },
-      this.object.title = object.title
-  }
+  };
 
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-        template: "systems/knight/templates/dialog/effets-sheet.html",
-        classes: ["dialog", "knight", "effetsDialog"],
-        title: "",
-        width: 900,
-        height: 500,
-        resizable: true,
-        closeOnSubmit: false,
-        submitOnClose: false,
-        submitOnChange: true,
-    });
-  }
+  static PARTS = {
+    main: {
+        template: "systems/knight/templates/dialog/effets-sheet.html"
+    },
+  };
+  /** @inheritdoc */
+  /*async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    console.error(this);
 
-  async getData(options = null) {
+    return {
+      ...context,
+      data: this.data,
+      custom: this.custom,
+    };
+  }*/
+
+  /*async getData(options = null) {
     const tEffets = this.object.typeEffets;
     const effets = CONFIG.KNIGHT.effets;
     const effetsfm4 = CONFIG.KNIGHT.effetsfm4;
@@ -1196,5 +1218,5 @@ export class KnightEffetsDialog extends FormApplication {
           break;
       }
     }
-  }
-}
+  }*/
+//}

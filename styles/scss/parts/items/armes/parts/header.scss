@@ -1,0 +1,352 @@
+header {
+    display:grid;
+    width:100%;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5px;
+    align-items: flex-start;
+
+    h1.name {
+        grid-column: 1 / 3;
+        width:100%;
+        border:0px;
+        margin:0px;
+        padding:0px;
+        border-bottom:3px solid $white;
+
+        input[type="text"] {
+            margin: 0px;
+            width: 100%;
+            text-align: center;
+            border: 0px;
+            border-radius: 0px;
+            border-width: unset;
+            border-color: $white;
+            background:transparent;
+            font-size: 28px;
+            font-weight: 400;
+        }
+    }
+
+    >label,
+    >div,
+    >button {
+        margin-bottom: 5px;
+    }
+
+    label {
+        display:grid;
+        width:100%;
+        border:1px solid $lightBlue;
+        grid-template-columns: 1fr;
+
+        span {
+            display: grid;
+            align-items: center;
+            line-height: 26px;
+            background:$lightBlack;
+            text-align: center;
+            font-variant: small-caps;
+
+            &.header {
+                width:100%;
+            }
+        }
+
+        select {
+            width:100%;
+            color: $white;
+            height: 26px;
+            margin: 0px;
+            text-align: center;
+            border: 0px;
+            border-radius: 0px;
+            border-width: unset;
+            border-color: $white;
+            background:$black;
+
+            option {
+                background:$black;
+                color:$white;
+            }
+        }
+
+        div {
+            display:flex;
+            width:100%;
+            justify-content: space-between;
+
+            span {
+                width:24px;
+                background:$black;
+            }
+
+            input {
+                width:calc((100% / 2) - 12px);
+                border:0px;
+                padding:0px;
+                margin:0px;
+                background:$black;
+
+                &:first-of-type {
+                    text-align: right;
+                }
+
+                &:last-of-type {
+                    text-align: left;
+                }
+            }
+        }
+    }
+
+    div {
+        &.description {
+            grid-column: 1 / 3;
+            margin-bottom: 5px;
+        }
+
+        &.dmg {
+            display:grid;
+            width:100%;
+            border:1px solid $lightBlue;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+
+            span {
+                display: grid;
+                align-items: center;
+                text-align: center;
+                font-variant: small-caps;
+                min-height: 27px;
+                height: 100%;
+                width:100%;
+
+                &.header {
+                    grid-column: 1 / 3;
+                    background:$lightBlack;
+                }
+
+                &.label {
+                    background:$lightBlack;
+                    border-top: 1px solid $black;
+                }
+            }
+
+            select {
+                width:100%;
+                color: $white;
+                height: 26px;
+                margin: 0px;
+                text-align: center;
+                border: 0px;
+                border-radius: 0px;
+                border-width: unset;
+                border-color: $white;
+                background:$black;
+
+                option {
+                    background:$black;
+                    color:$white;
+                }
+            }
+
+            input {
+                border-radius: 0px;
+            }
+
+            div {
+                display:grid;
+                grid-template-columns: 1fr 24px 1fr;
+                width:100%;
+
+                &.full {
+                    grid-column: 1 / 3;
+                }
+
+                input {
+                    width:100%;
+                    border:0px;
+                    padding:0px;
+                    margin:0px;
+                    background:$black;
+                    border-top: 1px solid $lightBlack;
+
+                    &:first-of-type {
+                        text-align: right;
+                    }
+
+                    &:last-of-type {
+                        text-align: left;
+                    }
+                }
+
+                span {
+                    border-top: 1px solid $lightBlack;
+                }
+
+                &:first-of-type {
+                    input,
+                    span {
+                        border-top-color: $black;
+                    }
+                }
+            }
+
+            label {
+                grid-column: 1 / 3;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+                border: 0px;
+
+                span {
+                    width:100%;
+                    background:$lightBlack;
+                    height: 100%;
+                    font-variant: small-caps;
+                    border-top: 1px solid $black;
+                }
+
+                input {
+                    width:100%;
+                    height: 100%;
+                    border:0px;
+                    padding:0px;
+                    margin:0px;
+                    background:$black;
+                    border-top: 1px solid $lightBlack;
+                    border-radius: 0px;
+                    text-align: center;
+                }
+            }
+        }
+
+        &.munitions {
+            display:grid;
+            width:100%;
+            align-items: flex-start;
+            align-content: flex-start;
+            grid-template-columns: 1fr;
+
+            button {
+                &.optionsMunitions {
+                    display: grid;
+                    height: 100%;
+                    width: 100%;
+                    color: $white;
+                    cursor: pointer;
+                    border: 2px solid;
+                    border-radius:0px;
+
+                    &.unselected {
+                        background:$black;
+                        border-color:$lightBlack;
+                    }
+
+                    &.selected {
+                        background:$lightBlack;
+                        border-color:$lightBlack;
+                    }
+                }
+
+                &.optionsMunitionsValider {
+                    flex:none;
+                    width: 100%;
+                    color: $white;
+                    cursor: pointer;
+                    border: 2px solid;
+                    margin-top:0px;
+                    border-radius:0px;
+                    background:$lightBlack;
+                    border-color:$lightBlack;
+                }
+            }
+
+            label {
+                display:grid;
+                width:100%;
+                grid-template-columns: 1fr 1fr;
+                justify-content: space-between;
+                border:0px;
+                border-left:1px solid $black;
+                border-right:1px solid $lightBlack;
+
+                span {
+                    width:100%;
+                    min-width: 0px;
+                    justify-content: left;
+                    text-align: left;
+                    line-height: 26px;
+                    padding-left:5px;
+                    background:$lightBlack;
+                    border-top:1px solid $black;
+                    border-bottom:1px solid $black;
+                }
+
+                input {
+                    width:100%;
+                    min-width: 0px;
+                    line-height: 26px;
+                    padding-left:5px;
+                    background:$black;
+                    border:0px;
+                    text-align: center;
+                }
+            }
+        }
+
+        &.tourelle {
+            display:grid;
+            width:100%;
+            align-items: flex-start;
+            align-content: flex-start;
+
+            button {
+                display: grid;
+                height: 100%;
+                width: 100%;
+                color: $white;
+                cursor: pointer;
+                border: 2px solid;
+                border-radius:0px;
+
+                &.unselected {
+                    background:$black;
+                    border-color:$lightBlack;
+                }
+
+                &.selected {
+                    background:$lightBlack;
+                    border-color:$lightBlack;
+                }
+            }
+
+            label {
+                margin-top:10px;
+            }
+        }
+    }
+
+    button {
+        &.options2Mains {
+            grid-column: 1 / 3;
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 100%;
+            color: $white;
+            cursor: pointer;
+            border: 2px solid;
+            border-radius:0px;
+            margin-bottom: 5px;
+
+            &.unselected {
+                background:$black;
+                border-color:$lightBlack;
+            }
+
+            &.selected {
+                background:$lightBlack;
+                border-color:$lightBlack;
+            }
+        }
+    }
+}

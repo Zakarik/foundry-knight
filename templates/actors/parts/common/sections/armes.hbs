@@ -13,15 +13,15 @@ data-raw="{{raw}}"
                 {{#unless this.system.tourelle.has}}
                     {{#if this.system.rack}}
                         {{#if this.system.rack}}
-                        <a class="item-unrack" title="{{localize "KNIGHT.COMBAT.ARMES.Poser"}}"><img src="systems/knight/assets/icons/weaponsArmoury.svg"/></a>
+                        <a data-action="wpnEquip" data-tooltip="{{localize "KNIGHT.COMBAT.ARMES.Poser"}}"><img src="systems/knight/assets/icons/weaponsArmoury.svg"/></a>
                         {{/if}}
                         {{#unless this.system.equipped}}
-                        <a class="item-equip" title="{{localize "KNIGHT.COMBAT.ARMES.Equiper"}}"><img src="systems/knight/assets/icons/weaponsRack.svg"/></a>
+                        <a data-action="wpnEquip" data-type="equip" data-tooltip="{{localize "KNIGHT.COMBAT.ARMES.Equiper"}}"><img src="systems/knight/assets/icons/weaponsRack.svg"/></a>
                         {{else}}
-                        <a class="item-unequip" title="{{localize "KNIGHT.COMBAT.ARMES.Desequiper"}}"><img src="systems/knight/assets/icons/weaponsUnwear.svg"/></a>
+                        <a data-action="wpnEquip" data-type="rack" data-tooltip="{{localize "KNIGHT.COMBAT.ARMES.Desequiper"}}"><img src="systems/knight/assets/icons/weaponsUnwear.svg"/></a>
                         {{/unless}}
                     {{else}}
-                        <a class="item-rack" title="{{localize "KNIGHT.COMBAT.ARMES.Prendre"}}"><img src="systems/knight/assets/icons/weaponsWear.svg"/></a>
+                        <a data-action="wpnEquip" data-type="rack" data-tooltip="{{localize "KNIGHT.COMBAT.ARMES.Prendre"}}"><img src="systems/knight/assets/icons/weaponsWear.svg"/></a>
                     {{/if}}
                 {{/unless}}
                 {{~> knight.itemButtons onlyInner=true}}

@@ -7,8 +7,7 @@
                 <a class="item" data-sub-tab="capacites" data-sub-group="primary" data-div="true" data-action="switchSubTab">
                     {{localize "KNIGHT.ARMURE.Label"}}
                 </a>
-                <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                {{~> knight.itemButtons onlyInner=true}}
             </div>
 
             <a class="item" data-sub-tab="modules" data-sub-group="primary" data-action="switchSubTab">{{localize "KNIGHT.ITEMS.MODULE.Label"}}</a>
@@ -163,22 +162,21 @@
                     <div class="avantages item-list">
                         <h2 class="header">
                             {{localize "KNIGHT.PERSONNAGE.Avantages"}}
-                            <a class="item-control item-create" title="Create Item" data-type="avantage" data-subtype="ia"><i class="fas fa-plus"></i></a>
+                            {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.Avantages" data=(object type="avantage" subtype="ia")}}
                         </h2>
                         {{#each actor.avantagesIA as | key avantages|}}
                         <div class="block item" data-item-id="{{key._id}}">
                             <header class="summary header js-toggler" data-item-id="{{key._id}}">
                                 {{~> knight.jsToggle}}
                                 <div class="gestionButton">
-                                    <a class="avdvshow" data-value="{{key.system.show}}" title="{{#if key.system.show}}{{KNIGHT.IA.MasqueAvantage}}{{else}}{{KNIGHT.IA.MonstrerAvantage}}{{/if}}">
-                                    {{#if key.system.show}}
-                                        <i class="fa-solid fa-eye"></i>
-                                    {{else}}
-                                        <i class="fa-solid fa-eye-slash"></i>
-                                    {{/if}}
+                                    <a
+                                    data-action="btnToggle"
+                                    data-item-id="{{key._id}}"
+                                    data-path="system.show"
+                                    data-tooltip="{{localize (ifThen system.show 'KNIGHT.IA.MasqueAvantage' 'KNIGHT.IA.MonstrerAvantage')}}">
+                                        <i class="fa-solid {{ifThen system.show 'fa-eye' 'fa-eye-slash'}}"></i>
                                     </a>
-                                    <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                                    <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                                    {{~> knight.itemButtons onlyInner=true}}
                                 </div>
                                 <span>{{key.name}}</span>
                             </header>
@@ -194,29 +192,36 @@
                     <div class="data">
                         <div class="description">
                             <h2>{{localize "KNIGHT.IA.Caractere"}}</h2>
-                            {{editor systemData.equipements.ia.caractere target="system.equipements.ia.caractere" button=true owner=owner editable=editable}}
+                            {{formInput
+                                systemFields.equipements.fields.ia.fields.caractere
+                                enriched=enrichedIaCaractere
+                                value=systemData.equipements.ia.caractere
+                                documentUUID=actor.uuid
+                                name="system.equipements.ia.caractere"
+                                collaborate="false"
+                                toggled="true"
+                            }}
                         </div>
                     </div>
 
                     <div class="inconvenients item-list">
                         <h2 class="header">
                             {{localize "KNIGHT.PERSONNAGE.Inconvenient"}}
-                            <a class="item-control item-create" title="Create Item" data-type="inconvenient" data-subtype="ia"><i class="fas fa-plus"></i></a>
+                            {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.Inconvenient" data=(object type="inconvenient" subtype="ia")}}
                         </h2>
                         {{#each actor.inconvenientIA as | key inconvenient|}}
                         <div class="block item" data-item-id="{{key._id}}">
                             <header class="summary header js-toggler" data-item-id="{{key._id}}">
                                 {{~> knight.jsToggle}}
                                 <div class="gestionButton">
-                                    <a class="avdvshow" data-value="{{key.system.show}}" title="{{#if key.system.show}}{{KNIGHT.IA.MasqueAvantage}}{{else}}{{KNIGHT.IA.MonstrerAvantage}}{{/if}}">
-                                    {{#if key.system.show}}
-                                        <i class="fa-solid fa-eye"></i>
-                                    {{else}}
-                                        <i class="fa-solid fa-eye-slash"></i>
-                                    {{/if}}
+                                    <a
+                                    data-action="btnToggle"
+                                    data-item-id="{{key._id}}"
+                                    data-path="system.show"
+                                    data-tooltip="{{localize (ifThen system.show 'KNIGHT.IA.MasqueAvantage' 'KNIGHT.IA.MonstrerAvantage')}}">
+                                        <i class="fa-solid {{ifThen system.show 'fa-eye' 'fa-eye-slash'}}"></i>
                                     </a>
-                                    <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                                    <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                                    {{~> knight.itemButtons onlyInner=true}}
                                 </div>
                                 <span>{{key.name}}</span>
                             </header>

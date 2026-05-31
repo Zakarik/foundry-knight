@@ -1222,6 +1222,10 @@ import {
 
     Handlebars.registerHelper('getProperty', function(obj, path) {
         if (!obj || !path) return undefined;
-        return foundry.utils.getProperty(obj, path);
+        const finalPath = path?.string ? path.string : path;
+
+        return foundry.utils.getProperty(obj, finalPath);
     });
+
+    Handlebars.registerHelper('isArray', value => Array.isArray(value));
  };

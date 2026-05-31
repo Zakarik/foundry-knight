@@ -1,0 +1,41 @@
+
+<div class="img">
+    <div class="blockImg">
+        <img class="profile-img" data-action="editImage" src="{{item.img}}" data-edit="img" data-tooltip="{{item.name}}" />
+    </div>
+
+    <label class="oneLine">
+        <span>{{localize "KNIGHT.AUTRE.PointGloire"}}</span>
+        <input type="number" name="system.prix" value="{{systemData.prix}}" min="0" />
+    </label>
+
+    <label class="oneLine">
+        <span>{{localize "KNIGHT.ITEMS.MODULE.RARETE.Label"}}</span>
+        <select name="system.rarete">
+            {{selectOptions (getList 'rarete') selected=systemData.rarete localize=true blank=''}}
+        </select>
+    </label>
+
+    <label class="oneLine">
+        <span>{{localize "KNIGHT.JETS.Depenseenergie"}}</span>
+        <input type="number" name="system.energie" value="{{systemData.energie}}" min="0" />
+    </label>
+
+    {{#unless (wpnHasMunitions (isWpnDistance systemData.type) systemData.optionsmunitions.has)}}
+    {{#unless (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+    <button type="action"
+        data-action="btnToggle"
+        class="dmg {{ifThen systemData.degats.variable.has 'selected' 'unselected'}}"
+        data-path="degats.variable.has">
+        {{localize (ifThen systemData.degats.variable.has "KNIGHT.ITEMS.ARME.DEGATS.Variable" "KNIGHT.ITEMS.ARME.DEGATS.NoVariable")}}
+    </button>
+
+    <button type="action"
+        data-action="btnToggle"
+        class="dmg {{ifThen systemData.violence.variable.has 'selected' 'unselected'}}"
+        data-path="violence.variable.has">
+        {{localize (ifThen systemData.violence.variable.has "KNIGHT.ITEMS.ARME.VIOLENCE.Variable" "KNIGHT.ITEMS.ARME.VIOLENCE.NoVariable")}}
+    </button>
+    {{/unless}}
+    {{/unless}}
+</div>

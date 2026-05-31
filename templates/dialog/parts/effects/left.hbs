@@ -1,0 +1,21 @@
+<div class="leftBlock">
+    {{log this}}
+    <h2 class="header">{{localize "KNIGHT.EFFETS.Presents"}}</h2>
+    <div class="effets">
+      {{#each system.effets}}
+            <div class="{{#if custom}}wEdit{{/if}}">
+                  <img class="delete"
+                        data-tooltip="{{localize "KNIGHT.AUTRE.Supprimer"}}"
+                        data-custom="{{custom}}"
+                        data-activable="{{activable}}"
+                        data-index="{{id}}"
+                        src="systems/knight/assets/icons/delete.svg" />
+                  {{#if key.custom}}
+                  <img src="systems/knight/assets/icons/optionWhite.svg" data-index="{{id}}" class="edit" title="{{localize "KNIGHT.AUTRE.Editer"}}">
+                  {{/if}}
+                  <span class="label">{{name}} {{#if activable}}{{ifThen cost (concat '(' cost ' ' (localize 'KNIGHT.AUTRE.PointEnergie-short') ')')}}{{/if}}</span>
+                  <img data-tooltip="{{description}}" class="info" src="systems/knight/assets/icons/info.svg" />
+            </div>
+      {{/each}}
+    </div>
+</div>

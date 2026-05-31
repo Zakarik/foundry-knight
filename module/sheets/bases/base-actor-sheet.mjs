@@ -17,6 +17,12 @@ import JsTogglerMixin from "./mixin-js-toggler.mjs";
  * @extends {ActorSheet}
  */
 export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplicationMixin(ActorSheetV2)) {
+  constructor(options = {}) {
+    super(options);
+    // État des sous-onglets : { subGroup: subTab }
+    this._subTabs = {};
+  }
+
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["sheet", "actor"],
@@ -68,13 +74,10 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     const subGroup = target.dataset.subGroup;
     const subTab = target.dataset.subTab;
 
-    // Toggle des classes active sur tous les éléments du sous-groupe
-    this.element.querySelectorAll(`[data-sub-group="${subGroup}"]`).forEach(node => {
-      const isDiv = node.dataset.div;
+    this._subTabs[subGroup] = subTab;
 
-      if(isDiv) node.closest('div.summary').classList.toggle('active', node.dataset.subTab === subTab);
-      else node.classList.toggle('active', node.dataset.subTab === subTab);
-    });
+    // Toggle des classes active sur tous les éléments du sous-groupe
+    this.#applySubTab(subGroup, subTab);
   }
 
   static async #onItemCreate(event, target) {
@@ -86,6 +89,8 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
 
     // Initialize a default name.
     const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
+
+    console.error(data);
 
     // Prepare the item object.
     const itemData = {
@@ -99,7 +104,7 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
 
     const create = await Item.create(itemData, {parent: this.actor});
 
-    await this._onItemCreate_post(create);
+    await this._onItemCreate_post(create, itemData);
 
     // Finally, create the item!
     return create;
@@ -206,7 +211,15 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     const data = target.dataset;
     const name = data?.name ?? '';
     const value = data?.value ?? 0;
-    const updates = data?.updates ?? {};
+    const updatesPath = data?.updatesPath ?? '';
+    const updatesPathSplit = updatesPath.split('/');
+    const updatesValue = data?.updatesValue ?? '';
+    const updatesValueSplit = updatesValue.split('/');
+    let updates = {}
+
+    updatesPathSplit.forEach((path, index) => {
+      updates[path] = updatesValueSplit?.[index] ?? '';
+    });
 
     const roll = new game.knight.RollKnight(this.actor, {
       name:name,
@@ -328,10 +341,12 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
   static #onBtnToggle(event, target) {
     const data = target.dataset;
     const path = data.path;
-    const value = foundry.utils.getProperty(this.actor, path);
+    const itemId = data.itemId;
+    const document = itemId ? this.actor.items.get(itemId) : this.actor;
+    const value = foundry.utils.getProperty(document, path);
     const result = value ? false : true;
 
-    this.actor.update({[path]:result});
+    document.update({[path]:result});
   }
 
   static #onLockTooltip(event, target) {
@@ -350,190 +365,267 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
 
   /* -------------------------------------------- */
 
-  _generate_selectWithTooltip(key, path, label, tooltip, options) {
-    const entries = {};
-    entries[key] = {
-      key:'selectWithTooltip',
-      class:`block ${key}`,
-      label:`${label}`,
-      path:`${path}`,
-      tooltip:tooltip,
-      options:options,
-    }
-
-    return entries
-  }
-
-  _generate_inputWithSpanMax(key, subMenu=true, short=false) {
-    const entries = {};
-    entries[key] = {
-      key:'inputWithSpanMax',
-      class:`block ${key}`,
-      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
-      value:`${key}.value`,
-      min:0,
-      max:`${key}.max`,
-      tooltip:key,
-      hasSubMenu:subMenu,
-      submenu:{
-        base:{
-          key:'input',
-          label:'KNIGHT.AUTRE.Base',
-          value:`${key}.base`
-        },
-        bonus:{
-          key:'input',
-          label:'KNIGHT.BONUS.Label',
-          value:`${key}.bonus.user`
-        },
-        malus:{
-          key:'input',
-          label:'KNIGHT.MALUS.Label',
-          value:`${key}.malus.user`
-        }
+  #generate_std_submenu(path) {
+    return {
+      base:{
+        key:'input',
+        label:'KNIGHT.AUTRE.Base',
+        value:`${path}.base`
+      },
+      bonus:{
+        key:'input',
+        label:'KNIGHT.BONUS.Label',
+        value:`${path}.bonus.user`
+      },
+      malus:{
+        key:'input',
+        label:'KNIGHT.MALUS.Label',
+        value:`${path}.malus.user`
       },
     }
-
-    return entries
   }
 
-  _generate_inputWithSpanMaxWithButtons(key, subMenu=true, short=false, btn={}) {
-    const entries = {};
-    entries[key] = {
-      key:'inputWithSpanMaxWithButtons',
-      class:`block ${key}`,
-      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
-      value:`${key}.value`,
-      min:0,
-      max:`${key}.max`,
-      tooltip:key,
-      hasSubMenu:subMenu,
-      btn:btn,
-      submenu:{
-        base:{
-          key:'input',
-          label:'KNIGHT.AUTRE.Base',
-          value:`${key}.base`
-        },
-        bonus:{
-          key:'input',
-          label:'KNIGHT.BONUS.Label',
-          value:`${key}.bonus.user`
-        },
-        malus:{
-          key:'input',
-          label:'KNIGHT.MALUS.Label',
-          value:`${key}.malus.user`
-        }
+  #generate_selectWithTooltip(args={}) {
+    const { options={} } = args;
+
+    let result = { options };
+
+    return result;
+  }
+
+  #generate_inputWithSpanMax(args={}) {
+    const {
+      path,
+      min=0,
+      max,
+      pathMax=undefined,
+      subPath=undefined,
+      submenu={},
+    } = args;
+
+    let result = {};
+
+    if(path) {
+      result.value = `${path}.value`;
+    }
+    if(path || subPath) {
+      result.submenu = {
+        ...this.#generate_std_submenu(subPath ? subPath : path),
       }
     }
 
-    return entries
+    if(submenu) result.submenu = {...result?.submenu ?? {}, ...submenu}
+    if(path || pathMax) result.max = `${pathMax ? pathMax : path}.max`;
+    if(min) result.min = min;
+
+    return result;
   }
 
-  _generate_onlySpan(key, subMenu=true, short=false) {
-    const entries = {};
-    entries[key] = {
-      key:'onlySpan',
-      class:`block ${key}`,
-      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
-      value:`${key}.value`,
-      tooltip:key,
-      hasSubMenu:subMenu,
-      submenu:{
-        base:{
-          key:'input',
-          label:'KNIGHT.AUTRE.Base',
-          value:`${key}.base`
-        },
-        bonus:{
-          key:'input',
-          label:'KNIGHT.BONUS.Label',
-          value:`${key}.bonus.user`
-        },
-        malus:{
-          key:'input',
-          label:'KNIGHT.MALUS.Label',
-          value:`${key}.malus.user`
-        }
-      },
+  #generate_inputWithSpanMaxWithButtons(args={}) {
+    const {
+      path,
+      min,
+      btn,
+      pathMax=undefined,
+      subPath=undefined,
+      submenu={},
+    } = args;
+
+    let result = {};
+
+    if(path) {
+      result.value = `${path}.value`;
+    }
+    if(path || subPath) {
+      result.submenu = {
+        ...this.#generate_std_submenu(subPath ? subPath : path),
+      }
     }
 
-    return entries;
+    if(submenu) result.submenu = {...result?.submenu ?? {}, ...submenu}
+    if(path || pathMax) result.max = `${pathMax ? pathMax : path}.max`;
+    if(min) result.min = min;
+    if(btn) result.btn = btn;
+
+    return result;
   }
 
-  _generate_onlySpanWithButtons(key, subMenu=true, short=false, btn={}) {
-    const entries = {};
-    entries[key] = {
-      key:'onlySpanWithButtons',
-      class:`block ${key}`,
-      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
-      value:`${key}.value`,
-      tooltip:key,
-      hasSubMenu:subMenu,
-      btn:btn,
-      submenu:{
-        base:{
-          key:'input',
-          label:'KNIGHT.AUTRE.Base',
-          value:`${key}.base`
-        },
-        bonus:{
-          key:'input',
-          label:'KNIGHT.BONUS.Label',
-          value:`${key}.bonus.user`
-        },
-        malus:{
-          key:'input',
-          label:'KNIGHT.MALUS.Label',
-          value:`${key}.malus.user`
-        }
-      },
+  #generate_onlySpan(args={}) {
+    const {
+      path,
+      subPath=undefined,
+      submenu={},
+    } = args;
+
+    let result = {};
+
+    if(path) {
+      result.value = `${path}.value`;
     }
+    if(path || subPath) {
+      result.submenu = {
+        ...this.#generate_std_submenu(subPath ? subPath : path),
+      }
+    }
+    if(submenu) result.submenu = {...result?.submenu ?? {}, ...submenu}
 
-    return entries;
+    return result;
   }
 
-  _generate_onlySpanWithDice(key, subMenu=true, short=false) {
-    const entries = {};
-    entries[key] = {
-      key:'onlySpanWithDice',
-      class:`block ${key}`,
-      label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}${short ? '-short' : ''}`,
-      dice:`${key}.dice`,
-      value:`${key}.value`,
-      tooltip:key,
-      hasSubMenu:subMenu,
-      submenu:{
+  #generate_onlySpanWithButtons(args={}) {
+    const {
+      path,
+      btn,
+      subPath=undefined,
+      submenu={},
+    } = args;
+
+    let result = {};
+
+    if(path) {
+      result.value = `${path}.value`;
+      result.submenu = {
+        ...this.#generate_std_submenu(subPath ? subPath : path),
+      }
+    }
+    if(btn) result.btn = btn;
+    if(submenu) result.submenu = {...result?.submenu ?? {}, ...submenu}
+
+    return result;
+  }
+
+  #generate_onlySpanWithDice(args={}) {
+    const {
+      path,
+      subPath=undefined,
+      submenu={},
+    } = args;
+
+    let result = {};
+
+    if(path) {
+      result.dice = `${path}.dice`;
+      result.value = `${path}.value`;
+      result.submenu = {
         dice:{
           key:'input',
           label:'KNIGHT.JETS.Des',
-          value:`${key}.diceBase`
+          value:`${path}.diceBase`
         },
         bonus:{
           key:'input',
           label:'KNIGHT.BONUS.Label',
-          value:`${key}.bonus.user`
+          value:`${path}.bonus.user`
         },
         malus:{
           key:'input',
           label:'KNIGHT.MALUS.Label',
-          value:`${key}.malus.user`
-        }
-      },
+          value:`${path}.malus.user`
+        },
+      }
     }
+    if(submenu) result.submenu = {...result?.submenu ?? {}, ...submenu}
 
-    return entries;
+    return result;
   }
 
-  _generate_simpleInput(path, label) {
+  #generate_simpleInput(args={}) {
+    const { } = args;
+
+    let result = {};
+
+    return result;
+  }
+
+  #generate_doubleInput(args={}) {
+    const { } = args;
+
+    let result = {};
+
+    return result;
+  }
+
+  _generate_menu(menu=[]) {
     const entries = {};
-    entries[label] = {
-      key:'simpleInput',
-      class:`block ${label}`,
-      label:`KNIGHT.LATERAL.${label}`,
-      path:`${path}`,
-    }
+
+    menu.forEach(m => {
+      const {
+        key,
+        name,
+        cls='',
+        path,
+        label,
+        tooltip=name,
+      } = m;
+
+      let std = {
+        key,
+        name,
+        class:`block ${key} ${cls}`,
+      }
+
+      if(label) std.label = label;
+      if(path) std.path = path;
+      if(tooltip) std.tooltip = tooltip;
+
+      switch(key) {
+        case 'selectWithTooltip':
+          entries[name] = {
+            ...std,
+            ...this.#generate_selectWithTooltip(m),
+          }
+          break;
+
+        case 'inputWithSpanMax':
+          entries[name] = {
+            ...std,
+            ...this.#generate_inputWithSpanMax(m),
+          }
+          break;
+
+        case 'inputWithSpanMaxWithButtons':
+          entries[name] = {
+            ...std,
+            ...this.#generate_inputWithSpanMaxWithButtons(m),
+          }
+          break;
+
+        case 'onlySpan':
+          entries[name] = {
+            ...std,
+            ...this.#generate_onlySpan(m),
+          }
+          break;
+
+        case 'onlySpanWithButtons':
+          entries[name] = {
+            ...std,
+            ...this.#generate_onlySpanWithButtons(m),
+          }
+          break;
+
+        case 'onlySpanWithDice':
+          entries[name] = {
+            ...std,
+            ...this.#generate_onlySpanWithDice(m),
+          }
+          break;
+
+        case 'simpleInput':
+          entries[name] = {
+            ...std,
+            ...this.#generate_simpleInput(m),
+          }
+          break;
+
+        case 'doubleInput':
+          entries[name] = {
+            ...std,
+            ...this.#generate_doubleInput(m),
+          }
+          break;
+      }
+    })
 
     return entries;
   }
@@ -542,32 +634,49 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     const inputWithSpanMax = ['armure', 'energie'];
     const onlySpan = ['reaction', 'defense'];
     const onlySpanWithDice = ['initiative'];
+    const menu = [];
     let entries = {};
 
     for(const key of inputWithSpanMax) {
-      entries = {
-        ...entries,
-        ...this._generate_inputWithSpanMax(key),
-      };
+      menu.push({
+        key:'inputWithSpanMax',
+        name:key,
+        label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+        path:`${key}`,
+        tooltip:`${key}`,
+      });
     }
 
     for(const key of onlySpan) {
-      entries = {
-        ...entries,
-        ...this._generate_onlySpan(key),
-      };
+      menu.push({
+        key:'onlySpan',
+        name:key,
+        label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+        path:`${key}`,
+        tooltip:`${key}`,
+      });
     }
 
     for(const key of onlySpanWithDice) {
-      entries = {
-        ...entries,
-        ...this._generate_onlySpanWithDice(key),
-      };
+      menu.push({
+        key:'onlySpanWithDice',
+        name:key,
+        label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+        path:`${key}`,
+        tooltip:`${key}`,
+      })
     }
 
     entries.separateur = {
       key:'separateur',
     };
+
+    entries = {
+      ...entries,
+      ...this._generate_menu(menu),
+    }
+
+    console.error(entries);
 
     return entries;
   }
@@ -614,6 +723,8 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
 
     actualiseRoll(actor);
 
+    console.error(context);
+
     return context;
   }
 
@@ -638,10 +749,22 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
   }*/
 
   /* -------------------------------------------- */
+  #applySubTab(subGroup, subTab) {
+    this.element.querySelectorAll(`[data-sub-group="${subGroup}"]`).forEach(node => {
+        const isDiv = node.dataset.div;
+        const active = node.dataset.subTab === subTab;
+        if (isDiv) node.closest('div.summary').classList.toggle('active', active);
+        else node.classList.toggle('active', active);
+    });
+  }
 
   /** @inheritdoc */
   _onRender(context, options) {
     super._onRender(context, options);
+
+    for (const [subGroup, subTab] of Object.entries(this._subTabs)) {
+        this.#applySubTab(subGroup, subTab);
+    }
 
     this._onRender_init(this.element);
 
@@ -777,7 +900,7 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     }
   }
 
-  async _onItemCreate_post(create) {}
+  async _onItemCreate_post(create, itemData) {}
 
   async _onItemEdit_on(item, header) {}
 

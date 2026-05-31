@@ -12,8 +12,8 @@
         {{/if}}
         {{#if (eq key 'inputWithSpanMax')}}
             <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
-                <div class="header line {{ifThen hasSubMenu 'submenu' ''}}">
-                    {{#if hasSubMenu}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/if}}
+                <div class="header line {{ifThen (isEmpty submenu) '' 'submenu'}}">
+                    {{#unless (isEmpty submenu)}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/unless}}
                     <span class="label">{{localize label}}</span>
                     <input type="number" name="system.{{value}}" min="{{min}}" max="{{max}}" value="{{getProperty ../systemData value}}" />
                     <span class="separation">/</span>
@@ -27,8 +27,8 @@
 
         {{#if (eq key 'inputWithSpanMaxWithButtons')}}
             <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
-                <div class="header line {{ifThen hasSubMenu 'submenu' ''}}">
-                    {{#if hasSubMenu}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/if}}
+                <div class="header line {{ifThen (isEmpty submenu) '' 'submenu'}}">
+                    {{#unless (isEmpty submenu)}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/unless}}
                     <span class="label">{{localize label}}</span>
                     <input type="number" name="system.{{value}}" min="{{min}}" max="{{max}}" value="{{getProperty ../systemData value}}" />
                     <span class="separation">/</span>
@@ -50,8 +50,8 @@
 
         {{#if (eq key 'onlySpan')}}
             <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
-                <div class="header line {{ifThen hasSubMenu 'submenu' ''}}">
-                    {{#if hasSubMenu}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/if}}
+                <div class="header line {{ifThen (isEmpty submenu) '' 'submenu'}}">
+                    {{#unless (isEmpty submenu)}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/unless}}
                     <span class="label">{{localize label}}</span>
                     <span class="score" data-tooltip="{{menuTooltip tooltip ../systemData}}">{{getProperty ../systemData value}}</span>
                 </div>
@@ -63,8 +63,8 @@
 
         {{#if (eq key 'onlySpanWithDice')}}
             <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
-                <div class="header line {{ifThen hasSubMenu 'submenu' ''}}">
-                    {{#if hasSubMenu}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/if}}
+                <div class="header line {{ifThen (isEmpty submenu) '' 'submenu'}}">
+                    {{#unless (isEmpty submenu)}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/unless}}
                     <span class="label">{{localize label}}</span>
                     <span class="score" data-tooltip="{{menuTooltip tooltip ../systemData}}">
                         {{getProperty ../systemData dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{getProperty ../systemData value}}
@@ -78,8 +78,8 @@
 
         {{#if (eq key 'onlySpanWithButtons')}}
             <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
-                <div class="header line {{ifThen hasSubMenu 'submenu' ''}}">
-                    {{#if hasSubMenu}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/if}}
+                <div class="header line {{ifThen (isEmpty submenu) '' 'submenu'}}">
+                    {{#unless (isEmpty submenu)}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/unless}}
                     <span class="label">{{localize label}}</span>
                     <span class="score" data-tooltip="{{menuTooltip tooltip ../systemData}}">{{getProperty ../systemData value}}</span>
                     <button class="button"

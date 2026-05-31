@@ -255,6 +255,21 @@ export const PreloadTemplates = async function() {
 
   const creaturePartials = {};
 
+  const wpnPartials = {
+    "knight.wpn.dmg": `${path}/items/parts/common/sections/simpleDmg.hbs`,
+    "knight.wpn.optionsmunitions": `${path}/items/parts/common/sections/optionsmunitions.hbs`,
+    "knight.wpn.effects.effets": `${path}/items/parts/common/sections/effets/effets.hbs`,
+    "knight.wpn.effects.effets2mains": `${path}/items/parts/common/sections/effets/effets2mains.hbs`,
+    "knight.wpn.effects.structurelles": `${path}/items/parts/common/sections/effets/structurelles.hbs`,
+    "knight.wpn.effects.ornementales": `${path}/items/parts/common/sections/effets/ornementales.hbs`,
+    "knight.wpn.effects.distance": `${path}/items/parts/common/sections/effets/distance.hbs`,
+    "knight.wpn.effects.optionsmunitions": `${path}/items/parts/common/sections/effets/optionsmunitions.hbs`,
+  };
+
+  const dialogPartials = {
+    "knight.dialog.effects": `${path}/dialog/parts/effects/custom.hbs`,
+  }
+
   // Précharger
   return foundry.applications.handlebars.loadTemplates({
     ...commonPartials,
@@ -265,5 +280,6 @@ export const PreloadTemplates = async function() {
     ...actorCapacitesLegendsPartials,
     ...actorSpecialPartials,
     ...actorSpecialLegendsPartials,
+    ...wpnPartials,
   });
 };

@@ -28,7 +28,7 @@ import { CarteHeroiqueSheet } from "./sheets/items/carteheroique-sheet.mjs";
 import { CapaciteHeroiqueSheet } from "./sheets/items/capaciteheroique-sheet.mjs";
 import { CapaciteUltimeSheet } from "./sheets/items/capaciteultime-sheet.mjs";
 import { DistinctionSheet } from "./sheets/items/distinction-sheet.mjs";
-import { CyberwareSheet } from "./sheets/items/cyberware-sheet.mjs";
+//import { CyberwareSheet } from "./sheets/items/cyberware-sheet.mjs";
 
 // Import helper/utility classes and constants.
 import { RegisterHandlebars } from "./handlebars.mjs";
@@ -38,9 +38,11 @@ import { KNIGHT } from "./helpers/config.mjs";
 import { KnightCompanionsDialog } from "./dialog/companions-dialog.mjs";
 import { KnightRollDialog } from "./dialog/roll-dialog.mjs";
 import { KnightEditDialog } from "./dialog/edit-dialog.mjs";
-import { KnightEffetsDialog } from "./dialog/effets-dialog.mjs";
+import { KnightEffetsDialog } from "./dialog/sheets/effets-dialog.mjs";
 import { KnightCompendiumDialog } from "./dialog/compendium-dialog.mjs";
 import { MigrationKnight } from "./migration.mjs";
+import ArmureAPI from "./utils/armureAPI.mjs";
+import ArmureLegendeAPI from "./utils/armureLegendeAPI.mjs";
 
 // GM Helper
 import { GmTool } from "./gm/gmTool.mjs";
@@ -117,6 +119,10 @@ Hooks.once('init', async function() {
       GmTool,
       GmInitiative,
       GmMonitor
+    },
+    utils:{
+      ArmureAPI,
+      ArmureLegendeAPI,
     },
     dialogRollWId,
     directRoll,
@@ -477,12 +483,12 @@ Hooks.once('init', async function() {
     makeDefault: true
   });
 
-  if(patreonAuthorized.includes('cyberware')) {
+  /*if(patreonAuthorized.includes('cyberware')) {
     Items.registerSheet("cyberware", CyberwareSheet, {
       types: ["cyberware"],
       makeDefault: true
     });
-  }
+  }*/
 
   menuKnight.init();
 });

@@ -17,6 +17,11 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   static DEFAULT_OPTIONS = {
     classes: ["knight"],
     position: { width: 1020, height: 720 },
+    actions:{
+      editDialog:KnightSheet.#onEditDialog,
+      wpnEquip:KnightSheet.#onWpnEquip,
+      changeEquip:KnightSheet.#onChangeEquip,
+    }
   }
 
   static PARTS = {
@@ -98,27 +103,171 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   }
   /* -------------------------------------------- */
 
+  static async #onEditDialog(event, target) {
+    const tgt = target.dataset;
+    const aspect = tgt.aspect;
+    const label = game.i18n.localize(CONFIG.KNIGHT.aspects[aspect]);
+    const dataAspect = this.actor.system.aspects[aspect];
+    const actor = this.actor;
+
+    let editCarac = ``;
+    let listCarac = [];
+
+    for (let [key, carac] of Object.entries(dataAspect.caracteristiques)){
+      editCarac += `
+      <label class="line">
+          <span class="label">${game.i18n.localize(CONFIG.KNIGHT.caracteristiques[key])}</span>
+          <input type="number" class="${key}" name="system.aspects.${aspect}.caracteristiques.${key}.base" data-type="caracteristique" value="${carac.base}" min="0" max="9" />
+      </label>
+      `;
+      listCarac.push(key);
+    }
+
+    const editDialog = `
+    <input type="number" class="aspect"  name="system.aspects.${aspect}.base" data-type="aspect" value="${dataAspect.base}" min="0" max="9" />
+    <div class="main">${editCarac}</div>
+    `;
+
+    const edit = await game.knight.applications.KnightEditDialog({
+      title: actor.name+" : "+label,
+      actor:actor.id,
+      content: editDialog,
+    });
+
+    if(edit !== 'cancel') {
+      let update = {};
+
+      for(let key in edit) {
+        update[key] = edit[key];
+      }
+
+      actor.update(update);
+    }
+  }
+
+  static #onWpnEquip(event, target) {
+      const header = target.closest('.summary');
+      const data = header.dataset;
+      const item = this.actor.items.get(data.itemId);
+      const type = target.dataset.type;
+
+      item.system.equip(type);
+  }
+
+  static async #onChangeEquip(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    const data = this.actor.system;
+    const wear = data.wear;
+    let itemUpdate = '';
+
+    if(type === data.wear) return;
+
+    const update = {};
+
+    update[`system.wear`] = type;
+
+    switch(wear) {
+      case 'armure':
+        itemUpdate = `system.armure.value`;
+        break;
+
+      case 'ascension':
+      case 'guardian':
+        update[`system.equipements.${wear}.armure.value`] = data.armure.value
+        break;
+    }
+
+    switch(type) {
+      case 'armure':
+        const armor = await getArmor(this.actor);
+
+        update[`system.armure.value`] = armor.system.armure.value;
+        update['system.jauges'] = armor.system.jauges;
+        break;
+
+      case 'ascension':
+      case 'guardian':
+        update[`system.armure.value`] = data.equipements[type].armure.value;
+        update['system.jauges'] = data.equipements[type].jauges;
+        break;
+
+      case 'tenueCivile':
+        update['system.jauges'] = data.equipements[type].jauges;
+        break;
+    }
+
+    if(type != 'armure') this._resetArmure(this.actor);
+
+    this.actor.update(update);
+
+    if(itemUpdate !== '') {
+      const armor = await getArmor(this.actor);
+
+      armor.update({[itemUpdate]:data.armure.value});
+    }
+  }
+
+  /* -------------------------------------------- */
+
   _menu_entries() {
     const base = super._menu_entries();
-    let entries = {
-      ...base,
-      ...this._generate_inputWithSpanMax('heroisme', false),
-      ...this._generate_onlySpanWithButtons('egide', true, false, {
+    const menu = [
+    {
+      key:'selectWithTooltip',
+      name:'style',
+      path:'combat.style',
+      label:'KNIGHT.COMBAT.STYLES.Label',
+      tooltip:this.actor.system.combat.styleInfo,
+      options:CONFIG?.KNIGHT?.LIST?.style ?? {},
+    },{
+      key:'inputWithSpanMax',
+      name:'heroisme',
+      label:`KNIGHT.LATERAL.Heroisme`,
+      path:'heroisme',
+    },{
+      key:'onlySpanWithButtons',
+      path:'egide',
+      name:'egide',
+      label:`KNIGHT.LATERAL.Egide`,
+      btn:{
         action:'rollSuccess',
         name:game.i18n.localize("KNIGHT.JETS.JetEgide"),
         label:game.i18n.localize("KNIGHT.JETS.JetEgide"),
         value:`${this.actor.system.egide.value}D6`,
-      }),
-      ...this._generate_inputWithSpanMaxWithButtons('espoir', true, false, {
+      }
+    },{
+      key:'inputWithSpanMaxWithButtons',
+      name:'espoir',
+      label:`KNIGHT.LATERAL.Espoir`,
+      path:'espoir',
+      btn:{
         action:'dialogRoll',
         label:game.i18n.localize("KNIGHT.JETS.JetEspoir"),
         name:game.i18n.localize("KNIGHT.JETS.JetEspoir"),
         caracteristique:'hargne',
         caracAdd:'sangFroid',
-      }),
-      ...this._generate_simpleInput('espoir.reduction', 'ReductionPEs'),
-      ...this._generate_selectWithTooltip('style', 'combat.style', 'KNIGHT.COMBAT.STYLES.Label', this.actor.system.combat.styleInfo, CONFIG?.KNIGHT?.LIST?.style ?? {})
-    };
+      }
+    }];
+
+    const toRevised = ['armure', 'energie'];
+
+    toRevised.forEach(r => {
+      menu.push({
+        key:`${r === 'champDeForce' ? 'onlySpan' : 'inputWithSpanMax'}`,
+        name:r,
+        path:`equipements.${this.actor?.system?.wear ?? 'armure'}.${r}`,
+        pathMax:`${r}`,
+      });
+    });
+
+    menu.push({
+      key:`onlySpan`,
+      name:'champDeForce',
+      subPath:`equipements.${this.actor?.system?.wear ?? 'armure'}.champDeForce`,
+    })
+
+    let entries = foundry.utils.mergeObject(base, this._generate_menu(menu));
 
     return entries;
   }
@@ -197,6 +346,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
 
       case 'armure':
         context.subTab = this._subTab;
+        context.enrichedIaCaractere = await foundry.applications.ux.TextEditor.implementation.enrichHTML(this.actor.system.equipements.ia.caractere, { async: true, });
         break;
 
       case 'personnage':
@@ -305,7 +455,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       }
     });*/
 
-    html.find('.jetEgide').click(async ev => {
+    /*html.find('.jetEgide').click(async ev => {
       const value = $(ev.currentTarget).data("value");
 
       const rEgide = new game.knight.RollKnight(this.actor, {
@@ -314,15 +464,14 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       });
 
       await rEgide.doRoll();
-    });
+    });*/
 
-    html.find('.motivationAccomplie').click(async ev => {
+    /*html.find('.motivationAccomplie').click(async ev => {
       const espoir = this.actor.system.espoir;
       const mods = espoir.recuperation.bonus-espoir.recuperation.malus;
       const actuel = this.actor.system.espoir.value;
       let update = {}
       update[`system.espoir.value`] = `${actuel}+@{rollTotal}`;
-
       const rEspoir = new game.knight.RollKnight(this.actor, {
         name:game.i18n.localize("KNIGHT.PERSONNAGE.MotivationAccomplie"),
         dices:`1D6`,
@@ -330,73 +479,10 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       }, false);
 
       await rEspoir.doRoll(update);
-    });
+    });*/
 
-    html.find('img.edit').click(ev => {
-      const aspect = $(ev.currentTarget).data("aspect");
-      const label = game.i18n.localize(CONFIG.KNIGHT.aspects[aspect]);
-
-      const dataAspect = this.actor.system.aspects[aspect];
-
-      let editCarac = ``;
-      let listCarac = [];
-
-      for (let [key, carac] of Object.entries(dataAspect.caracteristiques)){
-        editCarac += `
-        <label class="line">
-            <span class="label">${game.i18n.localize(CONFIG.KNIGHT.caracteristiques[key])}</span>
-            <input type="number" class="${key}" data-type="caracteristique" value="${carac.base}" min="0" max="9" />
-        </label>
-        `;
-        listCarac.push(key);
-      }
-
-      const editDialog = `
-      <input type="number" class="aspect" data-type="aspect" value="${dataAspect.base}" min="0" max="9" />
-      <div class="main">${editCarac}</div>
-      `;
-
-      const edit = new game.knight.applications.KnightEditDialog({
-        title: this.actor.name+" : "+label,
-        actor:this.actor.id,
-        content: editDialog,
-        buttons: {
-          button1: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Valider"),
-            callback: async (html) => {
-              const baseAspect = +html.find('.aspect').val();
-
-              let caracteristiques = {};
-
-              for(let i = 0;i < listCarac.length;i++) {
-                const baseCarac = +html.find(`.${listCarac[i]}`).val();
-
-                caracteristiques[listCarac[i]] = {};
-                caracteristiques[listCarac[i]].base = baseCarac;
-              }
-
-              let update = {
-                system:{
-                  aspects:{
-                    [aspect]:{
-                      base:baseAspect,
-                      caracteristiques
-                    }
-                  }
-                }
-              };
-
-              this.actor.update(update);
-            },
-            icon: `<i class="fas fa-check"></i>`
-          },
-          button2: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-            icon: `<i class="fas fa-times"></i>`
-          }
-        }
-      }).render(true);
-    });
+    /*html.find('img.edit').click(ev => {
+    });*/
 
     html.find('button.gainEspoirItem').click(ev => {
       const id = $(ev.currentTarget).data("id");
@@ -428,7 +514,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       this.actor.update(updateActor);
     });
 
-    html.find('div.buttonSelectArmure button.armure').click(async ev => {
+    /*html.find('div.buttonSelectArmure button.armure').click(async ev => {
       ev.preventDefault();
       const type = $(ev.currentTarget).data("type");
       const data = this.actor.system;
@@ -480,9 +566,9 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
 
         armor.update({[itemUpdate]:data.armure.value});
       }
-    });
+    });*/
 
-    html.find('div.combat div.wpn a.item-equip').click(ev => {
+    /*html.find('div.combat div.wpn a.item-equip').click(ev => {
       const header = $(ev.currentTarget).parents(".summary");
       const item = this.actor.items.get(header.data("item-id"));
 
@@ -536,7 +622,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       }
 
       item.update(update);
-    });
+    });*/
 
     html.find('div.progression .tableauPG button').click(ev => {
       const target = $(ev.currentTarget);
@@ -961,14 +1047,14 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       }
     });
 
-    html.find('a.avdvshow').click(ev => {
+    /*html.find('a.avdvshow').click(ev => {
       const target = $(ev.currentTarget);
       const header = target.parents(".summary");
       const item = this.actor.items.get(header.data("item-id"));
       const value = target.data('value') ? false : true;
 
       item.update({['system.show']:value});
-    });
+    });*/
 
     html.find('a.adl-import').click(async ev => {
       const tgt = $(ev.currentTarget);
@@ -1036,7 +1122,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       d.render(true);
     });
 
-    html.find('section.menu div.energie div.js-simpletoggler input.value')
+    /*html.find('section.menu div.energie div.js-simpletoggler input.value')
       .focus(async ev => {
         const tgt = $(ev.currentTarget);
         tgt.data('old', Number(tgt.val()));
@@ -1077,7 +1163,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
         }
 
         await actor.update(update, { render: false });
-      });
+      });*/
   }
 
   async _onChange(event) {
@@ -1089,6 +1175,14 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
         tourspasses:1,
         type:"degats"
       }});
+    }
+  }
+
+  async _onItemCreate_post(create, itemData) {
+    super._onItemCreate_post(create, itemData);
+
+    if((itemData.type === 'inconvenient' || itemData.type === 'avantage') && itemData.system.type === 'ia') {
+      create.update({['system.type']:'ia'});
     }
   }
 

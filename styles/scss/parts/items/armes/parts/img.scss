@@ -1,0 +1,86 @@
+div.img {
+    display:flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    width:212px;
+
+    div.blockImg {
+        height: 262px;
+        width: 212px;
+        background: $lightBlack;
+        border: 1px solid $white;
+        display: flex;
+        align-items: center;
+
+        img.profile-img {
+            border:0px;
+            object-fit: contain;
+            width:100%;
+        }
+    }
+
+    label.oneLine {
+        display:flex;
+        width:100%;
+        justify-content: space-between;
+        border:1px solid $lightBlue;
+        margin-top:5px;
+
+        span {
+            width:50%;
+            padding-left:5px;
+            line-height: 22px;
+            background:$lightBlack;
+            font-variant: small-caps;
+        }
+
+        select {
+            width:50%;
+            height:22px;
+            padding:0px;
+            margin:0px;
+            border:0px;
+            border-radius:0px;
+            background:$black;
+            color:$white;
+
+            option {
+                background:$black;
+                color:$white;
+            }
+        }
+
+        input {
+            width:50%;
+            height:22px;
+            padding:0px;
+            margin:0px;
+            border:0px;
+            border-radius:0px;
+            background:$black;
+            color:$white;
+            text-align: center;
+        }
+    }
+
+    button {
+        flex:none;
+        width: 100%;
+        color: $white;
+        cursor: pointer;
+        border: 2px solid $lightBlack;
+        border-radius:0px;
+        margin-top: 10px;
+
+        &.unselected {
+            background:$black;
+            border-color:$lightBlack;
+        }
+
+        &.selected {
+            background:$lightBlack;
+            border-color:$lightBlack;
+        }
+    }
+}

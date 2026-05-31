@@ -11,7 +11,13 @@
             <h2 class="header">
                 <span>{{localize "KNIGHT.PERSONNAGE.MotivationMineures"}}</span>
                 {{#unless systemData.espoir.recuperation.aucun}}
-                <button type="action" class="motivationAccomplie">{{localize "KNIGHT.PERSONNAGE.MotivationAccomplie"}}</button>
+                <button type="action"
+                data-action="roll"
+                data-name="{{localize "KNIGHT.PERSONNAGE.MotivationAccomplie"}}"
+                data-value="1D6+{{systemData.espoir.recuperation.bonus}}-{{systemData.espoir.recuperation.malus}}"
+                data-updates-path="system.espoir.value"
+                data-updates-value="{{systemData.espoir.value}}+@{rollTotal}"
+                >{{localize "KNIGHT.PERSONNAGE.MotivationAccomplie"}}</button>
                 {{/unless}}
                 {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.MotivationMineures" data=(object type="motivationMineure")}}
             </h2>

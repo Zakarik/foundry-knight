@@ -1,0 +1,30 @@
+
+{{#if (or (eq type 'text') (eq type 'number'))}}
+    <label class="{{type}}">
+        <span class="label">{{localize i18n}}</span>
+        <input type="{{type}}" name="{{name}}" value="{{value}}" />
+    </label>
+{{/if}}
+
+{{#if (eq type 'editor')}}
+    {{editor value target=(concat "custom." index ".value") button=true engine="prosemirror" collaborate=false}}
+{{/if}}
+
+{{#if (eq type 'numberWithSpan')}}
+    <div class="{{type}}">
+        <span class="label">{{localize i18n}}</span>
+        <label>
+            <input type="number" name="{{name}}" value="{{value}}" min="{{min}}" max="{{max}}"/>
+            <span>{{localize span}}</span>
+        </label>
+    </div>
+{{/if}}
+
+{{#if (eq type 'select')}}
+    <label class="{{type}}">
+        <span class="label">{{localize i18n}}</span>
+        <select name="{{name}}">
+            {{selectOptions choices selected=value blank='' localize=true}}
+        </select>
+    </label>
+{{/if}}

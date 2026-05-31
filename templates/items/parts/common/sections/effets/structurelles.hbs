@@ -1,0 +1,16 @@
+
+<div class="blockEffets">
+    <h2 class="header js-toggler">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.AMELIORATIONS.LABEL.Structurelles"}}
+    </h2>
+
+    <div class="structurelles">
+        {{#each systemData.structurelles.liste as | key effet|}}
+            {{~> knight.effets type='structurelle'}}
+        {{/each}}
+        <a class="edit" data-action="editEffects" data-path="{{wpnPath}}structurelles">
+            <span>{{localize "KNIGHT.AMELIORATIONS.EDIT.Structurelles"}}</span>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,170 @@
+<header class="sheet-header flexrow">
+    <h1 class="name">
+        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+    </h1>
+
+    <div class="description">
+        {{formInput
+            systemFields.description
+            enriched=enrichedDescription
+            value=systemData.description
+            documentUUID=item.uuid
+            name="system.description"
+            collaborate="false"
+            toggled="true"
+        }}
+    </div>
+
+    <label>
+        <span class="header">{{localize "KNIGHT.ITEMS.ARME.TypeArme"}}</span>
+        <select name="system.type">
+            {{selectOptions (getList 'typearmes' (ifThen (eq systemData.restrictions.distance) 'distance' 'false')) selected=systemData.type localize=true}}
+        </select>
+    </label>
+
+    <label>
+        <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.portee">
+            {{selectOptions (getList 'portee') selected=systemData.portee localize=true}}
+        </select>
+    </label>
+
+    {{#unless (isWpnDistance systemData.type)}}
+        <button type="action"
+            data-action="btnToggle"
+            data-reset="true"
+            class="options2Mains {{ifThen systemData.options2mains.has 'selected' 'unselected'}}"
+            data-path="options2mains.has">
+                {{localize (ifThen systemData.options2mains.has 'KNIGHT.ITEMS.ARME.DEUXMAINS.Has' 'KNIGHT.ITEMS.ARME.DEUXMAINS.Hasnt')}}
+        </button>
+    {{/unless}}
+
+    {{#unless (wpnHasMunitions (isWpnDistance systemData.type) systemData.optionsmunitions.has)}}
+    <div class="dmg">
+        <span class="header">
+            {{ifThen
+            (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)
+            (concat (localize "KNIGHT.AUTRE.Degats") ' - ' (localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain"))
+            (localize "KNIGHT.AUTRE.Degats")}}
+        </span>
+        {{#unless systemData.degats.variable.has}}
+        <div class="full">
+            {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+                {{~> knight.wpn.dmg path='options2mains.1main.degats'}}
+            {{else}}
+                {{~> knight.wpn.dmg path='degats'}}
+            {{/if}}
+        </div>
+        {{else}}
+        <span class="label">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+        <div>
+            {{~> knight.wpn.dmg path='degats.variable.min' fixePath='degats' max=systemData.degats.variable.max.dice classFixe='dgtsF'}}
+        </div>
+        <span class="label">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+        <div>
+            {{~> knight.wpn.dmg path='degats.variable.max' fixePath='degats' min=systemData.degats.variable.min.dice classFixe='dgtsF'}}
+        </div>
+        <label>
+            <span>{{localize "KNIGHT.ITEMS.ARME.CoutAugmentation"}}</span>
+            <input type="number" name="system.degats.variable.cout" value="{{systemData.degats.variable.cout}}" min="0" />
+        </label>
+        {{/unless}}
+    </div>
+
+    <div class="dmg">
+        <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}
+            {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+                - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain"}}
+            {{/if}}
+        </span>
+        {{#unless systemData.violence.variable.has}}
+        <div class="full">
+            {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+                {{~> knight.wpn.dmg path='options2mains.1main.violence'}}
+            {{else}}
+                {{~> knight.wpn.dmg path='violence'}}
+            {{/if}}
+        </div>
+        {{else}}
+        <span class="label">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+        <div>
+            {{~> knight.wpn.dmg path='violence.variable.min' fixePath='violence' max=systemData.violence.variable.max.dice classFixe='violenceF'}}
+        </div>
+        <span class="label">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+        <div>
+            {{~> knight.wpn.dmg path='violence.variable.max' fixePath='violence' min=systemData.violence.variable.min.dice classFixe='violenceF'}}
+        </div>
+        <label>
+            <span>{{localize "KNIGHT.ITEMS.ARME.CoutAugmentation"}}</span>
+            <input type="number" name="system.violence.variable.cout" value="{{systemData.violence.variable.cout}}" min="0" />
+        </label>
+        {{/unless}}
+    </div>
+    {{/unless}}
+
+    {{#unless (isWpnDistance systemData.type)}}
+        {{#if systemData.options2mains.has}}
+            <label>
+                <span class="header">{{localize "KNIGHT.AUTRE.Degats"}} - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains"}}</span>
+                <div>
+                    <input type="number" name="system.options2mains.2main.degats.dice" value="{{systemData.options2mains.2main.degats.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.options2mains.2main.degats.fixe" value="{{systemData.options2mains.2main.degats.fixe}}" />
+                </div>
+            </label>
+
+            <label>
+                <span class="header">{{localize "KNIGHT.AUTRE.Violence"}} - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains"}}</span>
+                <div>
+                    <input type="number" name="system.options2mains.2main.violence.dice" value="{{systemData.options2mains.2main.violence.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.options2mains.2main.violence.fixe" value="{{systemData.options2mains.2main.violence.fixe}}" />
+                </div>
+            </label>
+        {{/if}}
+    {{/unless}}
+
+    {{#if (isWpnDistance systemData.type)}}
+    <div class="munitions">
+        <button type="action"
+        data-action="btnToggle"
+        class="optionsMunitions {{ifThen systemData.optionsmunitions.has 'selected' 'unselected'}}"
+        data-path="optionsmunitions.has"
+        data-resetvariable="true">
+            {{localize (ifThen systemData.optionsmunitions.has "KNIGHT.ITEMS.ARME.MUNITIONS.Has" "KNIGHT.ITEMS.ARME.MUNITIONS.Hasnt")}}
+        </button>
+        {{#if systemData.optionsmunitions.has}}
+            <label>
+                <span class="header">{{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Combiens"}}</span>
+                <input type="number" name="system.optionsmunitions.value" value="{{systemData.optionsmunitions.value}}" min="0" />
+            </label>
+            <button type="action" data-action="addMunitions" data-path="optionsmunitions" class="optionsMunitionsValider" data-value="{{systemData.optionsmunitions.value}}">
+                {{localize "KNIGHT.AUTRE.Valider"}}
+            </button>
+        {{/if}}
+    </div>
+    {{/if}}
+
+    {{#if (isWpnDistance systemData.type)}}
+    <div class="tourelle">
+        <button
+            type="action"
+            data-action="btnToggle"
+            data-path="tourelle.has"
+            class="tourelle {{ifThen systemData.tourelle.has 'selected' 'unselected'}}">
+            {{localize (ifThen systemData.tourelle.has 'KNIGHT.ITEMS.ARME.TOURELLE.Has' 'KNIGHT.ITEMS.ARME.TOURELLE.Hasnt')}}
+        </button>
+
+        {{#if systemData.tourelle.has}}
+            <label>
+                <span class="header">{{localize "KNIGHT.AUTRE.Attaque"}}</span>
+                <div>
+                    <input type="number" name="system.tourelle.attaque.dice" value="{{systemData.tourelle.attaque.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.tourelle.attaque.fixe" value="{{systemData.tourelle.attaque.fixe}}" />
+                </div>
+            </label>
+        {{/if}}
+    </div>
+    {{/if}}
+</header>

@@ -1,0 +1,19 @@
+<div class="optionsmunitions">
+    {{#each systemData.optionsmunitions.liste as | key munition|}}
+    <div class="blockEffets" data-id="{{munition}}">
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.EFFETS.Label"}} - {{key.nom}}
+        </h2>
+
+        <div class="effets">
+            {{#each key.liste as | kE effet|}}
+                {{~> knight.effets type='munition' munition=munition}}
+            {{/each}}
+            <a class="edit" data-action="editEffects" data-path="{{wpnPath}}optionsmunitions.liste.{{munition}}">
+                <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+            </a>
+        </div>
+    </div>
+    {{/each}}
+</div>

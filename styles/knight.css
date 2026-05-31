@@ -105,75 +105,6 @@
   color: white;
 }
 
-.editDialog div.dialog-content {
-  display: flex;
-  margin-bottom: 5px;
-  border: 1px solid RGB(87 110 178);
-}
-.editDialog div.dialog-buttons button {
-  color: white;
-  background: RGB(76 74 90);
-  cursor: pointer;
-  border-radius: 0px;
-}
-.editDialog input.aspect {
-  width: 25%;
-  height: 81px;
-  border-top: 0px;
-  border-left: 0px;
-  border-bottom: 0px;
-  border-right: 1px solid RGB(76 74 90);
-  border-radius: 0px;
-  text-align: center;
-  background: RGB(43 42 51);
-  font-size: 50px;
-  line-height: 81px;
-  color: white;
-}
-.editDialog div.main {
-  display: flex;
-  width: 75%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.editDialog div.main label.line {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  line-height: 26px;
-}
-.editDialog div.main label.line span {
-  width: calc(100% - 50px);
-  padding-left: 5px;
-  background: RGB(76 74 90);
-  color: white;
-}
-.editDialog div.main label.line input {
-  width: 50px;
-  text-align: center;
-  background: RGB(43 42 51);
-  border: 0px;
-  color: white;
-}
-.editDialog div.main label.line:not(:last-of-type) span {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.editDialog div.main label.line:not(:last-of-type) input {
-  border-top: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.editDialog div.main label.line:last-of-type span {
-  border-bottom: 0px;
-}
-.editDialog div.main label.line:last-of-type input {
-  border-top: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  border-bottom: 0px;
-}
-
 .effetsDialog h2.header {
   display: block;
   position: relative;
@@ -11411,15 +11342,12 @@ li.chat-message.emote {
   align-items: flex-start;
   align-content: flex-start;
 }
-.actor.knight div.armure div.ia div.editor {
+.actor.knight div.armure div.ia prose-mirror {
   min-height: 55px;
   width: 100%;
 }
-.actor.knight div.armure div.ia div.editor.tinymce {
-  min-height: 150px;
-}
-.actor.knight div.armure div.ia div.editor div.tox-tinymce {
-  border-radius: 0px;
+.actor.knight div.armure div.ia prose-mirror.active {
+  min-height: 200px;
 }
 .actor.knight div.armure div.ia div.col {
   display: flex;
@@ -19868,6 +19796,753 @@ li.chat-message.emote {
 .item div.description div.editor div.editor-content {
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.arme section.window-content {
+  display: grid;
+  grid-template-columns: 212px 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+}
+.arme section.window-content h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.arme section.window-content h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.arme section.window-content h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.arme section.window-content h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.arme section.window-content h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.arme section.window-content h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.arme section.window-content h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.arme section.window-content h2.header .far {
+  cursor: pointer;
+}
+.arme section.window-content header {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 5px;
+  align-items: flex-start;
+}
+.arme section.window-content header h1.name {
+  grid-column: 1/3;
+  width: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  border-bottom: 3px solid white;
+}
+.arme section.window-content header h1.name input[type=text] {
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+  font-size: 28px;
+  font-weight: 400;
+}
+.arme section.window-content header > label,
+.arme section.window-content header > div,
+.arme section.window-content header > button {
+  margin-bottom: 5px;
+}
+.arme section.window-content header label {
+  display: grid;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+  grid-template-columns: 1fr;
+}
+.arme section.window-content header label span {
+  display: grid;
+  align-items: center;
+  line-height: 26px;
+  background: RGB(76 74 90);
+  text-align: center;
+  font-variant: small-caps;
+}
+.arme section.window-content header label span.header {
+  width: 100%;
+}
+.arme section.window-content header label select {
+  width: 100%;
+  color: white;
+  height: 26px;
+  margin: 0px;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: RGB(43 42 51);
+}
+.arme section.window-content header label select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.arme section.window-content header label div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.arme section.window-content header label div span {
+  width: 24px;
+  background: RGB(43 42 51);
+}
+.arme section.window-content header label div input {
+  width: calc((100% / 2) - 12px);
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+}
+.arme section.window-content header label div input:first-of-type {
+  text-align: right;
+}
+.arme section.window-content header label div input:last-of-type {
+  text-align: left;
+}
+.arme section.window-content header div.description {
+  grid-column: 1/3;
+  margin-bottom: 5px;
+}
+.arme section.window-content header div.dmg {
+  display: grid;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+.arme section.window-content header div.dmg span {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  font-variant: small-caps;
+  min-height: 27px;
+  height: 100%;
+  width: 100%;
+}
+.arme section.window-content header div.dmg span.header {
+  grid-column: 1/3;
+  background: RGB(76 74 90);
+}
+.arme section.window-content header div.dmg span.label {
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+}
+.arme section.window-content header div.dmg select {
+  width: 100%;
+  color: white;
+  height: 26px;
+  margin: 0px;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: RGB(43 42 51);
+}
+.arme section.window-content header div.dmg select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.arme section.window-content header div.dmg input {
+  border-radius: 0px;
+}
+.arme section.window-content header div.dmg div {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+  width: 100%;
+}
+.arme section.window-content header div.dmg div.full {
+  grid-column: 1/3;
+}
+.arme section.window-content header div.dmg div input {
+  width: 100%;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+}
+.arme section.window-content header div.dmg div input:first-of-type {
+  text-align: right;
+}
+.arme section.window-content header div.dmg div input:last-of-type {
+  text-align: left;
+}
+.arme section.window-content header div.dmg div span {
+  border-top: 1px solid RGB(76 74 90);
+}
+.arme section.window-content header div.dmg div:first-of-type input,
+.arme section.window-content header div.dmg div:first-of-type span {
+  border-top-color: RGB(43 42 51);
+}
+.arme section.window-content header div.dmg label {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  border: 0px;
+}
+.arme section.window-content header div.dmg label span {
+  width: 100%;
+  background: RGB(76 74 90);
+  height: 100%;
+  font-variant: small-caps;
+  border-top: 1px solid RGB(43 42 51);
+}
+.arme section.window-content header div.dmg label input {
+  width: 100%;
+  height: 100%;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  text-align: center;
+}
+.arme section.window-content header div.munitions {
+  display: grid;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+  grid-template-columns: 1fr;
+}
+.arme section.window-content header div.munitions button.optionsMunitions {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid;
+  border-radius: 0px;
+}
+.arme section.window-content header div.munitions button.optionsMunitions.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content header div.munitions button.optionsMunitions.selected {
+  background: RGB(76 74 90);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content header div.munitions button.optionsMunitionsValider {
+  flex: none;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid;
+  margin-top: 0px;
+  border-radius: 0px;
+  background: RGB(76 74 90);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content header div.munitions label {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  border: 0px;
+  border-left: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(76 74 90);
+}
+.arme section.window-content header div.munitions label span {
+  width: 100%;
+  min-width: 0px;
+  justify-content: left;
+  text-align: left;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.arme section.window-content header div.munitions label input {
+  width: 100%;
+  min-width: 0px;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(43 42 51);
+  border: 0px;
+  text-align: center;
+}
+.arme section.window-content header div.tourelle {
+  display: grid;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.arme section.window-content header div.tourelle button {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid;
+  border-radius: 0px;
+}
+.arme section.window-content header div.tourelle button.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content header div.tourelle button.selected {
+  background: RGB(76 74 90);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content header div.tourelle label {
+  margin-top: 10px;
+}
+.arme section.window-content header button.options2Mains {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid;
+  border-radius: 0px;
+  margin-bottom: 5px;
+}
+.arme section.window-content header button.options2Mains.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content header button.options2Mains.selected {
+  background: RGB(76 74 90);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content div.img {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 212px;
+}
+.arme section.window-content div.img div.blockImg {
+  height: 262px;
+  width: 212px;
+  background: RGB(76 74 90);
+  border: 1px solid white;
+  display: flex;
+  align-items: center;
+}
+.arme section.window-content div.img div.blockImg img.profile-img {
+  border: 0px;
+  object-fit: contain;
+  width: 100%;
+}
+.arme section.window-content div.img label.oneLine {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid RGB(87 110 178);
+  margin-top: 5px;
+}
+.arme section.window-content div.img label.oneLine span {
+  width: 50%;
+  padding-left: 5px;
+  line-height: 22px;
+  background: RGB(76 74 90);
+  font-variant: small-caps;
+}
+.arme section.window-content div.img label.oneLine select {
+  width: 50%;
+  height: 22px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+  color: white;
+}
+.arme section.window-content div.img label.oneLine select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.arme section.window-content div.img label.oneLine input {
+  width: 50%;
+  height: 22px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+  color: white;
+  text-align: center;
+}
+.arme section.window-content div.img button {
+  flex: none;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  border-radius: 0px;
+  margin-top: 10px;
+}
+.arme section.window-content div.img button.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content div.img button.selected {
+  background: RGB(76 74 90);
+  border-color: RGB(76 74 90);
+}
+.arme section.window-content div.description {
+  width: 100%;
+  flex: none;
+  margin-bottom: 5px;
+}
+.arme section.window-content div.description prose-mirror {
+  width: 100%;
+  min-height: 130px;
+  border-bottom: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
+}
+.arme section.window-content div.description prose-mirror div.editor-content {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.arme section.window-content div.blockMunitions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 5px;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+.arme section.window-content div.blockMunitions > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+}
+.arme section.window-content div.blockMunitions > div label {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  justify-content: space-between;
+  border: 0px;
+}
+.arme section.window-content div.blockMunitions > div label span {
+  display: grid;
+  width: 100%;
+  justify-content: left;
+  text-align: left;
+  min-height: 26px;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+  align-items: center;
+}
+.arme section.window-content div.blockMunitions > div label input {
+  width: 100%;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(43 42 51);
+  border: 0px;
+  text-align: center;
+}
+.arme section.window-content div.blockMunitions > div > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid RGB(43 42 51);
+}
+.arme section.window-content div.blockMunitions > div > div span {
+  display: grid;
+  align-items: center;
+  min-height: 26px;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+}
+.arme section.window-content div.blockMunitions > div > div div {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+}
+.arme section.window-content div.blockMunitions > div > div div span {
+  height: 100%;
+  background: RGB(43 42 51);
+  padding: 0px;
+}
+.arme section.window-content div.blockMunitions > div > div div input {
+  width: 100%;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+}
+.arme section.window-content div.blockMunitions > div > div div input:first-of-type {
+  text-align: right;
+}
+.arme section.window-content div.blockMunitions > div > div div input:last-of-type {
+  text-align: left;
+}
+.arme section.window-content div.blockMunitions > div > div:first-of-type span {
+  border-right: 1px solid RGB(43 42 51);
+}
+.arme section.window-content div.blockMunitions > div > div:first-of-type div {
+  border-right: 1px solid RGB(76 74 90);
+}
+.arme section.window-content div.optionsmunitions {
+  display: grid;
+  grid-column: 1/3;
+  grid-template-columns: 1fr;
+}
+.arme section.window-content div.blockEffets {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: 1/3;
+  width: 100%;
+  margin-top: 5px;
+}
+.arme section.window-content div.blockEffets div.effets,
+.arme section.window-content div.blockEffets div.distance,
+.arme section.window-content div.blockEffets div.structurelles,
+.arme section.window-content div.blockEffets div.ornementales {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding-right: 5px;
+  padding-bottom: 19px;
+  padding-left: 5px;
+  border: 1px solid RGB(87 110 178);
+  flex: none;
+  align-items: flex-start;
+}
+.arme section.window-content div.blockEffets div.effets div,
+.arme section.window-content div.blockEffets div.distance div,
+.arme section.window-content div.blockEffets div.structurelles div,
+.arme section.window-content div.blockEffets div.ornementales div {
+  display: block;
+  position: relative;
+  width: max-content;
+  padding-left: 15px;
+  padding-right: 25px;
+  background: RGB(76 74 90);
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+.arme section.window-content div.blockEffets div.effets div span.label,
+.arme section.window-content div.blockEffets div.distance div span.label,
+.arme section.window-content div.blockEffets div.structurelles div span.label,
+.arme section.window-content div.blockEffets div.ornementales div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+.arme section.window-content div.blockEffets div.effets div span.label input,
+.arme section.window-content div.blockEffets div.distance div span.label input,
+.arme section.window-content div.blockEffets div.structurelles div span.label input,
+.arme section.window-content div.blockEffets div.ornementales div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
+.arme section.window-content div.blockEffets div.effets div img.info,
+.arme section.window-content div.blockEffets div.distance div img.info,
+.arme section.window-content div.blockEffets div.structurelles div img.info,
+.arme section.window-content div.blockEffets div.ornementales div img.info {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  background: RGB(76 74 90);
+  top: 4px;
+  right: 2px;
+  cursor: pointer;
+}
+.arme section.window-content div.blockEffets div.effets div img.info.clicked, .arme section.window-content div.blockEffets div.effets div img.info:hover,
+.arme section.window-content div.blockEffets div.distance div img.info.clicked,
+.arme section.window-content div.blockEffets div.distance div img.info:hover,
+.arme section.window-content div.blockEffets div.structurelles div img.info.clicked,
+.arme section.window-content div.blockEffets div.structurelles div img.info:hover,
+.arme section.window-content div.blockEffets div.ornementales div img.info.clicked,
+.arme section.window-content div.blockEffets div.ornementales div img.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.arme section.window-content div.blockEffets div.effets div span.hideInfo,
+.arme section.window-content div.blockEffets div.distance div span.hideInfo,
+.arme section.window-content div.blockEffets div.structurelles div span.hideInfo,
+.arme section.window-content div.blockEffets div.ornementales div span.hideInfo {
+  display: none;
+  position: absolute;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  padding: 5px;
+  z-index: 90;
+  margin-top: -2px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  right: 0;
+  top: 100%;
+  text-align: justify;
+  word-break: break-word;
+}
+.arme section.window-content div.blockEffets div.effets div section.btnChargeur,
+.arme section.window-content div.blockEffets div.distance div section.btnChargeur,
+.arme section.window-content div.blockEffets div.structurelles div section.btnChargeur,
+.arme section.window-content div.blockEffets div.ornementales div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.arme section.window-content div.blockEffets div.effets div section.btnChargeur a.btnEffChange,
+.arme section.window-content div.blockEffets div.distance div section.btnChargeur a.btnEffChange,
+.arme section.window-content div.blockEffets div.structurelles div section.btnChargeur a.btnEffChange,
+.arme section.window-content div.blockEffets div.ornementales div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
+}
+.arme section.window-content div.blockEffets div.effets div i.activable,
+.arme section.window-content div.blockEffets div.distance div i.activable,
+.arme section.window-content div.blockEffets div.structurelles div i.activable,
+.arme section.window-content div.blockEffets div.ornementales div i.activable {
+  cursor: pointer;
+}
+.arme section.window-content div.blockEffets div.effets div i.activable.inactive,
+.arme section.window-content div.blockEffets div.distance div i.activable.inactive,
+.arme section.window-content div.blockEffets div.structurelles div i.activable.inactive,
+.arme section.window-content div.blockEffets div.ornementales div i.activable.inactive {
+  color: #C50000;
+}
+.arme section.window-content div.blockEffets div.effets div i.activable.active,
+.arme section.window-content div.blockEffets div.distance div i.activable.active,
+.arme section.window-content div.blockEffets div.structurelles div i.activable.active,
+.arme section.window-content div.blockEffets div.ornementales div i.activable.active {
+  color: #59d13e;
+}
+.arme section.window-content div.blockEffets div.effets div i.activable:hover,
+.arme section.window-content div.blockEffets div.distance div i.activable:hover,
+.arme section.window-content div.blockEffets div.structurelles div i.activable:hover,
+.arme section.window-content div.blockEffets div.ornementales div i.activable:hover {
+  color: white;
+}
+.arme section.window-content div.blockEffets div.effets div i.red,
+.arme section.window-content div.blockEffets div.distance div i.red,
+.arme section.window-content div.blockEffets div.structurelles div i.red,
+.arme section.window-content div.blockEffets div.ornementales div i.red {
+  color: #C50000;
+}
+.arme section.window-content div.blockEffets div.effets div i.green,
+.arme section.window-content div.blockEffets div.distance div i.green,
+.arme section.window-content div.blockEffets div.structurelles div i.green,
+.arme section.window-content div.blockEffets div.ornementales div i.green {
+  color: #59d13e;
+}
+.arme section.window-content div.blockEffets div.effets a.edit,
+.arme section.window-content div.blockEffets div.distance a.edit,
+.arme section.window-content div.blockEffets div.structurelles a.edit,
+.arme section.window-content div.blockEffets div.ornementales a.edit {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  color: white;
+  font-variant: small-caps;
+}
+.arme section.window-content div.blockEffets div.effets.hidden,
+.arme section.window-content div.blockEffets div.distance.hidden,
+.arme section.window-content div.blockEffets div.structurelles.hidden,
+.arme section.window-content div.blockEffets div.ornementales.hidden {
+  display: none;
+}
+.arme section.window-content div.allEffects {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  grid-column: 1/3;
+}
+.arme section.window-content div.blockMunitions {
+  grid-column: 1/3;
 }
 
 .avantage h1.charname {
@@ -32467,764 +33142,6 @@ li.chat-message.emote {
   border-left: 0px;
 }
 
-.arme form.armeWindows {
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.arme form.armeWindows h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  font-size: 20px;
-  padding-left: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.arme form.armeWindows h2.header .headerScore {
-  position: absolute;
-  width: 40px;
-  background: RGB(76 74 90);
-  line-height: 21px;
-  text-align: center;
-  right: 1px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 1px;
-}
-.arme form.armeWindows h2.header .headerQuantity {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  width: 48px;
-  background: RGB(76 74 90);
-  line-height: 22px;
-  height: 22px;
-  text-align: center;
-  right: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 0px;
-}
-.arme form.armeWindows h2.header .headerQuantity input {
-  text-align: center;
-  width: 20px;
-  height: 22px;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-}
-.arme form.armeWindows h2.header .headerQuantity span {
-  width: 8px;
-  line-height: 22px;
-  color: white;
-}
-.arme form.armeWindows h2.header a.verrouillage {
-  position: absolute;
-  right: 5px;
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-.arme form.armeWindows h2.header a.verrouillage:hover {
-  text-shadow: 0 0 10px white;
-}
-.arme form.armeWindows h2.header .far {
-  cursor: pointer;
-}
-.arme form.armeWindows div.img {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
-  width: 212px;
-}
-.arme form.armeWindows div.img div.blockImg {
-  height: 262px;
-  width: 212px;
-  background: RGB(76 74 90);
-  border: 1px solid white;
-  display: flex;
-  align-items: center;
-}
-.arme form.armeWindows div.img div.blockImg img.profile-img {
-  border: 0px;
-  object-fit: contain;
-  width: 100%;
-}
-.arme form.armeWindows div.img label.oneLine {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  border: 1px solid RGB(87 110 178);
-  margin-top: 5px;
-}
-.arme form.armeWindows div.img label.oneLine span {
-  width: 50%;
-  padding-left: 5px;
-  line-height: 22px;
-  background: RGB(76 74 90);
-  font-variant: small-caps;
-}
-.arme form.armeWindows div.img label.oneLine select {
-  width: 50%;
-  height: 22px;
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  border-radius: 0px;
-  background: RGB(43 42 51);
-  color: white;
-}
-.arme form.armeWindows div.img label.oneLine select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.arme form.armeWindows div.img label.oneLine input {
-  width: 50%;
-  height: 22px;
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  border-radius: 0px;
-  background: RGB(43 42 51);
-  color: white;
-  text-align: center;
-}
-.arme form.armeWindows div.img button {
-  flex: none;
-  width: 100%;
-  color: white;
-  cursor: pointer;
-  border: 2px solid RGB(76 74 90);
-  border-radius: 0px;
-  margin-top: 10px;
-}
-.arme form.armeWindows div.img button.unselected {
-  background: RGB(43 42 51);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows div.img button.selected {
-  background: RGB(76 74 90);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows div.description {
-  width: 100%;
-  flex: none;
-  margin-bottom: 5px;
-}
-.arme form.armeWindows div.description div.editor {
-  width: 100%;
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
-}
-.arme form.armeWindows div.description div.editor div.editor-content {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.arme form.armeWindows header {
-  display: flex;
-  width: calc(100% - 222px);
-  flex-wrap: wrap;
-  flex-direction: initial;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-.arme form.armeWindows header h1.charname {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  flex: none;
-  border-bottom: 3px solid white;
-}
-.arme form.armeWindows header h1.charname input[type=text] {
-  margin: 0px;
-  width: 100%;
-  text-align: center;
-  border: 0px;
-  border-radius: 0px;
-  border-width: unset;
-  border-color: white;
-  background: transparent;
-}
-.arme form.armeWindows header label {
-  display: flex;
-  width: calc((100% / 2) - 5px);
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-  flex: none;
-}
-.arme form.armeWindows header label span {
-  display: inline-block;
-  line-height: 26px;
-  background: RGB(76 74 90);
-  text-align: center;
-  font-variant: small-caps;
-}
-.arme form.armeWindows header label span.header {
-  width: 100%;
-}
-.arme form.armeWindows header label select {
-  width: 100%;
-  color: white;
-  height: 26px;
-  margin: 0px;
-  text-align: center;
-  border: 0px;
-  border-radius: 0px;
-  border-width: unset;
-  border-color: white;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows header label select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.arme form.armeWindows header label div {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.arme form.armeWindows header label div span {
-  width: 24px;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows header label div input {
-  width: calc((100% / 2) - 12px);
-  border: 0px;
-  padding: 0px;
-  margin: 0px;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows header label div input:first-of-type {
-  text-align: right;
-}
-.arme form.armeWindows header label div input:last-of-type {
-  text-align: left;
-}
-.arme form.armeWindows header div.dmg {
-  display: flex;
-  width: calc((100% / 2) - 5px);
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-  flex: none;
-}
-.arme form.armeWindows header div.dmg span {
-  display: inline-block;
-  line-height: 27px;
-  background: RGB(76 74 90);
-  text-align: center;
-  font-variant: small-caps;
-}
-.arme form.armeWindows header div.dmg span.header {
-  width: 100%;
-}
-.arme form.armeWindows header div.dmg select {
-  width: 100%;
-  color: white;
-  height: 26px;
-  margin: 0px;
-  text-align: center;
-  border: 0px;
-  border-radius: 0px;
-  border-width: unset;
-  border-color: white;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows header div.dmg select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.arme form.armeWindows header div.dmg div.oneCol {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.arme form.armeWindows header div.dmg div.oneCol span {
-  width: 24px;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows header div.dmg div.oneCol input {
-  width: calc((100% / 2) - 12px);
-  border: 0px;
-  padding: 0px;
-  margin: 0px;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows header div.dmg div.oneCol input:first-of-type {
-  text-align: right;
-}
-.arme form.armeWindows header div.dmg div.oneCol input:last-of-type {
-  text-align: left;
-}
-.arme form.armeWindows header div.dmg div.twoCol {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-}
-.arme form.armeWindows header div.dmg div.twoCol.label span {
-  width: 100%;
-  background: RGB(76 74 90);
-  line-height: 27px;
-  font-variant: small-caps;
-}
-.arme form.armeWindows header div.dmg div.twoCol.score span {
-  width: 24px;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows header div.dmg div.twoCol.score input {
-  width: calc((100% / 2) - 12px);
-  border: 0px;
-  padding: 0px;
-  margin: 0px;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows header div.dmg div.twoCol.score input:first-of-type {
-  text-align: right;
-}
-.arme form.armeWindows header div.dmg div.twoCol.score input:last-of-type {
-  text-align: left;
-}
-.arme form.armeWindows header div.dmg div.twoCol.borderBottom.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.arme form.armeWindows header div.dmg div.twoCol.borderBottom.score {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.arme form.armeWindows header div.dmg label.twoCol {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  border: 0px;
-}
-.arme form.armeWindows header div.dmg label.twoCol span {
-  width: 50%;
-  background: RGB(76 74 90);
-  line-height: 20px;
-  font-variant: small-caps;
-}
-.arme form.armeWindows header div.dmg label.twoCol input {
-  width: 50%;
-  height: 100%;
-  border: 0px;
-  padding: 0px;
-  margin: 0px;
-  background: RGB(43 42 51);
-  text-align: center;
-}
-.arme form.armeWindows header div.tourelle {
-  display: flex;
-  width: calc(50% - 5px);
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  flex: none;
-}
-.arme form.armeWindows header div.tourelle button {
-  flex: none;
-  width: 100%;
-  color: white;
-  cursor: pointer;
-  border: 2px solid;
-  margin-top: 10px;
-  border-radius: 0px;
-}
-.arme form.armeWindows header div.tourelle button.unselected {
-  background: RGB(43 42 51);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows header div.tourelle button.selected {
-  background: RGB(76 74 90);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows header div.tourelle label {
-  margin-top: 10px;
-}
-.arme form.armeWindows header button.options2Mains {
-  flex: none;
-  width: calc(50% - 5px);
-  color: white;
-  cursor: pointer;
-  border: 2px solid;
-  margin-top: 10px;
-  border-radius: 0px;
-}
-.arme form.armeWindows header button.options2Mains.unselected {
-  background: RGB(43 42 51);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows header button.options2Mains.selected {
-  background: RGB(76 74 90);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows header div.munitions {
-  display: flex;
-  width: calc(50% - 5px);
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  flex: none;
-}
-.arme form.armeWindows header div.munitions button.optionsMunitions {
-  flex: none;
-  width: 100%;
-  color: white;
-  cursor: pointer;
-  border: 2px solid;
-  margin-top: 10px;
-  border-radius: 0px;
-}
-.arme form.armeWindows header div.munitions button.optionsMunitions.unselected {
-  background: RGB(43 42 51);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows header div.munitions button.optionsMunitions.selected {
-  background: RGB(76 74 90);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows header div.munitions button.optionsMunitionsValider {
-  flex: none;
-  width: 100%;
-  color: white;
-  cursor: pointer;
-  border: 2px solid;
-  margin-top: 0px;
-  border-radius: 0px;
-  background: RGB(76 74 90);
-  border-color: RGB(76 74 90);
-}
-.arme form.armeWindows header div.munitions label {
-  display: flex;
-  width: calc(100% + 1px);
-  justify-content: space-between;
-  border: 0px;
-  border-left: 1px solid RGB(43 42 51);
-  border-right: 1px solid RGB(76 74 90);
-}
-.arme form.armeWindows header div.munitions label span {
-  width: 50%;
-  justify-content: left;
-  text-align: left;
-  line-height: 26px;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-  border-top: 1px solid RGB(43 42 51);
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.arme form.armeWindows header div.munitions label input {
-  width: 50%;
-  line-height: 26px;
-  padding-left: 5px;
-  background: RGB(43 42 51);
-  border: 0px;
-  text-align: center;
-}
-.arme form.armeWindows div.blockMunitions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 5px;
-  width: 100%;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  flex-wrap: wrap;
-}
-.arme form.armeWindows div.blockMunitions > div {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  flex: none;
-}
-.arme form.armeWindows div.blockMunitions > div label {
-  display: flex;
-  width: calc(100% + 1px);
-  justify-content: space-between;
-  border: 0px;
-  border-right: 1px solid RGB(76 74 90);
-}
-.arme form.armeWindows div.blockMunitions > div label span {
-  width: 50%;
-  justify-content: left;
-  text-align: left;
-  line-height: 26px;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-  border-top: 1px solid RGB(43 42 51);
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.arme form.armeWindows div.blockMunitions > div label input {
-  width: 50%;
-  line-height: 26px;
-  padding-left: 5px;
-  background: RGB(43 42 51);
-  border: 0px;
-  text-align: center;
-}
-.arme form.armeWindows div.blockMunitions > div label div {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.arme form.armeWindows div.blockMunitions > div label div span {
-  width: 24px;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows div.blockMunitions > div label div input {
-  width: calc((100% / 2) - 12px);
-  border: 0px;
-  padding: 0px;
-  margin: 0px;
-  background: RGB(43 42 51);
-}
-.arme form.armeWindows div.blockMunitions > div label div input:first-of-type {
-  text-align: right;
-}
-.arme form.armeWindows div.blockMunitions > div label div input:last-of-type {
-  text-align: left;
-}
-.arme form.armeWindows div.blockMunitions > div label.munitionListe {
-  border-top: 1px solid RGB(76 74 90);
-}
-.arme form.armeWindows div.blockMunitions > div label.munitionListe span.header {
-  border-top: 0px;
-}
-.arme form.armeWindows div.blockMunitions > div label.munitionListe:not(:last-of-type) span {
-  border-bottom: 0px;
-}
-.arme form.armeWindows div.blockMunitions > div label.munitionListe:not(:first-of-type) input[type=text] {
-  border-top: 1px solid RGB(76 74 90);
-}
-.arme form.armeWindows div.blockMunitions > div label.demi {
-  flex-wrap: wrap;
-  width: 50%;
-  border-bottom: 1px solid RGB(76 74 90);
-  border-left: 0px;
-  border-right: 0px;
-}
-.arme form.armeWindows div.blockMunitions > div label.demi > span {
-  width: 100%;
-  padding: 0px;
-  text-align: center;
-  justify-content: center;
-  border-left: 1px solid RGB(76 74 90);
-  border-right: 0px;
-}
-.arme form.armeWindows div.blockMunitions > div label.demi div {
-  border-left: 1px solid RGB(76 74 90);
-  border-right: 0px;
-}
-.arme form.armeWindows div.blockMunitions > div label.demi div > span {
-  border-top: 0px;
-  border-bottom: 0px;
-  padding: 0px;
-}
-.arme form.armeWindows div.blockMunitions > div label.demi:last-of-type > span {
-  border-left: 1px solid RGB(43 42 51);
-  border-right: 1px solid RGB(76 74 90);
-}
-.arme form.armeWindows div.blockMunitions > div label.demi:last-of-type > div {
-  border-left: 1px solid RGB(76 74 90);
-  border-right: 1px solid RGB(76 74 90);
-}
-.arme form.armeWindows div.blockEffets {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  margin-top: 5px;
-}
-.arme form.armeWindows div.blockEffets div.effets,
-.arme form.armeWindows div.blockEffets div.distance,
-.arme form.armeWindows div.blockEffets div.structurelles,
-.arme form.armeWindows div.blockEffets div.ornementales {
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  padding-right: 5px;
-  padding-bottom: 19px;
-  padding-left: 5px;
-  border: 1px solid RGB(87 110 178);
-  flex: none;
-  align-items: flex-start;
-}
-.arme form.armeWindows div.blockEffets div.effets div,
-.arme form.armeWindows div.blockEffets div.distance div,
-.arme form.armeWindows div.blockEffets div.structurelles div,
-.arme form.armeWindows div.blockEffets div.ornementales div {
-  display: block;
-  position: relative;
-  width: max-content;
-  padding-left: 15px;
-  padding-right: 25px;
-  background: RGB(76 74 90);
-  border-radius: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-top: 5px;
-  border: 1px solid black;
-}
-.arme form.armeWindows div.blockEffets div.effets div span.label,
-.arme form.armeWindows div.blockEffets div.distance div span.label,
-.arme form.armeWindows div.blockEffets div.structurelles div span.label,
-.arme form.armeWindows div.blockEffets div.ornementales div span.label {
-  font-variant: small-caps;
-  color: white;
-  line-height: 20px;
-}
-.arme form.armeWindows div.blockEffets div.effets div span.label input,
-.arme form.armeWindows div.blockEffets div.distance div span.label input,
-.arme form.armeWindows div.blockEffets div.structurelles div span.label input,
-.arme form.armeWindows div.blockEffets div.ornementales div span.label input {
-  width: 15px;
-  min-width: 0px;
-  padding: 0px;
-  line-height: 15px;
-  text-align: right;
-  border: 0px;
-  background: transparent;
-  height: 15px;
-}
-.arme form.armeWindows div.blockEffets div.effets div img.info,
-.arme form.armeWindows div.blockEffets div.distance div img.info,
-.arme form.armeWindows div.blockEffets div.structurelles div img.info,
-.arme form.armeWindows div.blockEffets div.ornementales div img.info {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  right: 2px;
-  cursor: pointer;
-}
-.arme form.armeWindows div.blockEffets div.effets div img.info.clicked, .arme form.armeWindows div.blockEffets div.effets div img.info:hover,
-.arme form.armeWindows div.blockEffets div.distance div img.info.clicked,
-.arme form.armeWindows div.blockEffets div.distance div img.info:hover,
-.arme form.armeWindows div.blockEffets div.structurelles div img.info.clicked,
-.arme form.armeWindows div.blockEffets div.structurelles div img.info:hover,
-.arme form.armeWindows div.blockEffets div.ornementales div img.info.clicked,
-.arme form.armeWindows div.blockEffets div.ornementales div img.info:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.arme form.armeWindows div.blockEffets div.effets div span.hideInfo,
-.arme form.armeWindows div.blockEffets div.distance div span.hideInfo,
-.arme form.armeWindows div.blockEffets div.structurelles div span.hideInfo,
-.arme form.armeWindows div.blockEffets div.ornementales div span.hideInfo {
-  display: none;
-  position: absolute;
-  background: RGB(76 74 90);
-  border: 1px solid black;
-  padding: 5px;
-  z-index: 90;
-  margin-top: -2px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  right: 0;
-  top: 100%;
-  text-align: justify;
-  word-break: break-word;
-}
-.arme form.armeWindows div.blockEffets div.effets div section.btnChargeur,
-.arme form.armeWindows div.blockEffets div.distance div section.btnChargeur,
-.arme form.armeWindows div.blockEffets div.structurelles div section.btnChargeur,
-.arme form.armeWindows div.blockEffets div.ornementales div section.btnChargeur {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2px;
-}
-.arme form.armeWindows div.blockEffets div.effets div section.btnChargeur a.btnEffChange,
-.arme form.armeWindows div.blockEffets div.distance div section.btnChargeur a.btnEffChange,
-.arme form.armeWindows div.blockEffets div.structurelles div section.btnChargeur a.btnEffChange,
-.arme form.armeWindows div.blockEffets div.ornementales div section.btnChargeur a.btnEffChange {
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
-  border: 0px;
-  height: 15px;
-  line-height: 8px;
-  background: RGB(43 42 51);
-  color: white;
-  font-size: 20px;
-}
-.arme form.armeWindows div.blockEffets div.effets div i.activable,
-.arme form.armeWindows div.blockEffets div.distance div i.activable,
-.arme form.armeWindows div.blockEffets div.structurelles div i.activable,
-.arme form.armeWindows div.blockEffets div.ornementales div i.activable {
-  cursor: pointer;
-}
-.arme form.armeWindows div.blockEffets div.effets div i.activable.inactive,
-.arme form.armeWindows div.blockEffets div.distance div i.activable.inactive,
-.arme form.armeWindows div.blockEffets div.structurelles div i.activable.inactive,
-.arme form.armeWindows div.blockEffets div.ornementales div i.activable.inactive {
-  color: #C50000;
-}
-.arme form.armeWindows div.blockEffets div.effets div i.activable.active,
-.arme form.armeWindows div.blockEffets div.distance div i.activable.active,
-.arme form.armeWindows div.blockEffets div.structurelles div i.activable.active,
-.arme form.armeWindows div.blockEffets div.ornementales div i.activable.active {
-  color: #59d13e;
-}
-.arme form.armeWindows div.blockEffets div.effets div i.activable:hover,
-.arme form.armeWindows div.blockEffets div.distance div i.activable:hover,
-.arme form.armeWindows div.blockEffets div.structurelles div i.activable:hover,
-.arme form.armeWindows div.blockEffets div.ornementales div i.activable:hover {
-  color: white;
-}
-.arme form.armeWindows div.blockEffets div.effets div i.red,
-.arme form.armeWindows div.blockEffets div.distance div i.red,
-.arme form.armeWindows div.blockEffets div.structurelles div i.red,
-.arme form.armeWindows div.blockEffets div.ornementales div i.red {
-  color: #C50000;
-}
-.arme form.armeWindows div.blockEffets div.effets div i.green,
-.arme form.armeWindows div.blockEffets div.distance div i.green,
-.arme form.armeWindows div.blockEffets div.structurelles div i.green,
-.arme form.armeWindows div.blockEffets div.ornementales div i.green {
-  color: #59d13e;
-}
-.arme form.armeWindows div.blockEffets div.effets a.edit,
-.arme form.armeWindows div.blockEffets div.distance a.edit,
-.arme form.armeWindows div.blockEffets div.structurelles a.edit,
-.arme form.armeWindows div.blockEffets div.ornementales a.edit {
-  position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: white;
-  font-variant: small-caps;
-}
-.arme form.armeWindows div.blockEffets div.effets.hidden,
-.arme form.armeWindows div.blockEffets div.distance.hidden,
-.arme form.armeWindows div.blockEffets div.structurelles.hidden,
-.arme form.armeWindows div.blockEffets div.ornementales.hidden {
-  display: none;
-}
-
 form.capacite {
   display: flex;
   width: 100%;
@@ -45018,6 +44935,12 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
 }
 
+.knight h2,
+.knight span,
+.knight input {
+  font-family: "Signika", sans-serif;
+}
+
 .knight-roll {
   display: grid;
   grid-template-columns: 1fr;
@@ -45319,6 +45242,83 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight-roll button.relanceattaque, .knight-roll button.relancedegats, .knight-roll button.full {
   grid-column: 1/3;
+}
+
+.editDialog div.dialog-content {
+  display: grid;
+  margin-bottom: 5px;
+  border: 1px solid RGB(87 110 178);
+  grid-template-columns: 80px 1fr;
+  grid-gap: 0px;
+}
+.editDialog div.dialog-buttons button {
+  color: white;
+  background: RGB(76 74 90);
+  cursor: pointer;
+  border-radius: 0px;
+}
+.editDialog input.aspect {
+  width: 100%;
+  height: 100%;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
+  border-right: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  font-size: 50px;
+  line-height: 81px;
+  color: white;
+}
+.editDialog div.main {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.editDialog div.main label.line {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  grid-gap: 0px;
+  width: 100%;
+  line-height: 26px;
+  align-items: center;
+}
+.editDialog div.main label.line span {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+  color: white;
+}
+.editDialog div.main label.line input {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: RGB(43 42 51);
+  border: 0px;
+  color: white;
+}
+.editDialog div.main label.line:not(:last-of-type) span {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.editDialog div.main label.line:not(:last-of-type) input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.editDialog div.main label.line:last-of-type span {
+  border-bottom: 0px;
+}
+.editDialog div.main label.line:last-of-type input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
 }
 
 .windowsEvolutionCompanions {

@@ -19,20 +19,7 @@ $imgs:
 @import "parts/dialogs/roll";
 @import "parts/dialogs/ask";
 @import "parts/actors/actors";
-@import "parts/items/base";
-@import "parts/items/avantage";
-@import "parts/items/inconvenient";
-@import "parts/items/divers";
-@import "parts/items/armure";
-@import "parts/items/armurelegende";
-@import "parts/items/module";
-@import "parts/items/arme";
-@import "parts/items/capacite";
-@import "parts/items/effet";
-@import "parts/items/art";
-@import "parts/items/distinction";
-@import "parts/items/capaciteultime";
-@import "parts/items/cyberware";
+@import "parts/items/items";
 
 .pnj {
   header.sheet-header {
@@ -64,6 +51,7 @@ $imgs:
 @import "parts/mechaarmure";
 @import "parts/common";
 @import "parts/roll";
+@import "parts/dialogs/editDialog";
 @import "parts/dialogs/companions";
 @import "parts/dialogs/compendium";
 @import "parts/dialogs/damage";

@@ -1424,40 +1424,45 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
   _menu_entries() {
     const base = super._menu_entries();
-    let entries = {
-      ...base,
-    };
 
     const inputWithSpanMax = ['sante'];
     const onlySpan = [];
+    const menu = [];
 
     for(const key of inputWithSpanMax) {
-      entries = {
-        ...entries,
-        ...this._generate_inputWithSpanMax(key),
-      };
+      menu.push({
+        key:'inputWithSpanMax',
+        name:key,
+        label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+        path:`${key}`,
+      });
     }
 
     for(const key of onlySpan) {
-      entries = {
-        ...entries,
-        ...this._generate_onlySpan(key),
-      };
+      menu.push({
+        key:'onlySpan',
+        name:key,
+        label:`KNIGHT.LATERAL.${capitalizeFirstLetter(key)}`,
+        path:`${key}`,
+      });
     }
 
-    entries = {
-      ...entries,
-      ...this._generate_onlySpan('champDeForce', true, true),
-    }
-
-    entries.espoir = {
+    menu.push({
+      key:'onlySpan',
+      name:'champDeForce',
+      path:`champDeForce`,
+      label:`KNIGHT.LATERAL.ChampDeForce-short`,
+    }, {
       key:'doubleInput',
+      name:'espoir',
       label:'KNIGHT.LATERAL.Espoir',
-      value:'espoir.value',
-      min:0,
-      max:'espoir.max',
-      tooltip:'espoir',
-    };
+      path:'espoir',
+    });
+
+    const entries = {
+      ...base,
+      ...this._generate_menu(menu),
+    }
 
     return entries;
   }
