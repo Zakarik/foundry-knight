@@ -1,3 +1,7 @@
+## v3.58.23
+### Bugfix
+- Application du même correctif qu'en v3.57.22
+
 ## v3.58.22
 ### Bugfix
 - Application du même correctif qu'en v3.57.21
@@ -86,6 +90,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.22
+### Bugfix
+- Correction d'un bug avec le bonus d'initiative si en embuscade.
 
 ## v3.57.21
 ### Bugfix

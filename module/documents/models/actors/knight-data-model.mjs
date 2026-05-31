@@ -1078,10 +1078,10 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
 
                     if(this.options.embuscadeSubis) {
                         Object.defineProperty(this.initiative, 'diceMod', {
-                            value: this.bonusSiEmbuscade.bonusInitiative.dice,
+                            value: this.bonusSiEmbuscade.dice,
                         });
 
-                        mod += this.bonusSiEmbuscade.bonusInitiative.fixe;
+                        mod += this.bonusSiEmbuscade.fixe;
                     }
 
                     if(this.options.embuscadePris) {
