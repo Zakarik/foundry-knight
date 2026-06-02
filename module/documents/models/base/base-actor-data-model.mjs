@@ -887,19 +887,16 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
         // Garde-fous
         if (!actor?.id) return;
         if (!game.user.isGM && !actor.isOwner) return;
-        if (!game.ready) return;
 
         const ids = actor.effects
         .filter(e =>
             e.statuses.size === 0 &&
-            e.changes?.some(c => c.key?.trim()) &&
-            foundry.utils.isEmpty(e.flags)
+            (e.changes?.some(c => c.key?.trim()) || e.changes.length === 0) &&
+            Object.keys(e.flags ?? {}).every(k => k === "statuscounter")
         )
         .map(e => e.id);
 
         if (ids.length === 0) return;
-
-        ui.notifications.info(game.i18n.localize("KNIGHT.NotificationsIgnoreError"));
 
         await actor.deleteEmbeddedDocuments("ActiveEffect", ids);
 

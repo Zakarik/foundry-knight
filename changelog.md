@@ -1,3 +1,7 @@
+## v3.58.24
+### Bugfix
+- Application du même correctif qu'en v3.57.23
+
 ## v3.58.23
 ### Bugfix
 - Application du même correctif qu'en v3.57.22
@@ -90,6 +94,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.23
+### Bugfix
+- Correction d'un bug dans le cas de vieux personnages.
 
 ## v3.57.22
 ### Bugfix
