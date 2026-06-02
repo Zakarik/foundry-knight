@@ -185,7 +185,7 @@ Hooks.once('init', async function() {
     },
     {
       id:'peur',
-      label:'KNIGHT.EFFETS.PEUR.Label',
+      name:'KNIGHT.EFFETS.PEUR.Label',
       label:'KNIGHT.EFFETS.PEUR.Label',
       icon:'systems/knight/assets/icons/effects/peur.svg',
       img:'systems/knight/assets/icons/effects/peur.svg'

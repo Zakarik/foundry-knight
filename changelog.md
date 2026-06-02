@@ -1,3 +1,7 @@
+## v3.58.25
+### Bugfix
+- Application du même correctif qu'en v3.57.24
+
 ## v3.58.24
 ### Bugfix
 - Application du même correctif qu'en v3.57.23
@@ -94,6 +98,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.24
+### Bugfix
+- Correction d'un bug avec l'état "Peur".
 
 ## v3.57.23
 ### Bugfix
