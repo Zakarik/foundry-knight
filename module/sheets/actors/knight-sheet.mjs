@@ -319,7 +319,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
         }
 
         listMenu.push('heroisme');
-        listMenu.push('separateur');
+        if(jauges.armure || jauges.energie || jauges.champDeForce) listMenu.push('separateur');
 
         if(jauges.armure) {
           listMenu.push('armure');

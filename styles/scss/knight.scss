@@ -55,6 +55,7 @@ $imgs:
 @import "parts/dialogs/companions";
 @import "parts/dialogs/compendium";
 @import "parts/dialogs/damage";
+@import "parts/dialogs/effects";
 
 @each $logo in $logos {
   div#interface.version#{$logo} #logo {

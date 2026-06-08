@@ -1,30 +1,32 @@
 
-{{#if (or (eq type 'text') (eq type 'number'))}}
-    <label class="{{type}}">
-        <span class="label">{{localize i18n}}</span>
-        <input type="{{type}}" name="{{name}}" value="{{value}}" />
-    </label>
-{{/if}}
-
-{{#if (eq type 'editor')}}
-    {{editor value target=(concat "custom." index ".value") button=true engine="prosemirror" collaborate=false}}
-{{/if}}
-
-{{#if (eq type 'numberWithSpan')}}
-    <div class="{{type}}">
-        <span class="label">{{localize i18n}}</span>
-        <label>
-            <input type="number" name="{{name}}" value="{{value}}" min="{{min}}" max="{{max}}"/>
-            <span>{{localize span}}</span>
-        </label>
+<div class="custom">
+    <h2 class="header js-toggler">
+            {{~> knight.jsToggle}}
+            {{localize "KNIGHT.EFFETS.CUSTOM.Label"}}
+    </h2>
+    <div class="listCustom">
+            <div class="header">
+                <input type="text" name="custom.label" value="{{system.custom.label}}" />
+                <button data-action="addCustom">{{ifThen system.custom.edit (localize "KNIGHT.AUTRE.Editer") (localize "KNIGHT.AUTRE.Ajouter")}}</button>
+            </div>
+            {{formInput
+                fields.custom.fields.description
+                enriched=enriched.description
+                value=system.custom.description
+                name="custom.description"
+                collaborate=false
+                toggled=true
+            }}
+            {{#each custom}}
+            <div class="effetCustom {{ifThen (or (eq @index 0) (eq @index 2)) 'border' ''}}">
+                {{#if (isArray this)}}
+                        {{#each this}}
+                            {{~> knight.dialog.effects.custom this}}
+                        {{/each}}
+                {{else}}
+                        {{~> knight.dialog.effects.custom this}}
+                {{/if}}
+            </div>
+            {{/each}}
     </div>
-{{/if}}
-
-{{#if (eq type 'select')}}
-    <label class="{{type}}">
-        <span class="label">{{localize i18n}}</span>
-        <select name="{{name}}">
-            {{selectOptions choices selected=value blank='' localize=true}}
-        </select>
-    </label>
-{{/if}}
+</div>

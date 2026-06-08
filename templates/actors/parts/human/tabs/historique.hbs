@@ -2,8 +2,8 @@
     <div class="main">
         <div class="langues item-list">
             <div class="mainOptions">
-                <h2 class="header js-simpletoggler">
-                    <span class="option"><img src="systems/knight/assets/icons/optionWhite.svg" class="option" data-option="langue"></span>
+                <h2 class="header">
+                    <span class="option"><img data-action="jsToggle" src="systems/knight/assets/icons/optionWhite.svg" class="option fa-plus-square" data-option="langue"></span>
                     {{localize "KNIGHT.HISTORIQUE.Langues"}}
                     {{~> knight.itemCreate strLoc="KNIGHT.HISTORIQUE.Langues" data=(object type="langue")}}
                     <span class="headerScore">{{systemData.langues.value}}</span>
@@ -25,8 +25,8 @@
 
         <div class="contacts item-list">
             <div class="mainOptions">
-                <h2 class="header js-simpletoggler">
-                <span class="option"><img src="systems/knight/assets/icons/optionWhite.svg" class="option" data-option="contacts"></span>
+                <h2 class="header">
+                <span class="option"><img data-action="jsToggle" src="systems/knight/assets/icons/optionWhite.svg" class="option fa-plus-square" data-option="contacts"></span>
                     {{localize "KNIGHT.HISTORIQUE.Contacts"}}
                     {{~> knight.itemCreate strLoc="KNIGHT.HISTORIQUE.Contacts" data=(object type="contact")}}
                     <div class="data">

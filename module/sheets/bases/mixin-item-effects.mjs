@@ -51,6 +51,11 @@ const EffectsMixin = (superclass) => class extends superclass {
         const data = foundry.utils.getProperty(this.item, `system.${path}`);
 
         await new game.knight.applications.KnightEffetsDialog({
+            uuid:item.uuid,
+            path:path,
+        }, data).render({force:true});
+
+        /*await new game.knight.applications.KnightEffetsDialog({
             actor:this.actor?._id || null,
             item:this.item._id,
             isToken:this.item?.parent?.isToken || false,
@@ -62,7 +67,7 @@ const EffectsMixin = (superclass) => class extends superclass {
             aspects:aspects,
             maxEffets:maxEffets,
             title:`${this.item.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`
-        }).render({force:true});
+        }).render({force:true});*/
     }
 
     _postContext(context) {

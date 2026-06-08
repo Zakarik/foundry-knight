@@ -1,0 +1,12 @@
+
+<div class="std activable {{ifThen system.activables '' 'hidden'}}" data-activable="true">
+    <h2 class="header">
+        {{~> knight.jsToggle}}
+        {{localize "KNIGHT.EFFETS.AddActivable"}}
+    </h2>
+    <div class="list">
+        {{#each system.activables}}
+                {{~> knight.dialog.effects.effect this main='activables'}}
+        {{/each}}
+    </div>
+</div>

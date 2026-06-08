@@ -1,8 +1,11 @@
 <div class="leftBlock">
     {{log this}}
     <h2 class="header">{{localize "KNIGHT.EFFETS.Presents"}}</h2>
-    <div class="effets">
+    <div class="effets list">
       {{#each system.effets}}
+            {{~> knight.dialog.effects.effect this show='true'}}
+      {{/each}}
+      <!--{{#each system.effets}}
             <div class="{{#if custom}}wEdit{{/if}}">
                   <img class="delete"
                         data-tooltip="{{localize "KNIGHT.AUTRE.Supprimer"}}"
@@ -16,6 +19,6 @@
                   <span class="label">{{name}} {{#if activable}}{{ifThen cost (concat '(' cost ' ' (localize 'KNIGHT.AUTRE.PointEnergie-short') ')')}}{{/if}}</span>
                   <img data-tooltip="{{description}}" class="info" src="systems/knight/assets/icons/info.svg" />
             </div>
-      {{/each}}
+      {{/each}}-->
     </div>
 </div>

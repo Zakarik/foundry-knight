@@ -4693,13 +4693,13 @@
             top: 0px;
 
             img {
-            height: 22px;
-            border: 0px;
-            cursor:pointer;
+                height: 22px;
+                border: 0px;
+                cursor:pointer;
 
-            &:hover {
-                filter: drop-shadow(0px 0px 5px $black);
-            }
+                &:hover {
+                    filter: drop-shadow(0px 0px 5px $black);
+                }
             }
         }
 
@@ -4725,6 +4725,7 @@
             line-height: 21px;
             border: 0px;
             text-align: center;
+            background: $lightBlack;
             }
 
             span {
@@ -4758,6 +4759,7 @@
             border: 0px;
             border-radius: 0px;
             background: $black;
+            height: 25px;
         }
 
         span {
@@ -4788,11 +4790,11 @@
         div.langues {
 
             h2.header {
-            a.item-create {
-                position: absolute;
-                right: 45px;
-                line-height: 22px;
-            }
+                a {
+                    position: absolute;
+                    right: 45px;
+                    line-height: 22px;
+                }
             }
 
             div.block {
@@ -4841,7 +4843,7 @@
 
         div.contacts {
             h2.header {
-            a.item-create {
+            a {
                 position: absolute;
                 right: 90px;
                 line-height: 22px;
@@ -4905,7 +4907,7 @@
         div.blessures,
         div.traumas {
             h2.header {
-            a.item-create {
+            a {
                 position: absolute;
                 right: 5px;
                 line-height: 22px;

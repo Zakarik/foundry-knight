@@ -1,0 +1,43 @@
+<div class="effect
+{{ifThen double 'double' ''}}
+{{ifThen text 'text' ''}}
+{{ifThen show 'show' ''}}
+{{ifThen activable 'activable' ''}}
+{{ifThen value 'value' ''}}
+{{ifThen custom 'custom' ''}}">
+        {{#if show}}
+                <img class="delete"
+                data-action="remove"
+                data-index="{{@index}}"
+                data-type="{{ifThen activable 'activable' 'std'}}"
+                src="systems/knight/assets/icons/delete.svg"
+                data-tooltip="{{localize "KNIGHT.AUTRE.Supprimer"}}" />
+                {{#if custom}}
+                        <img class="edit" data-action="editCustom" src="systems/knight/assets/icons/optionWhite.svg" data-index="{{@index}}" data-tooltip="KNIGHT.AUTRE.Editer"/>
+                        <span class="label">{{customData.label}}</span>
+                {{else}}
+                        <span class="label">
+                                {{name}}
+                                {{ifThen double (concat ' ' value) ''}}
+                                {{ifThen text (concat ' (' str ')') ''}}
+                                {{ifThen activable (concat ' (' cost (localize "KNIGHT.AUTRE.PointEnergie-short") ')') ''}}
+                        </span>
+                {{/if}}
+                <img class="info" src="systems/knight/assets/icons/info.svg" data-tooltip="{{getEffetsDescription (ifThen custom customData.description description)}}" />
+        {{else}}
+                <img class="info" src="systems/knight/assets/icons/info.svg" data-tooltip="{{getEffetsDescription (ifThen custom customData.description description)}}" />
+                <span class="label">{{name}}</span>
+                {{#if double}}
+                        <input type="number" name="{{main}}.{{@index}}.value" value="{{value}}" min="0" max="{{max}}" />
+                {{/if}}
+                <a
+                        data-action="add"
+                        data-tooltip="{{localize "KNIGHT.AUTRE.Ajouter"}}"
+                        data-label="{{key}}">
+                        <i class="fas fa-plus"></i>
+                </a>
+                {{#if text}}
+                        <input type="text" name="{{main}}.{{@index}}.str" value="{{str}}" placeholder="{{placeholder}}" />
+                {{/if}}
+        {{/if}}
+</div>

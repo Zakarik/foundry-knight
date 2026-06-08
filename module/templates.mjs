@@ -267,7 +267,8 @@ export const PreloadTemplates = async function() {
   };
 
   const dialogPartials = {
-    "knight.dialog.effects": `${path}/dialog/parts/effects/custom.hbs`,
+    "knight.dialog.effects.effect": `${path}/dialog/parts/effects/effect.hbs`,
+    "knight.dialog.effects.custom": `${path}/dialog/parts/effects/sections/custom.hbs`,
   }
 
   // Précharger
@@ -281,5 +282,6 @@ export const PreloadTemplates = async function() {
     ...actorSpecialPartials,
     ...actorSpecialLegendsPartials,
     ...wpnPartials,
+    ...dialogPartials
   });
 };

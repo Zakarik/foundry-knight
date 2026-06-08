@@ -105,737 +105,6 @@
   color: white;
 }
 
-.effetsDialog h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  font-size: 20px;
-  padding-left: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.effetsDialog h2.header .headerScore {
-  position: absolute;
-  width: 40px;
-  background: RGB(76 74 90);
-  line-height: 21px;
-  text-align: center;
-  right: 1px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 1px;
-}
-.effetsDialog h2.header .headerQuantity {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  width: 48px;
-  background: RGB(76 74 90);
-  line-height: 22px;
-  height: 22px;
-  text-align: center;
-  right: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 0px;
-}
-.effetsDialog h2.header .headerQuantity input {
-  text-align: center;
-  width: 20px;
-  height: 22px;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-}
-.effetsDialog h2.header .headerQuantity span {
-  width: 8px;
-  line-height: 22px;
-  color: white;
-}
-.effetsDialog h2.header a.verrouillage {
-  position: absolute;
-  right: 5px;
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-.effetsDialog h2.header a.verrouillage:hover {
-  text-shadow: 0 0 10px white;
-}
-.effetsDialog h2.header .far {
-  cursor: pointer;
-}
-.effetsDialog form.effetsDialog {
-  display: grid;
-  column-gap: 10px;
-  grid-template-columns: 300px 1fr;
-  align-items: flex-start;
-  align-content: flex-start;
-  row-gap: 5px;
-}
-.effetsDialog div.editor .tox {
-  min-height: inherit;
-}
-.effetsDialog .editor-edit {
-  background: RGB(43 42 51);
-}
-.effetsDialog .tox-editor-container {
-  background: whitesmoke;
-}
-.effetsDialog div.dialog-content {
-  display: flex;
-  position: relative;
-  width: 100%;
-  flex-wrap: wrap;
-}
-.effetsDialog div.dialog-content div.effets,
-.effetsDialog div.dialog-content div.effetsAdd {
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  padding-bottom: 5px;
-}
-.effetsDialog div.dialog-content div.effets div,
-.effetsDialog div.dialog-content div.effetsAdd div {
-  display: block;
-  position: relative;
-  width: max-content;
-  padding-left: 15px;
-  padding-right: 25px;
-  background: RGB(76 74 90);
-  border-radius: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-top: 5px;
-  border: 1px solid black;
-}
-.effetsDialog div.dialog-content div.effets div span.label,
-.effetsDialog div.dialog-content div.effetsAdd div span.label {
-  font-variant: small-caps;
-  color: white;
-  line-height: 20px;
-}
-.effetsDialog div.dialog-content div.effets div span.label input,
-.effetsDialog div.dialog-content div.effetsAdd div span.label input {
-  width: 15px;
-  min-width: 0px;
-  padding: 0px;
-  line-height: 15px;
-  text-align: right;
-  border: 0px;
-  background: transparent;
-  height: 15px;
-}
-.effetsDialog div.dialog-content div.effets div img.info,
-.effetsDialog div.dialog-content div.effetsAdd div img.info {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  right: 2px;
-  cursor: pointer;
-}
-.effetsDialog div.dialog-content div.effets div img.info.clicked, .effetsDialog div.dialog-content div.effets div img.info:hover,
-.effetsDialog div.dialog-content div.effetsAdd div img.info.clicked,
-.effetsDialog div.dialog-content div.effetsAdd div img.info:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.effetsDialog div.dialog-content div.effets div span.hideInfo,
-.effetsDialog div.dialog-content div.effetsAdd div span.hideInfo {
-  display: none;
-  position: absolute;
-  background: RGB(76 74 90);
-  border: 1px solid black;
-  padding: 5px;
-  z-index: 90;
-  margin-top: -2px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  right: 0;
-  top: 100%;
-  text-align: justify;
-  word-break: break-word;
-}
-.effetsDialog div.dialog-content div.effets div section.btnChargeur,
-.effetsDialog div.dialog-content div.effetsAdd div section.btnChargeur {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2px;
-}
-.effetsDialog div.dialog-content div.effets div section.btnChargeur a.btnEffChange,
-.effetsDialog div.dialog-content div.effetsAdd div section.btnChargeur a.btnEffChange {
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
-  border: 0px;
-  height: 15px;
-  line-height: 8px;
-  background: RGB(43 42 51);
-  color: white;
-  font-size: 20px;
-}
-.effetsDialog div.dialog-content div.effets div i.activable,
-.effetsDialog div.dialog-content div.effetsAdd div i.activable {
-  cursor: pointer;
-}
-.effetsDialog div.dialog-content div.effets div i.activable.inactive,
-.effetsDialog div.dialog-content div.effetsAdd div i.activable.inactive {
-  color: #C50000;
-}
-.effetsDialog div.dialog-content div.effets div i.activable.active,
-.effetsDialog div.dialog-content div.effetsAdd div i.activable.active {
-  color: #59d13e;
-}
-.effetsDialog div.dialog-content div.effets div i.activable:hover,
-.effetsDialog div.dialog-content div.effetsAdd div i.activable:hover {
-  color: white;
-}
-.effetsDialog div.dialog-content div.effets div i.red,
-.effetsDialog div.dialog-content div.effetsAdd div i.red {
-  color: #C50000;
-}
-.effetsDialog div.dialog-content div.effets div i.green,
-.effetsDialog div.dialog-content div.effetsAdd div i.green {
-  color: #59d13e;
-}
-.effetsDialog div.dialog-content div.effets a.edit,
-.effetsDialog div.dialog-content div.effetsAdd a.edit {
-  position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: white;
-  font-variant: small-caps;
-}
-.effetsDialog div.dialog-content div.effets div {
-  padding-left: 25px;
-}
-.effetsDialog div.dialog-content div.effets div.wEdit {
-  padding-left: 40px;
-}
-.effetsDialog div.dialog-content div.effets div img.delete {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  left: 2px;
-  cursor: pointer;
-}
-.effetsDialog div.dialog-content div.effets div img.delete.clicked, .effetsDialog div.dialog-content div.effets div img.delete:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.effetsDialog div.dialog-content div.effets div img.edit {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  left: 20px;
-  cursor: pointer;
-}
-.effetsDialog div.dialog-content div.effets div img.edit.clicked, .effetsDialog div.dialog-content div.effets div img.edit:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.effetsDialog div.dialog-content div.effetsAdd div {
-  padding-left: 25px;
-  padding-right: 25px;
-}
-.effetsDialog div.dialog-content div.effetsAdd div img.info {
-  left: 2px;
-}
-.effetsDialog div.dialog-content div.effetsAdd div a.add {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  right: 2px;
-  cursor: pointer;
-}
-.effetsDialog div.dialog-content div.effetsAdd div a.add:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.effetsDialog div.dialog-content div.effetsAdd div.double {
-  padding-right: 41px;
-}
-.effetsDialog div.dialog-content div.effetsAdd div.double input[type=number] {
-  text-align: left;
-  position: absolute;
-  width: 16px;
-  min-width: 0px;
-  padding: 0px;
-  color: white;
-  right: 20px;
-  top: 0px;
-  border: 0px;
-  height: 24px;
-  border-radius: 0px;
-  background: transparent;
-}
-.effetsDialog div.dialog-content div.effetsAdd div.text {
-  position: relative;
-  padding-bottom: 22px;
-}
-.effetsDialog div.dialog-content div.effetsAdd div.text input[type=text] {
-  text-align: center;
-  position: absolute;
-  width: 100%;
-  min-width: 0px;
-  padding: 0px;
-  color: white;
-  right: 0px;
-  top: 20px;
-  border: 0px;
-  height: 24px;
-  border-radius: 0px;
-  background: transparent;
-  font-size: 12px;
-}
-.effetsDialog div.dialog-content div.effetsAdd div.text input::placeholder {
-  opacity: 0.5;
-  color: white;
-}
-.effetsDialog div.dialog-content div.effetCustom {
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding-bottom: 5px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.header {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.effetsDialog div.dialog-content div.effetCustom div.header input.nom {
-  width: calc(100% - 100px);
-  height: 32px;
-  padding-top: 10px;
-  border-top: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  border-bottom: 1px solid white;
-  border-radius: 0px;
-  font-variant: small-caps;
-}
-.effetsDialog div.dialog-content div.effetCustom div.header input.nom::placeholder {
-  color: white;
-}
-.effetsDialog div.dialog-content div.effetCustom div.header button.ajouter {
-  width: 100px;
-  border-left: 1px solid RGB(43 42 51);
-  border-right: 1px solid RGB(43 42 51);
-  background: RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.header.edit input.nom {
-  width: calc(100% - 200px);
-}
-.effetsDialog div.dialog-content div.effetCustom div.header.edit button.update,
-.effetsDialog div.dialog-content div.effetCustom div.header.edit button.supprimer {
-  width: 100px;
-  background: RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.header.edit button.update {
-  width: 100px;
-  border-left: 1px solid black;
-  background: RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.header.edit button.supprimer {
-  width: 100px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  background: RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque,
-.effetsDialog div.dialog-content div.effetCustom div.degats,
-.effetsDialog div.dialog-content div.effetCustom div.violence,
-.effetsDialog div.dialog-content div.effetCustom div.other {
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  width: calc(100% / 2);
-  flex-wrap: wrap;
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  border-bottom: 1px solid RGB(87 110 178);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque h2,
-.effetsDialog div.dialog-content div.effetCustom div.degats h2,
-.effetsDialog div.dialog-content div.effetCustom div.violence h2,
-.effetsDialog div.dialog-content div.effetCustom div.other h2 {
-  font-size: 14px;
-  padding: 0px;
-  text-align: center;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label,
-.effetsDialog div.dialog-content div.effetCustom div.degats label,
-.effetsDialog div.dialog-content div.effetCustom div.violence label,
-.effetsDialog div.dialog-content div.effetCustom div.other label {
-  display: flex;
-  position: relative;
-  width: 100%;
-  line-height: 26px;
-  justify-content: space-between;
-  flex: none;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label span,
-.effetsDialog div.dialog-content div.effetCustom div.degats label span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label span,
-.effetsDialog div.dialog-content div.effetCustom div.other label span {
-  background: RGB(76 74 90);
-  padding-left: 5px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label span.simpleSeparation,
-.effetsDialog div.dialog-content div.effetCustom div.degats label span.simpleSeparation,
-.effetsDialog div.dialog-content div.effetCustom div.violence label span.simpleSeparation,
-.effetsDialog div.dialog-content div.effetCustom div.other label span.simpleSeparation {
-  border-top: 1px solid black;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label input,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label select,
-.effetsDialog div.dialog-content div.effetCustom div.degats label input,
-.effetsDialog div.dialog-content div.effetCustom div.degats label select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select,
-.effetsDialog div.dialog-content div.effetCustom div.other label input,
-.effetsDialog div.dialog-content div.effetCustom div.other label select {
-  color: white;
-  border: 0px;
-  padding: 0px;
-  background: RGB(43 42 51);
-  border-radius: 0px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label input,
-.effetsDialog div.dialog-content div.effetCustom div.degats label input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label input,
-.effetsDialog div.dialog-content div.effetCustom div.other label input {
-  text-align: center;
-  position: absolute;
-  right: 0px;
-  height: 100%;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label select,
-.effetsDialog div.dialog-content div.effetCustom div.degats label select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select,
-.effetsDialog div.dialog-content div.effetCustom div.other label select {
-  text-align: left;
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  border-radius: 0px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label select option,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label select optgroup,
-.effetsDialog div.dialog-content div.effetCustom div.degats label select option,
-.effetsDialog div.dialog-content div.effetCustom div.degats label select optgroup,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select option,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select optgroup,
-.effetsDialog div.dialog-content div.effetCustom div.other label select option,
-.effetsDialog div.dialog-content div.effetCustom div.other label select optgroup {
-  background: RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label select.center,
-.effetsDialog div.dialog-content div.effetCustom div.degats label select.center,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select.center,
-.effetsDialog div.dialog-content div.effetCustom div.other label select.center {
-  text-align: center;
-  padding-left: 15px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label textarea,
-.effetsDialog div.dialog-content div.effetCustom div.degats label textarea,
-.effetsDialog div.dialog-content div.effetCustom div.violence label textarea,
-.effetsDialog div.dialog-content div.effetCustom div.other label textarea {
-  color: white;
-  border: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
-  text-align: left;
-  background: RGB(43 42 51);
-  font-family: "Signika";
-  height: 26px;
-  border-radius: 0px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.longspan span,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.longspan span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.longspan span,
-.effetsDialog div.dialog-content div.effetCustom div.other label.longspan span {
-  width: calc(100% - 50px);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.longspan input,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.longspan select,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.longspan input,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.longspan select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.longspan input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.longspan select,
-.effetsDialog div.dialog-content div.effetCustom div.other label.longspan input,
-.effetsDialog div.dialog-content div.effetCustom div.other label.longspan select {
-  width: 50px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.shortspan span,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.shortspan span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan span,
-.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan span {
-  width: 90px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.shortspan input,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.shortspan select,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.shortspan textarea,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.shortspan input,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.shortspan select,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.shortspan textarea,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan textarea,
-.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan input,
-.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan select,
-.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan textarea {
-  width: calc(100% - 90px);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.shortspan textarea,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.shortspan textarea,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan textarea,
-.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan textarea {
-  max-width: calc(100% - 90px);
-  min-width: calc(100% - 90px);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.middlespan span,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.middlespan span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.middlespan span,
-.effetsDialog div.dialog-content div.effetCustom div.other label.middlespan span {
-  width: 200px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.middlespan input,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.middlespan select,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.middlespan input,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.middlespan select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.middlespan input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.middlespan select,
-.effetsDialog div.dialog-content div.effetCustom div.other label.middlespan input,
-.effetsDialog div.dialog-content div.effetCustom div.other label.middlespan select {
-  width: calc(100% - 200px);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.doubleInline span.title,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline span.title,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline span.title,
-.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline span.title {
-  width: calc(100% - 50px);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.doubleInline label,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline label,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label,
-.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline label {
-  width: 50px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.doubleInline label span.special,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline label span.special,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label span.special,
-.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline label span.special {
-  position: absolute;
-  right: 0px;
-  width: 50%;
-  background: RGB(43 42 51);
-  text-align: left;
-  border-top: 1px solid RGB(76 74 90);
-  padding: 0px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.doubleInline label input,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.doubleInline label select,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline label input,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline label select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label select,
-.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline label input,
-.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline label select {
-  left: 0px;
-  width: 50%;
-  text-align: right;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.hidden,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.hidden,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.hidden,
-.effetsDialog div.dialog-content div.effetCustom div.other label.hidden {
-  display: none;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) span,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) span,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) span {
-  border-top: 1px solid RGB(43 42 51);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) span.simpleSeparation,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) span.simpleSeparation,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) span.simpleSeparation,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) span.simpleSeparation {
-  border-top: 1px solid black;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) input,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) select,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) textarea,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) input,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) select,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) textarea,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) textarea,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) input,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) select,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) textarea {
-  border-top: 1px solid RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) input.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) select.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) textarea.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) input.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) select.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) textarea.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) input.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) select.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) textarea.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) input.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) select.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) textarea.noBorderTop {
-  border-top: 0px;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type).doubleInline span.special,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type).doubleInline span.special,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type).doubleInline span.special,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type).doubleInline span.special {
-  border-top-color: RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type).doubleInline label span,
-.effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type).doubleInline label span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type).doubleInline label span,
-.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type).doubleInline label span {
-  border-top: 1px solid RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.borderBottom span,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.borderBottom span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.borderBottom span,
-.effetsDialog div.dialog-content div.effetCustom div.other label.borderBottom span {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque label.borderBottom input,
-.effetsDialog div.dialog-content div.effetCustom div.degats label.borderBottom input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.borderBottom input,
-.effetsDialog div.dialog-content div.effetCustom div.other label.borderBottom input {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque textarea,
-.effetsDialog div.dialog-content div.effetCustom div.degats textarea,
-.effetsDialog div.dialog-content div.effetCustom div.violence textarea,
-.effetsDialog div.dialog-content div.effetCustom div.other textarea {
-  color: white;
-  border: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
-  text-align: left;
-  background: RGB(43 42 51);
-  font-family: "Signika";
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
-}
-.effetsDialog div.dialog-content div.effetCustom div.attaque textarea.hidden,
-.effetsDialog div.dialog-content div.effetCustom div.degats textarea.hidden,
-.effetsDialog div.dialog-content div.effetCustom div.violence textarea.hidden,
-.effetsDialog div.dialog-content div.effetCustom div.other textarea.hidden {
-  display: none;
-}
-.effetsDialog div.dialog-content div.effetCustom button {
-  display: grid;
-  grid-template-columns: 21px 1fr;
-  border-left: 0px;
-  border-top: 1px solid black;
-  border-right: 0px;
-  border-bottom: 1px solid black;
-  font-variant: small-caps;
-  border-radius: 0px;
-  color: white;
-  margin: 0px;
-  cursor: pointer;
-  text-align: left;
-  align-items: center;
-  align-content: center;
-}
-.effetsDialog div.dialog-content div.effetCustom button.selected {
-  background: RGB(76 74 90);
-}
-.effetsDialog div.dialog-content div.effetCustom button i {
-  font-size: 20px;
-}
-.effetsDialog div.dialog-content div.effetCustom button i.green {
-  color: #59d13e;
-}
-.effetsDialog div.dialog-content div.effetCustom button i.red {
-  color: #AF0000;
-}
-.effetsDialog div.dialog-content div.effetCustom button.ajouter, .effetsDialog div.dialog-content div.effetCustom button.update, .effetsDialog div.dialog-content div.effetCustom button.annuler {
-  grid-template-columns: 1fr;
-}
-.effetsDialog div.dialog-content div.effetCustom div.editor {
-  min-height: 150px;
-  width: 100%;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  border-bottom: 1px solid white;
-}
-.effetsDialog div.dialog-content.leftBlock {
-  align-items: flex-start;
-  align-content: flex-start;
-  margin-bottom: 45px;
-}
-.effetsDialog div.rightBlock {
-  display: grid;
-  grid-gap: 5px;
-  align-items: flex-start;
-  align-content: flex-start;
-  margin-bottom: 45px;
-}
-.effetsDialog div.dialog-buttons {
-  position: absolute;
-  width: calc(100% - 27px);
-  bottom: 0px;
-  z-index: 100;
-  padding-bottom: 10px;
-  background: RGB(43 42 51);
-}
-.effetsDialog div.dialog-buttons button {
-  cursor: pointer;
-  background: RGB(76 74 90);
-  color: white;
-}
-
 .companionsDialog h2.header {
   display: block;
   position: relative;
@@ -17039,6 +16308,7 @@ li.chat-message.emote {
   line-height: 21px;
   border: 0px;
   text-align: center;
+  background: RGB(76 74 90);
 }
 .actor.knight div.historique h2.header div.data span {
   font-size: 14px;
@@ -17065,6 +16335,7 @@ li.chat-message.emote {
   border: 0px;
   border-radius: 0px;
   background: RGB(43 42 51);
+  height: 25px;
 }
 .actor.knight div.historique div.subLine span {
   margin-left: auto;
@@ -17088,7 +16359,7 @@ li.chat-message.emote {
   align-items: flex-start;
   align-content: flex-start;
 }
-.actor.knight div.historique div.main div.langues h2.header a.item-create {
+.actor.knight div.historique div.main div.langues h2.header a {
   position: absolute;
   right: 45px;
   line-height: 22px;
@@ -17130,7 +16401,7 @@ li.chat-message.emote {
   width: 30px;
   align-items: center;
 }
-.actor.knight div.historique div.main div.contacts h2.header a.item-create {
+.actor.knight div.historique div.main div.contacts h2.header a {
   position: absolute;
   right: 90px;
   line-height: 22px;
@@ -17181,8 +16452,8 @@ li.chat-message.emote {
   word-break: break-all;
   background: RGB(76 74 90);
 }
-.actor.knight div.historique div.main div.blessures h2.header a.item-create,
-.actor.knight div.historique div.main div.traumas h2.header a.item-create {
+.actor.knight div.historique div.main div.blessures h2.header a,
+.actor.knight div.historique div.main div.traumas h2.header a {
   position: absolute;
   right: 5px;
   line-height: 22px;
@@ -45915,6 +45186,760 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin-top: 5px;
 }
 
+.effetsDialog section.window-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-gap: 5px;
+  overflow: auto;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.effetsDialog section.window-content h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.effetsDialog section.window-content h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.effetsDialog section.window-content h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.effetsDialog section.window-content h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.effetsDialog section.window-content h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.effetsDialog section.window-content h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.effetsDialog section.window-content h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.effetsDialog section.window-content h2.header .far {
+  cursor: pointer;
+}
+.effetsDialog section.window-content div.leftBlock, .effetsDialog section.window-content div.rightBlock, .effetsDialog section.window-content div.activable, .effetsDialog section.window-content div.custom {
+  border: 1px solid RGB(87 110 178);
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.effetsDialog section.window-content div.leftBlock {
+  grid-row: 1/4;
+  height: 100%;
+}
+.effetsDialog section.window-content div.custom prose-mirror {
+  grid-column: 1/3;
+}
+.effetsDialog section.window-content div.list {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding-bottom: 5px;
+}
+.effetsDialog section.window-content div.effect {
+  display: grid;
+  width: max-content;
+  grid-template-columns: 15px 1fr 12px;
+  grid-gap: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background: RGB(76 74 90);
+  border: 1px solid RGB(43 42 51);
+  border-radius: 5px;
+  align-items: center;
+  align-content: center;
+  margin: 2px;
+  min-height: 25px;
+}
+.effetsDialog section.window-content div.effect.double {
+  grid-template-columns: 15px 1fr 16px 12px;
+}
+.effetsDialog section.window-content div.effect.show {
+  grid-gap: 2px;
+  grid-template-columns: 15px 1fr 15px;
+}
+.effetsDialog section.window-content div.effect.custom {
+  grid-gap: 2px;
+  grid-template-columns: 15px 15px 1fr 15px;
+}
+.effetsDialog section.window-content div.effect input {
+  min-width: 0px;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  text-align: center;
+  padding: 0px;
+  border-radius: 0px;
+}
+.effetsDialog section.window-content div.effect input[type=text] {
+  grid-column: 1/4;
+}
+.effetsDialog section.window-content div.effect span.label {
+  padding-top: 2px;
+}
+.effetsDialog section.window-content div.effect span.value {
+  text-align: center;
+  justify-content: center;
+}
+.effetsDialog section.window-content div.effect a.add {
+  cursor: pointer;
+}
+.effetsDialog section.window-content div.effect a.add:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.effetsDialog section.window-content div.effect img.delete, .effetsDialog section.window-content div.effect img.edit, .effetsDialog section.window-content div.effect img.info {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  background: transparent;
+  cursor: pointer;
+}
+.effetsDialog section.window-content div.effect img.delete.clicked, .effetsDialog section.window-content div.effect img.delete:hover, .effetsDialog section.window-content div.effect img.edit.clicked, .effetsDialog section.window-content div.effect img.edit:hover, .effetsDialog section.window-content div.effect img.info.clicked, .effetsDialog section.window-content div.effect img.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.effetsDialog section.window-content div.listCustom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.effetsDialog section.window-content div.listCustom div.header {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 1fr 100px;
+}
+.effetsDialog section.window-content div.listCustom div.header input {
+  background: RGB(43 42 51);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid white;
+  border-radius: 0px;
+  font-variant: small-caps;
+  padding-left: 5px;
+}
+.effetsDialog section.window-content div.listCustom div.header button {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: 1fr;
+  border-left: 0px;
+  border-top: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(43 42 51);
+  border-left: 1px solid RGB(43 42 51);
+  border-bottom: 1px solid RGB(43 42 51);
+  background: RGB(76 74 90);
+  font-variant: small-caps;
+  border-radius: 5px;
+  color: white;
+  margin: 0px;
+  cursor: pointer;
+  text-align: left;
+  align-items: center;
+  align-content: center;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.effetsDialog section.window-content div.listCustom div.header button:hover {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.listCustom .effetCustom > label.border span,
+.effetsDialog section.window-content div.listCustom .effetCustom > div.border span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.effetsDialog section.window-content div.listCustom .effetCustom > label.border input,
+.effetsDialog section.window-content div.listCustom .effetCustom > label.border select,
+.effetsDialog section.window-content div.listCustom .effetCustom > div.border input,
+.effetsDialog section.window-content div.listCustom .effetCustom > div.border select {
+  border-top: 1px solid RGB(76 74 90);
+}
+.effetsDialog section.window-content div.listCustom .effetCustom > label.border > label input,
+.effetsDialog section.window-content div.listCustom .effetCustom > label.border > label span,
+.effetsDialog section.window-content div.listCustom .effetCustom > div.border > label input,
+.effetsDialog section.window-content div.listCustom .effetCustom > div.border > label span {
+  border-top: 1px solid RGB(76 74 90);
+}
+.effetsDialog section.window-content div.effetCustom.border {
+  border-right: 1px solid RGB(87 110 178);
+}
+.effetsDialog section.window-content div.effetCustom span {
+  display: grid;
+  align-items: center;
+  background: RGB(76 74 90);
+  padding-left: 5px;
+}
+.effetsDialog section.window-content div.effetCustom input,
+.effetsDialog section.window-content div.effetCustom select {
+  text-align: center;
+  width: 100%;
+  min-width: 100%;
+  max-width: 0px;
+  background: RGB(43 42 51);
+  min-height: 26px;
+  padding: 0px;
+  border-radius: 0px;
+  border: 0px;
+  color: white;
+  height: 100%;
+}
+.effetsDialog section.window-content div.effetCustom textarea {
+  color: white;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(76 74 90);
+  font-family: "Signika";
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  margin-bottom: -5px;
+}
+.effetsDialog section.window-content div.effetCustom textarea.hide {
+  display: none;
+}
+.effetsDialog section.window-content div.effetCustom button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 21px 1fr;
+  border-left: 0px;
+  border-top: 1px solid black;
+  border-right: 0px;
+  border-bottom: 1px solid black;
+  font-variant: small-caps;
+  border-radius: 0px;
+  color: white;
+  margin: 0px;
+  cursor: pointer;
+  text-align: left;
+  align-items: center;
+  align-content: center;
+  background: RGB(43 42 51);
+  height: fit-content;
+}
+.effetsDialog section.window-content div.effetCustom button.selected {
+  background: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.effetCustom button + * span,
+.effetsDialog section.window-content div.effetCustom button + * input,
+.effetsDialog section.window-content div.effetCustom button + * select {
+  border-top: 0px !important;
+}
+.effetsDialog section.window-content div.effetCustom button + button {
+  border-top: 0px;
+}
+.effetsDialog section.window-content div.effetCustom .red {
+  color: #AF0000;
+}
+.effetsDialog section.window-content div.effetCustom .green {
+  color: #59d13e;
+}
+.effetsDialog section.window-content div.effetCustom > label {
+  display: grid;
+}
+.effetsDialog section.window-content div.effetCustom > label.text, .effetsDialog section.window-content div.effetCustom > label.number {
+  grid-template-columns: 1fr 50px;
+}
+.effetsDialog section.window-content div.effetCustom > label.select {
+  grid-template-columns: 1fr 100px;
+}
+.effetsDialog section.window-content div.effetCustom > div {
+  display: grid;
+}
+.effetsDialog section.window-content div.effetCustom > div.numberWithSpan {
+  grid-template-columns: 1fr 50px;
+}
+.effetsDialog section.window-content div.effetCustom > div.numberWithSpan label {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: RGB(43 42 51);
+}
+.effetsDialog section.window-content div.effetCustom > div.numberWithSpan label input {
+  text-align: right;
+}
+.effetsDialog section.window-content div.effetCustom > div.numberWithSpan label span {
+  text-align: left;
+  padding: 0px;
+  background: RGB(43 42 51);
+}
+.effetsDialog section.window-content div.btn {
+  position: sticky;
+  bottom: 0px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  grid-column: 1/3;
+  background: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.btn button {
+  background: RGB(76 74 90);
+  color: white;
+  cursor: pointer;
+  border: 1px solid white;
+}
+.effetsDialog section.window-content div.btn button:hover {
+  background: RGB(43 42 51);
+}
+.effetsDialog section.window-content div.hidden {
+  display: none !important;
+}
+.effetsDialog section.window-content div.dialog-content {
+  display: flex;
+  position: relative;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-bottom: 5px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header input.nom {
+  width: calc(100% - 100px);
+  height: 32px;
+  padding-top: 10px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid white;
+  border-radius: 0px;
+  font-variant: small-caps;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header input.nom::placeholder {
+  color: white;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header button.ajouter {
+  width: 100px;
+  border-left: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(43 42 51);
+  background: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header.edit input.nom {
+  width: calc(100% - 200px);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header.edit button.update,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header.edit button.supprimer {
+  width: 100px;
+  background: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header.edit button.update {
+  width: 100px;
+  border-left: 1px solid black;
+  background: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.header.edit button.supprimer {
+  width: 100px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: calc(100% / 2);
+  flex-wrap: wrap;
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  border-bottom: 1px solid RGB(87 110 178);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque h2,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats h2,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence h2,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other h2 {
+  font-size: 14px;
+  padding: 0px;
+  text-align: center;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label {
+  display: flex;
+  position: relative;
+  width: 100%;
+  line-height: 26px;
+  justify-content: space-between;
+  flex: none;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label span {
+  background: RGB(76 74 90);
+  padding-left: 5px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label span.simpleSeparation,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label span.simpleSeparation,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label span.simpleSeparation,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label span.simpleSeparation {
+  border-top: 1px solid black;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label select {
+  color: white;
+  border: 0px;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label input {
+  text-align: center;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label select {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  border-radius: 0px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label select option,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label select optgroup,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label select option,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label select optgroup,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label select option,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label select optgroup,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label select option,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label select optgroup {
+  background: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label select.center,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label select.center,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label select.center,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label select.center {
+  text-align: center;
+  padding-left: 15px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label textarea {
+  color: white;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: "Signika";
+  height: 26px;
+  border-radius: 0px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.longspan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.longspan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.longspan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.longspan span {
+  width: calc(100% - 50px);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.longspan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.longspan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.longspan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.longspan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.longspan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.longspan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.longspan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.longspan select {
+  width: 50px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.shortspan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.shortspan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.shortspan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.shortspan span {
+  width: 90px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.shortspan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.shortspan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.shortspan textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.shortspan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.shortspan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.shortspan textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.shortspan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.shortspan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.shortspan textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.shortspan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.shortspan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.shortspan textarea {
+  width: calc(100% - 90px);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.shortspan textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.shortspan textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.shortspan textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.shortspan textarea {
+  max-width: calc(100% - 90px);
+  min-width: calc(100% - 90px);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.middlespan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.middlespan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.middlespan span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.middlespan span {
+  width: 200px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.middlespan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.middlespan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.middlespan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.middlespan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.middlespan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.middlespan select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.middlespan input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.middlespan select {
+  width: calc(100% - 200px);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.doubleInline span.title,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.doubleInline span.title,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.doubleInline span.title,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.doubleInline span.title {
+  width: calc(100% - 50px);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.doubleInline label,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.doubleInline label,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.doubleInline label,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.doubleInline label {
+  width: 50px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.doubleInline label span.special,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.doubleInline label span.special,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.doubleInline label span.special,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.doubleInline label span.special {
+  position: absolute;
+  right: 0px;
+  width: 50%;
+  background: RGB(43 42 51);
+  text-align: left;
+  border-top: 1px solid RGB(76 74 90);
+  padding: 0px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.doubleInline label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.doubleInline label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.doubleInline label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.doubleInline label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.doubleInline label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.doubleInline label select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.doubleInline label input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.doubleInline label select {
+  left: 0px;
+  width: 50%;
+  text-align: right;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.hidden,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.hidden,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.hidden,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.hidden {
+  display: none;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type) span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type) span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) span.simpleSeparation,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type) span.simpleSeparation,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type) span.simpleSeparation,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type) span.simpleSeparation {
+  border-top: 1px solid black;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type) input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type) select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type) textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type) input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type) select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type) textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type) input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type) select,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type) textarea {
+  border-top: 1px solid RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) input.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) select.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) textarea.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type) input.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type) select.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type) textarea.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type) input.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type) select.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type) textarea.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type) input.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type) select.noBorderTop,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type) textarea.noBorderTop {
+  border-top: 0px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type).doubleInline span.special,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type).doubleInline span.special,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type).doubleInline span.special,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type).doubleInline span.special {
+  border-top-color: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label:not(:first-of-type).doubleInline label span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label:not(:first-of-type).doubleInline label span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label:not(:first-of-type).doubleInline label span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label:not(:first-of-type).doubleInline label span {
+  border-top: 1px solid RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.borderBottom span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.borderBottom span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.borderBottom span,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.borderBottom span {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque label.borderBottom input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats label.borderBottom input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence label.borderBottom input,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other label.borderBottom input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence textarea,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other textarea {
+  color: white;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: "Signika";
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.attaque textarea.hidden,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.degats textarea.hidden,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.violence textarea.hidden,
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.other textarea.hidden {
+  display: none;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom button {
+  display: grid;
+  grid-template-columns: 21px 1fr;
+  border-left: 0px;
+  border-top: 1px solid black;
+  border-right: 0px;
+  border-bottom: 1px solid black;
+  font-variant: small-caps;
+  border-radius: 0px;
+  color: white;
+  margin: 0px;
+  cursor: pointer;
+  text-align: left;
+  align-items: center;
+  align-content: center;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom button.selected {
+  background: RGB(76 74 90);
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom button i {
+  font-size: 20px;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom button i.green {
+  color: #59d13e;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom button i.red {
+  color: #AF0000;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom button.ajouter, .effetsDialog section.window-content div.dialog-content div.effetCustom button.update, .effetsDialog section.window-content div.dialog-content div.effetCustom button.annuler {
+  grid-template-columns: 1fr;
+}
+.effetsDialog section.window-content div.dialog-content div.effetCustom div.editor {
+  min-height: 150px;
+  width: 100%;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+}
+.effetsDialog section.window-content div.dialog-buttons {
+  position: absolute;
+  width: calc(100% - 27px);
+  bottom: 0px;
+  z-index: 100;
+  padding-bottom: 10px;
+  background: RGB(43 42 51);
+}
 div#interface.version1 #logo {
   content: url("../assets/icons/logo1.webp");
   min-height: 100px;
