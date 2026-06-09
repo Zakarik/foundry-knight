@@ -50,9 +50,11 @@ const JsTogglerMixin = (superclass) => class extends superclass {
 
             // Pas d'enregistrement → on garde l'état par défaut du HTML (plus = replié)
             if (saved === undefined) {
-                this.#getSiblings(el).forEach(s => {
-                    s.style.setProperty('display', 'none');
-                });
+                if(el.classList.contains('fa-plus-square')) {
+                    this.#getSiblings(el).forEach(s => {
+                        s.style.setProperty('display', 'none');
+                    });
+                }
                 return;
             }
 

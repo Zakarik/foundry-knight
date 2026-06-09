@@ -78,7 +78,7 @@ data-raw="{{raw}}"
                 <span>{{this.system.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.system.violence.fixe}}</span>
             </div>
             {{#if this.equipped}}
-                <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{ifThen _id _id this.system.item._id}}" data-isDistance="{{#if this.system.tourelle.has}}tourelle{{else}}{{this.system.type}}{{/if}}" data-num="{{num}}" />
+                <img data-action="useWpn" src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{ifThen _id _id this.system.item._id}}" data-isDistance="{{#if this.system.tourelle.has}}tourelle{{else}}{{this.system.type}}{{/if}}" data-num="{{num}}" />
             {{/if}}
         </div>
         {{#if this.system.pnj}}

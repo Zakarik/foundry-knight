@@ -1,0 +1,8 @@
+<footer class="footer">
+    {{#each buttons}}
+        <button type="button" class="dialog-button {{@key}}" data-action="{{@key}}">
+            {{{icon}}}
+            <label>{{label}}</label>
+        </button>
+    {{/each}}
+</footer>

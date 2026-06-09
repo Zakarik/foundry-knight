@@ -3,12 +3,47 @@ import {
     listEffects,
     getAllEffects,
 } from "../helpers/common.mjs";
+import JsTogglerMixin from "../sheets/bases/mixin-js-toggler.mjs";
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
-export class KnightRollDialog extends Dialog {
-    static dialogRoll = 'systems/knight/templates/dialog/roll-sheet.html';
+export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(ApplicationV2)) {
+    static dialogRoll = 'systems/knight/templates/dialog/parts/roll/roll-sheet.html';
 
-    constructor(actor, data={}) {
-        const dialogData = {
+    static DEFAULT_OPTIONS = {
+        classes: ["dialog", "knight", "rollDialog"],
+        position: { width: 900, height: 800 },
+        window: { resizable: true, title: "KNIGHT.JETS.Label" },
+        tag: "form",
+        baseApplication: "KnightRollDialog",
+        actions: {
+            rollNormal: KnightRollDialog.#onRollNormal,
+            rollEntraide: KnightRollDialog.#onRollEntraide,
+            rollCancel: KnightRollDialog.#onRollCancel,
+        },
+    };
+
+    static PARTS = {
+        header:{
+            template: "systems/knight/templates/dialog/parts/roll/header.hbs",
+        },
+        aspects: {
+            template: "systems/knight/templates/dialog/parts/roll/aspects.hbs",
+        },
+        mods: {
+            template: "systems/knight/templates/dialog/parts/roll/mods.hbs",
+        },
+        footer: {
+            template: "systems/knight/templates/dialog/parts/roll/footer.hbs",
+        },
+    };
+
+    constructor(actor, data={}, options={}) {
+        super(foundry.utils.mergeObject({ id: `KnightRollDialog-${actor}` }, options));
+
+        this.document = {
+            id:`${actor}-0`
+        }
+        this.data = {
             whoActivate:data?.whoActivate ?? 'none',
             roll:{
                 html:undefined,
@@ -55,16 +90,7 @@ export class KnightRollDialog extends Dialog {
             buttons:{},
         }
 
-        const options = {
-            baseApplication:'KnightRollDialog',
-            id:actor,
-            classes: ["dialog", "knight", "rollDialog"],
-            width: 900,
-            height:data?.height ?? 800,
-            resizable: true
-        };
-
-        super(dialogData, options);
+        if (data?.height) this.options.position.height = data.height;
     }
 
     get rollData() {
@@ -182,7 +208,6 @@ export class KnightRollDialog extends Dialog {
         else return false;
     }
 
-
     actualise() {
         this.#renderInitialization(this.data.roll.html);
 
@@ -215,18 +240,49 @@ export class KnightRollDialog extends Dialog {
         this.#prepareButtons();
         this.#prepareMods();
 
-        this.data.content = await renderTemplate(KnightRollDialog.dialogRoll, this.#prepareOptions());
+        console.error('test');
 
-        this.render(true);
+        return this.render({ force: true });
     }
 
     /* -------------------------------------------- */
 
+    static #onRollNormal(event, target) {
+        const $html = $(this.element);
+        this.#roll($html);
+    }
+
+    static #onRollEntraide(event, target) {
+        const $html = $(this.element);
+        this.#entraide($html);
+    }
+
+    static #onRollCancel(event, target) {
+        this.close();
+    }
+
     /** @inheritdoc */
-    activateListeners(html) {
-        super.activateListeners(html);
+    async _prepareContext(options) {
+        const context = await super._prepareContext(options);
+        // S'assure que les données sont préparées (le 1er rendu vient de open(),
+        // mais un éventuel re-render direct doit aussi initialiser les boutons/title).
+        if (!this.data.title) this.#prepareTitle();
+        if (foundry.utils.isEmpty(this.data.buttons)) this.#prepareButtons();
+
+        const rollOptions = this.#prepareOptions();
+        return foundry.utils.mergeObject(context, {
+            ...rollOptions,
+            buttons: this.data.buttons,
+        });
+    }
+
+    _onRender(context, options) {
+        super._onRender(context, options);
+        const html = $(this.element);
         this.#renderHTML(html);
     }
+
+    /* -------------------------------------------- */
 
     #renderHTML(html) {
         this.data.roll.html = html;
@@ -1521,17 +1577,17 @@ export class KnightRollDialog extends Dialog {
         switch(this.actor.type) {
             case 'knight':
                 results = {
-                    button1: {
+                    rollNormal: {
                       label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
                       callback: async (data) => this.#roll(data),
                       icon: `<i class="fas fa-dice"></i>`
                     },
-                    button2: {
+                    rollEntraide: {
                       label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
                       callback: async (data) => this.#entraide(data),
                       icon: `<i class="fas fa-dice-d6"></i>`
                     },
-                    button3: {
+                    rollCancel: {
                       label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
                       icon: `<i class="fas fa-times"></i>`
                     }
@@ -1544,12 +1600,12 @@ export class KnightRollDialog extends Dialog {
             case 'vehicule':
             case 'mechaarmure':
                 results = {
-                    button1: {
+                    rollNormal: {
                       label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
                       callback: async (data) => this.#roll(data),
                       icon: `<i class="fas fa-dice"></i>`
                     },
-                    button3: {
+                    rollCancel: {
                       label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
                       icon: `<i class="fas fa-times"></i>`
                     }
@@ -1587,7 +1643,7 @@ export class KnightRollDialog extends Dialog {
 
         let buttons = {
             key:'grpBtn',
-            classes:'grpBtn rowFour colFiveSeven',
+            classes:'grpBtn colFiveSeven',
             grp:[],
         };
 
@@ -1661,7 +1717,7 @@ export class KnightRollDialog extends Dialog {
             //STYLES
             data.mods.push({
                 key:'select',
-                classes:'style selectWithInfo rowFourTwo',
+                classes:'style selectWithInfo',
                 label:game.i18n.localize('KNIGHT.COMBAT.STYLES.Label'),
                 selected:system.combat.style,
                 info:game.i18n.localize(CONFIG.KNIGHT.styles[system.combat.style]),
@@ -4334,8 +4390,8 @@ export class KnightRollDialog extends Dialog {
                     },
                 });
             } else {
-                $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowFourSix');
-                $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowThreeFive');
+                $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowFourSix rowThreeFive');
+                $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowTwo');
 
                 $(tgt).parents('div.grpWpn').siblings('div.aspects').show({
                     complete: () => {
@@ -4400,8 +4456,7 @@ export class KnightRollDialog extends Dialog {
         }
 
         if(!this.rollData.wpnSelected) {
-            $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowThreeFive');
-            $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowFourTwo');
+            $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowFourTwo rowThreeFive');
 
             $(tgt).parents('div.grpWpn').siblings('div.aspects').show({
                 complete: () => {
@@ -4549,8 +4604,7 @@ export class KnightRollDialog extends Dialog {
 
             if(!isPJ) html.find('.grpBtn').hide();
 
-            html.find('div.grpBtn').addClass('rowFour');
-            html.find('div.grpBtn').removeClass('rowThreeSeven rowThreeFive');
+            html.find('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
         } else {
             if(init) {
                 html.find('.modificateurdegats').show();
@@ -4619,7 +4673,7 @@ export class KnightRollDialog extends Dialog {
             if(!isPJ) html.find('.grpBtn').show();
 
             html.find('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
-            if(isPJ) html.find('div.grpBtn').addClass('rowThreeSeven');
+            if(isPJ) html.find('div.grpBtn').addClass('rowOneFour');
             else html.find('div.grpBtn').addClass('rowThreeFive');
         }
     }

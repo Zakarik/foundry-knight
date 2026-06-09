@@ -830,11 +830,11 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
 
     this.element.querySelectorAll('img.diceTarget').forEach(el => {
       el.addEventListener('mouseenter', (event) => {
-        event.currentTarget.src = 'systems/knight/assets/icons/D6TargetBlack.svg';
+        event.currentTarget.src = 'systems/knight/assets/icons/D6TargetWhite.svg';
       });
 
       el.addEventListener('mouseleave', (event) => {
-        event.currentTarget.src = 'systems/knight/assets/icons/D6TargetWhite.svg';
+        event.currentTarget.src = 'systems/knight/assets/icons/D6TargetBlack.svg';
       });
     });
   }

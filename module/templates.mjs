@@ -269,6 +269,7 @@ export const PreloadTemplates = async function() {
   const dialogPartials = {
     "knight.dialog.effects.effect": `${path}/dialog/parts/effects/effect.hbs`,
     "knight.dialog.effects.custom": `${path}/dialog/parts/effects/sections/custom.hbs`,
+    "knight.dialog.wpnOptions": `${path}/dialog/parts/wpnOptions.hbs`,
   }
 
   // Précharger

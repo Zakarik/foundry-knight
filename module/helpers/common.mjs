@@ -5752,9 +5752,12 @@ export async function importActor(json, type) {
 }
 
 export async function actualiseRoll(actor) {
-  const roll = Object.values(ui.windows).find(itm => itm.options.baseApplication === 'KnightRollDialog' && ((itm?.who?.id ?? undefined) === actor.id || itm.options.id === actor.id));
+    const roll = Array.from(foundry.applications.instances.values()).find(app =>
+        app.constructor.name === 'KnightRollDialog' &&
+        ((app?.who?.id === actor.id) || app._actorId === actor.id)
+    );
 
-  if(roll) roll.actualise();
+    if (roll) roll.actualise();
 }
 
 export async function rollDamage(message, eventOrOptions) {

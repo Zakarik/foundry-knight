@@ -1,0 +1,22 @@
+<div class="aspects">
+    {{#each aspects}}
+        <div class="aspect">
+            {{#if caracteristiques}}
+                <h2 class="header">{{label}}</h2>
+                {{#each caracteristiques}}
+                <button type="action" class="{{classes}}" data-value="{{data}}">
+                    <i></i>
+                    <span class='label'>{{label}}</span>
+                    <span class='value'>{{value}}</span>
+                </button>
+                {{/each}}
+            {{else}}
+                <button type="action" class="{{classes}}" data-value="{{data}}">
+                    <i></i>
+                    <span class='label'>{{label}}</span>
+                    <span class='value'>{{value}}</span>
+                </button>
+            {{/if}}
+        </div>
+    {{/each}}
+</div>

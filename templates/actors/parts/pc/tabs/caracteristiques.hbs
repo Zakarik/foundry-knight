@@ -10,7 +10,7 @@
             <span class="aspectLabel">{{key.value}}</span>
             <div class="caracteristiques">
                 {{#each key.caracteristiques as | keyCar caracteristique|}}
-                    <div class="line roll diceHover draggable" data-tooltip="{{localize "KNIGHT.JETS.Label"}}"
+                    <div data-action="dialogRoll" class="line roll diceHover draggable" data-tooltip="{{localize "KNIGHT.JETS.Label"}}"
                     data-caracteristique="{{caracteristique}}" data-type="caracteristique"
                     data-label="{{getCarac caracteristique}}" data-what="{{caracteristique}}"
                     >
