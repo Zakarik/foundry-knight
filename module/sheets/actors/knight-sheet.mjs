@@ -38,7 +38,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
 
   get itemTypesValides() {
     return [...super.itemTypesValides,
-      'module', 'armure',
+      'module', 'armure', 'art',
       'avantage', 'inconvenient',
       'carteheroique', 'capaciteheroique',
       'motivationMineure', 'contact',

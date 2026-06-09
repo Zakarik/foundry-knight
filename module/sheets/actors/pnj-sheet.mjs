@@ -19,7 +19,7 @@ export class PNJSheet extends HumanMixinSheet(NPCMixinSheet(BaseActorSheet)) {
 
   get itemTypesValides() {
     return [...super.itemTypesValides,
-      'module', 'armure','langue', 'capacite',
+      'module', 'armure','langue', 'capacite', 'art',
       'armurelegende', 'capaciteultime',
       'cyberware'];
   }
