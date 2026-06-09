@@ -1,3 +1,7 @@
+## v3.58.26
+### Bugfix
+- Application du même correctif qu'en v3.57.25
+
 ## v3.58.25
 ### Bugfix
 - Application du même correctif qu'en v3.57.24
@@ -98,6 +102,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.25
+### Bugfix
+- Correction d'un bug empêchant le drag & drop de l'art sur les personnages.
 
 ## v3.57.24
 ### Bugfix
