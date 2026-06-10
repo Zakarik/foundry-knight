@@ -624,7 +624,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       item.update(update);
     });*/
 
-    html.find('div.progression .tableauPG button').click(ev => {
+    /*html.find('div.progression .tableauPG button').click(ev => {
       const target = $(ev.currentTarget);
       const value = target.data("value");
       const id = target.data("id");
@@ -641,7 +641,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       } else {
         this.actor.items.get(id).update({['system.gratuit']:result});
       }
-    });
+    });*/
 
     html.find('div.progression .tableauPG .gloire-create').click(async ev => {
       const dataGloire = this.actor.system.progression.gloire;
@@ -682,12 +682,12 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       await this.actor.update({[`system.progression.gloire.depense.autre`]:update});
     });
 
-    html.find('div.progression .tableauPG .gloire-delete').click(ev => {
+    /*html.find('div.progression .tableauPG .gloire-delete').click(ev => {
       const target = $(ev.currentTarget);
       const id = target.data("id");
 
       this.actor.update({[`system.progression.gloire.depense.autre.-=${id}`]:null});
-    });
+    });*/
 
     html.find('div.progression .tableauPX .experience-create').click(ev => {
       const getData = this.actor;
@@ -713,12 +713,12 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       this.actor.update({[`system.progression.experience.depense.liste`]:newData});
     });
 
-    html.find('div.progression .tableauPX .experience-delete').click(ev => {
+    /*html.find('div.progression .tableauPX .experience-delete').click(ev => {
       const target = $(ev.currentTarget);
       const id = target.data("id");
 
       this.actor.update({[`system.progression.experience.depense.liste.-=${id}`]:null});
-    });
+    });*/
 
     html.find('.appliquer-evolution-armure').click(async ev => {
       const target = $(ev.currentTarget);

@@ -1,0 +1,16 @@
+<div class="line">
+    <a data-action="noItemDelete" data-index="{{index}}" data-path="progression.experience.depense.liste" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+    <select name="system.progression.experience.depense.liste.{{index}}.nom">
+        {{selectOptions (getProgression) selected=nom blank=''}}
+    </select>
+    {{#if (isValue key.nom 'capaciteheroique')}}
+        <span class="value borderLeft"></span>
+    {{else}}
+        {{#if (isValue nom 'autre')}}
+            <span class="value borderLeft"></span>
+        {{else}}
+            <input type="number" class="borderLeft" name="system.progression.experience.depense.liste.{{index}}.bonus" value="{{bonus}}" min="0" />
+        {{/if}}
+    {{/if}}
+    <input type="number" class="borderLeft" name="system.progression.experience.depense.liste.{{index}}.cout" value="{{cout}}" min="0" />
+</div>

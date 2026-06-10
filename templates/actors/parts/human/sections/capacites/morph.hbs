@@ -319,7 +319,7 @@
             </div>
             <div class="effets noSeparationTop">
                 {{#each this.polymorphie.griffe.effets.liste as | key effet|}}
-                    {{~> systems/knight/templates/parts/effets.html type='morph_griffe'}}
+                    {{~> knight.effets type='morph_griffe'}}
                 {{/each}}
             </div>
 
@@ -340,7 +340,7 @@
             </div>
             <div class="effets noSeparationTop">
                 {{#each this.polymorphie.lame.effets.liste as | key effet|}}
-                    {{~> systems/knight/templates/parts/effets.html type='morph_lame'}}
+                    {{~> knight.effets type='morph_lame'}}
                 {{/each}}
             </div>
 
@@ -361,7 +361,7 @@
             </div>
             <div class="effets noSeparationTop">
                 {{#each this.polymorphie.canon.effets.liste as | key effet|}}
-                    {{~> systems/knight/templates/parts/effets.html type='morph_canon'}}
+                    {{~> knight.effets type='morph_canon'}}
                 {{/each}}
             </div>
         </div>

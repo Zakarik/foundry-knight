@@ -251,6 +251,8 @@ export const PreloadTemplates = async function() {
     "knight.distinctions": `${path}/actors/parts/pc/sections/distinctions.hbs`,
     "knight.capaciteultime": `${path}/actors/parts/pc/sections/capaciteultime.hbs`,
     "knight.overdrives": `${path}/actors/parts/pc/sections/overdrives.hbs`,
+    "knight.progression.xp": `${path}/actors/parts/pc/sections/progression-xp.hbs`,
+    "knight.progression.gloire": `${path}/actors/parts/pc/sections/progression-gloire.hbs`,
   };
 
   const creaturePartials = {};

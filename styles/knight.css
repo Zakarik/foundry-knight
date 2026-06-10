@@ -16567,396 +16567,6 @@ li.chat-message.emote {
   border-right: 1px solid RGB(87 110 178);
   background: RGB(76 74 90);
 }
-.actor.knight div.progression h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  font-size: 20px;
-  padding-left: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.actor.knight div.progression h2.header .headerScore {
-  position: absolute;
-  width: 40px;
-  background: RGB(76 74 90);
-  line-height: 21px;
-  text-align: center;
-  right: 1px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 1px;
-}
-.actor.knight div.progression h2.header .headerQuantity {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  width: 48px;
-  background: RGB(76 74 90);
-  line-height: 22px;
-  height: 22px;
-  text-align: center;
-  right: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 0px;
-}
-.actor.knight div.progression h2.header .headerQuantity input {
-  text-align: center;
-  width: 20px;
-  height: 22px;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-}
-.actor.knight div.progression h2.header .headerQuantity span {
-  width: 8px;
-  line-height: 22px;
-  color: white;
-}
-.actor.knight div.progression h2.header a.verrouillage {
-  position: absolute;
-  right: 5px;
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-.actor.knight div.progression h2.header a.verrouillage:hover {
-  text-shadow: 0 0 10px white;
-}
-.actor.knight div.progression h2.header .far {
-  cursor: pointer;
-}
-.actor.knight div.progression div.main {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-}
-.actor.knight div.progression div.main div.dataExperience, .actor.knight div.progression div.main div.dataPG {
-  display: flex;
-  width: calc(50% - 10px);
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-}
-.actor.knight div.progression div.main div.dataExperience label, .actor.knight div.progression div.main div.dataPG label {
-  display: flex;
-  width: calc(100% / 3);
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-}
-.actor.knight div.progression div.main div.dataExperience label span, .actor.knight div.progression div.main div.dataPG label span {
-  display: inline-block;
-  width: 100%;
-  line-height: 26px;
-  text-align: center;
-  color: white;
-}
-.actor.knight div.progression div.main div.dataExperience label span.label, .actor.knight div.progression div.main div.dataPG label span.label {
-  background: RGB(76 74 90);
-  font-size: 13px;
-  font-variant: small-caps;
-}
-.actor.knight div.progression div.main div.dataExperience label span.score, .actor.knight div.progression div.main div.dataPG label span.score {
-  background: RGB(43 42 51);
-}
-.actor.knight div.progression div.main div.dataExperience label input, .actor.knight div.progression div.main div.dataPG label input {
-  height: 26px;
-  border-radius: 0px;
-  border: 0px;
-  background: RGB(43 42 51);
-  text-align: center;
-  padding: 0px;
-}
-.actor.knight div.progression div.main div.dataExperience label:not(:first-of-type) span.label, .actor.knight div.progression div.main div.dataPG label:not(:first-of-type) span.label {
-  border-left: 1px solid RGB(43 42 51);
-}
-.actor.knight div.progression div.main div.dataExperience label:not(:first-of-type) span.score, .actor.knight div.progression div.main div.dataPG label:not(:first-of-type) span.score {
-  border-left: 1px solid RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.dataExperience label:not(:first-of-type) input, .actor.knight div.progression div.main div.dataPG label:not(:first-of-type) input {
-  border-left: 1px solid RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.tableauPG {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-  margin-top: 5px;
-}
-.actor.knight div.progression div.main div.tableauPG h2.header a {
-  position: absolute;
-  right: 5px;
-}
-.actor.knight div.progression div.main div.tableauPG div.line, .actor.knight div.progression div.main div.tableauPG div.lineHeader {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.actor.knight div.progression div.main div.tableauPG div.line span, .actor.knight div.progression div.main div.tableauPG div.lineHeader span {
-  display: inline-block;
-  line-height: 26px;
-}
-.actor.knight div.progression div.main div.tableauPG div.line span.label, .actor.knight div.progression div.main div.tableauPG div.lineHeader span.label {
-  width: 50%;
-}
-.actor.knight div.progression div.main div.tableauPG div.line span.value, .actor.knight div.progression div.main div.tableauPG div.line span.last, .actor.knight div.progression div.main div.tableauPG div.lineHeader span.value, .actor.knight div.progression div.main div.tableauPG div.lineHeader span.last {
-  width: 25%;
-}
-.actor.knight div.progression div.main div.tableauPG div.lineHeader span.label, .actor.knight div.progression div.main div.tableauPG div.lineHeader span.value {
-  font-variant: small-caps;
-  font-size: 13px;
-  background: RGB(76 74 90);
-  border-right: 1px solid RGB(43 42 51);
-  text-align: center;
-}
-.actor.knight div.progression div.main div.tableauPG div.line {
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.tableauPG div.line span.label {
-  padding-left: 5px;
-}
-.actor.knight div.progression div.main div.tableauPG div.line span.value {
-  text-align: center;
-}
-.actor.knight div.progression div.main div.tableauPG div.line span.label, .actor.knight div.progression div.main div.tableauPG div.line span.value {
-  background: RGB(43 42 51);
-  border-right: 1px solid RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.tableauPG div.armure {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  border-top: 5px double RGB(76 74 90);
-  border-bottom: 5px double RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.tableauPG div.armure span.label {
-  width: 75%;
-}
-.actor.knight div.progression div.main div.tableauPG div.armure span.value {
-  width: 25%;
-}
-.actor.knight div.progression div.main div.tableauPG div.acheter {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  border-top: 5px double RGB(76 74 90);
-  border-bottom: 5px double RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.tableauPG div.acheter span.label {
-  width: 50%;
-}
-.actor.knight div.progression div.main div.tableauPG div.acheter span.value {
-  width: 25%;
-}
-.actor.knight div.progression div.main div.tableauPG div.acheter span.btn {
-  width: 25%;
-}
-.actor.knight div.progression div.main div.tableauPG div.autre {
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-between;
-}
-.actor.knight div.progression div.main div.tableauPG div.autre a {
-  position: absolute;
-  left: 5px;
-  top: 5px;
-}
-.actor.knight div.progression div.main div.tableauPG div.autre input[type=text] {
-  border: 0px;
-  width: 50%;
-  background: RGB(43 42 51);
-  border-right: 1px solid RGB(76 74 90);
-  padding: 0px;
-  padding-left: 25px;
-  height: 26px;
-  line-height: 26px;
-}
-.actor.knight div.progression div.main div.tableauPG div.autre div {
-  display: flex;
-  justify-content: space-between;
-  background: RGB(43 42 51);
-  width: 25%;
-}
-.actor.knight div.progression div.main div.tableauPG div.autre div input {
-  width: calc(50% - 2px);
-  border: 0px;
-  background: transparent;
-  text-align: right;
-  padding: 0px;
-}
-.actor.knight div.progression div.main div.tableauPG div.autre div span.value {
-  display: inline-block;
-  width: calc(50% + 2px);
-  text-align: left;
-  line-height: 26px;
-}
-.actor.knight div.progression div.main div.tableauPG div.autre span.btn {
-  width: 25%;
-}
-.actor.knight div.progression div.main div.tableauPX {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-  margin-top: 5px;
-}
-.actor.knight div.progression div.main div.tableauPX h2.header a {
-  position: absolute;
-  right: 5px;
-}
-.actor.knight div.progression div.main div.tableauPX div.line, .actor.knight div.progression div.main div.tableauPX div.lineHeader {
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-between;
-}
-.actor.knight div.progression div.main div.tableauPX div.line span, .actor.knight div.progression div.main div.tableauPX div.lineHeader span {
-  display: inline-block;
-  line-height: 26px;
-}
-.actor.knight div.progression div.main div.tableauPX div.line span.label, .actor.knight div.progression div.main div.tableauPX div.lineHeader span.label {
-  width: 50%;
-}
-.actor.knight div.progression div.main div.tableauPX div.line span.value, .actor.knight div.progression div.main div.tableauPX div.lineHeader span.value {
-  width: 25%;
-}
-.actor.knight div.progression div.main div.tableauPX div.lineHeader span.label, .actor.knight div.progression div.main div.tableauPX div.lineHeader span.value {
-  font-variant: small-caps;
-  font-size: 13px;
-  background: RGB(76 74 90);
-  text-align: center;
-}
-.actor.knight div.progression div.main div.tableauPX div.lineHeader span.value {
-  border-left: 1px solid RGB(43 42 51);
-}
-.actor.knight div.progression div.main div.tableauPX div.line {
-  border-top: 1px solid RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.tableauPX div.line select {
-  width: 50%;
-  border: 0px;
-  background: RGB(43 42 51);
-  border-top: 0px;
-  border-bottom: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  text-align: center;
-  line-height: 26px;
-  color: white;
-  border-radius: 0px;
-}
-.actor.knight div.progression div.main div.tableauPX div.line select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.actor.knight div.progression div.main div.tableauPX div.line select optgroup {
-  font-variant: small-caps;
-  background: RGB(43 42 51);
-  color: white;
-}
-.actor.knight div.progression div.main div.tableauPX div.line input {
-  width: 25%;
-  border: 0px;
-  background: RGB(43 42 51);
-  border-top: 0px;
-  border-bottom: 0px;
-  border-left: 1px solid RGB(76 74 90);
-  border-right: 0px;
-  text-align: center;
-  line-height: 26px;
-  color: white;
-  border-radius: 0px;
-}
-.actor.knight div.progression div.main div.tableauPX div.line span.value {
-  border-left: 1px solid RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.tableauPX div.line a {
-  position: absolute;
-  left: 5px;
-  top: 5px;
-}
-.actor.knight div.progression div.main div.evolutionsAAcheter {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  margin-top: 5px;
-}
-.actor.knight div.progression div.main div.evolutionsAAcheter button {
-  width: min-content;
-  white-space: nowrap;
-  background: RGB(43 42 51);
-  border-color: RGB(76 74 90);
-}
-.actor.knight div.progression div.main div.evolutionsAAcheter button span.hideInfo {
-  display: none;
-  position: absolute;
-  width: 400px;
-  height: max-content;
-  border: 1px solid black;
-  background: RGB(43 42 51);
-  text-align: justify;
-  top: 25px;
-  z-index: 90;
-  border-radius: 10px;
-  color: white;
-  padding: 2px;
-}
-.actor.knight div.progression div.main div.evolutionsAAcheter button span.hideInfo.left {
-  border-top-left-radius: 0px;
-  left: 0px;
-}
-.actor.knight div.progression div.main div.evolutionsAAcheter button span.hideInfo.right {
-  border-top-right-radius: 0px;
-  right: 0px;
-}
-.actor.knight div.progression div.main div.evolutionsAAcheter button:hover span {
-  display: block;
-}
-.actor.knight div.progression div.main div button {
-  width: calc(25% - 2px);
-  color: white;
-  cursor: pointer;
-  border: 1px solid;
-  position: relative;
-  line-height: 24px;
-}
-.actor.knight div.progression div.main div button.unselected {
-  background: RGB(43 42 51);
-  border-color: RGB(76 74 90);
-}
-.actor.knight div.progression div.main div button.selected {
-  background: RGB(76 74 90);
-  border-color: RGB(43 42 51);
-}
 .actor.knight section.menu {
   padding-top: 5px;
 }
@@ -18872,6 +18482,425 @@ li.chat-message.emote {
   color: white;
   cursor: pointer;
   margin: 0px;
+}
+.actor.knight div.progression h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.actor.knight div.progression h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.actor.knight div.progression h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.actor.knight div.progression h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.actor.knight div.progression h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.actor.knight div.progression h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.actor.knight div.progression h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.actor.knight div.progression h2.header .far {
+  cursor: pointer;
+}
+.actor.knight div.progression div.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.actor.knight div.progression div.main div.dataExperience, .actor.knight div.progression div.main div.dataPG {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+}
+.actor.knight div.progression div.main div.dataExperience h2, .actor.knight div.progression div.main div.dataPG h2 {
+  grid-column: 1/4;
+}
+.actor.knight div.progression div.main div.dataExperience label, .actor.knight div.progression div.main div.dataPG label {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+.actor.knight div.progression div.main div.dataExperience label span, .actor.knight div.progression div.main div.dataPG label span {
+  display: inline-block;
+  width: 100%;
+  line-height: 26px;
+  text-align: center;
+  color: white;
+}
+.actor.knight div.progression div.main div.dataExperience label span.label, .actor.knight div.progression div.main div.dataPG label span.label {
+  background: RGB(76 74 90);
+  font-size: 13px;
+  font-variant: small-caps;
+}
+.actor.knight div.progression div.main div.dataExperience label span.score, .actor.knight div.progression div.main div.dataPG label span.score {
+  background: RGB(43 42 51);
+}
+.actor.knight div.progression div.main div.dataExperience label input, .actor.knight div.progression div.main div.dataPG label input {
+  height: 26px;
+  border-radius: 0px;
+  border: 0px;
+  background: RGB(43 42 51);
+  text-align: center;
+  padding: 0px;
+}
+.actor.knight div.progression div.main div.dataExperience label:not(:first-of-type) span.label, .actor.knight div.progression div.main div.dataPG label:not(:first-of-type) span.label {
+  border-left: 1px solid RGB(43 42 51);
+}
+.actor.knight div.progression div.main div.dataExperience label:not(:first-of-type) span.score, .actor.knight div.progression div.main div.dataPG label:not(:first-of-type) span.score {
+  border-left: 1px solid RGB(76 74 90);
+}
+.actor.knight div.progression div.main div.dataExperience label:not(:first-of-type) input, .actor.knight div.progression div.main div.dataPG label:not(:first-of-type) input {
+  border-left: 1px solid RGB(76 74 90);
+}
+.actor.knight div.progression div.main div.tableauPG {
+  grid-column: 1/3;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+  margin-top: 5px;
+}
+.actor.knight div.progression div.main div.tableauPG input {
+  background: RGB(43 42 51);
+}
+.actor.knight div.progression div.main div.tableauPG h2.header a {
+  position: absolute;
+  right: 5px;
+}
+.actor.knight div.progression div.main div.tableauPG div.line, .actor.knight div.progression div.main div.tableauPG div.lineHeader {
+  display: grid;
+  grid-template-columns: 20px 1fr 150px 150px;
+  width: 100%;
+}
+.actor.knight div.progression div.main div.tableauPG div.line a, .actor.knight div.progression div.main div.tableauPG div.lineHeader a {
+  margin-left: auto;
+  margin-right: auto;
+}
+.actor.knight div.progression div.main div.tableauPG div.line span, .actor.knight div.progression div.main div.tableauPG div.lineHeader span {
+  display: inline-block;
+  line-height: 26px;
+}
+.actor.knight div.progression div.main div.tableauPG div.line span.label, .actor.knight div.progression div.main div.tableauPG div.lineHeader span.label {
+  width: 100%;
+}
+.actor.knight div.progression div.main div.tableauPG div.line span.value, .actor.knight div.progression div.main div.tableauPG div.line span.last, .actor.knight div.progression div.main div.tableauPG div.lineHeader span.value, .actor.knight div.progression div.main div.tableauPG div.lineHeader span.last {
+  width: 100%;
+}
+.actor.knight div.progression div.main div.tableauPG div.line span.btn, .actor.knight div.progression div.main div.tableauPG div.lineHeader span.btn {
+  height: 100%;
+}
+.actor.knight div.progression div.main div.tableauPG div.pg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  align-content: center;
+}
+.actor.knight div.progression div.main div.tableauPG div.pg input {
+  text-align: right;
+  padding-right: 0px;
+}
+.actor.knight div.progression div.main div.tableauPG div.pg span {
+  text-align: left;
+}
+.actor.knight div.progression div.main div.tableauPG div.lineHeader span {
+  font-variant: small-caps;
+  font-size: 13px;
+  background: RGB(76 74 90);
+  text-align: center;
+}
+.actor.knight div.progression div.main div.tableauPG div.line {
+  border-top: 1px solid RGB(76 74 90);
+  align-items: center;
+}
+.actor.knight div.progression div.main div.tableauPG div.line span.label {
+  padding-left: 5px;
+}
+.actor.knight div.progression div.main div.tableauPG div.line span.value {
+  text-align: center;
+}
+.actor.knight div.progression div.main div.tableauPG div.line span.label, .actor.knight div.progression div.main div.tableauPG div.line span.value {
+  background: RGB(43 42 51);
+}
+.actor.knight div.progression div.main div.tableauPG div.armure {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-top: 5px double RGB(76 74 90);
+  border-bottom: 5px double RGB(76 74 90);
+}
+.actor.knight div.progression div.main div.tableauPG div.armure span.label {
+  width: 75%;
+}
+.actor.knight div.progression div.main div.tableauPG div.armure span.value {
+  width: 25%;
+}
+.actor.knight div.progression div.main div.tableauPG div.acheter {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-top: 5px double RGB(76 74 90);
+  border-bottom: 5px double RGB(76 74 90);
+}
+.actor.knight div.progression div.main div.tableauPG div.acheter span.label {
+  width: 50%;
+}
+.actor.knight div.progression div.main div.tableauPG div.acheter span.value {
+  width: 25%;
+}
+.actor.knight div.progression div.main div.tableauPG div.acheter span.btn {
+  width: 25%;
+}
+.actor.knight div.progression div.main div.tableauPG div.autre {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-between;
+}
+.actor.knight div.progression div.main div.tableauPG div.autre a {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+.actor.knight div.progression div.main div.tableauPG div.autre input[type=text] {
+  border: 0px;
+  width: 50%;
+  background: RGB(43 42 51);
+  border-right: 1px solid RGB(76 74 90);
+  padding: 0px;
+  padding-left: 25px;
+  height: 26px;
+  line-height: 26px;
+}
+.actor.knight div.progression div.main div.tableauPG div.autre div {
+  display: flex;
+  justify-content: space-between;
+  background: RGB(43 42 51);
+  width: 25%;
+}
+.actor.knight div.progression div.main div.tableauPG div.autre div input {
+  width: calc(50% - 2px);
+  border: 0px;
+  background: transparent;
+  text-align: right;
+  padding: 0px;
+}
+.actor.knight div.progression div.main div.tableauPG div.autre div span.value {
+  display: inline-block;
+  width: calc(50% + 2px);
+  text-align: left;
+  line-height: 26px;
+}
+.actor.knight div.progression div.main div.tableauPG div.autre span.btn {
+  width: 25%;
+}
+.actor.knight div.progression div.main div.tableauPG .borderLeft {
+  border-left: 1px solid RGB(76 74 90);
+}
+.actor.knight div.progression div.main div.tableauPG .borderLeft2 {
+  border-left: 1px solid RGB(43 42 51);
+}
+.actor.knight div.progression div.main div.tableauPX {
+  grid-column: 1/3;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+  margin-top: 5px;
+}
+.actor.knight div.progression div.main div.tableauPX h2.header a {
+  position: absolute;
+  right: 5px;
+}
+.actor.knight div.progression div.main div.tableauPX div.line, .actor.knight div.progression div.main div.tableauPX div.lineHeader {
+  display: grid;
+  grid-template-columns: 20px 1fr 150px 150px;
+  position: relative;
+  width: 100%;
+  align-items: center;
+}
+.actor.knight div.progression div.main div.tableauPX div.line span, .actor.knight div.progression div.main div.tableauPX div.lineHeader span {
+  display: inline-block;
+  line-height: 26px;
+}
+.actor.knight div.progression div.main div.tableauPX div.line span.label, .actor.knight div.progression div.main div.tableauPX div.lineHeader span.label {
+  width: 100%;
+}
+.actor.knight div.progression div.main div.tableauPX div.line span.value, .actor.knight div.progression div.main div.tableauPX div.lineHeader span.value {
+  width: 100%;
+}
+.actor.knight div.progression div.main div.tableauPX div.lineHeader span {
+  font-variant: small-caps;
+  font-size: 13px;
+  background: RGB(76 74 90);
+  text-align: center;
+  height: 100%;
+}
+.actor.knight div.progression div.main div.tableauPX div.line {
+  border-top: 1px solid RGB(76 74 90);
+}
+.actor.knight div.progression div.main div.tableauPX div.line select {
+  width: 100%;
+  border: 0px;
+  background: RGB(43 42 51);
+  text-align: center;
+  line-height: 26px;
+  color: white;
+  border-radius: 0px;
+}
+.actor.knight div.progression div.main div.tableauPX div.line select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.actor.knight div.progression div.main div.tableauPX div.line select optgroup {
+  font-variant: small-caps;
+  background: RGB(43 42 51);
+  color: white;
+}
+.actor.knight div.progression div.main div.tableauPX div.line input {
+  width: 100%;
+  border: 0px;
+  background: RGB(43 42 51);
+  text-align: center;
+  line-height: 26px;
+  color: white;
+  border-radius: 0px;
+}
+.actor.knight div.progression div.main div.tableauPX div.line a {
+  margin-left: auto;
+  margin-right: auto;
+}
+.actor.knight div.progression div.main div.tableauPX .borderLeft {
+  border-left: 1px solid RGB(76 74 90) !important;
+}
+.actor.knight div.progression div.main div.tableauPX .borderLeft2 {
+  border-left: 1px solid RGB(43 42 51) !important;
+}
+.actor.knight div.progression div.main div.evolutionsAAcheter {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+.actor.knight div.progression div.main div.evolutionsAAcheter button {
+  width: min-content;
+  white-space: nowrap;
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.actor.knight div.progression div.main div.evolutionsAAcheter button span.hideInfo {
+  display: none;
+  position: absolute;
+  width: 400px;
+  height: max-content;
+  border: 1px solid black;
+  background: RGB(43 42 51);
+  text-align: justify;
+  top: 25px;
+  z-index: 90;
+  border-radius: 10px;
+  color: white;
+  padding: 2px;
+}
+.actor.knight div.progression div.main div.evolutionsAAcheter button span.hideInfo.left {
+  border-top-left-radius: 0px;
+  left: 0px;
+}
+.actor.knight div.progression div.main div.evolutionsAAcheter button span.hideInfo.right {
+  border-top-right-radius: 0px;
+  right: 0px;
+}
+.actor.knight div.progression div.main div.evolutionsAAcheter button:hover span {
+  display: block;
+}
+.actor.knight div.progression div.main div button {
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 0px;
+  border-radius: 0px;
+  position: relative;
+  line-height: 24px;
+}
+.actor.knight div.progression div.main div button.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.actor.knight div.progression div.main div button.selected {
+  background: RGB(76 74 90);
+  border-top: 1px solid;
+  border-color: RGB(43 42 51) !important;
 }
 .actor.knight div.autre div {
   display: grid;

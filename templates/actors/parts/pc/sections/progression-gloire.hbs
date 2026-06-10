@@ -1,0 +1,41 @@
+
+<div class="line">
+    {{#unless isEmpty}}
+        {{#unless isArmure}}
+            {{#if isAcheter}}
+                <span></span>
+                <span class="label">{{localize "KNIGHT.PROGRESSION.EvolutionArmure"}}</span>
+                <span class="value borderLeft">{{value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                <button type="action" class="{{ifThen gratuit 'selected' 'unselected'}} borderLeft">
+                    {{ifThen gratuit (localize "KNIGHT.PROGRESSION.Gratuit") (localize "KNIGHT.PROGRESSION.Payant")}}
+                </button>
+            {{else}}
+                {{#if isAutre}}
+                    <a data-action="noItemDelete" data-index="{{id}}" data-path="progression.gloire.depense.autre" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                    <input type="hidden" name="system.progression.gloire.depense.autre.{{id}}.order" value="{{order}}" />
+                    <input type="hidden" name="system.progression.gloire.depense.autre.{{id}}.gratuit" value="{{gratuit}}" />
+                    <input type="text" name="system.progression.gloire.depense.autre.{{id}}.nom" value="{{name}}"/>
+                    <div class="pg borderLeft">
+                        <input type="number" name="system.progression.gloire.depense.autre.{{id}}.cout" value="{{value}}"/>
+                        <span>{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                    </div>
+                    <span class="btn borderLeft"></span>
+                {{else}}
+                    <span></span>
+                    <span class="label">{{name}}</span>
+                    <span class="value borderLeft">{{value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                    <button data-action="btnToggle"
+                    data-item-id="{{id}}"
+                    data-path="{{ifThen isModule (concat "system.niveau.details.n" niveau ".gratuit") "system.gratuit"}}"
+                    class="{{ifThen gratuit 'selected' 'unselected'}} borderLeft">
+                        {{ifThen gratuit (localize "KNIGHT.PROGRESSION.Gratuit") (localize "KNIGHT.PROGRESSION.Payant")}}
+                    </button>
+                {{/if}}
+            {{/if}}
+        {{else}}
+            <span></span>
+            <span class="label">{{localize "KNIGHT.PROGRESSION.EvolutionArmure"}}</span>
+            <span class="value borderLeft">{{value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+        {{/unless}}
+    {{/unless}}
+</div>

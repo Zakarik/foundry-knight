@@ -36,6 +36,7 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
       itemCreate: BaseActorSheet.#onItemCreate,
       itemEdit: BaseActorSheet.#onItemEdit,
       itemDelete: BaseActorSheet.#onItemDelete,
+      noItemDelete: BaseActorSheet.#onNoItemDelete,
       effectsEdit: BaseActorSheet.#onEffectsEdit,
       effectsToggle: BaseActorSheet.#onEffectsToggle,
       sendMsg: BaseActorSheet.#onSendMsg,
@@ -130,6 +131,25 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     await this._onItemDelete_on(item);
 
     await item.delete();
+  }
+
+  static async #onNoItemDelete(event, target) {
+    const path = target.dataset.path;
+    const index = target.dataset.index;
+    const isArray = target.dataset.array === 'true' ? true : false;
+
+    console.error(path, index, isArray);
+
+    if(isArray) {
+      const list = foundry.utils.getProperty(this.document.system, path);
+
+      if(!list) return;
+
+      list.splice(index, 1);
+
+      this.document.update({[`system.${path}`]:list});
+    } else this.document.update({[`system.${path}.-=${index}`]:null});
+
   }
 
   static async #onEffectsEdit(event, target) {
@@ -345,6 +365,12 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     const document = itemId ? this.actor.items.get(itemId) : this.actor;
     const value = foundry.utils.getProperty(document, path);
     const result = value ? false : true;
+
+    console.error(itemId);
+    console.error(path);
+    console.error(document);
+    console.error(value);
+    console.error(result);
 
     document.update({[path]:result});
   }

@@ -574,7 +574,7 @@
                         <span class="title">{{localize "KNIGHT.EFFETS.Label"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
                         <div class="effets">
                             {{#each systemData.wolf.fighter.bonus.effets.liste as | key effet|}}
-                                {{~> systems/knight/templates/parts/effets.html type='std'}}
+                                {{~> knight.effets type='std'}}
                             {{/each}}
                         </div>
                     </div>
@@ -678,7 +678,7 @@
                         <span class="title">{{localize "KNIGHT.EFFETS.Label"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
                         <div class="effets">
                             {{#each systemData.wolf.fighter.bonus.effets.liste as | key effet|}}
-                                {{~> systems/knight/templates/parts/effets.html type='std'}}
+                                {{~> knight.effets type='std'}}
                             {{/each}}
                         </div>
                     </div>
@@ -843,7 +843,7 @@
                                 </div>
                                 <div class="effets">
                                     {{#each key.system.degats.roll.effets.liste as | key effet|}}
-                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
+                                        {{~> knight.effets type='std'}}
                                     {{/each}}
                                 </div>
                             </div>
@@ -865,7 +865,7 @@
                                 </div>
                                 <div class="effets">
                                     {{#each key.system.attaque.effets.liste as | key effet|}}
-                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
+                                        {{~> knight.effets type='std'}}
                                     {{/each}}
                                 </div>
                             </div>

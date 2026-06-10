@@ -46,17 +46,17 @@
         </div>
         <div class="effets">
             {{#each this.effets.liste as | key effet|}}
-                {{~> systems/knight/templates/parts/effets.html type='lame_base'}}
+                {{~> knight.effets type='lame_base'}}
             {{/each}}
         </div>
         <div class="effets">
             {{#each this.eff1.effets.liste as | key effet|}}
-                {{~> systems/knight/templates/parts/effets.html type='lame_liste1'}}
+                {{~> knight.effets type='lame_liste1'}}
             {{/each}}
         </div>
         <div class="effets">
             {{#each this.eff2.effets.liste as | key effet|}}
-                {{~> systems/knight/templates/parts/effets.html type='lame_liste2'}}
+                {{~> knight.effets type='lame_liste2'}}
             {{/each}}
         </div>
     </div>

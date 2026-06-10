@@ -46,7 +46,7 @@
                 </div>
                 <div class="effets">
                 {{#each this.salve.effets.liste as | key effet|}}
-                    {{~> systems/knight/templates/parts/effets.html type='cea_salve'}}
+                    {{~> knight.effets type='cea_salve'}}
                 {{/each}}
                 </div>
             </div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="effets">
                 {{#each this.vague.effets.liste as | key effet|}}
-                    {{~> systems/knight/templates/parts/effets.html type='cea_vague'}}
+                    {{~> knight.effets type='cea_vague'}}
                 {{/each}}
                 </div>
             </div>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="effets">
                 {{#each this.rayon.effets.liste as | key effet|}}
-                    {{~> systems/knight/templates/parts/effets.html type='cea_rayon'}}
+                    {{~> knight.effets type='cea_rayon'}}
                 {{/each}}
                 </div>
             </div>
