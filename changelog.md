@@ -1,3 +1,7 @@
+## v3.58.27
+### Bugfix
+- Application du même correctif qu'en v3.57.26
+
 ## v3.58.26
 ### Bugfix
 - Application du même correctif qu'en v3.57.25
@@ -102,6 +106,12 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.26
+### Bugfix
+- Correction d'un oubli sur les modules, la possibilité d'ajouter automatiquement 50% de la santé à la santé actuelle.
+- Correction de la gestion des bonus de santé, avec amélioration du calcul.
+- Correction des capacités ultimes qui dysfonctionnaient légérements.
 
 ## v3.57.25
 ### Bugfix

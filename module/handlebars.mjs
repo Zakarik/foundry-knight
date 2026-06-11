@@ -1108,10 +1108,20 @@ import {
                             tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.COMBAT.STYLES.Label')})`);
                             break;
 
+                        case 'module':
                         case 'modules':
                             tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.ITEMS.MODULE.Label')})`);
                             break;
 
+                        case 'overdrive':
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')})`);
+                            break;
+
+                        case 'capaciteultime':
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('TYPES.Item.capaciteultime')})`);
+                            break;
+
+                        case 'arme':
                         case 'armes':
                             tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.COMBAT.ARMES.Label')})`);
                             break;

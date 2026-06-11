@@ -911,6 +911,8 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
                 return valeurTotale > acc ? valeurTotale : acc;
             }, 0);
 
+            let baseBonus;
+            let baseMalus;
             let bonus;
             let malus;
             let base;
@@ -922,8 +924,22 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
                     override = Object.values(this.sante?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
 
                     if(!override) {
-                        bonus = Object.values(this.sante.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                        malus = Object.values(this.sante.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+                        baseBonus = Object.entries(this.sante.bonus)
+                        .filter(([key, curr]) => !key.startsWith('module') && !key.startsWith('armure') && !key.startsWith('overdrive'))
+                        .reduce((acc, [key, curr]) => acc + (Number(curr) || 0), 0);
+
+                        baseMalus = Object.entries(this.sante.malus)
+                        .filter(([key, curr]) => !key.startsWith('module') && !key.startsWith('armure') && !key.startsWith('overdrive'))
+                        .reduce((acc, [key, curr]) => acc + (Number(curr) || 0), 0);
+
+                        bonus = Object.entries(this.sante.bonus)
+                        .filter(([key, curr]) => key.startsWith('module') || key.startsWith('armure') || key.startsWith('overdrive'))
+                        .reduce((acc, [key, curr]) => acc + (Number(curr) || 0), 0);
+
+                        malus = Object.entries(this.sante.malus)
+                        .filter(([key, curr]) => key.startsWith('module') || key.startsWith('armure') || key.startsWith('overdrive'))
+                        .reduce((acc, [key, curr]) => acc + (Number(curr) || 0), 0);
                         base = 0;
                         mod = 0;
 
@@ -934,12 +950,45 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
                             value: (base*maxCaracWOD)+10,
                         });
 
-                        mod += bonus-malus;
+                        mod += (bonus + baseBonus) - (malus + baseMalus);
 
-                        if(this.armorISwear && this.aspects.chair.caracteristiques.endurance.overdrive.value >= 3) mod += 6;
+                        if(this.armorISwear) {
+                            if(this.aspects.chair.caracteristiques.endurance.overdrive.value >= 3) {
+                                Object.defineProperty(this.sante.bonus, 'overdrive', {
+                                    value:6,
+                                    writable:true,
+                                    enumerable:true,
+                                    configurable:true
+                                });
 
-                        if(this.capaciteUltime && this.armorISwear) {
-                            if(this.capaciteUltime.type === 'passive' && this.capaciteUltime.passive.sante) mod += Math.floor((this.sante.base+mod)/2);
+                                mod += 6;
+                            }
+
+                            if(this.capaciteUltime) {
+                                if(this.capaciteUltime.system.type === 'passive' && this.capaciteUltime.system.passives.sante) {
+                                    let CU = Math.floor((this.sante.base + (baseBonus - baseMalus))/2);
+                                    mod += CU;
+
+                                    Object.defineProperty(this.sante.bonus, 'capaciteultime', {
+                                        value:CU,
+                                        writable:true,
+                                        enumerable:true,
+                                        configurable:true
+                                    });
+                                }
+                            }
+
+                            if(this.sante.half > 0) {
+                                let addhalf = Math.floor((this.sante.base + (baseBonus - baseMalus))/2);
+                                mod += (addhalf * this.sante.half);
+
+                                Object.defineProperty(this.sante.bonus, 'modules', {
+                                    value:Number(this.sante?.bonus?.modules ?? 0) + (addhalf * Number(this.sante.half)),
+                                    writable:true,
+                                    enumerable:true,
+                                    configurable:true
+                                });
+                            }
                         }
 
                         Object.defineProperty(this.sante, 'mod', {
@@ -1427,31 +1476,32 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         const dataCUCapacites = capaciteUltime.system.passives.capacites;
         const dataCUSpecial = capaciteUltime.system.passives.special;
 
-        for(let c in dataCUCapacites) {
-            if(c === 'actif') continue;
+        if(dataCUCapacites.actif) {
+            for(let c in dataCUCapacites) {
+                if(c === 'actif') continue;
 
-            let data = dataCUCapacites[c];
-            let capaciteSelected = armor?.system?.capacites?.selected?.[c] ?? undefined;
+                let data = dataCUCapacites[c];
+                let capaciteSelected = armor?.system?.capacites?.selected?.[c] ?? undefined;
 
-            if(data.actif !== true || !capaciteSelected) continue;
+                if(data.actif !== true || !capaciteSelected) continue;
 
-            capaciteSelected = foundry.utils.mergeObject(capaciteSelected, data.update);
-        }
+                capaciteSelected = foundry.utils.mergeObject(capaciteSelected, data.update);
+            }
 
-        for(let s in dataCUSpecial) {
-            let data = dataCUSpecial[s];
-            let specialSelected = armor?.system?.special?.selected?.[s] ?? undefined;
+            for(let s in dataCUSpecial) {
+                let data = dataCUSpecial[s];
+                let specialSelected = armor?.system?.special?.selected?.[s] ?? undefined;
+                if(!specialSelected) continue;
 
-            if(!specialSelected) continue;
+                switch(s) {
+                    case 'contrecoups':
+                        specialSelected.unactif = data.actif;
+                        break;
 
-            switch(s) {
-                case 'contrecoups':
-                    specialSelected.unactif = data.actif;
-                    break;
-
-                default:
-                    specialSelected = foundry.utils.mergeObject(specialSelected, data.update);
-                    break;
+                    default:
+                        specialSelected = foundry.utils.mergeObject(specialSelected, data.update);
+                        break;
+                }
             }
         }
     }

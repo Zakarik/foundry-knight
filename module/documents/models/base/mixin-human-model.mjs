@@ -192,6 +192,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
     _startPrepareData() {
         super._startPrepareData();
 
+        this.#sanitizeData();
         this.#cyberware();
     }
 
@@ -199,6 +200,29 @@ const HumanMixinModel = (superclass) => class extends superclass {
         super._startPrepareDerivedData();
 
         this.#modules();
+    }
+
+    #sanitizeData() {
+        const isKNIGHT = this.actor.type === 'knight' ? true : false;
+
+        if(isKNIGHT) {
+            const aspects = this.aspects;
+
+            for(let a in aspects) {
+                const carac = aspects[a].caracteristiques;
+
+                for(let c in carac) {
+                    const od = carac[c].overdrive;
+
+                    Object.defineProperty(this.aspects[a].caracteristiques[c].overdrive, 'base', {
+                        value: 0,
+                        writable:true,
+                        enumerable:true,
+                        configurable:true
+                    });
+                }
+            }
+        }
     }
 
     #cyberware() {
@@ -218,6 +242,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         const dataArmure = this?.dataArmor;
         const isKNIGHT = this.actor.type === 'knight' ? true : false;
         const data = this.modules;
+        let santeHalf = 0;
         let santeBonus = 0;
         let armureBonus = 0;
         let champDeForceBonus = 0;
@@ -326,7 +351,10 @@ const HumanMixinModel = (superclass) => class extends superclass {
         }
 
         if(isKNIGHT && !this.armorISwear) return;
-        const actuel = data.filter(itm => (itm.system.active.base && (!itm.system?.isLion ?? false)) || ((itm.system?.niveau?.actuel?.permanent ?? false) && (!itm.system?.isLion ?? false)));
+        const actuel = data.filter(itm =>
+            (itm.system.active.base && (!itm.system?.isLion ?? false)) ||
+            ((itm.system?.niveau?.actuel?.permanent ?? false) &&
+            (!itm.system?.isLion ?? false)));
         const pathBase = isKNIGHT ? this.equipements[this.wear] : this;
 
         if(dataArmure?.system?.special?.selected?.porteurlumiere ?? undefined) {
@@ -355,7 +383,11 @@ const HumanMixinModel = (superclass) => class extends superclass {
                 const bChampDeForce = bonus?.champDeForce?.has ?? false;
                 const bEnergie = bonus?.energie?.has ?? false;
 
-                if(bSante) santeBonus += bonus?.sante?.value ?? 0;
+                if(bSante) {
+                    santeBonus += bonus?.sante?.value ?? 0;
+
+                    if(bonus?.sante?.half) santeHalf += 1;
+                }
                 if(bArmure) armureBonus += bonus?.armure?.value ?? 0;
                 if(bChampDeForce) champDeForceBonus += bonus?.champDeForce?.value ?? 0;
                 if(bEnergie) energieBonus += bonus?.energie?.value ?? 0;
@@ -387,6 +419,15 @@ const HumanMixinModel = (superclass) => class extends superclass {
         if(santeBonus > 0) {
             Object.defineProperty(this.sante.bonus, 'module', {
                 value: santeBonus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
+        }
+
+        if(santeHalf > 0) {
+            Object.defineProperty(this.sante, 'half', {
+                value: santeHalf,
                 writable:true,
                 enumerable:true,
                 configurable:true

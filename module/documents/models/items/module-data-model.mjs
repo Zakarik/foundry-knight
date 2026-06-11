@@ -102,7 +102,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                 has:false,
                 sante:{
                   has:false,
-                  value:0
+                  value:0,
+                  half:false,
                 },
                 armure:{
                   has:false,

@@ -341,6 +341,13 @@
                             <span>{{localize "KNIGHT.LATERAL.Sante"}}</span>
                             <input type="number" name="system.niveau.details.{{nv}}.bonus.sante.value" value="{{#if key.bonus.sante.value}}{{key.bonus.sante.value}}{{else}}0{{/if}}" min="0" />
                         </label>
+                        <button type="action" class="button sub {{#unless key.bonus.sante.has}}hidden{{/unless}}
+                        {{#if key.bonus.sante.half}}
+                        active
+                        {{else}}
+                        unactive
+                        {{/if}}
+                        " data-type="bonus" data-subtype="sante" data-name="half" data-value="{{key.bonus.sante.half}}">{{localize (ifThen key.bonus.sante.half "KNIGHT.CAPACITEULTIME.PASSIVE.Sante" "KNIGHT.CAPACITEULTIME.PASSIVE.NotSante")}}</button>
                     </div>
 
                     <div class="twoLine">
