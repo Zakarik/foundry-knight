@@ -229,6 +229,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         const dataArmure = this?.dataArmor;
         const isKNIGHT = this.actor.type === 'knight' ? true : false;
         const data = this.modules;
+        let santeHalf = 0;
         let santeBonus = 0;
         let armureBonus = 0;
         let champDeForceBonus = 0;
@@ -366,7 +367,11 @@ const HumanMixinModel = (superclass) => class extends superclass {
                 const bChampDeForce = bonus?.champDeForce?.has ?? false;
                 const bEnergie = bonus?.energie?.has ?? false;
 
-                if(bSante) santeBonus += bonus?.sante?.value ?? 0;
+                if(bSante) {
+                    santeBonus += bonus?.sante?.value ?? 0;
+
+                    if(bonus?.sante?.half) santeHalf += 1;
+                }
                 if(bArmure) armureBonus += bonus?.armure?.value ?? 0;
                 if(bChampDeForce) champDeForceBonus += bonus?.champDeForce?.value ?? 0;
                 if(bEnergie) energieBonus += bonus?.energie?.value ?? 0;
@@ -398,6 +403,15 @@ const HumanMixinModel = (superclass) => class extends superclass {
         if(santeBonus > 0) {
             Object.defineProperty(this.sante.bonus, 'module', {
                 value: santeBonus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
+        }
+
+        if(santeHalf > 0) {
+            Object.defineProperty(this.sante, 'half', {
+                value: santeHalf,
                 writable:true,
                 enumerable:true,
                 configurable:true

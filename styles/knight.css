@@ -14921,6 +14921,12 @@ li.chat-message.emote {
 .module div.main div.col3 > div button.active {
   background: RGB(76 74 90);
 }
+.module div.main div.col > label button.sub,
+.module div.main div.col > div button.sub, .module div.main div.col3 > label button.sub,
+.module div.main div.col3 > div button.sub {
+  border-top: 1px solid RGB(76 74 90);
+  border-bottom: 0px;
+}
 .module div.main div.col > label.oneLine,
 .module div.main div.col > div.oneLine, .module div.main div.col3 > label.oneLine,
 .module div.main div.col3 > div.oneLine {

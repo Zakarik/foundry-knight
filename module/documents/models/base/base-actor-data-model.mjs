@@ -56,6 +56,7 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
                 max:["num", { initial: 16, nullable:false, integer:true}],
                 bonusValue:["num", { initial: 0, nullable:false, integer:true}],
                 malusValue:["num", { initial: 0, nullable:false, integer:true}],
+                half:["num", { initial: 0, nullable:false, integer:true}],
                 override:["obj", {}],
                 bonus:["obj", {
                     initial:{
