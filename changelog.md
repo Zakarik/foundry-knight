@@ -1,3 +1,7 @@
+## v3.58.28
+### Bugfix
+- Application du même correctif qu'en v3.57.27
+
 ## v3.58.27
 ### Bugfix
 - Application du même correctif qu'en v3.57.26
@@ -106,6 +110,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.27
+### Bugfix
+- Correction d'un bug avec un ajout lié au patreon sur les PNJ.
 
 ## v3.57.26
 ### Bugfix

@@ -454,7 +454,12 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
         const cyberware = this.items.filter(items => items.type === 'cyberware' && (items.system.categorie === 'utilitaire' || items.system.categorie === 'combat'));
 
         if(cyberware.length) {
-            Object.defineProperty(this.equipements[this.wear].energie.bonus, 'cyberware', {
+            const energy = this?.equipements?.[this?.wear]?.energie?.bonus;
+            const verified = energy ? energy : this?.energie?.bonus;
+
+            if(!verified) return;
+
+            Object.defineProperty(verified, 'cyberware', {
                 value: 20,
                 writable:true,
                 enumerable:true,
