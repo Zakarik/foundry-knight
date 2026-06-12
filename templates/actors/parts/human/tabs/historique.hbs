@@ -59,15 +59,15 @@
                 {{localize "KNIGHT.HISTORIQUE.Blessures"}}
                 {{~> knight.itemCreate strLoc="KNIGHT.HISTORIQUE.Blessures" data=(object type="blessure")}}
             </h2>
-            {{#each actor.blessure as | key blessure|}}
-            <div class="block item" data-item-id="{{key._id}}">
-                <header class="summary js-toggler" data-item-id="{{key._id}}">
+            {{#each actor.blessure}}
+            <div class="block item" data-item-id="{{_id}}">
+                <header class="header summary" data-item-id="{{_id}}">
                     {{~> knight.jsToggle}}
                     {{~> knight.itemButtons}}
-                    <span>{{key.name}}</span>
+                    <span>{{name}}</span>
                 </header>
                 <span class="description">
-                    {{{key.system.description}}}
+                    {{{system.description}}}
                 </span>
             </div>
             {{/each}}
@@ -78,18 +78,21 @@
                 {{localize "KNIGHT.HISTORIQUE.Traumas"}}
                 {{~> knight.itemCreate strLoc="KNIGHT.HISTORIQUE.Traumas" data=(object type="trauma")}}
             </h2>
-            {{#each actor.trauma as | key trauma|}}
-            <div class="block item" data-item-id="{{key._id}}">
-                <header class="summary js-toggler" data-item-id="{{key._id}}">
+            {{#each actor.trauma}}
+            <div class="block item" data-item-id="{{_id}}">
+                <header class="header summary" data-item-id="{{_id}}">
                     {{~> knight.jsToggle}}
                     {{~> knight.itemButtons}}
-                    <span>{{key.name}}</span>
+                    <span>{{name}}</span>
                 </header>
-                {{#unless key.system.gainEspoir.applique}}
-                <button type="action" class="gainEspoirItem" data-id="{{key._id}}">{{localize "KNIGHT.ITEMS.BLESSURETRAUMA.AppliquerGain"}}</button>
+                {{#unless system.gainEspoir.applique}}
+                <button
+                data-action="use"
+                data-type="trauma"
+                data-key="{{_id}}">{{localize "KNIGHT.ITEMS.BLESSURETRAUMA.AppliquerGain"}}</button>
                 {{/unless}}
                 <span class="description">
-                    {{{key.system.description}}}
+                    {{{system.description}}}
                 </span>
             </div>
             {{/each}}

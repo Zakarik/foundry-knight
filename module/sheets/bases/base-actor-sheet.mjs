@@ -34,6 +34,7 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     actions: {
       switchSubTab: BaseActorSheet.#onSwitchSubTab,
       itemCreate: BaseActorSheet.#onItemCreate,
+      noItemCreate: BaseActorSheet.#onNoItemCreate,
       itemEdit: BaseActorSheet.#onItemEdit,
       itemDelete: BaseActorSheet.#onItemDelete,
       noItemDelete: BaseActorSheet.#onNoItemDelete,
@@ -109,6 +110,84 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
 
     // Finally, create the item!
     return create;
+  }
+
+  static async #onNoItemCreate(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    const actor = this.actor;
+    let list = actor.system.progression[type].depense.liste;
+    let addOrder;
+    let length = 0;
+    let update = {};
+
+    function formatNewData(type, data) {
+      let result = {};
+
+      switch(type) {
+        case 'gloire':
+          result = {
+            order:`${data.addOrder+1}`,
+            nom:'',
+            cout:'0',
+            gratuit:false
+          }
+          break;
+
+        case 'experience':
+          result = {
+            addOrder:`${data.addOrder+1}`,
+            caracteristique:'',
+            bonus:0,
+            cout:0
+          };
+          break;
+      }
+
+      return result;
+    }
+
+    switch(type) {
+      case 'gloire':
+        const listAutre = actor.system.progression[type].depense?.autre || {};
+        const pgIsEmpty = list[0]?.isEmpty ?? false;
+        addOrder =  foundry.utils.isEmpty(list)  || isEmpty ? 0 : this._getHighestOrder(list);
+
+        if(addOrder === -1) addOrder = Object.keys(list).length;
+
+        for(const gloire in listAutre) {
+          const obj = listAutre[gloire];
+
+          length = Number(gloire);
+
+          update[gloire] = {
+            order:obj.order,
+            nom:obj.nom,
+            cout:obj.cout,
+            gratuit:obj.gratuit
+          }
+        }
+
+        update[length+1] = formatNewData(type, {addOrder});
+
+        await actor.update({[`system.progression.${type}.depense.autre`]:update});
+        break;
+
+      case 'experience':
+        let i = 0;
+        addOrder =  foundry.utils.isEmpty(list) ? 0 : this._getHighestOrder(list);
+
+        for(const e in list) {
+          length = Number(e);
+
+          update[e] = data[e];
+        }
+
+        update[length+1] = formatNewData(type, {addOrder});
+
+        await actor.update({[`system.progression.${type}.depense.liste`]:update});
+        break;
+    }
   }
 
   static async #onItemEdit(event, target) {
@@ -941,6 +1020,20 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
   }
 
   async _onDroppedActor(data) {}
+
+  _getHighestOrder(myObject) {
+    let highestOrder = -1;
+
+    for (const key in myObject) {
+      if (myObject.hasOwnProperty(key) && myObject[key].order !== undefined) {
+        if (myObject[key].order > highestOrder) {
+          highestOrder = myObject[key].order;
+        }
+      }
+    }
+
+    return highestOrder;
+  };
 
   /** @inheritdoc */
   async _onDropItemCreate(itemData) {

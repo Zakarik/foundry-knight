@@ -37,7 +37,7 @@
             </div>
             {{/if}}
             {{#if (hasSetting 'adl')}}
-            <a class="adl-import" title="{{localize "KNIGHT.IMPORT.Adl-hint"}}" data-type="contact">{{localize "KNIGHT.IMPORT.Adl"}}</a>
+            <a class="adl-import" data-action="adlImport" data-tooltip="{{localize "KNIGHT.IMPORT.Adl-hint"}}" data-type="contact">{{localize "KNIGHT.IMPORT.Adl"}}</a>
             {{/if}}
         </div>
 
@@ -83,7 +83,7 @@
             </div>
             {{/if}}
             {{#if (hasSetting 'adl')}}
-            <a class="adl-import" title="{{localize "KNIGHT.IMPORT.Adl-hint"}}" data-type="distance">{{localize "KNIGHT.IMPORT.Adl"}}</a>
+            <a class="adl-import" data-action="adlImport" data-tooltip="{{localize "KNIGHT.IMPORT.Adl-hint"}}" data-type="distance">{{localize "KNIGHT.IMPORT.Adl"}}</a>
             {{/if}}
         </div>
     </div>

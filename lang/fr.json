@@ -2765,11 +2765,13 @@
       "Label":"Progression",
       "EXPERIENCE":{
         "Label":"Points d'Expériences",
-        "ListeDepense":"Liste des dépenses de Points d'Expériences"
+        "ListeDepense":"Liste des dépenses de Points d'Expériences",
+        "DepenseXP":"Dépense d'XP"
       },
       "GLOIRE":{
         "Label":"Points de Gloire",
-        "ListeDepense":"Liste des dépenses de Points de Gloire"
+        "ListeDepense":"Liste des dépenses de Points de Gloire",
+        "DepensePG":"Dépense de PG"
       },
       "Actuel":"Actuel",
       "Utilise":"Utilisé",

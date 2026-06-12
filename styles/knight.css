@@ -9313,7 +9313,7 @@ li.chat-message.emote {
 }
 .pnj section.body div.combat div.main div.grenades {
   display: flex;
-  width: calc(50% - 5px);
+  width: 100%;
   flex-wrap: wrap;
   border: 1px solid RGB(87 110 178);
 }
@@ -16219,354 +16219,6 @@ li.chat-message.emote {
 .actor.knight div.armure div.overdrives div.data div.line:not(:first-of-type) {
   border-top: 1px solid RGB(76 74 90);
 }
-.actor.knight div.historique h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  font-size: 20px;
-  padding-left: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.actor.knight div.historique h2.header .headerScore {
-  position: absolute;
-  width: 40px;
-  background: RGB(76 74 90);
-  line-height: 21px;
-  text-align: center;
-  right: 1px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 1px;
-}
-.actor.knight div.historique h2.header .headerQuantity {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  width: 48px;
-  background: RGB(76 74 90);
-  line-height: 22px;
-  height: 22px;
-  text-align: center;
-  right: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 0px;
-}
-.actor.knight div.historique h2.header .headerQuantity input {
-  text-align: center;
-  width: 20px;
-  height: 22px;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-}
-.actor.knight div.historique h2.header .headerQuantity span {
-  width: 8px;
-  line-height: 22px;
-  color: white;
-}
-.actor.knight div.historique h2.header a.verrouillage {
-  position: absolute;
-  right: 5px;
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-.actor.knight div.historique h2.header a.verrouillage:hover {
-  text-shadow: 0 0 10px white;
-}
-.actor.knight div.historique h2.header .far {
-  cursor: pointer;
-}
-.actor.knight div.historique h2.header {
-  padding-left: 26px;
-}
-.actor.knight div.historique h2.header span.option {
-  height: 22px;
-  border: 0px;
-  position: absolute;
-  left: 2px;
-  top: 0px;
-}
-.actor.knight div.historique h2.header span.option img {
-  height: 22px;
-  border: 0px;
-  cursor: pointer;
-}
-.actor.knight div.historique h2.header span.option img:hover {
-  filter: drop-shadow(0px 0px 5px RGB(43 42 51));
-}
-.actor.knight div.historique h2.header div.data {
-  position: absolute;
-  width: 85px;
-  display: grid;
-  grid-template-columns: 40px 5px 40px;
-  justify-content: space-between;
-  align-items: center;
-  top: 1px;
-  right: 1px;
-  background: RGB(76 74 90);
-  height: 21px;
-  line-height: 21px;
-}
-.actor.knight div.historique h2.header div.data input {
-  position: relative;
-  font-size: 14px;
-  font-weight: normal;
-  height: 21px;
-  line-height: 21px;
-  border: 0px;
-  text-align: center;
-  background: RGB(76 74 90);
-}
-.actor.knight div.historique h2.header div.data span {
-  font-size: 14px;
-  font-weight: normal;
-  height: 20px;
-  line-height: 21px;
-}
-.actor.knight div.historique div.mainOptions {
-  width: 100%;
-}
-.actor.knight div.historique div.subLine {
-  display: grid;
-  grid-template-columns: 1fr 40px;
-  background: RGB(76 74 90);
-  grid-gap: 2px;
-  align-items: center;
-  justify-content: left;
-  width: 100%;
-  border: 1px solid RGB(76 74 90);
-}
-.actor.knight div.historique div.subLine input {
-  width: 100%;
-  text-align: center;
-  border: 0px;
-  border-radius: 0px;
-  background: RGB(43 42 51);
-  height: 25px;
-}
-.actor.knight div.historique div.subLine span {
-  margin-left: auto;
-}
-.actor.knight div.historique div.main {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
-}
-.actor.knight div.historique div.main div.langues,
-.actor.knight div.historique div.main div.contacts,
-.actor.knight div.historique div.main div.blessures,
-.actor.knight div.historique div.main div.traumas {
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(50% - 5px);
-  flex: none;
-  align-items: flex-start;
-  align-content: flex-start;
-}
-.actor.knight div.historique div.main div.langues h2.header a {
-  position: absolute;
-  right: 45px;
-  line-height: 22px;
-}
-.actor.knight div.historique div.main div.langues div.block {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-}
-.actor.knight div.historique div.main div.langues div.block header {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  position: relative;
-}
-.actor.knight div.historique div.main div.langues div.block header i.extendButton {
-  line-height: 26px;
-  position: absolute;
-  font-size: 26px;
-  color: white;
-  cursor: pointer;
-}
-.actor.knight div.historique div.main div.langues div.block header i.extendButton:hover {
-  text-shadow: 0 0 10px RGB(37 85 228);
-}
-.actor.knight div.historique div.main div.langues div.block header span {
-  width: 100%;
-  text-align: center;
-  font-variant: small-caps;
-  line-height: 26px;
-}
-.actor.knight div.historique div.main div.langues div.block header div.gestionButton {
-  display: flex;
-  height: 26px;
-  justify-content: space-between;
-  position: absolute;
-  right: 5px;
-  width: 30px;
-  align-items: center;
-}
-.actor.knight div.historique div.main div.contacts h2.header a {
-  position: absolute;
-  right: 90px;
-  line-height: 22px;
-}
-.actor.knight div.historique div.main div.contacts div.block {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-}
-.actor.knight div.historique div.main div.contacts div.block header {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  position: relative;
-}
-.actor.knight div.historique div.main div.contacts div.block header i.extendButton {
-  line-height: 26px;
-  position: absolute;
-  font-size: 26px;
-  color: white;
-  cursor: pointer;
-}
-.actor.knight div.historique div.main div.contacts div.block header i.extendButton:hover {
-  text-shadow: 0 0 10px RGB(37 85 228);
-}
-.actor.knight div.historique div.main div.contacts div.block header span {
-  width: 100%;
-  text-align: center;
-  font-variant: small-caps;
-  line-height: 26px;
-}
-.actor.knight div.historique div.main div.contacts div.block header div.gestionButton {
-  display: flex;
-  height: 26px;
-  justify-content: space-between;
-  position: absolute;
-  right: 5px;
-  width: 30px;
-  align-items: center;
-}
-.actor.knight div.historique div.main div.contacts div.block span.description {
-  display: none;
-  padding-left: 2px;
-  padding-right: 2px;
-  width: 100%;
-  text-align: justify;
-  word-break: break-all;
-  background: RGB(76 74 90);
-}
-.actor.knight div.historique div.main div.blessures h2.header a,
-.actor.knight div.historique div.main div.traumas h2.header a {
-  position: absolute;
-  right: 5px;
-  line-height: 22px;
-}
-.actor.knight div.historique div.main div.blessures div.block,
-.actor.knight div.historique div.main div.traumas div.block {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-}
-.actor.knight div.historique div.main div.blessures div.block header,
-.actor.knight div.historique div.main div.traumas div.block header {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  position: relative;
-}
-.actor.knight div.historique div.main div.blessures div.block header i.extendButton,
-.actor.knight div.historique div.main div.blessures div.block header i.extendDescriptionButton,
-.actor.knight div.historique div.main div.traumas div.block header i.extendButton,
-.actor.knight div.historique div.main div.traumas div.block header i.extendDescriptionButton {
-  line-height: 26px;
-  position: absolute;
-  font-size: 26px;
-  color: white;
-  cursor: pointer;
-}
-.actor.knight div.historique div.main div.blessures div.block header i.extendButton:hover,
-.actor.knight div.historique div.main div.blessures div.block header i.extendDescriptionButton:hover,
-.actor.knight div.historique div.main div.traumas div.block header i.extendButton:hover,
-.actor.knight div.historique div.main div.traumas div.block header i.extendDescriptionButton:hover {
-  text-shadow: 0 0 10px RGB(37 85 228);
-}
-.actor.knight div.historique div.main div.blessures div.block header span,
-.actor.knight div.historique div.main div.traumas div.block header span {
-  width: 100%;
-  text-align: center;
-  font-variant: small-caps;
-  line-height: 26px;
-}
-.actor.knight div.historique div.main div.blessures div.block header div.gestionButton,
-.actor.knight div.historique div.main div.traumas div.block header div.gestionButton {
-  display: flex;
-  height: 26px;
-  justify-content: space-between;
-  position: absolute;
-  right: 5px;
-  width: 30px;
-  align-items: center;
-}
-.actor.knight div.historique div.main div.blessures div.block button.gainEspoirItem,
-.actor.knight div.historique div.main div.traumas div.block button.gainEspoirItem {
-  width: 100%;
-  line-height: 27px;
-  color: white;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  margin: 0px;
-  cursor: pointer;
-}
-.actor.knight div.historique div.main div.blessures div.block span.description,
-.actor.knight div.historique div.main div.traumas div.block span.description {
-  display: none;
-  padding-left: 2px;
-  padding-right: 2px;
-  width: 100%;
-  text-align: justify;
-  word-break: break-all;
-  background: RGB(76 74 90);
-}
-.actor.knight div.historique div.main div.blessures,
-.actor.knight div.historique div.main div.traumas {
-  margin-top: 10px;
-}
-.actor.knight div.historique div.histoire {
-  display: flex;
-  position: relative;
-  flex: 1;
-  flex-direction: column;
-  margin-top: 10px;
-}
-.actor.knight div.historique div.histoire prose-mirror {
-  flex: 1;
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
-}
 .actor.knight section.menu {
   padding-top: 5px;
 }
@@ -17603,17 +17255,17 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .actor.knight div.combat div.main {
-  display: flex;
+  display: grid;
   width: 100%;
-  justify-content: space-between;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
   align-items: flex-start;
   align-content: flex-start;
-  flex-wrap: wrap;
 }
 .actor.knight div.combat div.main div.armesContact,
 .actor.knight div.combat div.main div.armesDistance {
   display: flex;
-  width: calc(50% - 5px);
+  width: 100%;
   margin-bottom: 10px;
   flex-wrap: wrap;
   border: 1px solid RGB(87 110 178);
@@ -18095,13 +17747,13 @@ li.chat-message.emote {
 }
 .actor.knight div.combat div.main div.armesImprovisees {
   display: flex;
-  width: calc(50% - 5px);
+  width: 100%;
   margin-bottom: 10px;
   flex-wrap: wrap;
   border: 1px solid RGB(87 110 178);
 }
 .actor.knight div.combat div.main div.armesImprovisees h2.header {
-  font-size: 16px;
+  font-size: 20px;
 }
 .actor.knight div.combat div.main div.armesImprovisees h3 {
   display: block;
@@ -18211,7 +17863,7 @@ li.chat-message.emote {
 }
 .actor.knight div.combat div.main div.grenades {
   display: flex;
-  width: calc(50% - 5px);
+  width: 100%;
   flex-wrap: wrap;
   border: 1px solid RGB(87 110 178);
 }
@@ -18376,7 +18028,7 @@ li.chat-message.emote {
 .actor.knight div.combat div.main div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(50% - 5px);
+  width: 100%;
 }
 .actor.knight div.combat div.main div.col > div.armesDistance {
   width: 100%;
@@ -18901,6 +18553,362 @@ li.chat-message.emote {
   background: RGB(76 74 90);
   border-top: 1px solid;
   border-color: RGB(43 42 51) !important;
+}
+.actor.knight div.historique h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.actor.knight div.historique h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.actor.knight div.historique h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.actor.knight div.historique h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.actor.knight div.historique h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.actor.knight div.historique h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.actor.knight div.historique h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.actor.knight div.historique h2.header .far {
+  cursor: pointer;
+}
+.actor.knight div.historique h2.header {
+  padding-left: 26px;
+}
+.actor.knight div.historique h2.header span.option {
+  height: 22px;
+  border: 0px;
+  position: absolute;
+  left: 2px;
+  top: 0px;
+}
+.actor.knight div.historique h2.header span.option img {
+  height: 22px;
+  border: 0px;
+  cursor: pointer;
+}
+.actor.knight div.historique h2.header span.option img:hover {
+  filter: drop-shadow(0px 0px 5px RGB(43 42 51));
+}
+.actor.knight div.historique h2.header div.data {
+  position: absolute;
+  width: 85px;
+  display: grid;
+  grid-template-columns: 40px 5px 40px;
+  justify-content: space-between;
+  align-items: center;
+  top: 1px;
+  right: 1px;
+  background: RGB(76 74 90);
+  height: 21px;
+  line-height: 21px;
+}
+.actor.knight div.historique h2.header div.data input {
+  position: relative;
+  font-size: 14px;
+  font-weight: normal;
+  height: 21px;
+  line-height: 21px;
+  border: 0px;
+  text-align: center;
+  background: RGB(76 74 90);
+}
+.actor.knight div.historique h2.header div.data span {
+  font-size: 14px;
+  font-weight: normal;
+  height: 20px;
+  line-height: 21px;
+}
+.actor.knight div.historique div.mainOptions {
+  width: 100%;
+}
+.actor.knight div.historique div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  background: RGB(76 74 90);
+  grid-gap: 2px;
+  align-items: center;
+  justify-content: left;
+  width: 100%;
+  border: 1px solid RGB(76 74 90);
+}
+.actor.knight div.historique div.subLine input {
+  width: 100%;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+  height: 25px;
+}
+.actor.knight div.historique div.subLine span {
+  margin-left: auto;
+}
+.actor.knight div.historique div.main {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+.actor.knight div.historique div.main div.langues,
+.actor.knight div.historique div.main div.contacts,
+.actor.knight div.historique div.main div.blessures,
+.actor.knight div.historique div.main div.traumas {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(50% - 5px);
+  flex: none;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.actor.knight div.historique div.main div.langues h2.header a {
+  position: absolute;
+  right: 45px;
+  line-height: 22px;
+}
+.actor.knight div.historique div.main div.langues div.block {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+}
+.actor.knight div.historique div.main div.langues div.block header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.actor.knight div.historique div.main div.langues div.block header i.extendButton {
+  line-height: 26px;
+  position: absolute;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+.actor.knight div.historique div.main div.langues div.block header i.extendButton:hover {
+  text-shadow: 0 0 10px RGB(37 85 228);
+}
+.actor.knight div.historique div.main div.langues div.block header span {
+  width: 100%;
+  text-align: center;
+  font-variant: small-caps;
+  line-height: 26px;
+}
+.actor.knight div.historique div.main div.langues div.block header div.gestionButton {
+  display: flex;
+  height: 26px;
+  justify-content: space-between;
+  position: absolute;
+  right: 5px;
+  width: 30px;
+  align-items: center;
+}
+.actor.knight div.historique div.main div.contacts h2.header a {
+  position: absolute;
+  right: 90px;
+  line-height: 22px;
+}
+.actor.knight div.historique div.main div.contacts div.block {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+}
+.actor.knight div.historique div.main div.contacts div.block header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.actor.knight div.historique div.main div.contacts div.block header i.extendButton {
+  line-height: 26px;
+  position: absolute;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+.actor.knight div.historique div.main div.contacts div.block header i.extendButton:hover {
+  text-shadow: 0 0 10px RGB(37 85 228);
+}
+.actor.knight div.historique div.main div.contacts div.block header span {
+  width: 100%;
+  text-align: center;
+  font-variant: small-caps;
+  line-height: 26px;
+}
+.actor.knight div.historique div.main div.contacts div.block header div.gestionButton {
+  display: flex;
+  height: 26px;
+  justify-content: space-between;
+  position: absolute;
+  right: 5px;
+  width: 30px;
+  align-items: center;
+}
+.actor.knight div.historique div.main div.contacts div.block span.description {
+  display: none;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  text-align: justify;
+  word-break: break-all;
+  background: RGB(76 74 90);
+}
+.actor.knight div.historique div.main div.blessures h2.header a,
+.actor.knight div.historique div.main div.traumas h2.header a {
+  position: absolute;
+  right: 5px;
+  line-height: 22px;
+}
+.actor.knight div.historique div.main div.blessures div.block,
+.actor.knight div.historique div.main div.traumas div.block {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+}
+.actor.knight div.historique div.main div.blessures div.block header,
+.actor.knight div.historique div.main div.traumas div.block header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.actor.knight div.historique div.main div.blessures div.block header i.extendButton,
+.actor.knight div.historique div.main div.blessures div.block header i.extendDescriptionButton,
+.actor.knight div.historique div.main div.traumas div.block header i.extendButton,
+.actor.knight div.historique div.main div.traumas div.block header i.extendDescriptionButton {
+  line-height: 26px;
+  position: absolute;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+.actor.knight div.historique div.main div.blessures div.block header i.extendButton:hover,
+.actor.knight div.historique div.main div.blessures div.block header i.extendDescriptionButton:hover,
+.actor.knight div.historique div.main div.traumas div.block header i.extendButton:hover,
+.actor.knight div.historique div.main div.traumas div.block header i.extendDescriptionButton:hover {
+  text-shadow: 0 0 10px RGB(37 85 228);
+}
+.actor.knight div.historique div.main div.blessures div.block header span,
+.actor.knight div.historique div.main div.traumas div.block header span {
+  width: 100%;
+  text-align: center;
+  font-variant: small-caps;
+  line-height: 26px;
+}
+.actor.knight div.historique div.main div.blessures div.block header div.gestionButton,
+.actor.knight div.historique div.main div.traumas div.block header div.gestionButton {
+  display: flex;
+  height: 26px;
+  justify-content: space-between;
+  position: absolute;
+  right: 5px;
+  width: 30px;
+  align-items: center;
+}
+.actor.knight div.historique div.main div.blessures div.block button,
+.actor.knight div.historique div.main div.traumas div.block button {
+  width: 100%;
+  line-height: 27px;
+  color: white;
+  background: RGB(43 42 51);
+  border-bottom: 1px solid RGB(76 74 90);
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  text-align: center;
+  padding: 0px;
+  border-radius: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+.actor.knight div.historique div.main div.blessures div.block button:hover,
+.actor.knight div.historique div.main div.traumas div.block button:hover {
+  background: RGB(76 74 90);
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.actor.knight div.historique div.main div.blessures div.block span.description,
+.actor.knight div.historique div.main div.traumas div.block span.description {
+  display: grid;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  background: RGB(76 74 90);
+}
+.actor.knight div.historique div.main div.blessures,
+.actor.knight div.historique div.main div.traumas {
+  margin-top: 10px;
+}
+.actor.knight div.historique div.histoire {
+  display: flex;
+  position: relative;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.actor.knight div.historique div.histoire prose-mirror {
+  flex: 1;
+  min-height: 130px;
+  border-bottom: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
 }
 .actor.knight div.autre div {
   display: grid;
@@ -45991,6 +45999,79 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 10px;
   background: RGB(43 42 51);
 }
+.knight-import-adl form {
+  gap: 0px;
+  border: 1px solid RGB(87 110 178);
+}
+.knight-import-adl div.dialog-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 0px;
+  background: RGB(76 74 90);
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.knight-import-adl div.dialog-content h1 {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  border: 0px;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.knight-import-adl div.dialog-content select {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 0px;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-color: black;
+}
+.knight-import-adl div.dialog-content div.select {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
+  margin: 0px;
+}
+.knight-import-adl div.dialog-content div.select span {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-variant: small-caps;
+  text-align: justify;
+}
+.knight-import-adl div.dialog-content textarea {
+  border-radius: 0px;
+  height: 90px;
+  margin: 0px;
+}
+.knight-import-adl footer {
+  flex: 0;
+}
+.knight-import-adl footer button {
+  height: 28px;
+  line-height: 26px;
+  margin: 0px;
+  min-width: max-content;
+  white-space: nowrap;
+  border-radius: 0px;
+  border: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  background: RGB(76 74 90);
+  color: white;
+}
+.knight-import-adl footer button:hover {
+  background: RGB(43 42 51);
+}
+
 div#interface.version1 #logo {
   content: url("../assets/icons/logo1.webp");
   min-height: 100px;
@@ -46119,70 +46200,6 @@ section#compendium > header:first-of-type:before {
   flex: 0;
 }
 .knight-import-all section.window-content div.dialog-buttons button {
-  height: 28px;
-  line-height: 26px;
-  margin: 0px;
-  min-width: max-content;
-  white-space: nowrap;
-  background-color: RGB(193, 193, 193);
-  border-radius: 0px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
-}
-
-.knight-import-adl section.window-content div.dialog-content {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
-}
-.knight-import-adl section.window-content div.dialog-content h1 {
-  padding: 0px;
-  margin: 0px;
-  width: 100%;
-  text-align: center;
-  font-size: 18px;
-  border: 0px;
-  font-variant: small-caps;
-  font-weight: bold;
-}
-.knight-import-adl section.window-content div.dialog-content select {
-  padding: 0px;
-  margin: 0px;
-  width: 100%;
-  font-variant: small-caps;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 0px;
-  border-bottom: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  border-color: black;
-}
-.knight-import-adl section.window-content div.dialog-content div.select {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 2px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-}
-.knight-import-adl section.window-content div.dialog-content div.select span {
-  padding-left: 5px;
-  padding-right: 5px;
-  font-variant: small-caps;
-  text-align: justify;
-}
-.knight-import-adl section.window-content div.dialog-content textarea {
-  border-radius: 0px;
-  height: 90px;
-}
-.knight-import-adl section.window-content div.dialog-buttons {
-  flex: 0;
-}
-.knight-import-adl section.window-content div.dialog-buttons button {
   height: 28px;
   line-height: 26px;
   margin: 0px;

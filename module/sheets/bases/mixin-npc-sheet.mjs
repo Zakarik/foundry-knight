@@ -3,7 +3,7 @@ const NPCMixinSheet = (superclass) => class extends superclass {
   /** @inheritdoc */
   _prepareActor(context) {
     super._prepareActor(context);
-    const { data } = context
+    const data = context;
 
     const system = data.system;
     const options = system.options;
@@ -13,7 +13,7 @@ const NPCMixinSheet = (superclass) => class extends superclass {
     options.noFirstMenu = noFirstMenu;
     options.noSecondMenu = noSecondMenu;
 
-    context.data.system.wear = 'armure';
+    context.system.wear = 'armure';
   }
 
   _onRender(context, options) {

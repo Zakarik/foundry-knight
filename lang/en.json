@@ -2765,11 +2765,13 @@
       "Label":"Progress",
       "EXPERIENCE":{
         "Label":"Experience Points",
-        "ListeDepense":"Experience Points expenditure list"
+        "ListeDepense":"Experience Points expenditure list",
+        "DepenseXP":"XP expenditure"
       },
       "GLOIRE":{
         "Label":"Glory points",
-        "ListeDepense":"Glory Points expenditure list"
+        "ListeDepense":"Glory Points expenditure list",
+        "DepensePG":"Glory points spending"
       },
       "Actuel":"Current",
       "Utilise":"Used",

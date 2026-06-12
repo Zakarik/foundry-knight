@@ -40,7 +40,7 @@
                 <span class="score">
                     {{#if systemData.progression.gloire.actuel}}
                         {{systemData.progression.gloire.actuel}}
-                        {{else}}
+                    {{else}}
                         0
                     {{/if}}
                 </span>
@@ -52,7 +52,7 @@
                 <span class="score">
                     {{#if systemData.progression.gloire.depense.total}}
                         {{systemData.progression.gloire.depense.total}}
-                        {{else}}
+                    {{else}}
                         0
                     {{/if}}
                 </span>
@@ -80,7 +80,7 @@
             <h2 class="header js-toggler">
                 {{~> knight.jsToggle}}
                 {{localize "KNIGHT.PROGRESSION.GLOIRE.ListeDepense"}}
-                <a class="gloire-create" title="Create Item"><i class="fas fa-plus"></i></a>
+                <a data-action="noItemCreate" data-type="gloire" data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.PROGRESSION.GLOIRE.DepensePG")}}"><i class="fas fa-plus"></i></a>
             </h2>
             <div class="lineHeader">
                 <span></span>
@@ -97,7 +97,7 @@
             <h2 class="header js-toggler">
                 {{~> knight.jsToggle}}
                 {{localize "KNIGHT.PROGRESSION.EXPERIENCE.ListeDepense"}}
-                <a class="experience-create" title="Create Item"><i class="fas fa-plus"></i></a>
+                <a data-action="noItemCreate" data-type="experience" data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize 'KNIGHT.PROGRESSION.EXPERIENCE.DepenseXP')}}"><i class="fas fa-plus"></i></a>
             </h2>
             <div class="lineHeader">
                 <span></span>

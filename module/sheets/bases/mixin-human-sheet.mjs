@@ -501,13 +501,27 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     const tgt = target.dataset;
     const type = tgt.type;
     const key = tgt.key;
+    const actor = this.actor;
+    let update = {};
+    let updateItm = {};
 
     switch(type) {
       case 'nods':
         const nods = tgt.nods;
 
-        if(key === 'target') this.actor.system.useNods(nods);
-        else this.actor.system.useNods(nods, true);
+        if(key === 'target') actor.system.useNods(nods);
+        else actor.system.useNods(nods, true);
+        break;
+
+      case 'trauma':
+        const itm = actor.items.get(key);
+        const espoir = actor.system.espoir;
+
+        updateItm[`system.gainEspoir.applique`] = true;
+        update[`system.espoir.value`] = Number(itm.system.gainEspoir?.value) + Number(espoir?.value);
+
+        actor.update(update);
+        itm.update(updateItm);
         break;
     }
   }
@@ -1844,20 +1858,6 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
     if(!foundry.utils.isEmpty(itemUpdate)) itemCreate[0].update(itemUpdate);
   }
-
-  _getHighestOrder(myObject) {
-    let highestOrder = -1;
-
-    for (const key in myObject) {
-      if (myObject.hasOwnProperty(key) && myObject[key].order !== undefined) {
-        if (myObject[key].order > highestOrder) {
-          highestOrder = myObject[key].order;
-        }
-      }
-    }
-
-    return highestOrder;
-  };
 
   async _resetArmure(actor) {
       const armor = await getArmor(actor);

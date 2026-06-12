@@ -21,6 +21,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       editDialog:KnightSheet.#onEditDialog,
       wpnEquip:KnightSheet.#onWpnEquip,
       changeEquip:KnightSheet.#onChangeEquip,
+      adlImport:KnightSheet.#onAdlImport,
     }
   }
 
@@ -208,6 +209,74 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     }
   }
 
+  static async #onAdlImport(event, target) {const tgt = target.dataset;
+    const type = tgt.type;
+    const actor = this.actor;
+    const itm = actor.items.filter(itm => itm.type === 'arme' && itm.system.type === type);
+    let html = ``;
+
+    if (itm.length) {
+        html += `<h1>Choisir l'arme à écraser</h1>`;
+        html += `<div class='select'>`;
+        html += `<select class="typeToImport" name="typeToImport">`;
+        html += `<option value='null'>Importer une nouvelle arme</option>`;
+        for (let i of itm) {
+            html += `<option value='${i.id}'>${i.name}</option>`;
+        }
+        html += `</select>`;
+        html += `<span>Sera ignoré en cas d'import du Longbow, car les paramètres du Longbow seront remplacés.</span>`;
+        html += `</div>`;
+    }
+
+    html += `<textarea class="toImport" name="toImport"></textarea>`;
+
+    await foundry.applications.api.DialogV2.wait({
+        window: {
+            title: game.i18n.localize('KNIGHT.IMPORT.LabelKJDRS'),
+        },
+        classes: ["knight-import-adl"],
+        position: {
+            height: 270,
+        },
+        content: html,
+        buttons: [
+            {
+                action: "one",
+                label: game.i18n.localize('KNIGHT.IMPORT.ImporterArme'),
+                default: true,
+                callback: async (event, button, dialog) => {
+                    try {
+                        const target = button.form.elements.typeToImport?.value ?? 'null';
+                        const data = button.form.elements.toImport.value;
+                        const json = JSON.parse(data);
+
+                        if (json.chassis === game.i18n.localize('KNIGHT.IMPORT.Longbow')) {
+                            this.actor.system.dataArmor.system.importLongbow(json);
+                        } else if (target === 'null') {
+                            const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
+                            const itemData = {
+                                name: name,
+                                type: 'arme',
+                                img: getDefaultImg('arme'),
+                                system: {
+                                    type: type,
+                                }
+                            };
+                            const create = await Item.create(itemData, { parent: this.actor });
+                            create.system.importWpn(json);
+                        } else {
+                            const wpn = await this.actor.items.get(target);
+                            wpn.system.importWpn(json);
+                        }
+                    } catch {
+                        ui.notifications.error(game.i18n.localize('KNIGHT.IMPORT.Error'));
+                    }
+                }
+            }
+        ],
+    });
+  }
+
   /* -------------------------------------------- */
 
   _menu_entries() {
@@ -382,343 +451,6 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
-
-    /*html.find('div.listeAspects div.line').hover(ev => {
-      $(ev.currentTarget).children('img').attr("src", "systems/knight/assets/icons/D6White.svg");
-    }, ev => {
-      $(ev.currentTarget).children('img').attr("src", "systems/knight/assets/icons/D6Black.svg");
-    });
-
-    html.find('div.styleCombat > span.info').hover(ev => {
-      html.find('div.styleCombat > span.hideInfo').css("display", "block");
-    }, ev => {
-      html.find('div.styleCombat > span.hideInfo').css("display", "none");
-    });
-
-    html.find('div.styleCombat > span.info').click(ev => {
-      const actuel = this.actor.system.combat?.styleDeploy || false;
-
-      let result = false;
-
-      if(actuel) {
-        result = false;
-      } else {
-        result = true;
-      }
-
-      const update = {
-        system: {
-          combat: {
-            styleDeploy:result
-          }
-        }
-      };
-
-      this.actor.update(update);
-    });*/
-
-    /*html.find('div.styleCombat > select').change(async ev => {
-    });*/
-
-    /*html.find('.jetEspoir').click(async ev => {
-      const hasShift = ev.shiftKey;
-      const label = game.i18n.localize('KNIGHT.JETS.JetEspoir');
-
-      if(hasShift) {
-        const wear = this.object.system.wear;
-
-        let carac = getCaracValue('hargne', this.actor, true);
-        carac += getCaracValue('sangFroid', this.actor, true);
-
-        let od = wear === 'armure' || wear === 'ascension' ? getODValue('hargne', this.actor, true) : 0;
-        od += wear === 'armure' || wear === 'ascension' ? getODValue('sangFroid', this.actor, true) : 0;
-        let caracs = [];
-
-        const exec = new game.knight.RollKnight(this.actor,
-          {
-          name:label,
-          dices:`${carac}D6`,
-          carac:[game.i18n.localize(CONFIG.KNIGHT.caracteristiques['hargne']), game.i18n.localize(CONFIG.KNIGHT.caracteristiques['sangFroid'])],
-          bonus:[od],
-          }).doRoll();
-
-      } else {
-        const id = this.actor.token ? this.actor.token.id : this.actor.id;
-
-        const dialog = new game.knight.applications.KnightRollDialog(id, {
-          label:label,
-          base:'hargne',
-          whatRoll:['sangFroid']
-        });
-
-        dialog.open();
-      }
-    });*/
-
-    /*html.find('.jetEgide').click(async ev => {
-      const value = $(ev.currentTarget).data("value");
-
-      const rEgide = new game.knight.RollKnight(this.actor, {
-        name:game.i18n.localize("KNIGHT.JETS.JetEgide"),
-        dices:`${value}`
-      });
-
-      await rEgide.doRoll();
-    });*/
-
-    /*html.find('.motivationAccomplie').click(async ev => {
-      const espoir = this.actor.system.espoir;
-      const mods = espoir.recuperation.bonus-espoir.recuperation.malus;
-      const actuel = this.actor.system.espoir.value;
-      let update = {}
-      update[`system.espoir.value`] = `${actuel}+@{rollTotal}`;
-      const rEspoir = new game.knight.RollKnight(this.actor, {
-        name:game.i18n.localize("KNIGHT.PERSONNAGE.MotivationAccomplie"),
-        dices:`1D6`,
-        bonus:[mods]
-      }, false);
-
-      await rEspoir.doRoll(update);
-    });*/
-
-    /*html.find('img.edit').click(ev => {
-    });*/
-
-    html.find('button.gainEspoirItem').click(ev => {
-      const id = $(ev.currentTarget).data("id");
-      const item = this.actor.items.get(id);
-      const value = item.system.gainEspoir.value;
-      const actuel = this.actor.system.espoir.value;
-      const max = this.actor.system.espoir.max;
-      let total = actuel+value;
-
-      const updateItem = {
-        system:{
-          gainEspoir:{
-            applique:true
-          }
-        }
-      };
-
-      if(total > max) { total = max; }
-
-      const updateActor = {
-        system:{
-          espoir:{
-            value:total
-          }
-        }
-      };
-
-      item.update(updateItem);
-      this.actor.update(updateActor);
-    });
-
-    /*html.find('div.buttonSelectArmure button.armure').click(async ev => {
-      ev.preventDefault();
-      const type = $(ev.currentTarget).data("type");
-      const data = this.actor.system;
-      const wear = data.wear;
-      let itemUpdate = '';
-
-      if(type === data.wear) return;
-
-      const update = {};
-
-      update[`system.wear`] = type;
-
-      switch(wear) {
-        case 'armure':
-          itemUpdate = `system.armure.value`;
-          break;
-
-        case 'ascension':
-        case 'guardian':
-          update[`system.equipements.${wear}.armure.value`] = data.armure.value
-          break;
-      }
-
-      switch(type) {
-        case 'armure':
-          const armor = await getArmor(this.actor);
-
-          update[`system.armure.value`] = armor.system.armure.value;
-          update['system.jauges'] = armor.system.jauges;
-          break;
-
-        case 'ascension':
-        case 'guardian':
-          update[`system.armure.value`] = data.equipements[type].armure.value;
-          update['system.jauges'] = data.equipements[type].jauges;
-          break;
-
-        case 'tenueCivile':
-          update['system.jauges'] = data.equipements[type].jauges;
-          break;
-      }
-
-      if(type != 'armure') this._resetArmure(this.actor);
-
-      this.actor.update(update);
-
-      if(itemUpdate !== '') {
-        const armor = await getArmor(this.actor);
-
-        armor.update({[itemUpdate]:data.armure.value});
-      }
-    });*/
-
-    /*html.find('div.combat div.wpn a.item-equip').click(ev => {
-      const header = $(ev.currentTarget).parents(".summary");
-      const item = this.actor.items.get(header.data("item-id"));
-
-      const update = {
-        system:{
-          equipped:true,
-          rack:false
-        }
-      }
-
-      item.update(update);
-    });
-
-    html.find('div.combat div.wpn a.item-unequip').click(ev => {
-      const header = $(ev.currentTarget).parents(".summary");
-      const item = this.actor.items.get(header.data("item-id"));
-
-      const update = {
-        system:{
-          equipped:false,
-          rack:true
-        }
-      }
-
-      item.update(update);
-    });
-
-    html.find('div.combat div.wpn a.item-rack').click(ev => {
-      const header = $(ev.currentTarget).parents(".summary");
-      const item = this.actor.items.get(header.data("item-id"));
-
-      const update = {
-        system:{
-          equipped:false,
-          rack:true
-        }
-      }
-
-      item.update(update);
-    });
-
-    html.find('div.combat div.wpn a.item-unrack').click(ev => {
-      const header = $(ev.currentTarget).parents(".summary");
-      const item = this.actor.items.get(header.data("item-id"));
-
-      const update = {
-        system:{
-          equipped:false,
-          rack:false
-        }
-      }
-
-      item.update(update);
-    });*/
-
-    /*html.find('div.progression .tableauPG button').click(ev => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value");
-      const id = target.data("id");
-      const evo = target.data("evo");
-      const isLongbow = target?.data("longbow") || false;
-      const isModule = target?.data("ismodule") || false;
-      const niveau = Number(target?.data("niveau")) || 1;
-      const result = value ? false : true;
-
-      if(isLongbow) {
-        this.actor.items.get(id).update({[`system.evolutions.special.longbow.${evo}.gratuit`]:result});
-      } else if(isModule) {
-        this.actor.items.get(id).update({[`system.niveau.details.n${niveau}.gratuit`]:result});
-      } else {
-        this.actor.items.get(id).update({['system.gratuit']:result});
-      }
-    });*/
-
-    html.find('div.progression .tableauPG .gloire-create').click(async ev => {
-      const dataGloire = this.actor.system.progression.gloire;
-      const gloireListe = dataGloire.depense.liste;
-      const isEmpty = gloireListe[0]?.isEmpty ?? false;
-      let addOrder =  foundry.utils.isEmpty(gloireListe)  || isEmpty ? 0 : this._getHighestOrder(gloireListe);
-      const gloireAutre = dataGloire.depense?.autre || {};
-
-      if(addOrder === -1) {
-        addOrder = Object.keys(gloireListe).length;
-      }
-
-      const newData = {
-        order:`${addOrder+1}`,
-        nom:'',
-        cout:'0',
-        gratuit:false
-      }
-
-      let update = {};
-      let length = 0;
-
-      for(let gloire in gloireAutre) {
-        const obj = gloireAutre[gloire];
-
-        length = parseInt(gloire);
-
-        update[gloire] = {
-          order:obj.order,
-          nom:obj.nom,
-          cout:obj.cout,
-          gratuit:obj.gratuit
-        }
-      }
-
-      update[length+1] = newData;
-
-      await this.actor.update({[`system.progression.gloire.depense.autre`]:update});
-    });
-
-    /*html.find('div.progression .tableauPG .gloire-delete').click(ev => {
-      const target = $(ev.currentTarget);
-      const id = target.data("id");
-
-      this.actor.update({[`system.progression.gloire.depense.autre.-=${id}`]:null});
-    });*/
-
-    html.find('div.progression .tableauPX .experience-create').click(ev => {
-      const getData = this.actor;
-      const data = getData.system.progression.experience.depense.liste;
-      let i = 0;
-      let addOrder =  foundry.utils.isEmpty(data) ? 0 : this._getHighestOrder(data);
-
-      const newData = {};
-
-      for(let e in data) {
-        i = parseInt(e);
-
-        newData[e] = data[e];
-      }
-
-      newData[i+1] = {
-        addOrder:addOrder+1,
-        caracteristique:'',
-        bonus:0,
-        cout:0
-      };
-
-      this.actor.update({[`system.progression.experience.depense.liste`]:newData});
-    });
-
-    /*html.find('div.progression .tableauPX .experience-delete').click(ev => {
-      const target = $(ev.currentTarget);
-      const id = target.data("id");
-
-      this.actor.update({[`system.progression.experience.depense.liste.-=${id}`]:null});
-    });*/
 
     html.find('.appliquer-evolution-armure').click(async ev => {
       const target = $(ev.currentTarget);
@@ -1047,123 +779,9 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       }
     });
 
-    /*html.find('a.avdvshow').click(ev => {
-      const target = $(ev.currentTarget);
-      const header = target.parents(".summary");
-      const item = this.actor.items.get(header.data("item-id"));
-      const value = target.data('value') ? false : true;
-
-      item.update({['system.show']:value});
-    });*/
-
     html.find('a.adl-import').click(async ev => {
       const tgt = $(ev.currentTarget);
-      const type = tgt.data('type');
-      const itm = this.actor.items.filter(itm => itm.type === 'arme' && itm.system.type === type);
-      let html = ``;
-
-      if(itm) {
-        html += `<h1>Choisir l'arme à écraser</h1>`
-        html += `<div class='select'>`
-        html += `<select class="typeToImport">`
-        html += `<option value='null'>Importer une nouvelle arme</option>`
-        for(let i of itm) {
-          html += `<option value='${i.id}'>${i.name}</option>`
-        }
-        html += `</select>`;
-        html += `<span>Sera ignoré en cas d'import du Longbow, car les paramètres du Longbow seront remplacés.</span>`;
-        html += `</div>`
-      }
-
-      html += `<textarea class="toImport"></textarea>`;
-
-      const dOptions = {
-        classes: ["knight-import-adl"],
-        height:250
-      };
-      let d = new Dialog({
-        title: game.i18n.localize('KNIGHT.IMPORT.LabelKJDRS'),
-        content:html,
-        buttons: {
-          one: {
-          label: game.i18n.localize('KNIGHT.IMPORT.ImporterArme'),
-          callback: async (html) => {
-              try{
-                const target = html.find('.typeToImport').val();
-                const data = html.find('.toImport').val();
-                const json = JSON.parse(data);
-
-                if(json.chassis === game.i18n.localize('KNIGHT.IMPORT.Longbow')) {
-                  this.actor.system.dataArmor.system.importLongbow(json);
-                } else if(target === 'null') {
-                  const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
-                  const itemData = {
-                    name: name,
-                    type: 'arme',
-                    img: getDefaultImg('arme'),
-                    system:{
-                      type:type,
-                    }
-                  };
-                  const create = await Item.create(itemData, {parent: this.actor});
-                  create.system.importWpn(json)
-                } else {
-                  const wpn = await this.actor.items.get(target);
-                  wpn.system.importWpn(json)
-                }
-              } catch {
-                ui.notifications.error(game.i18n.localize('KNIGHT.IMPORT.Error'));
-              }
-            }
-          }
-        }
-      },
-      dOptions);
-      d.render(true);
     });
-
-    /*html.find('section.menu div.energie div.js-simpletoggler input.value')
-      .focus(async ev => {
-        const tgt = $(ev.currentTarget);
-        tgt.data('old', Number(tgt.val()));
-      })
-      .change(async ev => {
-        const tgt = $(ev.currentTarget);
-        const oldValue = Number(tgt.data('old'));
-        const value = Number(tgt.val());
-        const actor = this.actor;
-        const wear = actor.system.whatWear;
-        const cyberware = actor.items.filter(items => items.type === 'cyberware' && (items.system.categorie === 'utilitaire' || items.system.categorie === 'combat'));
-
-        if(cyberware.length === 0) return;
-
-        const newValue = value < 20 ? value : 20;
-        const armureEnergie = actor?.system?.equipements?.armure?.energie?.value ?? 0;
-        let update = {};
-
-        switch(wear) {
-          case 'armure':
-            update['system.equipements.guardian.energie.value'] = newValue;
-            update['system.equipements.tenueCivile.energie.value'] = newValue;
-            break;
-          case 'guardian':
-            if(armureEnergie < 20) update['system.equipements.armure.energie.value'] = newValue;
-            else if(oldValue > newValue) update['system.equipements.armure.energie.value'] = armureEnergie-(oldValue-newValue);
-            else if(oldValue < newValue) update['system.equipements.armure.energie.value'] = armureEnergie+(newValue-oldValue);
-
-            update['system.equipements.tenueCivile.energie.value'] = newValue;
-            break;
-          case 'tenueCivile':
-            if(armureEnergie < 20) update['system.equipements.armure.energie.value'] = newValue;
-            else if(oldValue > newValue) update['system.equipements.armure.energie.value'] = armureEnergie-(oldValue-newValue);
-            else if(oldValue < newValue) update['system.equipements.armure.energie.value'] = armureEnergie+(newValue-oldValue);
-
-            update['system.equipements.guardian.energie.value'] = newValue;
-            break;
-        }
-
-        await actor.update(update, { render: false });
-      });*/
   }
 
   async _onChange(event) {

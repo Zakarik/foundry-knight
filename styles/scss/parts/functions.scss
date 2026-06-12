@@ -287,7 +287,7 @@ $news:#00ffcc44;
 @mixin grenades() {
     div.grenades {
         display:flex;
-        width:calc(50% - 5px);
+        width:100%;
         flex-wrap: wrap;
         border:1px solid $lightBlue;
 
