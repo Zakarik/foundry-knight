@@ -18,7 +18,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "actor"],
       template: "systems/knight/templates/actors/knight-sheet.html",
-      width: 940,
+      width: 1040,
       height: 720,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "personnage"},

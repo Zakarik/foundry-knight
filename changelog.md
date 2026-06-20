@@ -1,3 +1,7 @@
+## v3.58.29
+### Bugfix
+- Correction de problèmes de mises en pages sous Foundry 14.
+
 ## v3.58.28
 ### Bugfix
 - Application du même correctif qu'en v3.57.27

@@ -22155,8 +22155,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   min-height: 55px;
   width: 100%;
 }
-.knight section.body div.armure div.ia div.editor.tinymce {
+.knight section.body div.armure div.ia div.editor.tinymce, .knight section.body div.armure div.ia div.editor.prosemirror {
   min-height: 150px;
+}
+.knight section.body div.armure div.ia div.editor.tinymce .menu-container, .knight section.body div.armure div.ia div.editor.prosemirror .menu-container {
+  flex: 1;
+}
+.knight section.body div.armure div.ia div.editor.tinymce menu, .knight section.body div.armure div.ia div.editor.prosemirror menu {
+  flex-wrap: wrap;
+  max-height: fit-content;
+}
+.knight section.body div.armure div.ia div.editor.tinymce span, .knight section.body div.armure div.ia div.editor.tinymce i, .knight section.body div.armure div.ia div.editor.prosemirror span, .knight section.body div.armure div.ia div.editor.prosemirror i {
+  color: white;
+  font-weight: normal;
+}
+.knight section.body div.armure div.ia div.editor.tinymce li.active i,
+.knight section.body div.armure div.ia div.editor.tinymce li.active span, .knight section.body div.armure div.ia div.editor.prosemirror li.active i,
+.knight section.body div.armure div.ia div.editor.prosemirror li.active span {
+  color: RGB(43 42 51);
 }
 .knight section.body div.armure div.ia div.editor div.tox-tinymce {
   border-radius: 0px;
