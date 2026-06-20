@@ -1,0 +1,47 @@
+
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="autre">
+    <div class="main bOptions">
+        <h2 class="header">
+            {{localize "KNIGHT.OPTIONS.Label"}}
+        </h2>
+
+        {{#each options}}
+            <button type="action"
+            data-action="optionsClick"
+            data-option="{{option}}"
+            class="{{class}}">
+                {{localize label}}
+            </button>
+        {{/each}}
+    </div>
+
+    {{#if systemData.options.phase2}}
+    <div class="phase2">
+        <h2 class="header">
+            {{localize "KNIGHT.PHASE2.Bonus"}}
+        </h2>
+
+        <label class="longspan mid">
+            <span class="label">{{localize "KNIGHT.LATERAL.Cohesion"}}</span>
+            <input type="number" name="system.phase2.sante" value="{{systemData.phase2.sante}}" />
+        </label>
+
+        <div class="aspects">
+            {{#each systemData.phase2.aspects as | key aspect|}}
+            <div class="block">
+                <h3 class="header">
+                    {{getAspect aspect}}
+                    <input type="number" name="system.phase2.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="20" />
+                </h3>
+                <select name="system.phase2.aspects.{{aspect}}.ae.mineur">
+                    {{selectOptions (getAE 'Mineur' '10') selected=key.ae.mineur}}
+                </select>
+                <select name="system.phase2.aspects.{{aspect}}.ae.majeur">
+                    {{selectOptions (getAE 'Majeur' '10') selected=key.ae.majeur}}
+                </select>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+</div>

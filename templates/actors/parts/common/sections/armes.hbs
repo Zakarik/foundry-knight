@@ -9,7 +9,7 @@ data-raw="{{raw}}"
     <header class="summary header" data-item-id="{{this.system.item._id}}">
         {{~> knight.jsToggle}}
         {{#unless this.system.noRack}}
-            <div class="gestionButton {{#if this.system.rack}}large{{/if}}">
+            <div class="gestionButtonWithEquip {{#if this.system.rack}}large{{/if}}">
                 {{#unless this.system.tourelle.has}}
                     {{#if this.system.rack}}
                         {{#if this.system.rack}}
@@ -83,12 +83,8 @@ data-raw="{{raw}}"
         </div>
         {{#if this.system.pnj}}
             {{#unless (isWpnDistance this.system.type)}}
-            <button type="action" class="addbasechair {{#if this.system.degats.addchair}}selected{{/if}}" data-value="{{this.system.degats.addchair}}" data-id="{{this.system.item._id}}">
-                {{#if this.system.degats.addchair}}
-                    {{localize "KNIGHT.JETS.CHAIRD2.Has"}}
-                {{else}}
-                    {{localize "KNIGHT.JETS.CHAIRD2.Hasnt"}}
-                {{/if}}
+            <button data-action="btnToggle" class="addbasechair {{#if this.system.degats.addchair}}selected{{/if}}" data-path="system.degats.addchair" data-item-id="{{this.system.item._id}}">
+                {{localize (ifThen system.degats.addchair "KNIGHT.JETS.CHAIRD2.Has" "KNIGHT.JETS.CHAIRD2.Hasnt")}}
             </button>
             {{/unless}}
         {{/if}}

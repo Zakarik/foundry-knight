@@ -34,6 +34,7 @@ export default function prepareWpn(item, ctx, collections) {
     data.effets.custom = armeCustom;
     data.effets.liste = listEffects(data.effets, allEffects, data.effets?.chargeur);
     data.pnj = !isPj;
+    if(!isPj) data.noRack = true;
 
     data.effets2mains.raw = [...new Set(armeE2Raw)];
     data.effets2mains.custom = armeE2Custom;

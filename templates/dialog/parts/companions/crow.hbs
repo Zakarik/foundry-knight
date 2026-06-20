@@ -1,0 +1,23 @@
+
+<div style="{{#unless content.selected.crow}}display:none;{{/unless}}" class="aspects crow marginTop">
+    <h2 class="header">
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}
+    </h2>
+    <div class="line">
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsRestantRepartir"}}</span>
+            <input class="aspectDistribuer" type="number" name="content.data.crow.aspects.value" value="{{content.data.crow.aspects.restant}}" disabled />
+        </div>
+    </div>
+    {{#each content.data.aspects.crow as | key aspect|}}
+        <div class="block">
+            <h2 class="header">
+                {{getAspect aspect}}
+            </h2>
+            <label class="longspan">
+                <span class="label">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
+                <input class="aspect" type="number" data-type="{{aspect}}" name="content.data.aspects.crow.{{aspect}}.value" value="{{key.value}}" max="{{@root/content/data/crow/aspects/max}}" min="0" />
+            </label>
+        </div>
+    {{/each}}
+</div>

@@ -22,11 +22,12 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       wpnEquip:KnightSheet.#onWpnEquip,
       changeEquip:KnightSheet.#onChangeEquip,
       adlImport:KnightSheet.#onAdlImport,
+      evolution:KnightSheet.#onEvolution,
     }
   }
 
   static PARTS = {
-    upperheader: { template: "systems/knight/templates/actors/parts/pc/sections/upperheader.hbs" },
+    upperheader: { template: "systems/knight/templates/actors/parts/common/sections/upperheader.hbs" },
     header: { template: "systems/knight/templates/actors/parts/human/sections/header.hbs" },
     menu: { template: "systems/knight/templates/actors/parts/common/sections/menu.hbs", },
     nav: { template: "templates/generic/tab-navigation.hbs" },
@@ -58,8 +59,8 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       template: "systems/knight/templates/actors/parts/pc/tabs/progression.hbs",
       classes:['tab', 'progression'],
     },
-    options: {
-      template: "systems/knight/templates/actors/parts/common/tabs/autre.hbs",
+    autre: {
+      template: "systems/knight/templates/actors/parts/human/tabs/autre.hbs",
       classes:['tab', 'autre'],
     },
   }
@@ -209,7 +210,8 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     }
   }
 
-  static async #onAdlImport(event, target) {const tgt = target.dataset;
+  static async #onAdlImport(event, target) {
+    const tgt = target.dataset;
     const type = tgt.type;
     const actor = this.actor;
     const itm = actor.items.filter(itm => itm.type === 'arme' && itm.system.type === type);
@@ -277,7 +279,247 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     });
   }
 
+  static async #onEvolution(event, target) {
+    const tgt = target.dataset;
+    const type = tgt.type;
+    const dataArmor = await getArmor(this.actor);
+
+    if(!dataArmor) {
+      ui.notifications.error(game.i18n.localize("KNIGHT.ERROR.NoArmor"));
+      return;
+    }
+
+    switch(type) {
+      case 'armor':
+        this._armorEvolutions(target, dataArmor);
+        break;
+
+      case 'companion':
+        this._companionEvolutions(target, dataArmor);
+        break;
+    }
+  }
+
   /* -------------------------------------------- */
+
+  async _armorEvolutions(target, armor) {
+    const tgt = target.dataset;
+    const id = tgt.num;
+    const listEvolutions = armor.system.evolutions.liste;
+    const dataEArmor = listEvolutions[id]?.data ?? {};
+    const capacites = listEvolutions[id]?.capacites ?? {};
+    const gloireListe = this.actor.system.progression.gloire.depense.liste;
+    const isEmpty = gloireListe[0]?.isEmpty ?? false;
+    const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
+    const filter = [];
+    const update = {};
+    const LZString = globalThis.LZString;
+    const { archivage, ...dataToSave } = armor.system;
+    let special = listEvolutions[id]?.special ?? {};
+
+    update[`system.archivage.liste.${listEvolutions?.[id]?.value}`] = LZString.compressToUTF16(JSON.stringify(dataToSave));
+
+    for (let [key, spec] of Object.entries(special)) {
+      if(spec?.delete?.value === true) {
+        update[`system.special.selected.-=${key}`] = null;
+        filter.push(key);
+        delete special[key];
+      }
+    }
+
+    update[`system.espoir.value`] = dataEArmor.espoir;
+    update[`system.armure.base`] = armor.system.armure.base+dataEArmor.armure;
+    update[`system.champDeForce.base`] = armor.system.champDeForce.base+dataEArmor.champDeForce;
+    update[`system.energie.base`] = armor.system.energie.base+dataEArmor.energie;
+    update[`system.energie.value`] = armor.system.energie.value+dataEArmor.energie;
+    update[`system.capacites.selected`] = capacites;
+    update[`system.special.selected`] = special;
+    update[`system.evolutions.liste.${id}`] = {
+      applied:true,
+      addOrder:addOrder+1
+    };
+
+    for (let [key, evolutions] of Object.entries(listEvolutions)) {
+      const num = +key;
+
+      if(num > id) {
+        for(let i = 0;i < filter.length;i++) {
+          const hasSpecial = evolutions.special?.[filter[i]] || false;
+
+          if(hasSpecial !== false) {
+            update[`system.evolutions.liste.${num}.special.-=${filter[i]}`] = null;
+          }
+        }
+      }
+    }
+
+    await armor.update(update);
+  }
+
+  async _companionEvolutions(target, armor) {
+    const actor = this.actor;
+    const tgt = target.dataset;
+    const id = tgt.num;
+    const dataCompanions = armor.system.capacites.selected.companions;
+    const dataWolfConfig = dataCompanions.wolf.configurations;
+    let data = armor.system.evolutions.special.companions.evolutions;
+    data['aspects'] = {
+      "lion":{
+        "chair":{
+          "value":0,
+          "ae":0
+        },
+        "bete":{
+          "value":0,
+          "ae":0
+        },
+        "machine":{
+          "value":0,
+          "ae":0
+        },
+        "dame":{
+          "value":0,
+          "ae":0
+        },
+        "masque":{
+          "value":0,
+          "ae":0
+        }
+      },
+      "wolf":{
+        "chair":{
+          "value":0,
+          "ae":0
+        },
+        "bete":{
+          "value":0,
+          "ae":0
+        },
+        "machine":{
+          "value":0,
+          "ae":0
+        },
+        "dame":{
+          "value":0,
+          "ae":0
+        },
+        "masque":{
+          "value":0,
+          "ae":0
+        }
+      },
+      "crow":{
+        "chair":{
+          "value":0,
+          "ae":0
+        },
+        "bete":{
+          "value":0,
+          "ae":0
+        },
+        "machine":{
+          "value":0,
+          "ae":0
+        },
+        "dame":{
+          "value":0,
+          "ae":0
+        },
+        "masque":{
+          "value":0,
+          "ae":0
+        }
+      }
+    };
+
+    data['configurations'] = {
+      'labor':{
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label"),
+        value:0
+      },
+      'medic':{
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label"),
+        value:0
+      },
+      'tech':{
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"),
+        value:0
+      },
+      'fighter':{
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"),
+        value:0
+      },
+      'recon':{
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label"),
+        value:0
+      },
+    };
+
+    if(dataWolfConfig.labor.niveau < 3) {
+      data['configurations']['labor'] = {
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label"),
+        value:0
+      }
+    }
+
+    if(dataWolfConfig.medic.niveau < 3) {
+      data['configurations']['medic'] = {
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label"),
+        value:0
+      }
+    }
+
+    if(dataWolfConfig.tech.niveau < 3) {
+      data['configurations']['tech'] = {
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"),
+        value:0
+      }
+    }
+
+    if(dataWolfConfig.fighter.niveau < 3) {
+      data['configurations']['fighter'] = {
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"),
+        value:0
+      }
+    }
+
+    if(dataWolfConfig.recon.niveau < 3) {
+      data['configurations']['recon'] = {
+        label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label"),
+        value:0
+      }
+    }
+
+    data['lion']['aspects'].restant = data.lion.aspects.value;
+    data['lion'].restant = data.lion.ae;
+
+    data['wolf']['aspects'].restant = data.wolf.aspects.value;
+    data['wolf'].restant = data.wolf.ae;
+    data['wolf'].bonusRestant = data.wolf.bonus;
+
+    data['crow']['aspects'].restant = data.crow.aspects.value;
+    data['evo'] = id;
+
+    const companions = new game.knight.applications.KnightCompanionDialog({
+      uuid:this.document.uuid,
+    }).render(true);
+  }
+
+  _std_options() {
+    return [];
+  }
+
+  _autre_recuperation() {
+    return [
+      {
+        key:'contacts',
+        label:`KNIGHT.RECUPERER.Contacts`
+      },
+      {
+        key:'chargeur',
+        label:`KNIGHT.EFFETS.CHARGEUR.Restaurer`
+    }]
+  }
 
   _menu_entries() {
     const base = super._menu_entries();
@@ -452,7 +694,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
 
-    html.find('.appliquer-evolution-armure').click(async ev => {
+    /*html.find('.appliquer-evolution-armure').click(async ev => {
       const target = $(ev.currentTarget);
       const id = target.data("num");
       const dataArmor = await getArmor(this.actor);
@@ -511,175 +753,9 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       }
 
       dataArmor.update(update);
-    });
+    });*/
 
     html.find('.appliquer-evolution-companions').click(ev => {
-      const target = $(ev.currentTarget);
-      const id = target.data("num");
-      const dataCompanions = this.actor.armureData.system.capacites.selected.companions;
-      const dataWolfConfig = dataCompanions.wolf.configurations;
-      let data = this.actor.armureData.system.evolutions.special.companions.evolutions;
-      data['aspects'] = {
-        "lion":{
-          "chair":{
-            "value":0,
-            "ae":0
-          },
-          "bete":{
-            "value":0,
-            "ae":0
-          },
-          "machine":{
-            "value":0,
-            "ae":0
-          },
-          "dame":{
-            "value":0,
-            "ae":0
-          },
-          "masque":{
-            "value":0,
-            "ae":0
-          }
-        },
-        "wolf":{
-          "chair":{
-            "value":0,
-            "ae":0
-          },
-          "bete":{
-            "value":0,
-            "ae":0
-          },
-          "machine":{
-            "value":0,
-            "ae":0
-          },
-          "dame":{
-            "value":0,
-            "ae":0
-          },
-          "masque":{
-            "value":0,
-            "ae":0
-          }
-        },
-        "crow":{
-          "chair":{
-            "value":0,
-            "ae":0
-          },
-          "bete":{
-            "value":0,
-            "ae":0
-          },
-          "machine":{
-            "value":0,
-            "ae":0
-          },
-          "dame":{
-            "value":0,
-            "ae":0
-          },
-          "masque":{
-            "value":0,
-            "ae":0
-          }
-        }
-      };
-
-      data['configurations'] = {
-        'labor':{
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label"),
-          value:0
-        },
-        'medic':{
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label"),
-          value:0
-        },
-        'tech':{
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"),
-          value:0
-        },
-        'fighter':{
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"),
-          value:0
-        },
-        'recon':{
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label"),
-          value:0
-        },
-      };
-
-      if(dataWolfConfig.labor.niveau < 3) {
-        data['configurations']['labor'] = {
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label"),
-          value:0
-        }
-      }
-
-      if(dataWolfConfig.medic.niveau < 3) {
-        data['configurations']['medic'] = {
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label"),
-          value:0
-        }
-      }
-
-      if(dataWolfConfig.tech.niveau < 3) {
-        data['configurations']['tech'] = {
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"),
-          value:0
-        }
-      }
-
-      if(dataWolfConfig.fighter.niveau < 3) {
-        data['configurations']['fighter'] = {
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"),
-          value:0
-        }
-      }
-
-      if(dataWolfConfig.recon.niveau < 3) {
-        data['configurations']['recon'] = {
-          label:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label"),
-          value:0
-        }
-      }
-
-      data['lion']['aspects'].restant = data.lion.aspects.value;
-      data['lion'].restant = data.lion.ae;
-
-      data['wolf']['aspects'].restant = data.wolf.aspects.value;
-      data['wolf'].restant = data.wolf.ae;
-      data['wolf'].bonusRestant = data.wolf.bonus;
-
-      data['crow']['aspects'].restant = data.crow.aspects.value;
-      data['evo'] = id;
-
-      const companions = new game.knight.applications.KnightCompanionsDialog({
-        title: this.actor.name+" : "+game.i18n.localize("KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionCompanion"),
-        actor:this.actor.id,
-        content:{
-          data,
-          selected:{
-            lion:false,
-            wolf:false,
-            crow:false
-          }
-        },
-        buttons: {
-          button1: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Valider"),
-            icon: `<i class="fas fa-check"></i>`,
-            validate:true
-          },
-          button2: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-            icon: `<i class="fas fa-times"></i>`,
-            validate:false
-          }
-        }
-      }).render(true);
     });
 
     html.find('.acheter-evolution-longbow').click(async ev => {
@@ -777,10 +853,6 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
         getDataArmor.update(update);
         this.actor.update({["system.progression.gloire.actuel"]:gloire+getPG});
       }
-    });
-
-    html.find('a.adl-import').click(async ev => {
-      const tgt = $(ev.currentTarget);
     });
   }
 

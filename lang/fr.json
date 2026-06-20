@@ -3152,6 +3152,9 @@
       "DexteriteOD":"Masque : Overdrive de Dextérité",
       "PerceptionOD":"Masque : Overdrive de Perception",
       "NoMalusStyle":"Annule le malus des styles de combat (remplacer - true/false)"
+    },
+    "ERROR":{
+      "NoArmor":"Aucune armure trouvée."
     }
   }
 }

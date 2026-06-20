@@ -2,7 +2,10 @@ import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
 import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
 import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
 import { fields } from '../../../utils/field-builder.mjs';
-
+import {
+  confirmationDialog,
+  capitalizeFirstLetter,
+} from "../../../helpers/common.mjs";
 /**
  * Modèle de données de base pour tous les acteurs du système Knight.
  * Cette classe abstraite définit le schéma commun et les méthodes partagées
@@ -881,5 +884,77 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
       if(autoApply) this.actor.update(energy);
       else return update;
+    }
+
+    async askToRestore(type) {
+        let max = 0;
+
+        switch(type) {
+          case 'espoir':
+          case 'sante':
+          case 'armure':
+          case 'energie':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+            max = this[type].max;
+
+            this.actor.update({[`system.${type}.value`]:max});
+            break;
+
+          case 'contacts':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+            max = this[type].value;
+
+            this.actor.update({[`system.${type}.actuel`]:max});
+            break;
+
+          case 'grenades':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+            max = this.combat.grenades.quantity.max;
+
+            this.actor.update({[`system.combat.${type}.quantity.value`]:max});
+            break;
+
+          case 'nods':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+            const list = this.combat.nods;
+            let update = {};
+
+            for (let i in list) {
+                const data = list[i];
+
+              update[`system.combat.${type}.${i}.value`] = data.max;
+            }
+
+            this.actor.update(update);
+            break;
+
+          case 'chargeur':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+            const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure' || itm.type === 'cyberware');
+
+            items.forEach(itm => {
+              itm.system.resetMunition();
+            })
+
+            const exec = new game.knight.RollKnight(this.actor,
+            {
+            name:this.actor.name,
+            }).sendMessage({
+                text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
+                classes:'important',
+                sounds:CONFIG.sounds.notification,
+            });
+            break;
+        }
+
+        if(type === 'chargeur') return;
+
+        const exec = new game.knight.RollKnight(this.actor,
+          {
+          name:'',
+          }).sendMessage({
+              text:game.i18n.localize(`KNIGHT.RECUPERER.MSG.${capitalizeFirstLetter(type)}`),
+              sounds:CONFIG.sounds.notification,
+          });
     }
 }

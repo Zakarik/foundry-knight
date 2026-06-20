@@ -3152,6 +3152,9 @@
       "DexteriteOD":"Mask: Dexterity Overdrive",
       "PerceptionOD":"Mask: Perception Overdrive",
       "NoMalusStyle":"Removes the malus from combat styles (override - true/false)"
+    },
+    "ERROR":{
+      "NoArmor":"No armor found."
     }
   }
 }

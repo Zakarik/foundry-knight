@@ -1,0 +1,80 @@
+
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="personnage">
+    <div class="tactique">
+        <h2 class="header">{{localize "KNIGHT.Tactique"}}</h2>
+
+        {{formInput
+            systemFields.tactique
+            enriched=enrichedTactique
+            value=systemData.tactique
+            documentUUID=actor.uuid
+            name="system.tactique"
+            collaborate="false"
+            toggled="true"
+        }}
+    </div>
+
+    <div class="pointsfaibles marginTop hideShowLimited" data-toverify="showPointsFaibles" data-default="false" data-onlygm="false">
+        <h2 class="header">
+            {{localize "KNIGHT.PointsFaibles"}}
+            {{~> knight.hideLimited path='showPointsFaibles'}}
+        </h2>
+
+        {{formInput
+            systemFields.pointsFaibles
+            enriched=enrichedPointsFaibles
+            value=systemData.pointsFaibles
+            documentUUID=actor.uuid
+            name="system.pointsFaibles"
+            collaborate="false"
+            toggled="true"
+        }}
+
+        <span>{{localize "KNIGHT.AjouterPF"}}</span>
+        <select class="pfselected">
+            <option value=""></option>
+            {{#each (listCarac) as | kAsp aspect |}}
+                <optgroup label="{{getAspect aspect}}">
+                    {{#each kAsp as | kCar carac |}}
+                        <option value="{{getCarac kCar}}">{{getCarac kCar}}</option>
+                    {{/each}}
+                </optgroup>
+            {{/each}}
+        </select>
+        <button type="action" data-action="addPF">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
+    </div>
+
+    <div class="description marginTop hideShowLimited" data-toverify="showDescriptionFull" data-default="false" data-onlygm="false">
+        <h2 class="header">
+            {{localize "KNIGHT.Description"}}
+            {{~> knight.hideLimited path='showDescriptionFull'}}
+        </h2>
+
+        {{formInput
+            systemFields.description
+            enriched=enrichedDescription
+            value=systemData.description
+            documentUUID=actor.uuid
+            name="system.description"
+            collaborate="false"
+            toggled="true"
+        }}
+    </div>
+
+    <div class="description marginTop hideShowLimited" data-toverify="showDescriptionLimited" data-default="true" data-onlygm="true">
+        <h2 class="header">
+            {{localize "KNIGHT.DescriptionLimitee"}}
+            {{~> knight.hideLimited path='showDescriptionLimited'}}
+        </h2>
+
+        {{formInput
+            systemFields.descriptionLimitee
+            enriched=enrichedDescriptionLimitee
+            value=systemData.descriptionLimitee
+            documentUUID=actor.uuid
+            name="system.descriptionLimitee"
+            collaborate="false"
+            toggled="true"
+        }}
+    </div>
+</div>

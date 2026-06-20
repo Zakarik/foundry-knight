@@ -1,5 +1,7 @@
 
     div.autre {
+        @import "../sections/phase2";
+
         div {
             display: grid;
             grid-template-columns: 1fr 1fr;

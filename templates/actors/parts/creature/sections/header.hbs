@@ -1,0 +1,35 @@
+{{!--
+    Entête de la fiche Créature.
+    Identique à l'entête NPC générique, avec en plus les bascules
+    Colosse / Patron (action setBtn du mixin NPC) qui pilotent
+    le calcul de résilience.
+--}}
+<header class="sheet-header flexrow">
+    <img class="profile-img" data-action="editImage" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}" />
+    <div class="headerData">
+        <div class="data">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+            </h1>
+
+            <label>
+                <span>{{localize "KNIGHT.TYPE.Label"}} : </span>
+                <input type="text" name="system.type" value="{{systemData.type}}" />
+            </label>
+
+            <select name="system.origin" class="origin">
+                {{selectOptions (getCFG 'LIST.origin') selected=systemData.origin localize=true}}
+            </select>
+
+            <button type="action" data-action="setBtn" data-type="colosse" class="setbtn {{ifThen systemData.colosse 'selected' 'unselected'}}">
+                <i class="{{ifThen systemData.colosse 'fa-solid fa-check' 'fa-solid fa-xmark'}}"></i>
+                {{localize 'KNIGHT.Colosse'}}
+            </button>
+
+            <button type="action" data-action="setBtn" data-type="patron" class="setbtn {{ifThen systemData.patron 'selected' 'unselected'}}">
+                <i class="{{ifThen systemData.patron 'fa-solid fa-check' 'fa-solid fa-xmark'}}"></i>
+                {{localize 'KNIGHT.Patron'}}
+            </button>
+        </div>
+    </div>
+</header>

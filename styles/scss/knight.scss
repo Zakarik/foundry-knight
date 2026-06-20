@@ -20,36 +20,8 @@ $imgs:
 @import "parts/dialogs/ask";
 @import "parts/actors/actors";
 @import "parts/items/items";
-
-.pnj {
-  header.sheet-header {
-    .profile-img {
-      width:180px;
-      min-width: 180px;
-      height:215px;
-      border-color:$white;
-      background:$lightBlack;
-      margin-right:0px;
-      object-fit: contain;
-    }
-
-    .headerData {
-      display:flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      height:215px;
-      width:calc(100% - 180px);
-      flex:none;
-    }
-  }
-}
-
-@import "parts/ia";
-@import "parts/creature";
-@import "parts/bande";
 @import "parts/vehicule";
 @import "parts/mechaarmure";
-@import "parts/common";
 @import "parts/roll";
 @import "parts/dialogs/editDialog";
 @import "parts/dialogs/companions";

@@ -1,44 +1,137 @@
 import {
   getArmor,
-} from "../helpers/common.mjs";
+} from "../../helpers/common.mjs";
+import KnightCompanionData from "../models/companion-evolutions-model.mjs";
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
  * Edit dialog
- * @extends {Application}
+ * @extends {ApplicationV2}
  */
- export class KnightCompanionsDialog extends FormApplication {
-    constructor(data, object, options) {
-        super(options);
-        this.data = data;
-    }
 
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-          template: `systems/knight/templates/dialog/companions-sheet.html`,
-        classes: ["dialog", "knight", "companionsDialog"],
-        width: 650,
-        height:650,
-        jQuery: true
-      });
+export default class KnightCompanionDialog extends HandlebarsApplicationMixin(ApplicationV2) {
+  constructor(data={}, options={}) {
+    super(options);
+    console.error(data);
+    this.document = {
+      id:`${data.uuid}-0`,
+    };
+
+    this.system = new KnightCompanionData(data);
+  }
+
+  static DEFAULT_OPTIONS = {
+    position: { width: 900, height: 500 },
+    window: { resizable: true },
+    classes: ["dialog", "knight", "companionsDialog"],
+    tag: "form",
+    width: 650,
+    height:650,
+    form: {
+        submitOnChange: true,
+        handler: KnightCompanionDialog.#onSubmit,
+    },
+    actions: {}
+  };
+
+  static PARTS = {
+    header: {
+        template: "systems/knight/templates/dialog/parts/companions/header.hbs"
+    },
+    lion: {
+        template: "systems/knight/templates/dialog/parts/companions/lion.hbs"
+    },
+    wolf: {
+        template: "systems/knight/templates/dialog/parts/companions/wolf.hbs"
+    },
+    crow: {
+        template: "systems/knight/templates/dialog/parts/companions/crow.hbs"
+    },
+    btn: {
+        template: "systems/knight/templates/dialog/parts/companions/btn.hbs"
+    },
+  };
+
+  /*static async #onSwap(event, target) {
+    event.preventDefault();
+    const tgt = target.dataset;
+    const type = tgt.type;
+
+    this.render();
+  }*/
+
+  #prepareBtn() {
+    const btn = [];
+
+    btn.push({
+      action:'submit',
+      icon:'fas fa-check',
+      label:'KNIGHT.AUTRE.Valider',
+    },{
+      action:'cancel',
+      icon:'fas fa-times',
+      label:'KNIGHT.AUTRE.Annuler',
+    })
+
+    return btn;
+  }
+
+  #prepareMenu() {
+    const menu = [];
+
+    menu.push({
+      action:'swap',
+      type:'lion',
+      label:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label',
+      class:`${this.system.active === 'lion' ? 'selected' : 'unselected'}`,
+    },{
+      action:'swap',
+      type:'wolf',
+      label:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label',
+      class:`${this.system.active === 'wolf' ? 'selected' : 'unselected'}`,
+    },{
+      action:'swap',
+      type:'crow',
+      label:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label',
+      class:`${this.system.active === 'crow' ? 'selected' : 'unselected'}`,
+    });
+
+    return menu;
+  }
+
+  #addContext() {
+    const btn = this.#prepareBtn();
+    const menu = this.#prepareMenu();
+
+    return {
+      btn,
+      menu,
     }
+  }
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const addContext = this.#addContext();
+    const system = this.system;
+    const fields = system.schema.fields;
+
+    return {
+      ...context,
+      ...addContext,
+      document:this.document,
+      system,
+      fields,
+    };
+  }
+
+  static async #onSubmit(event, form, formData, options={}) {
+    await this.system.update(formData.object);
+
+    //this.render({ parts: ['custom'] });
+  }
 
     /** @inheritdoc */
-    getData(options) {
-      this.options.title = this.data.title;
-      let buttons = Object.keys(this.data.buttons).reduce((obj, key) => {
-        let b = this.data.buttons[key];
-        b.cssClass = [key, this.data.default === key ? "default" : ""].filterJoin(" ");
-        if ( b.condition !== false ) obj[key] = b;
-        return obj;
-      }, {});
-      return {
-        content: this.data.content,
-        buttons: buttons
-      }
-    }
-
-    /** @inheritdoc */
-  activateListeners(html) {
+  /*activateListeners(html) {
     html.find(".button1").click(this._onClickButton.bind(this));
     html.find(".button2").click(this.close.bind(this));
     html.find(".button").click(ev => {
@@ -210,26 +303,26 @@ import {
         this.data.content.data.crow.aspects.restant = maxAspect-totalAspect;
       }
     });
-  }
+  }*/
 
   /**
    * Handle a left-mouse click on one of the dialog choice buttons
    * @param {MouseEvent} event    The left-mouse click event
    * @private
    */
-   _onClickButton(event) {
+   /*_onClickButton(event) {
     event.preventDefault();
     const id = event.currentTarget.dataset.button;
     const button = this.data.buttons[id];
     this.submit(button);
-  }
+  }*/
 
   /**
    * Submit the Dialog by selecting one of its buttons
    * @param {Object} button     The configuration of the chosen button
    * @private
    */
-   async submit(button) {
+  /*async submit(button) {
     try {
 
       if (button.callback) button.callback(this.options.jQuery ? this.element : this.element[0]);
@@ -293,54 +386,6 @@ import {
         const gloireListe = actor.system.progression.gloire.depense.liste;
         const isEmpty = gloireListe[0]?.isEmpty ?? false;
         const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : getHighestOrder(gloireListe);
-
-        /*let update = {
-          system:{
-            capacites:{
-              selected:{
-                companions:{
-                  energie:{},
-                  lion:{
-                    aspects:{}
-                  },
-                  wolf:{
-                    aspects:{},
-                    configurations:{
-                      labor:{
-                        bonus:{}
-                      },
-                      medic:{
-                        bonus:{}
-                      },
-                      tech:{
-                        bonus:{}
-                      },
-                      fighter:{
-                        bonus:{}
-                      },
-                      recon:{
-                        bonus:{}
-                      }
-                    }
-                  },
-                  crow:{
-                    aspects:{},
-                    cohesion:{},
-                    debordement:{},
-                    champDeForce:{}
-                  }
-                }
-              }
-            },
-            evolutions:{
-              special:{
-                companions:{
-                  applied:{}
-                }
-              }
-            }
-          }
-        }*/
 
         const update = {};
         const evoListe = [];
@@ -446,16 +491,16 @@ import {
       ui.notifications.error(err);
       throw new Error(err);
     }
-  }
+  }*/
 
   /** @inheritdoc */
-  async close(options) {
+  /*async close(options) {
     if ( this.data.close ) this.data.close(this.options.jQuery ? this.element : this.element[0]);
     $(document).off('keydown.chooseDefault');
     return super.close(options);
-  }
+  }*/
 
-  async _updateObject(event, formData) {
+  /*async _updateObject(event, formData) {
     this.data = this.data;
-  }
+  }*/
 }

@@ -1,0 +1,42 @@
+
+<section class="body">
+    <div class="iaTab avDv">
+        <div class="av item-list">
+            <h2 class="header">
+                {{localize "KNIGHT.PERSONNAGE.Avantages"}}
+                {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.Avantages" data=(object type="avantage" subtype='ia')}}
+            </h2>
+            {{#each actor.avantagesIA as | key avantages|}}
+            <div class="block item" data-item-id="{{key._id}}">
+                <header class="summary header js-toggler" data-item-id="{{key._id}}">
+                    {{~> knight.jsToggle}}
+                    {{~> knight.itemButtons}}
+                    <span>{{key.name}}</span>
+                </header>
+                <span class="description">
+                    {{{key.system.description}}}
+                </span>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="dv item-list">
+            <h2 class="header">
+                {{localize "KNIGHT.PERSONNAGE.Inconvenient"}}
+                {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.Inconvenient" data=(object type="inconvenient" subtype='ia')}}
+            </h2>
+            {{#each actor.inconvenientIA as | key inconvenient|}}
+            <div class="block item" data-item-id="{{key._id}}">
+                <header class="summary header js-toggler" data-item-id="{{key._id}}">
+                    {{~> knight.jsToggle}}
+                    {{~> knight.itemButtons}}
+                    <span>{{key.name}}</span>
+                </header>
+                <span class="description">
+                    {{{key.system.description}}}
+                </span>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</section>

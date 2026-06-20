@@ -1,0 +1,30 @@
+
+<header>
+    <img class="profile-img" data-action="editImage" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}" />
+    <div class="data">
+        <h1 class="charname">
+            <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+        </h1>
+
+        <label class="middle">
+            <span>{{localize "KNIGHT.IA.IDENTITE.Code"}}</span>
+            <input type="text" name="system.code" value="{{systemData.code}}" />
+        </label>
+
+        <div class="caractere">
+            <h2 class="header">
+                {{localize "KNIGHT.IA.Caractere"}}
+            </h2>
+
+            {{formInput
+                systemFields.caractere
+                enriched=enrichedCaractere
+                value=systemData.caractere
+                documentUUID=actor.uuid
+                name="system.caractere"
+                collaborate="false"
+                toggled="true"
+            }}
+        </div>
+    </div>
+</header>

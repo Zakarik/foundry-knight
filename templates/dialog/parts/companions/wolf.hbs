@@ -1,0 +1,49 @@
+
+<div class="wolf">
+    <div style="{{#unless content.selected.wolf}}display:none;{{/unless}}" class="aspects wolf marginTop">
+        <h2 class="header">
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}
+        </h2>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsRestantRepartir"}}</span>
+            <input class="aspectDistribuer" type="number" name="content.data.wolf.aspects.value" value="{{content.data.wolf.aspects.restant}}" disabled />
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsExceptionnelsRestantRepartir"}}</span>
+            <input class="aeDistribuer" type="number" name="content.data.wolf.ae" value="{{content.data.wolf.restant}}" disabled />
+        </div>
+        {{#each content.data.aspects.wolf as | key aspect|}}
+            <div class="block">
+                <h2 class="header">
+                    {{getAspect aspect}}
+                </h2>
+                <label class="longspan">
+                    <span class="label">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
+                    <input class="aspect" type="number" data-type="{{aspect}}" name="content.data.aspects.wolf.{{aspect}}.value" value="{{key.value}}" max="{{@root/content/data/wolf/aspects/max}}" min="0" />
+                </label>
+                <label class="longspan">
+                    <span class="label">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</span>
+                    <input class="ae" type="number" data-type="{{aspect}}" name="content.data.aspects.wolf.{{aspect}}.ae" value="{{key.ae}}" min="0"  />
+                </label>
+            </div>
+        {{/each}}
+    </div>
+    <div style="{{#unless content.selected.wolf}}display:none;{{/unless}}" class="configuration wolf marginTop">
+        <h2 class="header">
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.EvolutionConfigurations"}}
+        </h2>
+        <div class="line marginTop">
+            <div class="longspan">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.NiveauConfigurationRestant"}}</span>
+                <input class="bonusDistribuer" type="number" name="content.data.wolf.bonus" value="{{content.data.wolf.bonusRestant}}" disabled />
+            </div>
+        </div>
+
+        {{#each content.data.configurations as | key configuration|}}
+            <label class="longspan">
+                <span class="label">{{key.label}}</span>
+                <input class="bonusWolf" type="number" data-type="{{configuration}}" name="content.data.configurations.{{configuration}}.value" value="{{key.value}}" max="1" min="0" />
+            </label>
+        {{/each}}
+    </div>
+</div>

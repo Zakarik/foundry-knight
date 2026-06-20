@@ -1,0 +1,107 @@
+
+div.aspects {
+    @include header();
+
+    div.listeAspects {
+        display:flex;
+        width:100%;
+        flex:none;
+        justify-content: center;
+        align-items:flex-start;
+        align-content: flex-start;
+        flex-wrap:wrap;
+
+        div.aspect {
+            display:flex;
+            width:calc(50% - 5px);
+            flex:none;
+            align-items:flex-start;
+            align-content: flex-start;
+            flex-wrap: wrap;
+            background:$lightBlack;
+            border:1px solid $lightBlue;
+
+            h2.header {
+            position:relative;
+
+            img {
+                position:absolute;
+                top:-1px;
+                right:0px;
+                height:24px;
+                width:24px;
+                background:$white;
+                border:0px;
+                border-radius:0px;
+                cursor:pointer;
+            }
+            }
+
+            input[type="number"] {
+                display:inline-block;
+                width:25%;
+                height:81px;
+                border-top:0px;
+                border-bottom:0px;
+                border-left:0px;
+                border-right:1px solid $lightBlack;
+                border-radius:0px;
+                text-align: center;
+                background:$black;
+                font-size:50px;
+                line-height: 81px;
+            }
+
+            div.aspectsExceptionnels {
+                display:flex;
+                width:75%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+
+                span {
+                    display:block;
+                    width:100%;
+                    font-variant: small-caps;
+                    font-size:16px;
+                    text-align: center;
+                    background:$lightBlack;
+                    line-height:26px;
+                }
+
+                select {
+                    display: grid;
+                    align-items: center;
+                    justify-content: center;
+                    width:100%;
+                    border:0px;
+                    background:$black;
+                    border-top:1px solid $lightBlack;
+                    border-bottom:0px;
+                    border-left:0px;
+                    border-right:0px;
+                    text-align: center;
+                    color:$white;
+                    border-radius:0px;
+                    height: 27px;
+
+                    option {
+                    background:$black;
+                    color:$white,
+                    }
+                }
+            }
+
+            &:not(:last-of-type) {
+                margin-bottom:5px;
+
+                &:nth-of-type(odd) {
+                    margin-right:auto;
+                }
+
+                &:nth-of-type(even) {
+                    margin-left:auto;
+                }
+            }
+        }
+    }
+}

@@ -60,6 +60,10 @@ export class InitiativeDataModel extends foundry.abstract.DataModel {
     }
 
     prepareBandeData() {
+      Object.defineProperty(this, 'diceBase', {
+          value: 0,
+      });
+
       Object.defineProperty(this, 'diceMod', {
           value: 0,
       });

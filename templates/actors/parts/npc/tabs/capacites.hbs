@@ -1,0 +1,26 @@
+
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="capacites">
+    {{#if systemData.options.phase2}}
+    <button type="action" data-action="togglePhase2" class="buttonPhase2">
+        {{#if systemData.phase2Activate}}
+            {{localize "KNIGHT.PHASE2.DesactivatePhase2"}}
+        {{else}}
+            {{localize "KNIGHT.PHASE2.ActivatePhase2"}}
+        {{/if}}
+    </button>
+    {{/if}}
+
+    <div class="capacite item-list">
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square extendButton" data-action="jsToggle"></i>
+            {{localize "KNIGHT.CAPACITES.Label"}}
+            {{~> knight.itemCreate strLoc="KNIGHT.CAPACITES.Label" data=(object type="capacite")}}
+        </h2>
+
+        {{#each actor.capacites as | key module|}}
+            {{~> knight.npc.capacite key=key}}
+        {{/each}}
+    </div>
+
+    {{~> knight.npc.aspectsExceptionnels}}
+</div>

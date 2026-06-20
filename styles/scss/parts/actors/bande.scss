@@ -1,0 +1,10 @@
+.bande {
+    @include limited();
+    @import "../parts/nav";
+    @import "parts/tab/personnage";
+    @import "parts/tab/aspects";
+    @import "parts/tab/capacites";
+    @import "parts/tab/historique";
+    @import "parts/tab/autre";
+    @import "parts/sections/menu";
+}

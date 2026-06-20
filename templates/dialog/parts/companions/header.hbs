@@ -1,0 +1,19 @@
+<header>
+    {{log this}}
+    <label>
+        <span class="label">
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ADistribuer"}}
+        </span>
+        <span class="value">
+            {{system.evolutions}}
+        </span>
+    </label>
+
+    {{formInput
+        fields.active
+        value=system.active
+        name="system.active"
+        localize=true
+        blank="KNIGHT.AUTRE.Choisir"
+    }}
+</header>

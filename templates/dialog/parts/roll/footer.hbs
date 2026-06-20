@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer {{ifThen isPJ 'triple' 'double'}}">
     {{#each buttons}}
         <button type="button" class="dialog-button {{@key}}" data-action="{{@key}}">
             {{{icon}}}

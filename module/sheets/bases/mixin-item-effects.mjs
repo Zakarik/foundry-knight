@@ -43,7 +43,7 @@ const EffectsMixin = (superclass) => class extends superclass {
         const type = item.system.type;
         const actor = item.actor;
         const dataArmor = actor?.system?.dataArmor;
-        const getArmor = dataArmor && canHaveLimitEffects ? game.knight.utils.ArmureAPI(dataArmor) : undefined;
+        const getArmor = dataArmor && canHaveLimitEffects ? new game.knight.utils.ArmureAPI(dataArmor) : undefined;
         const contrecoups = getArmor ? getArmor?.special?.contrecoups ?? undefined : undefined;
         const hasRestriction = contrecoups ? contrecoups?.maxeffets?.value ?? false : false;
         const maxEffets = type === 'contact' && hasRestriction ? contrecoups?.maxeffets?.max ?? undefined : undefined;

@@ -1,0 +1,66 @@
+div.pointsfaibles {
+    display:grid;
+    grid-template-columns: 1fr 200px 200px;
+
+    h2 {
+        grid-column: 1 / 4;
+    }
+
+    prose-mirror {
+        grid-column: 1 / 4;
+        min-height:130px;
+        border-bottom: 1px solid $lightBlue;
+        border-left: 1px solid $lightBlue;
+        border-right: 1px solid $lightBlue;
+        background:$lightBlack;
+    }
+
+    > span {
+        display:grid;
+        height: 27px;
+        align-items: center;
+        padding-left: 5px;
+        border-left:1px solid $lightBlue;
+        border-bottom:1px solid $lightBlue;
+    }
+
+    >select {
+        display:grid;
+        height: 27px;
+        align-items: center;
+        border: 0px;
+        background: $black;
+        border-top: 0px;
+        border-bottom: 1px solid $lightBlue;
+        border-left: 1px solid $lightBlack;
+        border-right: 1px solid $lightBlack;
+        text-align: center;
+        color: $white;
+        border-radius: 0px;
+
+        optgroup,
+        option {
+            background:$black;
+            color:$white;
+        }
+    }
+
+    > button {
+        display: grid;
+        align-items: center;
+        width: 100%;
+        height: 27px;
+        font-size: 13px;
+        line-height: 20px;
+        background: $black;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 1px solid $lightBlue;
+        border-bottom: 1px solid $lightBlue;
+        border-radius: 0px;
+        font-variant: small-caps;
+        color: $white;
+        cursor: pointer;
+        margin: 0px;
+    }
+}

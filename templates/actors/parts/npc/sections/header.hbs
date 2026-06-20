@@ -1,0 +1,67 @@
+
+<header class="sheet-header flexrow">
+    <img class="profile-img" data-action="editImage" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}" />
+    <div class="headerData">
+        <div class="data">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+            </h1>
+
+            <label>
+                <span>{{localize "KNIGHT.Surnom"}} : </span>
+                <input type="text" name="system.surnom" value="{{systemData.surnom}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.Archetype"}} : </span>
+                <input type="text" name="system.archetype" value="{{systemData.archetype}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.Age"}} : </span>
+                <input type="text" name="system.age" value="{{systemData.age}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.ARMURE.Label"}} : </span>
+                <input type="text" name="system.metaarmure" value="{{systemData.metaarmure}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.Section"}} : </span>
+                <input type="text" name="system.section" value="{{systemData.section}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.Blason"}} : </span>
+                <input type="text" name="system.blason" value="{{systemData.blason}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.HautFait"}} : </span>
+                <input type="text" name="system.hautFait" value="{{systemData.hautFait}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.TYPE.Label"}} : </span>
+                <input type="text" name="system.type" value="{{systemData.type}}" />
+            </label>
+
+            <select name="system.origin" class="origin">
+                {{selectOptions (getCFG 'LIST.origin') selected=systemData.origin localize=true}}
+            </select>
+
+            <div class="lastBlock">
+                <button type="action" data-action="setBtn" data-type="colosse" class="setbtn {{ifThen systemData.colosse 'selected' 'unselected'}}">
+                    <i class="{{ifThen systemData.colosse 'fa-solid fa-check' 'fa-solid fa-xmark'}}"></i>
+                    {{localize 'KNIGHT.Colosse'}}
+                </button>
+
+                <button type="action" data-action="setBtn" data-type="patron" class="setbtn {{ifThen systemData.patron 'selected' 'unselected'}}">
+                    <i class="{{ifThen systemData.patron 'fa-solid fa-check' 'fa-solid fa-xmark'}}"></i>
+                    {{localize 'KNIGHT.Patron'}}
+                </button>
+            </div>
+        </div>
+    </div>
+</header>

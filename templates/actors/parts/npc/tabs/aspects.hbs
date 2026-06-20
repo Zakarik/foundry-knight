@@ -1,0 +1,29 @@
+
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="aspects">
+    <div class="listeAspects">
+        {{#each systemData.aspects as | key aspect|}}
+        <div class="aspect draggable"
+        data-caracteristique="{{aspect}}" data-type="aspect"
+        data-label="{{getAspect aspect}}" data-what="{{aspect}}">
+            <h2 class="header">
+                {{getAspect aspect}}
+                <img src="systems/knight/assets/icons/D6Black.svg"
+                    data-action="dialogRoll"
+                    data-aspect="{{aspect}}"
+                    data-label="{{getAspect aspect}}"
+                    class="roll dice" />
+            </h2>
+            <input type="number" name="system.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="{{key.max}}" />
+            <div class="aspectsExceptionnels">
+                <span class="label">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</span>
+                <select name="system.aspects.{{aspect}}.ae.mineur.value">
+                    {{selectOptions (getAE 'Mineur' key.ae.mineur.max) selected=key.ae.mineur.value}}
+                </select>
+                <select name="system.aspects.{{aspect}}.ae.majeur.value">
+                    {{selectOptions (getAE 'Majeur' key.ae.mineur.max) selected=key.ae.majeur.value}}
+                </select>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

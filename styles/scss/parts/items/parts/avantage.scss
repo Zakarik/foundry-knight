@@ -1,4 +1,9 @@
 .avantage {
+  header {
+    align-items: flex-start;
+    flex:none;
+  }
+
   h1.charname {
     display:flex;
     justify-content: space-between;

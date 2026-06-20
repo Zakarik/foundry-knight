@@ -262,6 +262,17 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
     }
 
     /** @inheritdoc */
+    async _preparePartContext(partId, context, options) {
+        context = await super._preparePartContext(partId, context, options);
+        switch(partId) {
+            case 'footer':
+                context.isPJ = this.isPJ;
+                break;
+        }
+
+        return await super._preparePartContext(partId, context, options);
+    }
+
     async _prepareContext(options) {
         const context = await super._prepareContext(options);
         // S'assure que les données sont préparées (le 1er rendu vient de open(),
@@ -4672,9 +4683,9 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
             if(!isPJ) html.find('.grpBtn').show();
 
-            html.find('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
+            html.find('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive rowOneFour rowOneThree');
             if(isPJ) html.find('div.grpBtn').addClass('rowOneFour');
-            else html.find('div.grpBtn').addClass('rowThreeFive');
+            else html.find('div.grpBtn').addClass('rowOneThree');
         }
     }
 

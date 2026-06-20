@@ -48,6 +48,41 @@
             </div>
         {{/if}}
 
+        {{#if (eq key 'onlyInput')}}
+            <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
+                <div class="header line {{ifThen (isEmpty submenu) '' 'submenu'}}">
+                    {{#unless (isEmpty submenu)}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/unless}}
+                    <span class="label">{{localize label}}</span>
+                    <input type="number" name="system.{{value}}" min="{{min}}" max="{{max}}" value="{{getProperty ../systemData value}}" />
+                </div>
+                {{#each submenu}}
+                    {{~> knight.subMenu data=../../this}}
+                {{/each}}
+            </div>
+        {{/if}}
+
+
+        {{#if (eq key 'onlyInputWithButtons')}}
+            <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
+                <div class="header line {{ifThen (isEmpty submenu) '' 'submenu'}}">
+                    {{#unless (isEmpty submenu)}}<img data-action="jsToggle" class="fa-plus-square" src="systems/knight/assets/icons/option.svg">{{/unless}}
+                    <span class="label">{{localize label}}</span>
+                    <input type="number" name="system.{{value}}" min="{{min}}" max="{{max}}" value="{{getProperty ../systemData value}}" />
+                    <button class="button"
+                        data-action="{{btn.action}}"
+                        data-label="{{btn.label}}"
+                        data-name="{{btn.name}}"
+                        data-value="{{btn.value}}"
+                        data-caracteristique="{{btn.caracteristique}}"
+                        data-caracAdd="{{btn.caracAdd}}"
+                    >{{localize btn.label}}</button>
+                </div>
+                {{#each submenu}}
+                    {{~> knight.subMenu data=../../this}}
+                {{/each}}
+            </div>
+        {{/if}}
+
         {{#if (eq key 'onlySpan')}}
             <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
                 <div class="header line {{ifThen (isEmpty submenu) '' 'submenu'}}">
@@ -102,6 +137,27 @@
                 <div class="header line">
                     <span class="label">{{localize label}}</span>
                     <input type="number" name="system.{{path}}" min="{{min}}" max="{{max}}" value="{{getProperty ../systemData path}}" />
+                </div>
+            </div>
+        {{/if}}
+
+        {{#if (eq key 'doubleInput')}}
+            <div class="{{class}} {{key}} {{ifThen @first '' 'borderTop'}} {{ifThen @last 'borderBottom' ''}}">
+                <div class="header line">
+                    <span class="label">{{localize label}}</span>
+                    <input type="number" name="system.{{value}}" min="{{min}}" value="{{getProperty ../systemData value}}" />
+                    <span class="separation">/</span>
+                    <input type="number" name="system.{{max}}" min="{{min}}" value="{{getProperty ../systemData max}}" />
+                    {{#if btn}}
+                    <button class="button"
+                        data-action="{{btn.action}}"
+                        data-label="{{btn.label}}"
+                        data-name="{{btn.name}}"
+                        data-value="{{btn.value}}"
+                        data-caracteristique="{{btn.caracteristique}}"
+                        data-caracAdd="{{btn.caracAdd}}"
+                    >{{localize btn.label}}</button>
+                    {{/if}}
                 </div>
             </div>
         {{/if}}

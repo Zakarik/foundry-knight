@@ -35,7 +35,7 @@ import { RegisterHandlebars } from "./handlebars.mjs";
 import { RegisterSettings } from "./settings.mjs";
 import { PreloadTemplates } from "./templates.mjs";
 import { KNIGHT } from "./helpers/config.mjs";
-import { KnightCompanionsDialog } from "./dialog/companions-dialog.mjs";
+import KnightCompanionDialog from "./dialog/sheets/companions-dialog.mjs";
 import { KnightRollDialog } from "./dialog/roll-dialog.mjs";
 import { KnightEditDialog } from "./dialog/edit-dialog.mjs";
 import { KnightEffetsDialog } from "./dialog/sheets/effets-dialog.mjs";
@@ -110,7 +110,7 @@ Hooks.once('init', async function() {
       KnightRollDialog,
       KnightEditDialog,
       KnightEffetsDialog,
-      KnightCompanionsDialog,
+      KnightCompanionDialog,
       KnightCompendiumDialog,
     },
     documents:{

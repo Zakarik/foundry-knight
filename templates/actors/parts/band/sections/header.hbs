@@ -1,0 +1,26 @@
+
+<header class="sheet-header flexrow">
+    <img class="profile-img" data-action="editImage" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}" />
+    <div class="headerData">
+        <div class="data">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+            </h1>
+
+            <label>
+                <span>{{localize "KNIGHT.TYPE.Label"}} : </span>
+                <input type="text" name="system.type" value="{{systemData.type}}" />
+            </label>
+
+            <select name="system.origin" class="origin">
+                {{selectOptions (getCFG 'LIST.origin') selected=systemData.origin localize=true}}
+            </select>
+
+            {{#if systemData.options.destruction}}
+            <button type="action" data-action="destruction" class="destruction">
+                {{localize "KNIGHT.MECHAARMURE.MODULES.STATIONDEFENSEAUTOMATISE.Destruction"}}
+            </button>
+            {{/if}}
+        </div>
+    </div>
+</header>

@@ -1,0 +1,29 @@
+
+<div style="{{#unless content.selected.lion}}display:none;{{/unless}}" class="aspects lion marginTop">
+    <h2 class="header">
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}
+    </h2>
+    <div class="longspan">
+        <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsRestantRepartir"}}</span>
+        <input class="aspectDistribuer" type="number" name="content.data.lion.aspects.value" value="{{content.data.lion.aspects.restant}}" disabled />
+    </div>
+    <div class="longspan">
+        <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsExceptionnelsRestantRepartir"}}</span>
+        <input class="aeDistribuer" type="number" name="content.data.lion.ae" value="{{content.data.lion.restant}}" disabled />
+    </div>
+    {{#each content.data.aspects.lion as | key aspect|}}
+        <div class="block">
+            <h2 class="header">
+                {{getAspect aspect}}
+            </h2>
+            <label class="longspan">
+                <span class="label">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
+                <input class="aspect" type="number" data-type="{{aspect}}" name="content.data.aspects.lion.{{aspect}}.value" value="{{key.value}}" max="{{@root/content/data/lion/aspects/max}}" min="0" />
+            </label>
+            <label class="longspan">
+                <span class="label">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</span>
+                <input class="ae" type="number" data-type="{{aspect}}" name="content.data.aspects.lion.{{aspect}}.ae" value="{{key.ae}}" min="0"  />
+            </label>
+        </div>
+    {{/each}}
+</div>

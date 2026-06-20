@@ -19,28 +19,6 @@
                 flex-wrap: wrap;
                 border:1px solid $lightBlue;
 
-                div.gestionButton {
-                width:54px !important;
-
-                a.item-equip,
-                a.item-unequip,
-                a.item-rack,
-                a.item-unrack {
-                    display:flex;
-
-                    img {
-                    border:0px;
-                    width:17px;
-                    }
-
-                    &:hover {
-                    img {
-                        filter: drop-shadow(0px 0px 10px $blue);
-                    }
-                    }
-                }
-                }
-
                 div.block {
                 display:flex;
                 width:100%;

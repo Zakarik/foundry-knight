@@ -2,7 +2,7 @@
     {{#unless (isEmpty actor.evolutionsAchetables)}}
     <div class="evolutionsAchetables">
         {{#each actor.evolutionsAchetables as | key evolution|}}
-            <button class="appliquer-evolution-armure" data-num="{{key.id}}">
+            <button data-action="evolution" data-num="{{key.id}}" data-type="armor">
                 {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionDisponible"}} ({{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) - {{localize "KNIGHT.AUTRE.CliquezIci"}}
             </button>
         {{/each}}
@@ -12,7 +12,7 @@
     {{#unless (isEmpty actor.evolutionsCompanions)}}
     <div class="evolutionsAchetables">
         {{#each actor.evolutionsCompanions as | key evolution|}}
-            <button class="appliquer-evolution-companions" data-num="{{key.value}}">
+            <button data-action="evolution" class="appliquer-evolution-companions" data-num="{{key.value}}" data-type="companion">
                 {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionCompanionDisponible"}} ({{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) - {{localize "KNIGHT.AUTRE.CliquezIci"}}
             </button>
         {{/each}}

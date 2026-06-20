@@ -1,6 +1,20 @@
 
 const NPCMixinSheet = (superclass) => class extends superclass {
   /** @inheritdoc */
+  static DEFAULT_OPTIONS = {
+    actions: {
+      setBtn: this.#onSetBtn,
+      addBaseChair: this.#onAddBaseChair,
+      capaciteActivation: this.#onCapaciteActivation,
+      setResilience: this.#onSetResilience,
+      togglePhase2: this.#onTogglePhase2,
+      addPF: this.#onAddPF,
+      rollSpecifique: this.#onRollSpecifique,
+      destruction: this.#onDestruction,
+    }
+  };
+
+  /** @inheritdoc */
   _prepareActor(context) {
     super._prepareActor(context);
     const data = context;
@@ -16,162 +30,139 @@ const NPCMixinSheet = (superclass) => class extends superclass {
     context.system.wear = 'armure';
   }
 
-  _onRender(context, options) {
-    super._onRender(context, options);
-    const html = $(this.element)
+  // GESTION DES ACTIONS
 
-    html.find('button.setbtn').click(ev => {
-      const target = $(ev.currentTarget);
-      const type = target.data("type");
-      const value = this.actor.system?.[type] ?? false;
-      const result = value ? false : true;
+  /** Bascule un booléen system.<data-type>. */
+  static #onSetBtn(event, target) {
+    const type = target.dataset.type;
+    const value = this.actor.system?.[type] ?? false;
 
-      this.actor.update({[`system.${type}`]:result})
-    });
+    this.actor.update({[`system.${type}`]: value ? false : true});
+  }
 
-    html.find('div.combat button.addbasechair').click(ev => {
-      const target = $(ev.currentTarget);
-      const id = target.data("id");
-      const value = target?.data("value") || false;
-      let result = true;
+  /** Bascule system.degats.addchair de l'arme ciblée (combat NPC). */
+  static #onAddBaseChair(event, target) {
+    const id = target.dataset.id;
+    const value = target.dataset.value === 'true';
+    const item = this.actor.items.get(id);
 
-      if(value) result = false;
+    if(!item) return;
 
-      this.actor.items.get(id).update({['system.degats.addchair']:result});
-    });
+    item.update({['system.degats.addchair']: value ? false : true});
+  }
 
-    html.find('.capacites div.bCapacite .activation').click(async ev => {
-      const type = $(ev.currentTarget).data("type");
-      const capacite = $(ev.currentTarget).data("capacite");
-      const tenebricide = $(ev.currentTarget)?.data("tenebricide") || false;
-      const obliteration = $(ev.currentTarget)?.data("obliteration") || false;
+  /** Activation des dégâts d'une capacité (ténébricide / oblitération en option). */
+  static #onCapaciteActivation(event, target) {
+    const data = target.dataset;
+    const type = data.type;
+    const capacite = data.capacite;
+    const tenebricide = data.tenebricide === 'true';
+    const obliteration = data.obliteration === 'true';
 
-      if(type === 'degats') this.actor.system.doCapacityDgt(capacite, {tenebricide, obliteration});
-    });
+    if(type === 'degats') this.actor.system.doCapacityDgt(capacite, {tenebricide, obliteration});
+  }
 
-    html.find('.setResilience').click(async ev => {
-      const askContent = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
-        what:`${game.i18n.localize("KNIGHT.RESILIENCE.TYPES.Label")} ?`,
-        list:[{
-          key:'select',
-          class:'whatSelect',
-          liste:{
-            colosseRecrue:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.COLOSSE.Recrue"),
-            colosseInitie:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.COLOSSE.Initie"),
-            colosseHeros:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.COLOSSE.Heros"),
-            patronRecrue:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Recrue"),
-            patronInitie:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Initie"),
-            patronHeros:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Heros"),
-          }
-        }]
-      });
-      const askDialogOptions = {classes: ["dialog", "knight", "askdialog"]};
+  /** Calcul de la résilience via une boîte de dialogue (colosse / patron × recrue / initié / héros). */
+  static async #onSetResilience(event, target) {
+    const system = this.actor.system;
 
-      await new Dialog({
+    const liste = {
+      colosseRecrue: game.i18n.localize("KNIGHT.RESILIENCE.TYPES.COLOSSE.Recrue"),
+      colosseInitie: game.i18n.localize("KNIGHT.RESILIENCE.TYPES.COLOSSE.Initie"),
+      colosseHeros: game.i18n.localize("KNIGHT.RESILIENCE.TYPES.COLOSSE.Heros"),
+      patronRecrue: game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Recrue"),
+      patronInitie: game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Initie"),
+      patronHeros: game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Heros"),
+    };
+
+    let optionsHtml = '';
+    for(const [key, label] of Object.entries(liste)) {
+      optionsHtml += `<option value="${key}">${label}</option>`;
+    }
+
+    const content = `
+    <div class="knight askdialog">
+      <label class="line">
+        <span>${game.i18n.localize("KNIGHT.RESILIENCE.TYPES.Label")} ?</span>
+        <select name="whatSelect" class="whatSelect">${optionsHtml}</select>
+      </label>
+    </div>`;
+
+    await foundry.applications.api.DialogV2.wait({
+      window: {
         title: game.i18n.localize('KNIGHT.RESILIENCE.CalculResilience'),
-        content: askContent,
-        buttons: {
-          button1: {
-            label: game.i18n.localize('KNIGHT.RESILIENCE.Calcul'),
-            callback: async (data) => {
-              const getData = this.getData().data.system;
-              const dataSante = +getData.sante.max;
-              const dataArmure = +getData.armure.max;
-              const hasSante = getData.options.sante;
-              const hasArmure = getData.options.armure;
+      },
+      classes: ["knight", "askdialog"],
+      content,
+      buttons: [
+        {
+          action: "calcul",
+          label: game.i18n.localize('KNIGHT.RESILIENCE.Calcul'),
+          icon: "fas fa-check",
+          default: true,
+          callback: (event, button) => {
+            const selected = button.form.elements.whatSelect.value;
+            const dataSante = Number(system?.sante?.max ?? 0);
+            const dataArmure = Number(system?.armure?.max ?? 0);
+            const hasSante = system?.options?.sante;
+            const hasArmure = system?.options?.armure;
+            const base = hasSante ? dataSante : (hasArmure ? dataArmure : 0);
 
-              const selected = data.find('.whatSelect').val();
+            let calcul = 0;
 
-              const update = {
-                system:{
-                  resilience:{
-                    max:0,
-                    value:0
-                  }
-                }
-              };
+            switch(selected) {
+              case 'colosseRecrue': calcul = Math.floor(base / 10); break;
+              case 'colosseInitie': calcul = Math.floor(base / 10) * 2; break;
+              case 'colosseHeros':  calcul = Math.floor(base / 10) * 3; break;
+              case 'patronRecrue':  calcul = Math.floor(base / 30); break;
+              case 'patronInitie':  calcul = Math.floor(base / 20); break;
+              case 'patronHeros':   calcul = Math.floor(base / 10); break;
+            }
 
-              let calcul = 0;
-
-              switch(selected) {
-                case 'colosseRecrue':
-                  if(hasSante) calcul = Math.floor(dataSante/10);
-                  else if(hasArmure) calcul = Math.floor(dataArmure/10);
-                  break
-
-                case 'colosseInitie':
-                  if(hasSante) calcul = Math.floor(dataSante/10)*2;
-                  else if(hasArmure) calcul = Math.floor(dataArmure/10)*2;
-                  break
-
-                case 'colosseHeros':
-                  if(hasSante) calcul = Math.floor(dataSante/10)*3;
-                  else if(hasArmure) calcul = Math.floor(dataArmure/10)*3;
-                  break
-
-                case 'patronRecrue':
-                  if(hasSante) calcul = Math.floor(dataSante/30);
-                  else if(hasArmure) calcul = Math.floor(dataArmure/30);
-                  break
-
-                case 'patronInitie':
-                  if(hasSante) calcul = Math.floor(dataSante/20);
-                  else if(hasArmure) calcul = Math.floor(dataArmure/20);
-                  break
-
-                case 'patronHeros':
-                  if(hasSante) calcul = Math.floor(dataSante/10);
-                  else if(hasArmure) calcul = Math.floor(dataArmure/10);
-                  break
-              }
-
-              update.system.resilience.max = calcul;
-              update.system.resilience.value = calcul;
-
-              this.actor.update(update);
-
-            },
-            icon: `<i class="fas fa-check"></i>`
-          }
-        }
-      }, askDialogOptions).render(true);
+            this.actor.update({
+              ['system.resilience.max']: calcul,
+              ['system.resilience.value']: calcul,
+            });
+          },
+        },
+      ],
     });
+  }
 
-    html.find('.activatePhase2').click(ev => {
-      this.actor.system.togglePhase2();
-    });
+  /** Active / désactive la phase 2. */
+  static #onTogglePhase2(event, target) {
+    this.actor.system.togglePhase2();
+  }
 
-    html.find('.desactivatePhase2').click(ev => {
-      this.actor.system.togglePhase2();
-    });
+  /** Ajoute le point faible sélectionné à la liste, séparé par " / ". */
+  static #onAddPF(event, target) {
+    const select = this.element.querySelector('select.pfselected');
+    const value = select?.value ?? "";
 
-    html.find('button.addPF').click(ev => {
-        const value = $(html.find('select.pfselected')).val();
-        const previous = actor.system?.pointsFaibles ?? "";
+    if(value === "") return;
 
-        if(value === "") return;
+    const previous = this.actor.system?.pointsFaibles ?? "";
+    const newText = previous === "" ? value : `${previous} / ${value}`;
 
-        const newText = previous === "" ? value : `${previous} / ${value}`;
+    this.actor.update({[`system.pointsFaibles`]: newText});
+  }
 
-        actor.update({[`system.pointsFaibles`]:newText});
-    });
+  /** Jet spécifique (PNJ). */
+  static async #onRollSpecifique(event, target) {
+    const name = target.dataset.name;
+    const dices = target.dataset.roll;
 
-    html.find('img.rollSpecifique').click(async ev => {
-      const target = $(ev.currentTarget);
-      const name = target.data("name");
-      const dices = target.data("roll");
+    const roll = new game.knight.RollKnight(this.actor, {
+      name,
+      dices,
+    }, true);
 
-      const roll = new game.knight.RollKnight(this.actor, {
-        name:name,
-        dices:dices,
-      }, true);
+    await roll.doRoll();
+  }
 
-      await roll.doRoll();
-    });
-
-    html.find('button.destruction').click(async ev => {
-      await this.actor.delete();
-    });
+  /** Suppression de l'acteur (module à destruction). */
+  static async #onDestruction(event, target) {
+    await this.actor.delete();
   }
 }
 

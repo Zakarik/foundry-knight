@@ -1,0 +1,9 @@
+
+<footer>
+    {{#each btn}}
+    <button class="btn btn{{@index}}" data-action="{{action}}">
+        <i class="{{icon}}"></i>
+        {{localize label}}
+    </button>
+    {{/each}}
+</footer>

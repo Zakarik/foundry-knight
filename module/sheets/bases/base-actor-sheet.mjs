@@ -390,8 +390,8 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
 
   static async #onOptionsClick(event, target) {
     const data = target.dataset;
-    const value = data.value;
     const option = data.option;
+    const value = this.actor.system.options[option];
     const armor = await getArmor(this.actor);
     let update = {};
 
@@ -423,7 +423,7 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
         break;
 
       default:
-        const result = value !== "true";
+        const result = !value;
 
         this.actor.update({[`system.options.${option}`]:result});
         break;
@@ -444,12 +444,6 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     const document = itemId ? this.actor.items.get(itemId) : this.actor;
     const value = foundry.utils.getProperty(document, path);
     const result = value ? false : true;
-
-    console.error(itemId);
-    console.error(path);
-    console.error(document);
-    console.error(value);
-    console.error(result);
 
     document.update({[path]:result});
   }
@@ -555,6 +549,54 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     return result;
   }
 
+  #generate_onlyInput(args={}) {
+    const {
+      path,
+      subPath=undefined,
+      submenu={},
+    } = args;
+
+    let result = {};
+
+    if(path) {
+      result.value = `${path}`;
+    }
+    if(path || subPath) {
+      result.submenu = {
+        ...this.#generate_std_submenu(subPath ? subPath : path),
+      }
+    }
+    if(submenu) result.submenu = {...result?.submenu ?? {}, ...submenu}
+
+    return result;
+  }
+
+  #generate_onlyInputWithButtons(args={}) {
+    const {
+      path,
+      min,
+      btn,
+      subPath=undefined,
+      submenu={},
+    } = args;
+
+    let result = {};
+
+    if(path) {
+      result.value = `${path}`;
+    }
+    if(path || subPath) {
+      result.submenu = {
+        ...this.#generate_std_submenu(subPath ? subPath : path),
+      }
+    }
+    if(submenu) result.submenu = {...result?.submenu ?? {}, ...submenu}
+    if(min) result.min = min;
+    if(btn) result.btn = btn;
+
+    return result;
+  }
+
   #generate_onlySpan(args={}) {
     const {
       path,
@@ -643,9 +685,20 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
   }
 
   #generate_doubleInput(args={}) {
-    const { } = args;
+    const {
+      path,
+      btn,
+      min=0,
+    } = args;
 
     let result = {};
+
+    if(path) {
+      result.value = `${path}.value`;
+      result.max = `${path}.max`;
+    }
+    if(min) result.min = min;
+    if(btn) result.btn = btn;
 
     return result;
   }
@@ -692,6 +745,20 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
           entries[name] = {
             ...std,
             ...this.#generate_inputWithSpanMaxWithButtons(m),
+          }
+          break;
+
+        case 'onlyInput':
+          entries[name] = {
+            ...std,
+            ...this.#generate_onlyInput(m),
+          }
+          break;
+
+        case 'onlyInputWithButtons':
+          entries[name] = {
+            ...std,
+            ...this.#generate_onlyInputWithButtons(m),
           }
           break;
 
@@ -781,8 +848,6 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
       ...this._generate_menu(menu),
     }
 
-    console.error(entries);
-
     return entries;
   }
 
@@ -813,6 +878,88 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     return menu;
   }
 
+  _std_options() {
+    return ['energie', 'armure', 'bouclier', 'champDeForce', 'sante', 'resilience', 'espoir', 'modules', 'phase2'];
+  }
+
+  _build_options() {
+    const actor = this.actor;
+    const options = actor.system?.options;
+    const list = [];
+
+    if(options?.kraken !== undefined) {
+      list.push({
+        option:'kraken',
+        class:`${options?.kraken ? `selected` : `unselected`}`,
+        label:`KNIGHT.OPTIONS.KRAKEN.${options?.kraken ? `Has` : `Hasnt`}`,
+      })
+    }
+
+    if(options?.art !== undefined) {
+      list.push({
+        option:'art',
+        class:`${options?.art ? `selected` : `unselected`}`,
+        label:`KNIGHT.OPTIONS.ART.${options?.art ? `Has` : `Hasnt`}`,
+      })
+    }
+
+    const stdHas = this._std_options();
+
+    for(const std of stdHas) {
+      if(options?.[std] !== undefined) {
+        list.push({
+          option:std,
+          class:`${options?.[std] ? `selected` : `unselected`}`,
+          label:`KNIGHT.OPTIONS.${std.toUpperCase()}.${options?.[std] ? `Has` : `Hasnt`}`,
+        })
+      }
+    }
+
+    return list;
+  }
+
+  _std_recuperation() {
+    return ['sante', 'armure', 'energie', 'espoir'];
+  }
+
+  _autre_recuperation() {
+    return []
+  }
+
+  _buid_recuperation() {
+    const actor = this.actor;
+    const list = [];
+    const std = this._std_recuperation();
+    const other = this._autre_recuperation();
+
+    for(const r of std) {
+      if(!actor.system?.jauges?.[r]) continue;
+
+      list.push({
+        action:'recoverClick',
+        class:'recover unselected',
+        type:r,
+        label:`KNIGHT.RECUPERER.${capitalizeFirstLetter(r)}`
+      });
+    }
+
+    for(const o of other) {
+      const key = o?.key;
+      const label = o?.label;
+
+      if(!key) continue;
+
+      list.push({
+        action:'recoverClick',
+        class:'recover unselected',
+        type:key,
+        label:`${label}`
+      });
+    }
+
+    return list;
+  }
+
   /* -------------------------------------------- */
 
   /** @inheritdoc */
@@ -831,6 +978,18 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     console.error(context);
 
     return context;
+  }
+
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+    switch(partId) {
+      case 'autre':
+        context.options = this._build_options();
+        context.recuperations = this._buid_recuperation();
+        break;
+    }
+
+    return await super._preparePartContext(partId, context, options);
   }
 
   _prepareActor(actor) {
@@ -1003,6 +1162,8 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
           break;
       }
     }
+
+    console.error(itemData);
   }
 
   async _onItemCreate_post(create, itemData) {}

@@ -1,0 +1,161 @@
+{{!--
+    Partial mutualisé d'une capacité de PNJ/Bande/Créature.
+    Contexte attendu : `key` = l'item capacité (issu de {{#each actor.capacites}}).
+--}}
+<div class="bCapacite item" data-item-id="{{key._id}}">
+    <header class="summary header js-toggler" data-item-id="{{key._id}}">
+        {{~> knight.jsToggle}}
+        {{~> knight.itemButtons}}
+        <span>{{{key.name}}}</span>
+
+        <div class="blockMultiline">
+            {{#if key.system.degats.has}}
+                <button type="action" data-action="capaciteActivation" data-type="degats" data-name="{{key.name}}" data-capacite="{{key._id}}" data-tenebricide="false">
+                    {{localize "KNIGHT.JETS.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}}
+                </button>
+
+                {{#if (hasEffet 'tenebricide' 'effets' key.system.degats -1)}}
+                    <button type="action" data-action="capaciteActivation" data-type="degats" data-name="{{key.name}}" data-capacite="{{key._id}}" data-tenebricide="true">
+                        {{localize "KNIGHT.JETS.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}} ({{localize "KNIGHT.EFFETS.TENEBRICIDE.Label"}})
+                    </button>
+                {{/if}}
+
+                {{#if (hasEffet 'obliteration' 'effets' key.system.degats -1)}}
+                    <button type="action" data-action="capaciteActivation" data-type="degats" data-name="{{key.name}}" data-capacite="{{key._id}}" data-obliteration="true" data-tenebricide="false">
+                        {{localize "KNIGHT.JETS.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}} ({{localize "KNIGHT.EFFETS.OBLITERATION.Label"}})
+                    </button>
+                {{/if}}
+
+                {{#if (hasEffet 'tenebricide' 'effets' key.system.degats -1)}}
+                    {{#if (hasEffet 'obliteration' 'effets' key.system.degats -1)}}
+                        <button type="action" data-action="capaciteActivation" data-type="degats" data-name="{{key.name}}" data-capacite="{{key._id}}" data-obliteration="true" data-tenebricide="true">
+                            {{localize "KNIGHT.JETS.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}} ({{localize "KNIGHT.EFFETS.TENEBRICIDE.Label"}} + {{localize "KNIGHT.EFFETS.OBLITERATION.Label"}})
+                        </button>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        </div>
+    </header>
+
+    <img class="profile-img" src="{{key.img}}" title="{{key.name}}" />
+    <span class="description">{{{key.system.description}}}</span>
+
+    <div class="mainBlock">
+        <div class="allData">
+            {{#if key.system.bonus.aspectsLieSupplementaire.has}}
+            <div class="data">
+                <div class="doubleLine">
+                    <span class="label">{{localize "KNIGHT.ITEMS.CAPACITES.ASPECTSUPP.Label"}}</span>
+                    <span class="value">{{getAspect key.system.bonus.aspectsLieSupplementaire.value}}</span>
+                </div>
+            </div>
+            {{/if}}
+
+            {{#if key.system.bonus.sante.has}}
+            <div class="data">
+                <h4>{{localize "KNIGHT.BONUS.Sante"}}</h4>
+                {{#if key.system.bonus.sante.aspect.lie}}
+                    <div class="doubleLine">
+                        <span class="label">{{localize "KNIGHT.ITEMS.CAPACITES.AspectBonus"}}</span>
+                        <span class="value">{{getAspect key.system.bonus.sante.aspect.value}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="label">{{localize "KNIGHT.ITEMS.CAPACITES.Multiplie"}}</span>
+                        <span class="value">{{key.system.bonus.sante.aspect.multiplie}}</span>
+                    </div>
+                {{else}}
+                <div class="longspan noBorderTop">
+                    <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+                    <span class="value">{{key.system.bonus.sante.value}}</span>
+                </div>
+                {{/if}}
+            </div>
+            {{/if}}
+
+            {{#if key.system.bonus.armure.has}}
+            <div class="data">
+                <h4>{{localize "KNIGHT.BONUS.Armure"}}</h4>
+                {{#if key.system.bonus.armure.aspect.lie}}
+                    <div class="doubleLine">
+                        <span class="label">{{localize "KNIGHT.ITEMS.CAPACITES.AspectBonus"}}</span>
+                        <span class="value">{{getAspect key.system.bonus.armure.aspect.value}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="label">{{localize "KNIGHT.ITEMS.CAPACITES.Multiplie"}}</span>
+                        <span class="value">{{key.system.bonus.armure.aspect.multiplie}}</span>
+                    </div>
+                {{else}}
+                <div class="longspan noBorderTop">
+                    <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+                    <span class="value">{{key.system.bonus.armure.value}}</span>
+                </div>
+                {{/if}}
+            </div>
+            {{/if}}
+
+            {{#if key.system.bonus.aspectMax.has}}
+            <div class="data">
+                <h4>{{localize "KNIGHT.BONUS.Aspectmax"}}</h4>
+                <div class="doubleLine">
+                    <span class="label">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
+                    <span class="value">{{getAspect key.system.bonus.aspectMax.aspect}}</span>
+                </div>
+                <div class="longspan">
+                    <span class="label">{{localize "KNIGHT.ITEMS.CAPACITES.AspectMaximum"}}</span>
+                    <span class="value">{{key.system.bonus.aspectMax.maximum.aspect}}</span>
+                </div>
+                <div class="longspan">
+                    <span class="label">{{localize "KNIGHT.ITEMS.CAPACITES.AEMaximum"}}</span>
+                    <span class="value">{{key.system.bonus.aspectMax.maximum.ae}}</span>
+                </div>
+            </div>
+            {{/if}}
+
+            {{#if key.system.degats.has}}
+            <div class="data">
+                <h4>{{localize "KNIGHT.ITEMS.CAPACITES.DEGATS.Label"}}</h4>
+                <div class="roll">
+                    <span class="value">{{key.system.degats.system.dice}}</span>
+                    <span class="separateur">{{localize "KNIGHT.JETS.Des-short"}}+</span>
+                    <span class="value">{{key.system.degats.system.fixe}}</span>
+                </div>
+                <div class="effets">
+                    {{#each key.system.degats.system.effets.liste as | key effet|}}
+                        <div>
+                            <span class="label">{{key.name}}</span>
+                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            {{/if}}
+
+            {{#if key.system.attaque.has}}
+            <div class="data">
+                <h4>{{localize "KNIGHT.ITEMS.CAPACITES.ATTAQUE.Label"}}</h4>
+                <span class="header">{{getWpnType key.system.attaque.type}}</span>
+                <div class="doubleLine">
+                    <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <span class="value">{{getPortee key.system.attaque.portee}}</span>
+                </div>
+                <span class="header lightBlack">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                <div class="roll">
+                    <span class="value">{{key.system.attaque.degats.dice}}</span>
+                    <span class="separateur">{{localize "KNIGHT.JETS.Des-short"}}+</span>
+                    <span class="value">{{key.system.attaque.degats.fixe}}</span>
+                </div>
+                <div class="effets">
+                    {{#each key.system.attaque.effets.liste as | key effet|}}
+                        <div>
+                            <span class="label">{{key.name}}</span>
+                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</div>

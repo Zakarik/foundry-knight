@@ -5,57 +5,31 @@
             {{localize "KNIGHT.OPTIONS.Label"}}
         </h2>
 
-        <button type="action"
-        data-action="optionsClick"
-        data-value="{{systemData.options.kraken}}"
-        data-option="kraken"
-        class="{{ifThen systemData.options.kraken 'selected' 'unselected'}}">
-            {{#if systemData.options.kraken}}
-                {{localize "KNIGHT.OPTIONS.KRAKEN.Has"}}
-            {{else}}
-                {{localize "KNIGHT.OPTIONS.KRAKEN.Hasnt"}}
-            {{/if}}
-        </button>
-
-        <button type="action"
-        data-action="optionsClick"
-        data-value="{{systemData.options.art}}"
-        data-option="art"
-        class="{{ifThen systemData.options.art 'selected' 'unselected'}}">
-            {{#if systemData.options.art}}
-                {{localize "KNIGHT.OPTIONS.ART.Has"}}
-            {{else}}
-                {{localize "KNIGHT.OPTIONS.ART.Hasnt"}}
-            {{/if}}
-        </button>
+        {{#each options}}
+            <button type="action"
+            data-action="optionsClick"
+            data-option="{{option}}"
+            class="{{class}}">
+                {{localize label}}
+            </button>
+        {{/each}}
     </div>
+    {{#if (hasPJRestaure)}}
     <div class="bRecover">
         <h2 class="header">
             {{localize "KNIGHT.RECUPERER.Label"}}
         </h2>
 
-        {{#if (hasPJRestaure)}}
-            {{#if systemData.jauges.sante}}
-                <button type="action" data-action="recoverClick" class="recover unselected" data-type="sante">{{localize "KNIGHT.RECUPERER.Sante"}}</button>
-            {{/if}}
-
-            {{#if systemData.jauges.armure}}
-                <button type="action" data-action="recoverClick" class="recover unselected" data-type="armure">{{localize "KNIGHT.RECUPERER.Armure"}}</button>
-            {{/if}}
-
-            {{#if systemData.jauges.energie}}
-                <button type="action" data-action="recoverClick" class="recover unselected" data-type="energie">{{localize "KNIGHT.RECUPERER.Energie"}}</button>
-            {{/if}}
-
-            {{#if systemData.jauges.espoir}}
-                <button type="action" data-action="recoverClick" class="recover unselected" data-type="espoir">{{localize "KNIGHT.RECUPERER.Espoir"}}</but>
-            {{/if}}
-
-            <button type="action" data-action="recoverClick" class="recover unselected" data-type="contacts">{{localize "KNIGHT.RECUPERER.Contacts"}}</button>
-        {{/if}}
-
-        <button type="action" data-action="recoverClick" class="recover unselected" data-type="chargeur">{{localize "KNIGHT.EFFETS.CHARGEUR.Restaurer"}}</button>
+            {{#each recuperations}}
+                <button type="action"
+                data-action="{{action}}"
+                data-type="{{type}}"
+                class="{{class}}">
+                    {{localize label}}
+                </button>
+            {{/each}}
     </div>
+    {{/if}}
     {{#if (or
         (hasCapacite this 'warlord')
         (hasCapacite this 'type')
@@ -103,6 +77,45 @@
                 </div>
             {{/each}}
         {{/unless}}
+    </div>
+    {{/if}}
+    {{#if systemData.options.phase2}}
+    <div class="phase2">
+        <h2 class="header">
+            {{localize "KNIGHT.PHASE2.Bonus"}}
+        </h2>
+
+        <label class="longspan">
+            <span class="label">{{localize "KNIGHT.LATERAL.Sante"}}</span>
+            <input type="number" name="system.phase2.sante" value="{{systemData.phase2.sante}}" />
+        </label>
+
+        <label class="longspan">
+            <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+            <input type="number" name="system.phase2.sante" value="{{systemData.phase2.armure}}" />
+        </label>
+
+        <label class="longspan">
+            <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+            <input type="number" name="system.phase2.sante" value="{{systemData.phase2.energie}}" />
+        </label>
+
+        <div class="aspects">
+            {{#each systemData.phase2.aspects as | key aspect|}}
+            <div class="block">
+                <h3 class="header">
+                    {{getAspect aspect}}
+                    <input type="number" name="system.phase2.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="20" />
+                </h3>
+                <select name="system.phase2.aspects.{{aspect}}.ae.mineur">
+                    {{selectOptions (getAE 'Mineur' '10') selected=key.ae.mineur}}
+                </select>
+                <select name="system.phase2.aspects.{{aspect}}.ae.majeur">
+                    {{selectOptions (getAE 'Majeur' '10') selected=key.ae.majeur}}
+                </select>
+            </div>
+            {{/each}}
+        </div>
     </div>
     {{/if}}
 </div>

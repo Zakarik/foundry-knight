@@ -2,6 +2,8 @@
 div.personnage {
     @include header();
     @import "../sections/description";
+    @import "../sections/pointsfaibles";
+    @import "../sections/tactique";
     @import "../sections/cyberware";
     @import "../sections/avDv";
     @import "../sections/motivations";
@@ -9,6 +11,6 @@ div.personnage {
     @import "../sections/heroisme";
 
     div.marginTop {
-        margin-top: 10px;
+        padding-top: 10px;
     }
 }
