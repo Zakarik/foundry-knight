@@ -501,7 +501,7 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
     data['evo'] = id;
 
     const companions = new game.knight.applications.KnightCompanionDialog({
-      uuid:this.document.uuid,
+      uuid:armor.uuid,
     }).render(true);
   }
 

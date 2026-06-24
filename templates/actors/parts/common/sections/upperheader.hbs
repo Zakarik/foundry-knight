@@ -1,21 +1,21 @@
 <div class="upperheader">
     {{#unless (isEmpty actor.evolutionsAchetables)}}
     <div class="evolutionsAchetables">
-        {{#each actor.evolutionsAchetables as | key evolution|}}
-            <button data-action="evolution" data-num="{{key.id}}" data-type="armor">
-                {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionDisponible"}} ({{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) - {{localize "KNIGHT.AUTRE.CliquezIci"}}
+        {{#if actor.evolutionsAchetables}}
+            <button data-action="evolution" data-num="{{actor.evolutionsAchetables.0.id}}" data-type="armor">
+                {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionDisponible"}} ({{actor.evolutionsAchetables.0.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) - {{localize "KNIGHT.AUTRE.CliquezIci"}}
             </button>
-        {{/each}}
+        {{/if}}
     </div>
     {{/unless}}
 
     {{#unless (isEmpty actor.evolutionsCompanions)}}
     <div class="evolutionsAchetables">
-        {{#each actor.evolutionsCompanions as | key evolution|}}
-            <button data-action="evolution" class="appliquer-evolution-companions" data-num="{{key.value}}" data-type="companion">
-                {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionCompanionDisponible"}} ({{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) - {{localize "KNIGHT.AUTRE.CliquezIci"}}
+        {{#if actor.evolutionsCompanions}}
+            <button data-action="evolution" class="appliquer-evolution-companions" data-num="{{actor.evolutionsCompanions.0.value}}" data-type="companion">
+                {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionCompanionDisponible"}} ({{actor.evolutionsCompanions.0.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) - {{localize "KNIGHT.AUTRE.CliquezIci"}}
             </button>
-        {{/each}}
+        {{/if}}
     </div>
     {{/unless}}
 </div>

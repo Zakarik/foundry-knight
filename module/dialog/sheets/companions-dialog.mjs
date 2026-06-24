@@ -31,7 +31,10 @@ export default class KnightCompanionDialog extends HandlebarsApplicationMixin(Ap
         submitOnChange: true,
         handler: KnightCompanionDialog.#onSubmit,
     },
-    actions: {}
+    actions: {
+      valider: KnightCompanionDialog.#onValider,
+      annuler: KnightCompanionDialog.#onAnnuler,
+    }
   };
 
   static PARTS = {
@@ -52,23 +55,76 @@ export default class KnightCompanionDialog extends HandlebarsApplicationMixin(Ap
     },
   };
 
-  /*static async #onSwap(event, target) {
-    event.preventDefault();
-    const tgt = target.dataset;
-    const type = tgt.type;
+  static async #onValider(event, target) {
+    const evoPath = 'system.evolutions.special.companions';
+    const LZString = globalThis.LZString;
 
-    this.render();
-  }*/
+    const type = this.system.active;
+    const armor = await this.system.armor;
+    const actor = armor.actor;
+    const system = this.system[type]
+    const evoList = foundry.utils.getProperty(armor, `${evoPath}.applied.liste`) ? foundry.utils.getProperty(armor, `${evoPath}.applied.liste`) : [];
+    const evoValue = foundry.utils.getProperty(armor, `${evoPath}.applied.value`) ? foundry.utils.getProperty(armor, `${evoPath}.applied.value`) : 0;
+    const gloireListe = actor.system.progression.gloire.depense.liste;
+    const isEmpty = gloireListe[0]?.isEmpty ?? false;
+    const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
+    const { archivage, ...dataToSave } = armor.system;
+    let basePath = 'system.capacites.selected.companions';
+    let update = {};
+    console.error(type);
+    switch(type) {
+      case 'lion':
+        basePath += `.lion.aspects`;
+        update[`${basePath}.bete.value`] = system.aspects.bete.value;
+        update[`${basePath}.chair.value`] = system.aspects.chair.value;
+        update[`${basePath}.dame.value`] = system.aspects.dame.value;
+        update[`${basePath}.machine.value`] = system.aspects.machine.value;
+        update[`${basePath}.masque.value`] = system.aspects.masque.value;
+
+        update[`${basePath}.bete.ae`] = system.aspects.bete.ae;
+        update[`${basePath}.chair.ae`] = system.aspects.chair.ae;
+        update[`${basePath}.dame.ae`] = system.aspects.dame.ae;
+        update[`${basePath}.machine.ae`] = system.aspects.machine.ae;
+        update[`${basePath}.masque.ae`] = system.aspects.masque.ae;
+
+        evoList.push({
+          addOrder:gloireMax+1,
+          isArmure:true,
+          value:(evoValue+1)*foundry.utils.getProperty(armor, `${evoPath}.value`) ? foundry.utils.getProperty(armor, `${evoPath}.value`) : 1,
+        });
+
+        update[`${evoPath}.applied.liste`] = evoList;
+        update[`${evoPath}.applied.value`] = evoList.length;
+        update[`system.archivage.liste.${
+          (evoValue+1)*foundry.utils.getProperty(armor, `${evoPath}.value`) ?
+          foundry.utils.getProperty(armor, `${evoPath}.value`) : 1}`] = LZString.compressToUTF16(JSON.stringify(dataToSave));
+          console.error(update);
+        armor.update(update);
+        break;
+
+      case 'wolf':
+        break;
+
+      case 'crow':
+        break;
+    }
+
+    this.close();
+  }
+
+  static async #onAnnuler(event, target) {
+    this.close();
+  }
 
   #prepareBtn() {
     const btn = [];
 
     btn.push({
-      action:'submit',
+      action:'valider',
       icon:'fas fa-check',
       label:'KNIGHT.AUTRE.Valider',
     },{
-      action:'cancel',
+      action:'annuler',
       icon:'fas fa-times',
       label:'KNIGHT.AUTRE.Annuler',
     })
@@ -124,383 +180,119 @@ export default class KnightCompanionDialog extends HandlebarsApplicationMixin(Ap
     };
   }
 
-  static async #onSubmit(event, form, formData, options={}) {
-    await this.system.update(formData.object);
+  /** @inheritdoc */
+  _onRender(context, options) {
+  const companions = this.element.querySelectorAll('div.companions');
 
-    //this.render({ parts: ['custom'] });
+    this.element.addEventListener('change', ev => {
+      const t = ev.target;
+
+      // --- Switch d'affichage ---
+      if(t.matches('select[name="system.active"]')) {
+        const value = t.value;
+        companions.forEach(cmp => {
+          cmp.style.display = (cmp.dataset.type === value) ? 'grid' : '';
+        });
+        return;
+      }
+
+      if(!t.matches('input[type=number]')) return;
+      if(!(t.classList.contains('aspect') || t.classList.contains('ae'))) return;
+
+      const block = t.closest('div.companions');
+      const isAspect = t.classList.contains('aspect');
+
+      const poolMax = isAspect ? 5 : 2;   // points à répartir au total
+
+      const min = Number(t.min) || 0;     // valeur de départ (plancher)
+      const max = Number(t.max);          // déjà min + 2 dans le modèle
+      let value = Number(t.value);
+      if(Number.isNaN(value)) value = min;
+
+      // 1) Jamais sous la valeur de départ
+      if(value < min) value = min;
+
+      // 2) Jamais au-dessus du max de l'input (min + 2)
+      if(!Number.isNaN(max) && value > max && isAspect) value = max;
+
+      // 3) Le total ajouté ne doit pas dépasser poolMax
+      const selector = isAspect ? 'input.aspect' : 'input.ae';
+      let othersAdded = 0;
+      for(const i of block.querySelectorAll(selector)) {
+        if(i === t) continue;
+        const iMin = Number(i.min) || 0;
+        othersAdded += Math.max(0, Number(i.value) - iMin);
+      }
+      const allowedHere = poolMax - othersAdded;
+      if((value - min) > allowedHere) {
+        value = min + Math.max(0, allowedHere);
+      }
+
+      // Applique la valeur clampée
+      if(Number(t.value) !== value) t.value = value;
+      this.system.update({ [t.name]: value });
+
+      // --- Met à jour le compteur "à distribuer" ---
+      this.#updateDistribuer(block, isAspect, poolMax);
+    });
   }
 
-    /** @inheritdoc */
-  /*activateListeners(html) {
-    html.find(".button1").click(this._onClickButton.bind(this));
-    html.find(".button2").click(this.close.bind(this));
-    html.find(".button").click(ev => {
-      const target = $(ev.currentTarget);
-      const companion = target.data("companion");
-      const type = target.data("type");
+  #updateDistribuer(block, isAspect, poolMax) {
+    const selector = isAspect ? 'input.aspect' : 'input.ae';
+    const distSel  = isAspect ? 'input.aspectDistribuer' : 'input.aeDistribuer';
 
-      switch(type) {
-        case 'selected':
-          const howMany = +this.data.content.data.adistribuer;
-          const numSelected = +this.data.content.selected?.alreadySelected || 0;
-          const already = numSelected === howMany ? true : false;
-          const oldData = this.data.content.selected[companion];
-          const result = oldData === true ? false : true;
-
-          if(already && result) return;
-          else {
-            this.data.content.selected[companion] = result;
-            this.data.content.selected.alreadySelected = result === false ? numSelected-1 : numSelected+1;
-          }
-          break;
-      }
-      this.render(true);
-    });
-
-    html.find(".button1").hover(ev => {
-
-    });
-
-    html.find("div.lion div.block input.aspect").change(async ev => {
-      const maxAspect = +this.data.content.data.lion.aspects.value;
-      const dataTarget = $(ev.currentTarget);
-      const type = dataTarget.data("type");
-      const maxRepartitionAspectCompanions = parseInt(this.data.content.data.lion.aspects.max);
-      let actInput = +dataTarget.val();
-      let totalAspect = 0;
-
-      if(actInput > maxRepartitionAspectCompanions) {
-        $(ev.currentTarget).val(maxRepartitionAspectCompanions);
-        actInput = maxRepartitionAspectCompanions;
-      }
-
-      for (let i of html.find("div.lion input.aspect")) {
-        const target = +$(i).val();
-        const tType = $(i).data("type");
-        totalAspect += tType === type ? actInput : target;
-      }
-
-      if(totalAspect > maxAspect) {
-        const adjustAspect = totalAspect - maxAspect;
-        $(ev.currentTarget).val(adjustAspect);
-        actInput = adjustAspect;
-        totalAspect -= adjustAspect;
-      }
-
-      this.data.content.data.aspects.lion[type].value = actInput;
-      $(html.find("div.lion input.aspectDistribuer")).val(maxAspect-totalAspect);
-      this.data.content.data.lion.aspects.restant = maxAspect-totalAspect;
-    });
-
-    html.find("div.lion div.block input.ae").change(ev => {
-      const maxAspect = +this.data.content.data.lion.ae;
-      const dataTarget = $(ev.currentTarget);
-      const type = dataTarget.data("type");
-      let actInput = +dataTarget.val();
-      let totalAspect = 0;
-
-      for (let i of html.find("div.lion input.ae")) {
-        const target = +$(i).val();
-        const tType = $(i).data("type");
-
-        if(tType !== type) totalAspect += target;
-      }
-
-      // Si le nouveau total dépasserait maxAspect
-      if((totalAspect + actInput) > maxAspect) {
-        // Ajuster la valeur de l'input actuel
-        const valeurAjustee = maxAspect - totalAspect;
-        $(ev.currentTarget).val(valeurAjustee);
-        totalAspect += valeurAjustee;
-        actInput = valeurAjustee;
-      } else totalAspect += actInput;
-
-      this.data.content.data.aspects.lion[type].ae = actInput;
-      $(html.find("div.lion input.aeDistribuer")).val(maxAspect-totalAspect);
-      this.data.content.data.lion.restant = maxAspect-totalAspect;
-    });
-
-    html.find("div.wolf div.block input.aspect").change(ev => {
-      const maxAspect = +this.data.content.data.wolf.aspects.value;
-      const dataTarget = $(ev.currentTarget);
-      const type = dataTarget.data("type");
-      const actInput = +dataTarget.val();
-      let totalAspect = 0;
-
-      for (let i of html.find("div.wolf input.aspect")) {
-        const target = +$(i).val();
-        totalAspect += target;
-      }
-
-      if(totalAspect > maxAspect) {
-        $(ev.currentTarget).val(actInput-1);
-      } else {
-        this.data.content.data.aspects.wolf[type].value = actInput;
-        $(html.find("div.wolf input.aspectDistribuer")).val(maxAspect-totalAspect);
-        this.data.content.data.wolf.aspects.restant = maxAspect-totalAspect;
-      }
-    });
-
-    html.find("div.wolf div.block input.ae").change(ev => {
-      const maxAspect = +this.data.content.data.wolf.ae;
-      const dataTarget = $(ev.currentTarget);
-      const type = dataTarget.data("type");
-      const actInput = +dataTarget.val();
-      let totalAspect = 0;
-
-      for (let i of html.find("div.wolf input.ae")) {
-        const target = +$(i).val();
-        totalAspect += target;
-      }
-
-      if(totalAspect > maxAspect) {
-        $(ev.currentTarget).val(actInput-1);
-      } else {
-        this.data.content.data.aspects.wolf[type].ae = actInput;
-        $(html.find("div.wolf input.aeDistribuer")).val(maxAspect-totalAspect);
-        this.data.content.data.wolf.restant = maxAspect-totalAspect;
-      }
-    });
-
-    html.find("div.wolf input.bonusWolf").change(ev => {
-      const maxBonus = +this.data.content.data.wolf.bonus;
-      const dataTarget = $(ev.currentTarget);
-      const type = dataTarget.data("type");
-      const actInput = +dataTarget.val();
-      let totalBonus = 0;
-
-      for (let i of html.find("div.wolf input.bonusWolf")) {
-        const target = +$(i).val();
-        totalBonus += target;
-      }
-
-      if(totalBonus > maxBonus) {
-        $(ev.currentTarget).val(actInput-1);
-      } else {
-        this.data.content.data.configurations[type].value = actInput;
-        $(html.find("div.wolf input.bonusDistribuer")).val(maxBonus-totalBonus);
-        this.data.content.data.wolf.bonusRestant = maxBonus-totalBonus;
-      }
-    });
-
-    html.find("div.crow div.block input.aspect").change(ev => {
-      const maxAspect = +this.data.content.data.crow.aspects.value;
-      const dataTarget = $(ev.currentTarget);
-      const type = dataTarget.data("type");
-      const actInput = +dataTarget.val();
-      let totalAspect = 0;
-
-      for (let i of html.find("div.crow input.aspect")) {
-        const target = +$(i).val();
-        totalAspect += target;
-      }
-
-      if(totalAspect > maxAspect) {
-        $(ev.currentTarget).val(actInput-1);
-      } else {
-        this.data.content.data.aspects.crow[type].value = actInput;
-        $(html.find("div.crow input.aspectDistribuer")).val(maxAspect-totalAspect);
-        this.data.content.data.crow.aspects.restant = maxAspect-totalAspect;
-      }
-    });
-  }*/
-
-  /**
-   * Handle a left-mouse click on one of the dialog choice buttons
-   * @param {MouseEvent} event    The left-mouse click event
-   * @private
-   */
-   /*_onClickButton(event) {
-    event.preventDefault();
-    const id = event.currentTarget.dataset.button;
-    const button = this.data.buttons[id];
-    this.submit(button);
-  }*/
-
-  /**
-   * Submit the Dialog by selecting one of its buttons
-   * @param {Object} button     The configuration of the chosen button
-   * @private
-   */
-  /*async submit(button) {
-    try {
-
-      if (button.callback) button.callback(this.options.jQuery ? this.element : this.element[0]);
-
-      const isLion = this.data.content.selected.lion;
-      const isWolf = this.data.content.selected.wolf;
-      const isCrow = this.data.content.selected.crow;
-
-      let resultL = true;
-      let resultW = true;
-      let resultC = true;
-
-      if(isLion) {
-        const aspectL = +this.data.content.data.lion.aspects.restant;
-        const aeL = +this.data.content.data.lion.restant;
-
-        if(aspectL === 0 && aeL === 0) resultL = true;
-        else resultL = false;
-      }
-
-      if(isWolf) {
-        const aspectW = +this.data.content.data.wolf.aspects.restant;
-        const aeW = +this.data.content.data.wolf.restant;
-        const bonusW = +this.data.content.data.wolf.bonusRestant;
-
-        if(aspectW === 0 && aeW === 0 && bonusW === 0) resultW = true;
-        else resultW = false;
-      }
-
-      if(isCrow) {
-        const aspectC = +this.data.content.data.crow.aspects.restant;
-
-        if(aspectC === 0) resultC = true;
-        else resultC = false;
-      }
-
-      if(!resultL || !resultW || !resultC) {
-        this.render(true);
-      }
-      else {
-        const getHighestOrder = (myObject) => {
-          let highestOrder = -1;
-
-          for (const key in myObject) {
-            if (myObject.hasOwnProperty(key) && myObject[key].order !== undefined) {
-              if (myObject[key].order > highestOrder) {
-                highestOrder = myObject[key].order;
-              }
-            }
-          }
-
-          return highestOrder;
-        };
-
-        const actor = game.actors.get(this.data.actor);
-        const armor = await getArmor(actor);
-        const companionsEvolutions = armor.system.evolutions.special.companions;
-        const evolutionsValue = +companionsEvolutions.value;
-        const evolutionsAppliedV = +companionsEvolutions?.applied?.value || 0;
-        const evolutionsAppliedL = companionsEvolutions?.applied?.liste || [];
-        const gloireListe = actor.system.progression.gloire.depense.liste;
-        const isEmpty = gloireListe[0]?.isEmpty ?? false;
-        const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : getHighestOrder(gloireListe);
-
-        const update = {};
-        const evoListe = [];
-
-        if(isLion) {
-          const dataLAspects = this.data.content.data.aspects.lion;
-          const evoLion = companionsEvolutions.evolutions.lion;
-          const armorLion = armor.system.capacites.selected.companions.lion;
-          const armorLAspects = armorLion.aspects;
-          const oldPGLion = +armorLion.PG;
-          const evoPGLion = +evoLion.pg;
-
-          for (let [key, aspect] of Object.entries(armorLAspects)) {
-            const dataDialogValue = +dataLAspects[key].value;
-            const dataDialogAe = +dataLAspects[key].ae;
-
-            if(dataDialogValue > 0) {
-              update[`system.capacites.selected.companions.lion.aspects.${key}.value`] = Number(aspect.value)+dataDialogValue;
-            }
-
-            if(dataDialogAe > 0) {
-              update[`system.capacites.selected.companions.lion.aspects.${key}.ae`] = Number(aspect.ae)+dataDialogAe;
-            }
-          }
-
-          update[`system.capacites.selected.companions.lion.PG`] = oldPGLion+evoPGLion;
-        }
-
-        if(isWolf) {
-          const dataWAspects = this.data.content.data.aspects.wolf;
-          const dataWConfigurations = this.data.content.data.configurations;
-          const armorWolf = armor.system.capacites.selected.companions.wolf;
-          const armorWAspects = armorWolf.aspects;
-          const armorWConfigurations = armorWolf.configurations;
-
-          for (let [key, aspect] of Object.entries(armorWAspects)) {
-            const dataDialogValue = +dataWAspects[key].value;
-            const dataDialogAe = +dataWAspects[key].ae;
-
-            if(dataDialogValue > 0) {
-              update[`system.capacites.selected.companions.wolf.aspects.${key}.value`] = Number(aspect.value)+dataDialogValue;
-            }
-
-            if(dataDialogAe > 0) {
-              update[`system.capacites.selected.companions.wolf.aspects.${key}.ae`] = Number(aspect.ae)+dataDialogAe;
-            }
-          }
-
-          for (let [key, configuration] of Object.entries(dataWConfigurations)) {
-            const dataDialogValue = +configuration.value;
-            const dataArmorNiveau = +armorWConfigurations[key].niveau;
-            const dataArmorValue = +armorWConfigurations[key].bonus.roll;
-
-            if(dataDialogValue > 0) {
-              update[`system.capacites.selected.companions.wolf.configurations.${key}.niveau`] = dataArmorNiveau + dataDialogValue;
-              update[`system.capacites.selected.companions.wolf.configurations.${key}.bonus.roll`] = dataArmorValue + dataDialogValue;
-            }
-          }
-        }
-
-        if(isCrow) {
-          const dataLAspects = this.data.content.data.aspects.crow;
-          const evoCrow = companionsEvolutions.evolutions.crow;
-          const armorCrow = armor.system.capacites.selected.companions.crow;
-          const armorCAspects = armorCrow.aspects;
-
-          for (let [key, aspect] of Object.entries(armorCAspects)) {
-            const dataDialogValue = +dataLAspects[key].value;
-
-            if(dataDialogValue > 0) {
-              update[`system.capacites.selected.companions.crow.aspects.${key}.value`] = Number(aspect.value) + dataDialogValue;
-            }
-          }
-
-          update[`system.capacites.selected.companions.crow.cohesion.base`] = Number(armorCrow.cohesion.base) + Number(evoCrow.cohesion);
-          update[`system.capacites.selected.companions.crow.debordement.base`] = Number(armorCrow.debordement.base) + Number(evoCrow.debordement);
-          update[`system.capacites.selected.companions.crow.champDeForce.base`] = Number(armorCrow.champDeForce.base) + Number(evoCrow.cdf);
-        }
-
-        update[`system.capacites.selected.companions.activation`] = companionsEvolutions.evolutions.activation;
-        update[`system.capacites.selected.companions.duree`] = companionsEvolutions.evolutions.duree;
-        update[`system.capacites.selected.companions.energie.base`] = companionsEvolutions.evolutions.energie.base;
-        update[`system.capacites.selected.companions.energie.prolonger`] = companionsEvolutions.evolutions.energie.prolonger;
-
-        evoListe.push({
-          addOrder:gloireMax+1,
-          isArmure:true,
-          value:(evolutionsAppliedV+1)*evolutionsValue
-        });
-
-        update[`system.evolutions.special.companions.applied.value`] = evolutionsAppliedV + 1;
-        update[`system.evolutions.special.companions.applied.liste`] = evolutionsAppliedL.concat(evoListe);
-        const id = this.data.content.data.evo;
-        const { archivage, ...dataToSave } = armor.system;
-        const LZString = globalThis.LZString;
-        update[`system.archivage.liste.${id}`] = LZString.compressToUTF16(JSON.stringify(dataToSave));
-
-        armor.update(update);
-
-        this.close();
-      }
-    } catch(err) {
-      ui.notifications.error(err);
-      throw new Error(err);
+    let totalAdded = 0;
+    for(const i of block.querySelectorAll(selector)) {
+      const iMin = Number(i.min) || 0;
+      totalAdded += Math.max(0, Number(i.value) - iMin);
     }
-  }*/
 
-  /** @inheritdoc */
-  /*async close(options) {
-    if ( this.data.close ) this.data.close(this.options.jQuery ? this.element : this.element[0]);
-    $(document).off('keydown.chooseDefault');
-    return super.close(options);
-  }*/
+    const restant = poolMax - totalAdded;
+    for(const d of block.querySelectorAll(distSel)) {
+      d.value = restant;
+      if(d.name) this.system.update({ [d.name]: restant });
+    }
+  }
 
-  /*async _updateObject(event, formData) {
-    this.data = this.data;
-  }*/
+
+  #mainValueCalc(target) {
+    const companions = target.closest('div.companions');
+    const aspects = companions.querySelectorAll('input.aspect');
+    const ae = companions.querySelectorAll('input.ae');
+    let aspectValue = 0;
+    let aeValue = 0;
+
+    for(const a of aspects) {
+      aspectValue += (Number(a.value) - Number(a.min));
+    }
+
+    for(const a of ae) {
+      aeValue += (Number(a.value) - Number(a.min));
+    }
+
+    console.error(aeValue);
+
+    return {
+      aspectValue,
+      aeValue,
+    }
+  }
+
+  static async #onSubmit(event, form, formData, options={}) {
+    await this.system.update(formData.object);
+  }
+
+  _getHighestOrder(myObject) {
+    let highestOrder = -1;
+
+    for (const key in myObject) {
+      if (myObject.hasOwnProperty(key) && myObject[key].order !== undefined) {
+        if (myObject[key].order > highestOrder) {
+          highestOrder = myObject[key].order;
+        }
+      }
+    }
+
+    return highestOrder;
+  };
 }

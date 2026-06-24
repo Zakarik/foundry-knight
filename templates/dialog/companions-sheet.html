@@ -25,7 +25,7 @@
             </span>
         </div>
 
-        <div style="{{#unless content.selected.lion}}display:none;{{/unless}}" class="aspects lion marginTop">
+        <div class="aspects lion companions" data-type="lion">
             <h2 class="header">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}
             </h2>
@@ -54,7 +54,7 @@
             {{/each}}
         </div>
 
-        <div style="{{#unless content.selected.wolf}}display:none;{{/unless}}" class="aspects wolf marginTop">
+        <div class="aspects wolf companions" data-type="wolf">
             <h2 class="header">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}
             </h2>
@@ -82,7 +82,7 @@
                 </div>
             {{/each}}
         </div>
-        <div style="{{#unless content.selected.wolf}}display:none;{{/unless}}" class="configuration wolf marginTop">
+        <div class="configuration wolf companions" data-type="wolf">
             <h2 class="header">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.EvolutionConfigurations"}}
             </h2>
@@ -101,7 +101,7 @@
             {{/each}}
         </div>
 
-        <div style="{{#unless content.selected.crow}}display:none;{{/unless}}" class="aspects crow marginTop">
+        <div class="aspects crow companions" data-type="wolf">
             <h2 class="header">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}
             </h2>
