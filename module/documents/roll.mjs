@@ -4834,7 +4834,7 @@ export class RollKnight {
     hasWpnEqpWithEffects(target, effect) {
         let result = false;
 
-        const itemsWpn = target.items.find(itm =>
+        const itemsWpn = target?.items?.find(itm =>
             (itm.type === 'arme' && itm.system.equipped && itm.system.allEffects.includes(effect)) ||
             (itm.type === 'module' && itm.system.active.base && itm.system.allWpnEffects.includes(effect)));
 
