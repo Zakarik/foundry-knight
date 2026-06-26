@@ -911,6 +911,9 @@ export default class HooksKnight {
                         !actor.items.find(
                             (e) => e.system?.bonus?.noDmgSante && e.type === 'avantage'
                         ) &&
+                        !actor.items.find(
+                            (e) => e?.type === 'capaciteultime' && e?.system?.type === 'passive' && e.system?.passives?.sante
+                        ) &&
                         sante > 0 &&
                         dmgZone.sante
                     ) {

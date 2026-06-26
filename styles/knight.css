@@ -2886,6 +2886,12 @@ li.chat-message.emote {
 .rollDialog div.dialog-content div.colFiveSeven {
   grid-column: 5/7;
 }
+.rollDialog div.dialog-content div.rowSevenEight {
+  grid-row: 7/8;
+}
+.rollDialog div.dialog-content div.rowSixSeven {
+  grid-row: 6/7;
+}
 .rollDialog div.dialog-content div.rowTwo {
   grid-row: 2;
 }
@@ -2933,6 +2939,12 @@ li.chat-message.emote {
 }
 .rollDialog div.dialog-content label.colFiveSeven {
   grid-column: 5/7;
+}
+.rollDialog div.dialog-content label.rowSevenEight {
+  grid-row: 7/8;
+}
+.rollDialog div.dialog-content label.rowSixSeven {
+  grid-row: 6/7;
 }
 .rollDialog div.dialog-content label.rowFourTwo {
   grid-row: 4/6;
@@ -2986,7 +2998,7 @@ li.chat-message.emote {
   border-radius: 0px;
   height: 100%;
 }
-.rollDialog div.dialog-content label.selectWithInfo, .rollDialog div.dialog-content label.precis, .rollDialog div.dialog-content label.akimbo {
+.rollDialog div.dialog-content label.selectWithInfo, .rollDialog div.dialog-content label.precis, .rollDialog div.dialog-content label.totem, .rollDialog div.dialog-content label.akimbo {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
@@ -2996,7 +3008,7 @@ li.chat-message.emote {
   align-items: center;
   height: 66px;
 }
-.rollDialog div.dialog-content label.selectWithInfo span.label, .rollDialog div.dialog-content label.precis span.label, .rollDialog div.dialog-content label.akimbo span.label {
+.rollDialog div.dialog-content label.selectWithInfo span.label, .rollDialog div.dialog-content label.precis span.label, .rollDialog div.dialog-content label.totem span.label, .rollDialog div.dialog-content label.akimbo span.label {
   display: inline-block;
   width: 100%;
   text-align: center;
@@ -3007,7 +3019,7 @@ li.chat-message.emote {
   letter-spacing: 1px;
   line-height: 31px;
 }
-.rollDialog div.dialog-content label.selectWithInfo span.info, .rollDialog div.dialog-content label.precis span.info, .rollDialog div.dialog-content label.akimbo span.info {
+.rollDialog div.dialog-content label.selectWithInfo span.info, .rollDialog div.dialog-content label.precis span.info, .rollDialog div.dialog-content label.totem span.info, .rollDialog div.dialog-content label.akimbo span.info {
   display: inline-block;
   position: absolute;
   width: 21px;
@@ -3022,10 +3034,10 @@ li.chat-message.emote {
   left: 5px;
   cursor: pointer;
 }
-.rollDialog div.dialog-content label.selectWithInfo span.info:hover, .rollDialog div.dialog-content label.precis span.info:hover, .rollDialog div.dialog-content label.akimbo span.info:hover {
+.rollDialog div.dialog-content label.selectWithInfo span.info:hover, .rollDialog div.dialog-content label.precis span.info:hover, .rollDialog div.dialog-content label.totem span.info:hover, .rollDialog div.dialog-content label.akimbo span.info:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.rollDialog div.dialog-content label.selectWithInfo span.hideInfo, .rollDialog div.dialog-content label.precis span.hideInfo, .rollDialog div.dialog-content label.akimbo span.hideInfo {
+.rollDialog div.dialog-content label.selectWithInfo span.hideInfo, .rollDialog div.dialog-content label.precis span.hideInfo, .rollDialog div.dialog-content label.totem span.hideInfo, .rollDialog div.dialog-content label.akimbo span.hideInfo {
   position: absolute;
   width: 400px;
   height: max-content;
@@ -3038,7 +3050,7 @@ li.chat-message.emote {
   color: white;
   padding: 2px;
 }
-.rollDialog div.dialog-content label.selectWithInfo select, .rollDialog div.dialog-content label.precis select, .rollDialog div.dialog-content label.akimbo select {
+.rollDialog div.dialog-content label.selectWithInfo select, .rollDialog div.dialog-content label.precis select, .rollDialog div.dialog-content label.totem select, .rollDialog div.dialog-content label.akimbo select {
   width: 100%;
   height: 31px;
   padding-left: 13px;
@@ -3052,7 +3064,7 @@ li.chat-message.emote {
   color: white;
   font-variant: small-caps;
 }
-.rollDialog div.dialog-content label.selectWithInfo select option, .rollDialog div.dialog-content label.precis select option, .rollDialog div.dialog-content label.akimbo select option {
+.rollDialog div.dialog-content label.selectWithInfo select option, .rollDialog div.dialog-content label.precis select option, .rollDialog div.dialog-content label.totem select option, .rollDialog div.dialog-content label.akimbo select option {
   background-color: RGB(43 42 51);
 }
 .rollDialog div.dialog-content label.btn {

@@ -1423,6 +1423,14 @@
           grid-column: 5 / 7;
         }
 
+        &.rowSevenEight {
+          grid-row: 7 / 8;
+        }
+
+        &.rowSixSeven {
+          grid-row: 6 / 7;
+        }
+
         &.rowTwo {
           grid-row: 2;
         }
@@ -1487,6 +1495,14 @@
 
         &.colFiveSeven {
           grid-column: 5 / 7;
+        }
+
+        &.rowSevenEight {
+          grid-row: 7 / 8;
+        }
+
+        &.rowSixSeven {
+          grid-row: 6 / 7;
         }
 
         &.rowFourTwo {
@@ -1556,6 +1572,7 @@
 
         &.selectWithInfo,
         &.precis,
+        &.totem,
         &.akimbo {
           position: relative;
           display: grid;

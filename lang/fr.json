@@ -2894,8 +2894,8 @@
       "Condition":"Conditions",
       "Description":"Description",
       "PASSIVE":{
-        "Sante":"Augmente la santé de 50%",
-        "NotSante":"N'Augmente pas la santé de 50%",
+        "Sante":"Augmente la santé de 50% et aucune perte de 1 PS / 5 PA.",
+        "NotSante":"N'Augmente pas la santé de 50% et conserve la perte de 1 PS / 5 PA.",
         "Contact":"Points de contact bonus",
         "NotContact":"Aucun points de contact bonus",
         "Capacites":"Donne un bonus aux capacités d'armure",

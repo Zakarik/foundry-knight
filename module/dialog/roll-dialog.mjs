@@ -1,4 +1,6 @@
 import toggler from '../helpers/toggler.js';
+import ArmureAPI from "../utils/armureAPI.mjs";
+import ArmureLegendeAPI from "../utils/armureLegendeAPI.mjs";
 import {
     getModStyle,
     listEffects,
@@ -52,6 +54,8 @@ export class KnightRollDialog extends Dialog {
                         value:0,
                     }
                 },
+                totem:{},
+                totemL:{},
             },
             buttons:{},
         }
@@ -183,8 +187,93 @@ export class KnightRollDialog extends Dialog {
         else return false;
     }
 
+        get nbreTotemShow() {
+            let totem = 0;
 
-    actualise() {
+            if(!this.isPJ || !this.armorIsWear) return totem;
+
+            const system = this.who.system;
+            const armor = system.dataArmor;
+            const armorLegend = system.dataArmorLegend;
+            const armorAPI = armor ? new ArmureAPI(armor) : undefined;
+            //const armorLegendAPI = armorLegend ? new ArmureLegendeAPI(armorLegend) : undefined;
+
+            if(armorAPI) {
+                const totemAPI = armorAPI.getCapacite('totem');
+
+                if(!totemAPI?.active) return totem;
+
+                totem = system?.equipements?.armure?.capacites?.totem?.nombre ?? 0;
+            }
+
+            return totem;
+        }
+
+        get nbreTotemTotal() {
+            let totem = 0;
+
+            if(!this.isPJ) return totem;
+
+            const system = this.who.system;
+            const armor = system.dataArmor;
+            const armorLegend = system.dataArmorLegend;
+            const armorAPI = armor ? new ArmureAPI(armor) : undefined;
+            //const armorLegendAPI = armorLegend ? new ArmureLegendeAPI(armorLegend) : undefined;
+
+            if(armorAPI) {
+                const totemAPI = armorAPI.getCapacite('totem');
+                totem = totemAPI?.nombre ?? 0;
+            }
+
+            return totem;
+        }
+
+        get nbreTotemLShow() {
+            let totem = 0;
+
+            if(!this.isPJ || !this.armorIsWear) return totem;
+
+            const system = this.who.system;
+            const armor = system.dataArmor;
+            const armorLegend = system.dataArmorLegend;
+            const armorAPI = armorLegend ? new ArmureLegendeAPI(armorLegend) : undefined;
+
+            if(armorAPI) {
+                const totemAPI = armorAPI.getCapacite('totem');
+
+                if(!totemAPI?.active) return totem;
+
+                totem = system?.equipements?.armure?.capacites?.totem?.nombre ?? 0;
+            }
+
+            return totem;
+        }
+
+        get nbreTotemLTotal() {
+            let totem = 0;
+
+            if(!this.isPJ) return totem;
+
+            const system = this.who.system;
+            const armor = system.dataArmor;
+            const armorLegend = system.dataArmorLegend;
+            const armorAPI = armorLegend ? new ArmureLegendeAPI(armorLegend) : undefined;
+
+            if(armorAPI) {
+                const totemAPI = armorAPI.getCapacite('totem');
+                totem = totemAPI?.nombre ?? 0;
+            }
+
+            return totem;
+        }
+
+    async actualise() {
+        // Détection de changement structurel
+        if(this.#needFullRerender()) {
+            await this.#fullRerender();
+            return;
+        }
+
         this.#renderInitialization(this.data.roll.html);
 
         const wpns = this.#prepareWpn();
@@ -208,6 +297,7 @@ export class KnightRollDialog extends Dialog {
             this.#updateBtnShow();
         }
 
+        this.#updateTotem();
         this.#updateBonusInterdits(undefined, this.data.roll.html);
     }
 
@@ -215,6 +305,8 @@ export class KnightRollDialog extends Dialog {
         this.#prepareTitle();
         this.#prepareButtons();
         this.#prepareMods();
+
+        this.data.roll.structure = this.#getStructureSignature();
 
         this.data.content = await renderTemplate(KnightRollDialog.dialogRoll, this.#prepareOptions());
 
@@ -312,6 +404,10 @@ export class KnightRollDialog extends Dialog {
         });
 
         this.#updateBonusInterdits(undefined, html);
+
+        //render TOTEM
+        this.#prepareTotem(html, this.nbreTotemTotal, this.nbreTotemShow, 'totem');
+        this.#prepareTotem(html, this.nbreTotemLTotal, this.nbreTotemLShow, 'totemL');
     }
 
     #renderSTD(html) {
@@ -817,6 +913,8 @@ export class KnightRollDialog extends Dialog {
         const isModeHeroique = data.find('button.btn.modeheroique').hasClass('selected');
         const isEquilibrerBalance = data.find('button.btn.equilibrerbalance').hasClass('selected');
         const isNoOd = this.rollData.btn?.nood ?? false;
+        const nbreTotem = this.nbreTotemShow;
+        const nbreTotemL = this.nbreTotemLShow;
 
         let isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
         let carac = base ? [this.#getLabelRoll(base)] : [];
@@ -886,6 +984,28 @@ export class KnightRollDialog extends Dialog {
                     const bGoliath = parseInt(dataGoliath?.bonus?.[s]?.value ?? 0);
 
                     goliath += (meter*bGoliath);
+                }
+            }
+        }
+
+        if(nbreTotem) {
+            for(let i = 0;i < nbreTotem;i++) {
+                const totemCarac = data.find(`label.totem${i} select`).val();
+
+                if(totemCarac) {
+                    dices += this.#getValueAspect(actor, totemCarac);
+                    carac.push(this.#getLabelRoll(totemCarac));
+                }
+            }
+        }
+
+        if(nbreTotemL) {
+            for(let i = 0;i < nbreTotemL;i++) {
+                const totemCarac = data.find(`label.totemL${i} select`).val();
+
+                if(totemCarac) {
+                    dices += this.#getValueAspect(actor, totemCarac);
+                    carac.push(this.#getLabelRoll(totemCarac));
                 }
             }
         }
@@ -1740,6 +1860,29 @@ export class KnightRollDialog extends Dialog {
                     min:0,
                 }
             });
+
+            //ON PREPARE LE TOTEM (ON VERRA PLUS TARD SI ON AFFICHE)
+            for(let i = 0;i < this.nbreTotemTotal;i++) {
+                data.mods.push({
+                    key:'select',
+                    classes:`totem totem${i} rowSixSeven`,
+                    label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem')} ${i+1}`,
+                    selected:'',
+                    hasBlank:true,
+                    list:CONFIG.KNIGHT.caracteristiques,
+                });
+            }
+
+            for(let i = 0;i < this.nbreTotemLTotal;i++) {
+                data.mods.push({
+                    key:'select',
+                    classes:`totem totemL${i} rowSixSeven`,
+                    label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem')} ${i+1}`,
+                    selected:'',
+                    hasBlank:true,
+                    list:CONFIG.KNIGHT.caracteristiques,
+                });
+            }
         }
 
         //MODIFICATEUR AUX DEGATS
@@ -2373,26 +2516,6 @@ export class KnightRollDialog extends Dialog {
                             },
                         }
                     }, {});
-                    /*{
-                        label:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
-                        classes:'btnWpn',
-                        type:'contact',
-                        id:`${ai}${list}c`,
-                        options:[],
-                        degats:{
-                            addchair:true,
-                            dice:system.liste[list].degats.dice,
-                            fixe:0
-                        },
-                        violence:{
-                            dice:system.liste[list].violence.dice,
-                            fixe:0
-                        },
-                        effets:{
-                            raw:[],
-                            custom:[],
-                        },
-                    };*/
 
                     let dataD = this.#addWpnDistance({
                         name:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
@@ -2415,25 +2538,6 @@ export class KnightRollDialog extends Dialog {
                             },
                         }
                     }, {});
-                    /*{
-                        label:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
-                        classes:'btnWpn',
-                        type:'distance',
-                        id:`${ai}${list}d`,
-                        options:[],
-                        degats:{
-                            dice:system.liste[list].degats.dice,
-                            fixe:0
-                        },
-                        violence:{
-                            dice:system.liste[list].violence.dice,
-                            fixe:0
-                        },
-                        effets:{
-                            raw:[],
-                            custom:[],
-                        },
-                    };*/
 
                     aicontact.push(dataC);
                     aidistance.push(dataD);
@@ -4409,6 +4513,8 @@ export class KnightRollDialog extends Dialog {
             if(wpn?.tourelle) {
                 $(tgt).parents('div.grpWpn').siblings('div.aspects').hide({
                     complete: () => {
+                        $(tgt).parents('div.grpWpn').siblings('label.totem').addClass('rowSevenEight');
+                        $(tgt).parents('div.grpWpn').siblings('label.totem').removeClass('rowSixSeven');
                         $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowThreeFive');
                         $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowFourTwo rowFourSix');
                         $(tgt).parents('div.grpWpn').siblings('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
@@ -4416,6 +4522,8 @@ export class KnightRollDialog extends Dialog {
                     },
                 });
             } else {
+                $(tgt).parents('div.grpWpn').siblings('label.totem').addClass('rowSevenEight');
+                $(tgt).parents('div.grpWpn').siblings('label.totem').removeClass('rowSixSeven');
                 $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowFourSix');
                 $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowThreeFive');
 
@@ -4482,6 +4590,8 @@ export class KnightRollDialog extends Dialog {
         }
 
         if(!this.rollData.wpnSelected) {
+            $(tgt).parents('div.grpWpn').siblings('label.totem').removeClass('rowSevenEight');
+            $(tgt).parents('div.grpWpn').siblings('label.totem').addClass('rowSixSeven');
             $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowThreeFive');
             $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowFourTwo');
 
@@ -5595,6 +5705,11 @@ export class KnightRollDialog extends Dialog {
         }
     }
 
+    #updateTotem() {
+        this.#prepareTotem(this.data.roll.html, this.nbreTotemTotal, this.nbreTotemShow, 'totem');
+        this.#prepareTotem(this.data.roll.html, this.nbreTotemLTotal, this.nbreTotemLShow, 'totemL');
+    }
+
     #getBonusModulesByType(actor, type, bonusType, whoActivate) {
         return actor.items.filter(itm => {
             if (itm.type !== 'module') return false;
@@ -5703,5 +5818,68 @@ export class KnightRollDialog extends Dialog {
         }
 
         return result;
+    }
+
+    #prepareTotem(html, nbreTotal, nbreShow, search) {
+        for(let n = 0;n < nbreTotal;n++) {
+            const findTotem = html.find(`label.${search}${n}`);
+            const findSelect = findTotem.find('select');
+
+            if(n < nbreShow) findTotem.css('display', '');
+            else findTotem.css('display', 'none');
+
+            findSelect.val(this?.rollData?.[search]?.[`t${n}`] ?? '')
+
+            findSelect.change(ev => {
+                const tgt = $(ev.currentTarget);
+                const value = tgt.val();
+
+                this.rollData[search][`t${n}`] = value;
+            });
+        }
+    }
+
+    #getStructureSignature() {
+        return {
+            nbreTotemTotal: this.nbreTotemTotal,
+            nbreTotemLTotal: this.nbreTotemLTotal,
+            // Ajoute ici tout ce qui modifie la STRUCTURE du template
+            // (pas juste les valeurs), ex: présence de styles spéciaux PJ/PNJ
+            isPJ: this.isPJ,
+            armorIsWear: this.armorIsWear,
+        };
+    }
+
+    #needFullRerender() {
+        const current = this.#getStructureSignature();
+        const previous = this.data.roll.structure;
+
+        const changed = !foundry.utils.isEmpty(
+            foundry.utils.diffObject(previous, current)
+        ) || !foundry.utils.isEmpty(
+            foundry.utils.diffObject(current, previous)
+        );
+
+        return changed;
+    }
+
+    async #fullRerender() {
+        // On sauvegarde la signature
+        this.data.roll.structure = this.#getStructureSignature();
+
+        // On re-prépare boutons / mods / titre au cas où ils dépendent de l'état
+        this.#prepareTitle();
+        this.#prepareButtons();
+
+        // On régénère le contenu HTML complet (totems inclus)
+        this.data.content = await renderTemplate(
+            KnightRollDialog.dialogRoll,
+            this.#prepareOptions()
+        );
+
+        // render(true) va réinjecter content + rappeler activateListeners
+        // qui ré-attache tous les listeners et restaure l'état via
+        // #renderInitialization / #renderHTML
+        this.render(true);
     }
 }

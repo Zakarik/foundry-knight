@@ -1,3 +1,11 @@
+## v3.58.30
+### Bugfix
+- Application du même correctif q'en v3.57.28.
+
+## v3.58.29
+### Bugfix
+- Correction de problèmes de mises en pages sous Foundry 14.
+
 ## v3.58.28
 ### Bugfix
 - Application du même correctif qu'en v3.57.27
@@ -110,6 +118,12 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.28
+### Bugfix
+- Correction d'un oubli concernant le mode Totem : A présent, dans la fenêtre de jet, il est possible de sélectionner à part les caractéristiques des Totems (vu que les OD ne sont pas censés compter).
+- Correction d'un problème empêchant d'attaquer les véhicules dans certains cas.
+- Correction de la Capacité Ultime "Bastion" qui n'annulait pas la perte de 1pts de Santé / 5 pts d'Armure.
 
 ## v3.57.27
 ### Bugfix
