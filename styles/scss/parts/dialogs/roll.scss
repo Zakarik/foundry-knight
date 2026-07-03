@@ -70,6 +70,7 @@
             font-size: 20px;
             font-weight: bold;
             letter-spacing: 1px;
+            font-family: "Signika";
           }
 
           button {
@@ -172,6 +173,7 @@
             font-size: 20px;
             font-weight: bold;
             letter-spacing: 1px;
+            font-family: "Signika";
 
             i {
               cursor:pointer;
@@ -404,6 +406,7 @@
             font-size: 20px;
             font-weight: bold;
             letter-spacing: 1px;
+            font-family: "Signika";
 
             i {
               cursor:pointer;
@@ -983,6 +986,7 @@
             font-size: 20px;
             font-weight: bold;
             letter-spacing: 1px;
+            font-family: "Signika";
 
             i {
               cursor:pointer;
@@ -1449,6 +1453,14 @@
           grid-column: 5 / 7;
         }
 
+        &.rowSevenEight {
+          grid-row: 7 / 8;
+        }
+
+        &.rowSixSeven {
+          grid-row: 6 / 7;
+        }
+
         .rowOneFour {
           grid-row: 1 / 4;
         }
@@ -1488,8 +1500,17 @@
         &.rowFive {
           grid-row: 5;
         }
+
         &.rowSix {
           grid-row: 6;
+        }
+
+        &.rowOneSix {
+          grid-row: 1 / 6;
+        }
+
+        &.rowOneFour {
+          grid-row: 1 / 4;
         }
 
         &.modificateurdegats,
@@ -1590,6 +1611,7 @@
 
         &.selectWithInfo,
         &.precis,
+        &.totem,
         &.akimbo {
           position: relative;
           display: grid;
@@ -1719,6 +1741,7 @@
           grid-template-columns: 1fr;
           grid-gap: 2px;
           width: 100%;
+          min-height: 32px;
           color: $white;
           background: $lightBlack;
           border-radius: 0px;
@@ -1735,6 +1758,10 @@
 
         &.rowFour {
           grid-row: 4;
+        }
+
+        &.rowTwo {
+          grid-row: 2;
         }
       }
     }

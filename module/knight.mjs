@@ -36,7 +36,7 @@ import { RegisterSettings } from "./settings.mjs";
 import { PreloadTemplates } from "./templates.mjs";
 import { KNIGHT } from "./helpers/config.mjs";
 import KnightCompanionDialog from "./dialog/sheets/companions-dialog.mjs";
-import { KnightRollDialog } from "./dialog/roll-dialog.mjs";
+import { KnightRollDialog } from "./dialog/sheets/roll-dialog.mjs";
 import { KnightEditDialog } from "./dialog/edit-dialog.mjs";
 import { KnightEffetsDialog } from "./dialog/sheets/effets-dialog.mjs";
 import { KnightCompendiumDialog } from "./dialog/compendium-dialog.mjs";

@@ -2,8 +2,11 @@ import {
     getModStyle,
     listEffects,
     getAllEffects,
-} from "../helpers/common.mjs";
-import JsTogglerMixin from "../sheets/bases/mixin-js-toggler.mjs";
+} from "../../helpers/common.mjs";
+import ArmureAPI from "../../utils/armureAPI.mjs";
+import ArmureLegendeAPI from "../../utils/armureLegendeAPI.mjs";
+import KnightRollData from "../models/roll-model.mjs";
+import JsTogglerMixin from "../../sheets/bases/mixin-js-toggler.mjs";
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(ApplicationV2)) {
@@ -12,13 +15,25 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
     static DEFAULT_OPTIONS = {
         classes: ["dialog", "knight", "rollDialog"],
         position: { width: 900, height: 800 },
-        window: { resizable: true, title: "KNIGHT.JETS.Label" },
+        window: {
+            resizable: true,
+            title: "KNIGHT.JETS.Label"
+        },
         tag: "form",
+        form: {
+            submitOnChange: true,
+            handler: KnightRollDialog.#onSubmit,
+        },
         baseApplication: "KnightRollDialog",
         actions: {
             rollNormal: KnightRollDialog.#onRollNormal,
             rollEntraide: KnightRollDialog.#onRollEntraide,
             rollCancel: KnightRollDialog.#onRollCancel,
+            caracteristique: KnightRollDialog.#onCaracteristique,
+            weapon: KnightRollDialog.#onWeapon,
+            longbow: KnightRollDialog.#onLongbow,
+            option: KnightRollDialog.#onOptions,
+            toggle: KnightRollDialog.#onToggle,
         },
     };
 
@@ -43,7 +58,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         this.document = {
             id:`${actor}-0`
         }
-        this.data = {
+        /*this.data = {
             whoActivate:data?.whoActivate ?? 'none',
             roll:{
                 html:undefined,
@@ -86,25 +101,36 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                         value:0,
                     }
                 },
+                totem:{},
+                totemL:{},
             },
             buttons:{},
-        }
+        }*/
+
+        this.system = new KnightRollData({
+            uuid:actor,
+            ...data,
+        });
 
         if (data?.height) this.options.position.height = data.height;
     }
 
     get rollData() {
-        return this.data.roll;
+        return this.system.roll;
     }
 
     get actor() {
-        return canvas.tokens.get(this.rollData.id) ? canvas.tokens.get(this.rollData.id).actor : game.actors.get(this.rollData.id);
+        return fromUuidSync(this.system.uuid);
     }
 
     get who() {
         const actor = this.actor;
 
-        return this.data.whoActivate !== 'none' ? game.actors.get(this.data.whoActivate) : actor;
+        return this.system.whoActivate !== 'none' ? game.actors.get(this.system.whoActivate) : actor;
+    }
+
+    get html() {
+        return this.rollData.html;
     }
 
     get isPJ() {
@@ -191,9 +217,10 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
     }
 
     get style() {
-        let style = this.rollData.html.find('label.style select').val();
+        const actor = this.who;
+        const system = actor.system;
 
-        return style
+        return system.combat.style;
     }
 
     get wpnSelected() {
@@ -208,18 +235,104 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         else return false;
     }
 
-    actualise() {
-        this.#renderInitialization(this.data.roll.html);
+    get nbreTotemShow() {
+        let totem = 0;
+
+        if(!this.isPJ || !this.armorIsWear) return totem;
+
+        const system = this.who.system;
+        const armor = system.dataArmor;
+        const armorLegend = system.dataArmorLegend;
+        const armorAPI = armor ? new ArmureAPI(armor) : undefined;
+        //const armorLegendAPI = armorLegend ? new ArmureLegendeAPI(armorLegend) : undefined;
+
+        if(armorAPI) {
+            const totemAPI = armorAPI.getCapacite('totem');
+
+            if(!totemAPI?.active) return totem;
+
+            totem = system?.equipements?.armure?.capacites?.totem?.nombre ?? 0;
+        }
+
+        return totem;
+    }
+
+    get nbreTotemTotal() {
+        let totem = 0;
+
+        if(!this.isPJ) return totem;
+
+        const system = this.who.system;
+        const armor = system.dataArmor;
+        const armorLegend = system.dataArmorLegend;
+        const armorAPI = armor ? new ArmureAPI(armor) : undefined;
+        //const armorLegendAPI = armorLegend ? new ArmureLegendeAPI(armorLegend) : undefined;
+
+        if(armorAPI) {
+            const totemAPI = armorAPI.getCapacite('totem');
+            totem = totemAPI?.nombre ?? 0;
+        }
+
+        return totem;
+    }
+
+    get nbreTotemLShow() {
+        let totem = 0;
+
+        if(!this.isPJ || !this.armorIsWear) return totem;
+
+        const system = this.who.system;
+        const armor = system.dataArmor;
+        const armorLegend = system.dataArmorLegend;
+        const armorAPI = armorLegend ? new ArmureLegendeAPI(armorLegend) : undefined;
+
+        if(armorAPI) {
+            const totemAPI = armorAPI.getCapacite('totem');
+
+            if(!totemAPI?.active) return totem;
+
+            totem = system?.equipements?.armure?.capacites?.totem?.nombre ?? 0;
+        }
+
+        return totem;
+    }
+
+    get nbreTotemLTotal() {
+        let totem = 0;
+
+        if(!this.isPJ) return totem;
+
+        const system = this.who.system;
+        const armor = system.dataArmor;
+        const armorLegend = system.dataArmorLegend;
+        const armorAPI = armorLegend ? new ArmureLegendeAPI(armorLegend) : undefined;
+
+        if(armorAPI) {
+            const totemAPI = armorAPI.getCapacite('totem');
+            totem = totemAPI?.nombre ?? 0;
+        }
+
+        return totem;
+    }
+
+    async actualise() {
+        // Détection de changement structurel
+        if(this.#needFullRerender()) {
+            await this.#fullRerender();
+            return;
+        }
+
+        this.#renderInitialization(this.rollData.html);
 
         const wpns = this.#prepareWpn();
 
         const allWpns = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
-        const difference = foundry.utils.diffObject(allWpns, this.data.roll.allWpn);
-        const difference2 = foundry.utils.diffObject(this.data.roll.allWpn, allWpns);
-        if(!allWpns.find(itm => itm.id === this.rollData.wpnSelected)) this.data.roll.wpnSelected = '';
+        const difference = foundry.utils.diffObject(allWpns, this.rollData.allWpn);
+        const difference2 = foundry.utils.diffObject(this.rollData.allWpn, allWpns);
+        if(!allWpns.find(itm => itm.id === this.rollData.wpnSelected)) this.rollData.wpnSelected = '';
 
         if(!foundry.utils.isEmpty(difference) || !foundry.utils.isEmpty(difference2)) {
-            this.data.roll.allWpn = allWpns;
+            this.rollData.allWpn = allWpns;
             this.#cleanHtml();
             this.#updateWpnContact(this.rollData.typeWpn.contact);
             this.#updateWpnDistance(this.rollData.typeWpn.distance);
@@ -228,19 +341,20 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             this.#updateWpnAIDistance(wpns.listaidistance);
             this.#updateWpnGrenade(this.rollData.typeWpn.grenade);
             this.#updateWpnComplexe(this.rollData.typeWpn.complexe);
-            this.#renderWpn(this.data.roll.html);
+            this.#renderWpn(this.rollData.html);
             this.#updateBtnShow();
         }
 
-        this.#updateBonusInterdits(undefined, this.data.roll.html);
+        this.#updateTotem();
+        this.#updateBonusInterdits(undefined, this.rollData.html);
     }
 
     async open() {
-        this.#prepareTitle();
+        //this.#prepareTitle();
         this.#prepareButtons();
         this.#prepareMods();
 
-        console.error('test');
+        this.system.roll.structure = this.#getStructureSignature();
 
         return this.render({ force: true });
     }
@@ -261,6 +375,160 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         this.close();
     }
 
+    static #onCaracteristique(event, target) {
+        const isPJ = this.isPJ;
+        const carac = target.dataset.value;
+        const isSelected = target.classList.contains('selected');
+        const parents = target.closest('div.aspects');
+        const hasAlreadyBase = !!parents.querySelector('button.btnCaracteristique.base');
+
+        if(!target.classList.contains('wHover')) return;
+
+        const icon = target.querySelector('i');
+
+        if(isPJ) {
+            const isBase = target.classList.contains('base');
+
+            if(isSelected) {
+                target.classList.remove('selected');
+                icon?.classList.remove('fa-solid', 'fa-check');
+
+                this.rollData.whatRoll = this.rollData.whatRoll.filter(roll => roll !== carac);
+            } else {
+                target.classList.add('selected');
+
+                if(hasAlreadyBase) {
+                    this.rollData.whatRoll.push(carac);
+                    icon?.classList.remove('fa-solid', 'fa-check', 'fa-check-double');
+                    icon?.classList.add('fa-solid', 'fa-check');
+                }
+                else {
+                    this.rollData.base = carac;
+                    target.classList.add('base');
+                    icon?.classList.add('fa-solid', 'fa-check-double');
+                }
+            }
+
+            if(isBase) {
+                const whatRoll = this.rollData?.whatRoll ?? [];
+                target.classList.remove('base');
+
+                if(whatRoll.length === 0) this.rollData.base = "";
+                else {
+                    for(const w of whatRoll) {
+                        const btn = parents.querySelector(`button.btnCaracteristique.${w}`);
+
+                        if(btn?.classList.contains('wHover')) {
+                            btn.classList.add('base');
+
+                            const btnIcon = btn.querySelector('i');
+                            btnIcon.classList.remove('fa-solid', 'fa-check', 'fa-check-double');
+                            btnIcon.classList.add('fa-solid', 'fa-check-double');
+
+                            this.rollData.base = w;
+                            this.rollData.whatRoll = this.rollData.whatRoll.filter(roll => roll !== w);
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            if(isSelected) {
+                target.classList.remove('selected', 'base');
+                icon?.classList.remove('fa-solid', 'fa-check-double');
+                this.rollData.base = '';
+            } else {
+                if(hasAlreadyBase) {
+                    const baseBtn = parents.querySelector('button.btnCaracteristique.base');
+                    baseBtn.querySelector('i').classList.remove('fa-solid', 'fa-check-double');
+                    baseBtn.classList.remove('selected', 'base');
+                }
+
+                target.classList.add('selected', 'base');
+                icon?.classList.add('fa-solid', 'fa-check-double');
+
+                this.rollData.base = carac;
+            }
+        }
+    }
+
+    static #onWeapon(event, target) {
+        const isSelected = target.classList.contains('selected');
+        const id = target.closest('div.button')?.dataset.id;
+
+        if(this.rollData.wpnSecond === id) return;
+
+        if(isSelected) this.#unselectWpn(target);
+        else this.#selectWpn(target);
+
+        if(isSelected) this.#updateBtnShow(true);
+        else this.#updateBtnShow();
+    }
+
+    static #onOptions(event, target) {
+        const parent = target.closest('div.button');
+
+        if(!parent) return;
+
+        const id = parent.dataset.id;
+        const value = target.dataset.value;
+        const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+        if(!wpn) return;
+
+        const isSelected = target.classList.contains('selected');
+        const tgtIcon = target.querySelector('i');
+        let options = wpn.options.find(itm => itm.value === value);
+
+        if(isSelected) {
+            target.classList.remove('selected');
+            tgtIcon?.classList.remove('fa-solid', 'fa-check', 'green');
+            tgtIcon?.classList.add('fa-solid', 'fa-xmark', 'red');
+
+            options.active = false;
+        } else {
+            target.classList.add('selected');
+            tgtIcon?.classList.remove('fa-solid', 'fa-xmark', 'red');
+            tgtIcon?.classList.add('fa-solid', 'fa-check', 'green');
+
+            options.active = true;
+        }
+    }
+
+    static #onLongbow(event, target) {
+        const longbow = target.closest('div.wpnComplexe.longbow');
+        const id = longbow.dataset.id;
+        const { raw, custom, liste, id: customID } = target.dataset;
+        const isChecked = target.classList.contains('checked');
+
+        this.#toggleEffect(id, { raw, custom: custom === 'true', liste, customID }, isChecked);
+
+        target.classList.toggle('checked');
+        target.querySelector('i')?.classList.toggle('fa-solid');
+        target.querySelector('i')?.classList.toggle('fa-check-double');
+
+        this.#calculateLongbow(id, longbow);
+        return;
+    }
+
+    static #onToggle(event, target) {
+        const name = target.closest('label.btn')?.dataset.name;
+        const btn = this.rollData?.btn?.[name] ?? false;
+        const i = target.querySelector('i');
+
+        if(btn) {
+            this.rollData.btn[name] = false;
+            target.classList.remove('selected');
+            i?.classList.remove('fa-solid', 'fa-check');
+        }
+        else {
+            this.rollData.btn[name] = true;
+            target.classList.add('selected');
+            i?.classList.add('fa-solid', 'fa-check');
+        }
+    }
+
+
     /** @inheritdoc */
     async _preparePartContext(partId, context, options) {
         context = await super._preparePartContext(partId, context, options);
@@ -273,197 +541,610 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         return await super._preparePartContext(partId, context, options);
     }
 
+    /** @inheritDoc */
     async _prepareContext(options) {
         const context = await super._prepareContext(options);
         // S'assure que les données sont préparées (le 1er rendu vient de open(),
         // mais un éventuel re-render direct doit aussi initialiser les boutons/title).
-        if (!this.data.title) this.#prepareTitle();
-        if (foundry.utils.isEmpty(this.data.buttons)) this.#prepareButtons();
+        //if (!this.system.title) this.#prepareTitle();
+        if (foundry.utils.isEmpty(this.system.buttons)) this.#prepareButtons();
 
         const rollOptions = this.#prepareOptions();
         return foundry.utils.mergeObject(context, {
             ...rollOptions,
-            buttons: this.data.buttons,
+            buttons: this.system.buttons,
         });
     }
 
+    /** @inheritDoc */
+    async _onFirstRender(context, options) {
+        await super._onFirstRender(context, options);
+
+        this.element.addEventListener('change', this.#onChange.bind(this));
+    }
+
+    /** @inheritDoc */
     _onRender(context, options) {
         super._onRender(context, options);
-        const html = $(this.element);
-        this.#renderHTML(html);
+        this.#renderHTML(this.element);
+    }
+
+    /* -------------------------------------------- */
+    async #onChange(event) {
+        const tgt = event.target;
+
+        // --- scoredice ---
+        if(tgt.matches('div.scoredice input')) {
+            const key = tgt.closest('div.scoredice')?.dataset.key;
+            const subkey = tgt.dataset.key;
+
+            if(key && subkey) {
+                if(!this.rollData?.scoredice?.[key]) {
+                    this.rollData.scoredice[key] = { dice: 0, value: 0 };
+                }
+                this.rollData.scoredice[key][subkey] = tgt.value;
+            }
+            return;
+        }
+
+        // À partir d'ici, tout dépend d'une arme
+        const button = tgt.closest('div.button');
+
+        if(button) {
+            const id = button.dataset.id;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+            if(wpn) {
+                // --- mains (2 mains) ---
+                if(tgt.matches('div.data .selectSimple.mains select')) {
+                    this.#updateWpn(id, {['options2mains.actuel']: tgt.value});
+                    return;
+                }
+
+                // --- munitions ---
+                if(tgt.matches('div.data .selectSimple.munitions select')) {
+                    this.#updateWpn(id, {['optionsmunitions.actuel']: tgt.value});
+                    return;
+                }
+
+                // --- dégâts variable ---
+                if(tgt.matches('div.data label.dgtsvariable select')) {
+                    const val = tgt.value;
+                    wpn.degats.dice = parseInt(val);
+
+                    const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+                    if(!allVariable) this.rollData.allVariableWpn.push({ id, degats: val });
+                    else allVariable.degats = val;
+                    return;
+                }
+
+                // --- violence variable ---
+                if(tgt.matches('div.data label.violencevariable select')) {
+                    const val = tgt.value;
+                    wpn.violence.dice = parseInt(val);
+
+                    const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+                    if(!allVariable) this.rollData.allVariableWpn.push({ id, violence: val });
+                    else allVariable.violence = val;
+                    return;
+                }
+
+                // --- dégâts bonus variable (modules) ---
+                if(tgt.matches('div.data label.dgtsbonusvariable select')) {
+                    const idBonus = tgt.closest('label.dgtsbonusvariable')?.dataset.id;
+                    const val = tgt.value;
+                    const options = wpn.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.id === idBonus);
+                    options.selected = parseInt(val);
+
+                    this.#setModuleVariable(id, idBonus, { degats: val });
+                    return;
+                }
+
+                // --- violence bonus variable (modules) ---
+                if(tgt.matches('div.data label.violencebonusvariable select')) {
+                    const idBonus = tgt.closest('label.violencebonusvariable')?.dataset.id;
+                    const val = tgt.value;
+                    const options = wpn.options.find(itm => itm.classes.includes('violencebonusvariable') && itm.id === idBonus);
+                    options.selected = parseInt(val);
+
+                    this.#setModuleVariable(id, idBonus, { violence: val });
+                    return;
+                }
+
+                // --- boost simple (select1 / select2) ---
+                if(tgt.matches('div.data div.boostsimple select.select1')) {
+                    const options = wpn.options.find(itm => itm.classes.includes('boostsimple'));
+                    options.selected1 = tgt.value;
+                    return;
+                }
+                if(tgt.matches('div.data div.boostsimple select.select2')) {
+                    const options = wpn.options.find(itm => itm.classes.includes('boostsimple'));
+                    options.selected2 = parseInt(tgt.value);
+                    if(wpn.id.includes('longbow')) this.#calculateLongbow(id, button);
+                    return;
+                }
+
+                // --- boost dégâts ---
+                if(tgt.matches('div.data label.boostdegats select')) {
+                    const options = wpn.options.find(itm => itm.classes.includes('boostdegats'));
+                    options.selected = parseInt(tgt.value);
+                    if(wpn.id.includes('longbow')) this.#calculateLongbow(id, button);
+                    return;
+                }
+
+                // --- boost violence ---
+                if(tgt.matches('div.data label.boostviolence select')) {
+                    const options = wpn.options.find(itm => itm.classes.includes('boostviolence'));
+                    options.selected = parseInt(tgt.value);
+                    if(wpn.id.includes('longbow')) this.#calculateLongbow(id, button);
+                    return;
+                }
+            }
+            return;
+        }
+
+        // --- longbow : selects ---
+        const longbow = tgt.closest('div.wpnComplexe.longbow');
+
+        if(longbow) {
+            const id = longbow.dataset.id;
+
+            const map = {
+                '.longbow_dgts select':     { property: 'degats',  parse: true },
+                '.longbow_violence select': { property: 'violence', parse: true },
+                '.longbow_portee select':   { property: 'portee',  parse: false },
+            };
+
+            for(const [selector, { property, parse }] of Object.entries(map)) {
+                if(tgt.matches(selector)) {
+                    const value = parse ? parseInt(tgt.value) : tgt.value;
+                    this.#updateComplexeWpn(id, property, value);
+                    this.#calculateLongbow(id, longbow);
+                    return;
+                }
+            }
+            return;
+        }
+
+        if(tgt.matches('label.selectWithInfo select')) {
+            const style = tgt.value;
+
+            // remplace le span.hideInfo
+            const label = tgt.closest('label.style');
+            this.#updateStyleShow(style);
+
+            const root = this.rollData.html;
+
+            if(style !== 'akimbo') {
+                root.querySelectorAll('.doubleSelected').forEach(w => this.#unselectWpn(w, true))
+                root.querySelectorAll('span.specialInfo').forEach(s => s.style.display = 'none');
+            } else {
+                const txt = game.i18n.localize("KNIGHT.COMBAT.STYLES.AKIMBO.SecondWpn");
+                root.querySelectorAll('span.specialInfo').forEach(s => {
+                    s.textContent = txt;
+                    s.style.display = '';
+                });
+            }
+
+            const target = this.actor.type === 'mechaarmure' ? this.actor : this.who;
+            await target.update({ 'system.combat.style': style });
+            return;
+        }
+
+        // --- precis / puissant / suppression : type (select) ---
+        /*const styleSelect = tgt.closest('.precis, .puissant, .suppression');
+        if(styleSelect && tgt.matches('select')) {
+            const key = ['precis','puissant','suppression'].find(k => styleSelect.classList.contains(k));
+            this.rollData.style[key].type = tgt.value;
+            return;
+        }*/
+
+        // --- puissant / suppression : value (input) — PAS precis ---
+        /*const styleInput = tgt.closest('.puissant, .suppression');
+        if(styleInput && tgt.matches('input')) {
+            const key = ['puissant','suppression'].find(k => styleInput.classList.contains(k));
+            this.rollData.style[key].value = parseInt(tgt.value);
+            return;
+        }*/
+
+        // --- pilonnage : type (select) + persistance acteur ---
+        if(tgt.matches('.pilonnage select')) {
+            this.actor.update({ 'system.combat.data.type': tgt.value });
+            return;
+        }
+
+        // --- pilonnage : value (input) + persistance acteur ---
+        if(tgt.matches('.pilonnage input')) {
+            const value = parseInt(tgt.value);
+            this.actor.update({ 'system.combat.data.tourspasses': value });
+            return;
+        }
+
+        /*html.find('label.selectWithInfo select').change(async ev => {
+            const $tgt = $(ev.currentTarget);
+            const style = $tgt.val();
+
+            $tgt.siblings('span.hideInfo').remove();
+            $tgt.parents('label.style').append(`<span class="hideInfo" style="display:none;">${game.i18n.localize(CONFIG.KNIGHT.styles[style])}</span>`);
+
+            this.rollData.style.type = 'degats';
+            this.rollData.style.value = 0;
+
+            this.#updateStyleShow(style, undefined);
+
+            if(style !== 'akimbo') {
+                this.#unselectWpn($(this.rollData.html.find('.doubleSelected')), true);
+                this.rollData.html.find('span.specialInfo').hide();
+            }
+            else {
+                this.rollData.html.find('span.specialInfo').text(game.i18n.localize("KNIGHT.COMBAT.STYLES.AKIMBO.SecondWpn"));
+                this.rollData.html.find('span.specialInfo').show();
+            }
+
+            if(this.actor.type === 'mechaarmure') await this.actor.update({['system.combat.style']: style});
+            else await this.who.update({['system.combat.style']: style});
+        });
+
+        html.find('.precis select').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = tgt.val();
+
+            this.rollData.style.precis.type = value;
+        });
+
+        html.find('.pilonnage select').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = tgt.val();
+
+            this.rollData.style.pilonnage.type = value;
+            this.actor.update({['system.combat.data.type']:value});
+        });
+
+        html.find('.pilonnage input').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = parseInt(tgt.val());
+
+            this.rollData.style.pilonnage.value = value;
+            this.actor.update({['system.combat.data.tourspasses']:value});
+        });
+
+        html.find('.puissant select').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = tgt.val();
+
+            this.rollData.style.puissant.type = value;
+        });
+
+        html.find('.puissant input').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = parseInt(tgt.val());
+
+            this.rollData.style.puissant.value = value;
+        });
+
+        html.find('.suppression select').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = tgt.val();
+
+            this.rollData.style.suppression.type = value;
+        });
+
+        html.find('.suppression input').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = parseInt(tgt.val());
+
+            this.rollData.style.suppression.value = value;
+        });*/
+    }
+
+    #setModuleVariable(id, idBonus, data) {
+        let allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+
+        if(!allVariable) {
+            this.rollData.allVariableWpn.push({ id, modules: [{ id: idBonus, ...data }] });
+            return;
+        }
+        if(!allVariable.modules) {
+            allVariable.modules = [{ id: idBonus, ...data }];
+            return;
+        }
+        const moduleVariable = allVariable.modules.find(itm => itm.id === idBonus);
+        if(!moduleVariable) allVariable.modules.push({ id: idBonus, ...data });
+        else Object.assign(moduleVariable, data);
     }
 
     /* -------------------------------------------- */
 
+    #renderInitialization(html) {
+        const scores = ['difficulte', 'succesBonus', 'modificateur'];
+        const actor = this.who;
+        const style = actor.system.combat.style;
+        const isPJ = this.isPJ;
+
+        const labelInput = html.querySelector('input.label');
+        if(labelInput) labelInput.value = this.rollData.label;
+
+        const styleSelect = html.querySelector('label.style select');
+        if(styleSelect) styleSelect.value = style;
+
+        const aspects = html.querySelectorAll('.aspect button.btnCaracteristique');
+
+        for(const a of aspects) {
+            const value = a.dataset.value;
+            let setValue = `${this.#getValueAspect(actor, value)}`;
+
+            if(value === this.rollData.base) a.classList.add('selected', 'base');
+            else if(this.rollData.whatRoll.includes(value)) a.classList.add('selected');
+
+            if((actor.system.wear === 'armure' || actor.system.wear === 'ascension') && isPJ) setValue += ` + ${this.#getODAspect(actor, value)} ${game.i18n.localize('KNIGHT.ASPECTS.OD')}`;
+            else if(!isPJ) setValue += ` + ${this.#getODAspect(actor, value)} ${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnel-short')}`;
+
+            const spanValue = a.querySelector('span.value');
+            if(spanValue) spanValue.textContent = setValue;
+
+            this.#updateBonusInterdits(a, html);
+        }
+
+        for(const s of scores) {
+            const input = html.querySelector(`label.score.${s} input`);
+            if(input) input.value = this.rollData[s];
+        }
+
+        const setSelectValue = (selector, value) => {
+            const el = html.querySelector(selector);
+            if(el) el.value = value;
+        };
+
+        setSelectValue('.pilonnage select', this.rollData.style.pilonnage.type);
+        setSelectValue('.precis select', this.rollData.style.precis.type);
+        setSelectValue('.puissant select', this.rollData.style.puissant.type);
+        setSelectValue('.suppression select', this.rollData.style.suppression.type);
+
+        setSelectValue('.pilonnage input', this.rollData.style.pilonnage.value);
+        setSelectValue('.puissant input', this.rollData.style.puissant.value);
+        setSelectValue('.suppression input', this.rollData.style.suppression.value);
+
+        if(style === 'akimbo') {
+            const specialInfo = html.querySelector('span.specialInfo');
+            if(specialInfo) {
+                specialInfo.textContent = game.i18n.localize("KNIGHT.COMBAT.STYLES.AKIMBO.SecondWpn");
+                specialInfo.style.display = '';
+            }
+        }
+
+        this.#updateStyleShow(style, undefined);
+        this.#updateBtnShow(false, true);
+    }
+
     #renderHTML(html) {
-        this.data.roll.html = html;
+        this.rollData.html = html;
         this.#renderSTD(html);
         this.#renderWpn(html);
 
-        html.find('.aspect button.btnCaracteristique.selected i').addClass('fa-solid fa-check');
-        html.find('.aspect button.btnCaracteristique.base i').removeClass('fa-solid fa-check fa-check-double');
-        html.find('.aspect button.btnCaracteristique.base i').addClass('fa-solid fa-check-double');
+        html.querySelectorAll('.aspect button.btnCaracteristique.selected i')
+            .forEach(i => i.classList.add('fa-solid', 'fa-check'));
 
-        html.find('.aspect button.btnCaracteristique').click(ev => {
-            const tgt = $(ev.currentTarget);
-            const isPJ = this.isPJ;
-            const carac = tgt.data("value");
-            const isSelected = tgt.hasClass('selected');
-            const parents = tgt.parents('div.aspects');
-            const hasAlreadyBase = $(parents.find('button.btnCaracteristique.base')).length > 0;
-
-            if(!tgt.hasClass('wHover')) return;
-
-
-            if(isPJ) {
-                const isBase = tgt.hasClass('base');
-
-                if(isSelected) {
-                    tgt.removeClass('selected');
-                    tgt.find('i').removeClass('fa-solid fa-check')
-
-                    this.data.roll.whatRoll = this.rollData.whatRoll.filter(roll => roll !== carac);
-                } else {
-                    tgt.addClass(`selected`);
-
-                    if(hasAlreadyBase) {
-                        this.data.roll.whatRoll.push(carac);
-                        tgt.find('i').removeClass('fa-solid fa-check fa-check-double')
-                        tgt.find('i').addClass('fa-solid fa-check')
-                    }
-                    else {
-                        this.data.roll.base = carac;
-                        tgt.addClass('base');
-                        tgt.find('i').addClass('fa-solid fa-check-double')
-                    }
-                }
-
-                if(isBase) {
-                    let whatRoll = this.rollData?.whatRoll ?? [];
-                    tgt.removeClass('base');
-
-                    if(whatRoll.length === 0) this.data.roll.base = "";
-                    else if(whatRoll) {
-                        for(let w of whatRoll) {
-                            if($(parents.find(`button.btnCaracteristique.${w}`)).hasClass('wHover')) {
-                                $(parents.find(`button.btnCaracteristique.${w}`)).addClass('base');
-                                $(parents.find(`button.btnCaracteristique.${w} i`)).removeClass('fa-solid fa-check fa-check-double');
-                                $(parents.find(`button.btnCaracteristique.${w} i`)).addClass('fa-solid fa-check-double');
-
-                                this.data.roll.base = w;
-                                this.data.roll.whatRoll = this.rollData.whatRoll.filter(roll => roll !== w);
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
-                if(isSelected) {
-                    tgt.removeClass('selected base');
-                    tgt.find('i').removeClass('fa-solid fa-check-double');
-                    this.data.roll.base = '';
-                } else {
-                    if(hasAlreadyBase) {
-                        $(parents.find('button.btnCaracteristique.base')).find('i').removeClass('fa-solid fa-check-double');
-                        $(parents.find('button.btnCaracteristique.base')).removeClass('selected base');
-                    }
-
-                    tgt.addClass('selected base');
-                    tgt.find('i').addClass('fa-solid fa-check-double');
-
-                    this.data.roll.base = carac;
-                }
-            }
-        });
+        html.querySelectorAll('.aspect button.btnCaracteristique.base i')
+            .forEach(i => {
+                i.classList.remove('fa-solid', 'fa-check', 'fa-check-double');
+                i.classList.add('fa-solid', 'fa-check-double');
+            });
 
         this.#updateBonusInterdits(undefined, html);
+        this.#updateTotem();
     }
 
     #renderSTD(html) {
         this.#renderInitialization(html);
-        const allBtn = html.find('label.btn');
-        const allScoredice = html.find('div.scoredice');
+        const allBtn = html.querySelectorAll('label.btn');
+        const allScoredice = html.querySelectorAll('div.scoredice');
 
-        html.find('label.selectWithInfo span.info').mouseenter(ev => {
-            html.find('label.selectWithInfo span.hideInfo').css("display", "block");
-        });
-
-        html.find('label.selectWithInfo span.info').mouseleave(ev => {
-            html.find('label.selectWithInfo span.hideInfo').css("display", "none");
-        });
-
-        for(let b of allBtn) {
-            const name = $(b).data('name');
+        for(const b of allBtn) {
+            const name = b.dataset.name;
             const btn = this.rollData?.btn?.[name] ?? false;
 
+            const button = b.querySelector('button');
+            const icon = b.querySelector('button i');
+
             if(btn) {
-                $(b).find('button').addClass('selected');
-                $(b).find('button i').addClass('fa-solid fa-check');
+                button?.classList.add('selected');
+                icon?.classList.add('fa-solid', 'fa-check');
             }
             else {
-                $(b).find('button').removeClass('selected');
-                $(b).find('button i').removeClass('fa-solid fa-check');
+                button?.classList.remove('selected');
+                icon?.classList.remove('fa-solid', 'fa-check');
             }
-
-            $(b).find('button').click(ev => {
-                const tgt = $(ev.currentTarget);
-                const name = $(tgt).parents('label.btn').data('name');
-                const btn = this.rollData?.btn?.[name] ?? false;
-
-                if(btn) {
-                    this.data.roll.btn[name] = false;
-                    tgt.removeClass('selected');
-                    tgt.find('i').removeClass('fa-solid fa-check');
-                }
-                else {
-                    this.data.roll.btn[name] = true;
-                    tgt.addClass('selected');
-                    tgt.find('i').addClass('fa-solid fa-check');
-                }
-            })
         }
 
-        for(let b of allScoredice) {
-            const key = $(b).data('key');
+        for(const b of allScoredice) {
+            const key = b.dataset.key;
             const dice = this.rollData?.scoredice?.[key]?.dice ?? 0;
             const value = this.rollData?.scoredice?.[key]?.value ?? 0;
 
-            $(b).find('input.dice').val(dice);
-            $(b).find('input.value').val(value);
+            const inputDice = b.querySelector('input.dice');
+            const inputValue = b.querySelector('input.value');
 
-            $(b).find('input').change(ev => {
-                const tgt = $(ev.currentTarget);
-                const key = $(tgt).parents('div.scoredice').data('key');
-                const subkey = $(tgt).data('key');
-                const value = tgt.val();
-                const exist = this.rollData?.scoredice?.[key] ?? undefined;
-
-                if(!exist) this.data.roll.scoredice[key] = {dice:0, value:0};
-
-                this.data.roll.scoredice[key][subkey] = value;
-            })
+            if(inputDice) inputDice.value = dice;
+            if(inputValue) inputValue.value = value;
         }
     }
 
     #renderWpn(html) {
+        const parent = html;
+        const allWpn = html.querySelectorAll('div.wpn div.button');
+
+        for(const w of allWpn) {
+            const id = w.dataset.id;
+            const btn = w.querySelector('button.btnWpn');
+
+            if(id == this.rollData.wpnSelected) this.#selectWpn(btn, true);
+
+            if(id === this.rollData.wpnSecond) this.#selectWpn(btn, true, true);
+        }
+
+        parent.querySelectorAll('div.wpn button.btnWpn').forEach(btn => {
+            btn.addEventListener('contextmenu', ev => {
+                ev.preventDefault();
+
+                if(this.style !== 'akimbo') return;
+
+                const tgt = ev.currentTarget;
+                const isSelected = tgt.classList.contains('doubleSelected');
+                const id = tgt.closest('div.button')?.dataset.id;
+
+                if(this.rollData.wpnSelected === id) return;
+
+                if(isSelected) this.#unselectWpn(ev.currentTarget, true);
+                else this.#selectWpn(ev.currentTarget, false, true);
+            });
+        });
+
+        const mainsWpn = parent.querySelectorAll('div.wpn div.data .selectSimple.mains');
+        const munitionsWpn = parent.querySelectorAll('div.wpn div.data .selectSimple.munitions');
+        const initWpn = parent.querySelectorAll('div.wpn div.data button.active');
+        const dgtsWpn = parent.querySelectorAll('div.wpn div.data label.dgtsvariable');
+        const violenceWpn = parent.querySelectorAll('div.wpn div.data label.violencevariable');
+        const dgtsBonusWpn = parent.querySelectorAll('div.wpn div.data label.dgtsbonusvariable');
+        const violenceBonusWpn = parent.querySelectorAll('div.wpn div.data label.violencebonusvariable');
+        const boost = parent.querySelectorAll('div.wpn div.data div.boostsimple');
+        const boostdegats = parent.querySelectorAll('div.wpn div.data label.boostdegats');
+        const boostviolence = parent.querySelectorAll('div.wpn div.data label.boostviolence');
+
+        for(const w of mainsWpn) {
+            const button = w.closest('div.button');
+            const id = button?.dataset.id;
+            const select = w.querySelector('select');
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+            select.value = wpn.actuel;
+        }
+
+        for(const w of munitionsWpn) {
+            const button = w.closest('div.button');
+            const id = button?.dataset.id;
+            const select = w.querySelector('select');
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+            select.value = wpn.actuel;
+        }
+
+        for(const w of initWpn) {
+            const button = w.closest('div.button');
+            const isSelected = w.classList.contains('selected');
+            const id = button?.dataset.id;
+            const value = w.dataset.value;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+            const icon = w.querySelector('i');
+
+            let options = wpn.options.find(itm => itm.value === value);
+
+            if(isSelected || options.active) {
+                icon?.classList.remove('fa-solid', 'fa-xmark', 'red');
+                icon?.classList.add('fa-solid', 'fa-check', 'green');
+
+                if(!isSelected) w.classList.add('selected');
+            } else {
+                icon?.classList.remove('fa-solid', 'fa-check', 'green');
+                icon?.classList.add('fa-solid', 'fa-xmark', 'red');
+            }
+        }
+
+        for(const w of dgtsWpn) {
+            const button = w.closest('div.button');
+            const select = w.querySelector('select');
+            const id = button?.dataset.id;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('dgtsvariable'));
+
+            if(allVariable && options.list.hasOwnProperty(allVariable?.degats ?? options.selected)) select.value = allVariable?.degats ?? options.selected;
+            else if(options.list.hasOwnProperty(wpn.degats.dice)) select.value = wpn.degats.dice;
+            else wpn.degats = {dice:options.selected, fixe:options.selectvalue};
+        }
+
+        for(const w of violenceWpn) {
+            const button = w.closest('div.button');
+            const select = w.querySelector('select');
+            const id = button?.dataset.id;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('violencevariable'));
+
+            if(allVariable && options.list.hasOwnProperty(allVariable?.violence ?? options.selected)) select.value = allVariable?.violence ?? options.selected;
+            else if(options.list.hasOwnProperty(wpn.violence.dice)) select.value = wpn.violence.dice;
+            else wpn.violence = {dice:options.selected, fixe:options.selectvalue};
+        }
+
+        for(const w of dgtsBonusWpn) {
+            const button = w.closest('div.button');
+            const select = w.querySelector('select');
+            const idBonus = w.dataset.id;
+            const id = button?.dataset.id;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            const moduleVariable = allVariable?.modules?.find(itm => itm.id === idBonus) ?? undefined;
+            let options = wpn.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.id === idBonus);
+
+            if(moduleVariable && options.list.hasOwnProperty(moduleVariable?.degats ?? options.selected)) select.value = moduleVariable?.degats ?? options.selected;
+            else if(options.list.hasOwnProperty(options.selected)) select.value = options.selected;
+            else options.selected = options.selected;
+        }
+
+        for(const w of violenceBonusWpn) {
+            const button = w.closest('div.button');
+            const select = w.querySelector('select');
+            const idBonus = w.dataset.id;
+            const id = button?.dataset.id;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            const moduleVariable = allVariable?.modules?.find(itm => itm.id === idBonus) ?? undefined;
+            let options = wpn.options.find(itm => itm.classes.includes('violencebonusvariable') && itm.id === idBonus);
+
+            if(moduleVariable && options.list.hasOwnProperty(moduleVariable?.violence ?? options.selected)) select.value = moduleVariable?.violence ?? options.selected;
+            else if(options.list.hasOwnProperty(options.selected)) select.value = options.selected;
+            else options.selected = options.selected;
+        }
+
+        for(const w of boost) {
+            const button = w.closest('div.button');
+            const select1 = w.querySelector('select.select1');
+            const select2 = w.querySelector('select.select2');
+            const id = button?.dataset.id;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('boostsimple'));
+
+            select1.value = options.selected1;
+            select2.value = options.selected2;
+        }
+
+        for(const w of boostdegats) {
+            const button = w.closest('div.button');
+            const select = w.querySelector('select');
+            const id = button?.dataset.id;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('boostdegats'));
+
+            select.value = options.selected;
+        }
+
+        for(const w of boostviolence) {
+            const button = w.closest('div.button');
+            const select = w.querySelector('select');
+            const id = button?.dataset.id;
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('boostviolence'));
+
+            select.value = options.selected;
+        }
+
+        this.#renderLongbow(html);
+
+        this.#sanitizeWpn(parent.querySelectorAll('div.wpn button.btnWpn'), html);
+    }
+
+    /*#renderWpn(html) {
         const parent = html.find('div.wpn');
         const allWpn = parent.find('div.button');
-
-        html.find('div.wpn i.fa-minus-square').click(ev => {
-            const tgt = $(ev.currentTarget);
-
-            if(!tgt.hasClass('fa-plus-square')) {
-                const child = tgt.parents('.summary').siblings('.cat').find('div.button').not('.selected');
-
-                tgt.parents('.summary').siblings('.cat').find('h3.summary i').removeClass('fa-minus-square');
-                tgt.parents('.summary').siblings('.cat').find('h3.summary i').addClass('fa-plus-square');
-
-                child.hide({
-                    complete: () => {},
-                });
-
-            }
-        });
 
         for(let w of allWpn) {
             const id = $(w).data('id');
@@ -472,19 +1153,6 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
             if(id === this.rollData.wpnSecond) this.#selectWpn($(w).find('button.btnWpn'), true, true);
         }
-
-        parent.find('button.btnWpn').click(ev => {
-            const tgt = $(ev.currentTarget);
-            const isSelected = tgt.hasClass('selected');
-            const id = tgt.parents('div.button').data('id');
-            if(this.rollData.wpnSecond === id) return;
-
-            if(isSelected) this.#unselectWpn(tgt);
-            else this.#selectWpn(tgt);
-
-            if(isSelected) this.#updateBtnShow(true);
-            else this.#updateBtnShow();
-        });
 
         parent.find('button.btnWpn').on('contextmenu', ev => {
             ev.preventDefault();
@@ -497,8 +1165,8 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
             if(this.rollData.wpnSelected === id) return;
 
-            if(isSelected) this.#unselectWpn(tgt, true);
-            else this.#selectWpn(tgt, false, true);
+            if(isSelected) this.#unselectWpn(ev.currentTarget, true);
+            else this.#selectWpn(ev.currentTarget, false, true);
         });
 
         const mainsWpn = parent.find('div.data .selectSimple.mains');
@@ -587,7 +1255,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             const parent = $(w).parents('div.button');
             const select = $(w).find('select');
             const id = $(parent).data('id');
-            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
             const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
             let options = wpn.options.find(itm => itm.classes.includes('dgtsvariable'));
 
@@ -602,7 +1270,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 wpn.degats.dice = parseInt(val);
 
                 if(!allVariable) {
-                    this.data.roll.allVariableWpn.push({
+                    this.rollData.allVariableWpn.push({
                         id:id,
                         degats:val,
                     })
@@ -614,7 +1282,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             const parent = $(w).parents('div.button');
             const select = $(w).find('select');
             const id = $(parent).data('id');
-            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
             const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
             let options = wpn.options.find(itm => itm.classes.includes('violencevariable'));
 
@@ -629,7 +1297,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 wpn.violence.dice = parseInt(val);
 
                 if(!allVariable) {
-                    this.data.roll.allVariableWpn.push({
+                    this.rollData.allVariableWpn.push({
                         id:id,
                         violence:val,
                     })
@@ -642,7 +1310,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             const select = $(w).find('select');
             const idBonus = $(w).data('id');
             const id = $(parent).data('id');
-            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
             const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
             const moduleVariable = allVariable?.modules?.find(itm => itm.id === idBonus) ?? undefined;
             let options = wpn.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.id === idBonus);
@@ -658,7 +1326,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 options.selected = parseInt(val);
 
                 if(!allVariable) {
-                    this.data.roll.allVariableWpn.push({
+                    this.rollData.allVariableWpn.push({
                         id:id,
                         modules:[{
                             id:idBonus,
@@ -690,7 +1358,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             const select = $(w).find('select');
             const idBonus = $(w).data('id');
             const id = $(parent).data('id');
-            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
             const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
             const moduleVariable = allVariable?.modules?.find(itm => itm.id === idBonus) ?? undefined;
             let options = wpn.options.find(itm => itm.classes.includes('violencebonusvariable') && itm.id === idBonus);
@@ -706,7 +1374,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 options.selected = parseInt(val);
 
                 if(!allVariable) {
-                    this.data.roll.allVariableWpn.push({
+                    this.rollData.allVariableWpn.push({
                         id:id,
                         modules:[{
                             id:idBonus,
@@ -738,7 +1406,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             const select1 = $(w).find('select.select1');
             const select2 = $(w).find('select.select2');
             const id = $(parent).data('id');
-            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
             let options = wpn.options.find(itm => itm.classes.includes('boostsimple'));
 
             $(select1).val(options.selected1);
@@ -764,7 +1432,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             const parent = $(w).parents('div.button');
             const select = $(w).find('select');
             const id = $(parent).data('id');
-            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
             let options = wpn.options.find(itm => itm.classes.includes('boostdegats'));
 
             $(select).val(options.selected);
@@ -783,7 +1451,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             const parent = $(w).parents('div.button');
             const select = $(w).find('select');
             const id = $(parent).data('id');
-            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
             let options = wpn.options.find(itm => itm.classes.includes('boostviolence'));
 
             $(select).val(options.selected);
@@ -801,9 +1469,50 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         this.#renderLongbow(html);
 
         this.#sanitizeWpn(html.find('button.btnWpn'), html);
-    }
+    }*/
 
     #renderLongbow(html) {
+        const parent = html.querySelector('div.wpnComplexe.longbow');
+        if(!parent) return;
+
+        const id = parent.dataset.id;
+        const complexe = this.rollData.allWpn.find(itm => itm.id === id);
+        if(!complexe) return;
+
+        const initSelect = (selector, property) => {
+            const select = parent.querySelector(selector);
+            if(!select || !complexe[property]) return;
+
+            if(property === 'portee') select.value = complexe[property];
+            else select.value = complexe[property].dice;
+        };
+
+        initSelect('.longbow_dgts select', 'degats');
+        initSelect('.longbow_violence select', 'violence');
+        initSelect('.longbow_portee select', 'portee');
+
+        // --- état initial des effets ---
+        if(complexe.effets) {
+            const effets = parent.querySelectorAll('.liste a');
+
+            for(const a of effets) {
+                const { raw, custom, liste, id: effetID } = a.dataset;
+
+                const isChecked = custom
+                    ? complexe.effets.custom.some(itm => itm.id === effetID && itm.liste === liste)
+                    : complexe.effets.raw.includes(raw);
+
+                if(isChecked) {
+                    a.classList.add('checked');
+                    a.querySelector('i')?.classList.add('fa-solid', 'fa-check-double');
+                }
+            }
+        }
+
+        this.#calculateLongbow(id, parent);
+    }
+
+    /*#renderLongbow(html) {
         const parent = html.find('div.wpnComplexe.longbow');
         const effets = parent.find('.liste a');
         const id = parent.data('id');
@@ -863,27 +1572,25 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         });
 
         if(complexe) this.#calculateLongbow(id, parent);
-    }
+    }*/
 
     async #roll(data) {
         const actor = this.who;
         const armor = actor.items.find(itm => itm.type === 'armure');
         const armorIsWear = this.armorIsWear;
         const dataErsatzRogue = this.#getErsatzRogue(actor);
-        const label = data.find('input.label').val();
-        const base = this.rollData.base;
-        const selected = [...new Set(this.rollData.whatRoll)].filter(v => v !== base);
-        const weaponID = data.find('div.wpn .button .btnWpn.selected').parents('div.button').data('id');
-        const weaponData = data.find('div.wpn .button .data');
+        const rollData = this.rollData;
+        const { difficulte, succesBonus, modificateur, label, base, whatRoll } = rollData;
+        const selected = [...new Set(whatRoll)].filter(v => v !== base);
         const weapon = this.wpnSelected;
-        const difficulte = Number(data.find('label.score.difficulte input').val());
-        const succesBonus = Number(data.find('label.score.succesBonus input').val());
-        const modificateur = Number(data.find('label.score.modificateur input').val());
-        const isModeHeroique = data.find('button.btn.modeheroique').hasClass('selected');
-        const isEquilibrerBalance = data.find('button.btn.equilibrerbalance').hasClass('selected');
-        const isNoOd = this.rollData.btn?.nood ?? false;
+        const weaponID = weapon.id;
+        const isModeHeroique = rollData?.btn?.modeheroique ?? false;
+        const isEquilibrerBalance = rollData?.btn?.equilibrerbalance ?? false;
+        const isNoOd = rollData?.btn?.nood ?? false;
+        const nbreTotem = this.nbreTotemShow;
+        const nbreTotemL = this.nbreTotemLShow;
 
-        let isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
+        let isAttaqueSurprise = rollData.btn?.attaquesurprise ?? false;
         let carac = base ? [this.#getLabelRoll(base)] : [];
         let dices = this.#getValueAspect(actor, base);
         let bonus = [];
@@ -951,6 +1658,28 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                     const bGoliath = parseInt(dataGoliath?.bonus?.[s]?.value ?? 0);
 
                     goliath += (meter*bGoliath);
+                }
+            }
+        }
+
+        if(nbreTotem) {
+            for(let i = 0;i < nbreTotem;i++) {
+                const totemCarac = data.find(`label.totem${i} select`).val();
+
+                if(totemCarac) {
+                    dices += this.#getValueAspect(actor, totemCarac);
+                    carac.push(this.#getLabelRoll(totemCarac));
+                }
+            }
+        }
+
+        if(nbreTotemL) {
+            for(let i = 0;i < nbreTotemL;i++) {
+                const totemCarac = data.find(`label.totemL${i} select`).val();
+
+                if(totemCarac) {
+                    dices += this.#getValueAspect(actor, totemCarac);
+                    carac.push(this.#getLabelRoll(totemCarac));
                 }
             }
         }
@@ -1126,12 +1855,6 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                     break;
             }
 
-            for(let w of weapon.options) {
-                if((w.key !== 'btn' && w.special)) continue;
-
-                w.active = weaponData.find(`button.${w.classes.split(' ')[0]}`).hasClass('selected');
-            }
-
             if(isModeHeroique) {
                 weapon.effets.raw.push('modeheroique');
 
@@ -1216,13 +1939,14 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             const boost = weapon.options.find(itm => itm.classes.includes('boostsimple') && itm.key === 'duoselect');
             const boostdegats = weapon.options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
             const boostviolence = weapon.options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
+            const findVariable = rollData?.allVariableWpn?.find(itm => itm.id === weaponID);
 
             if(dgtsVariable) {
-                const dgtsVariableSelected = parseInt($(weaponData.find(`label.dgtsvariable select`)).val());
+                const dgtsVariableSelected = findVariable.degats;
                 let coutDgts = 0;
 
                 weapon.degats = {
-                    dice:dgtsVariableSelected,
+                    dice:Number(dgtsVariableSelected),
                     fixe:dgtsVariable.selectvalue,
                 }
 
@@ -1238,11 +1962,11 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             }
 
             if(violenceVariable) {
-                const violenceVariableSelected = parseInt($(weaponData.find(`label.violencevariable select`)).val());
+                const violenceVariableSelected = findVariable.violence;
                 let coutViolence = 0;
 
                 weapon.violence = {
-                    dice:parseInt(violenceVariableSelected),
+                    dice:Number(violenceVariableSelected),
                     fixe:violenceVariable.selectvalue,
                 }
                 let v = 0;
@@ -1257,7 +1981,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             }
 
             if(dgtsBonusVariable) {
-                const dgtsVariableSelected = parseInt($(weaponData.find(`label.dgtsbonusvariable select`)).val());
+                const dgtsVariableSelected = Number(findVariable?.modules?.find(itm => itm.id === dgtsBonusVariable.id)?.degats ?? 0);
                 const dgtsList = dgtsBonusVariable?.list ?? {};
                 let coutDgts = 0;
 
@@ -1272,7 +1996,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             }
 
             if(violenceBonusVariable) {
-                const violenceVariableSelected = parseInt($(weaponData.find(`label.violencebonusvariable select`)).val());
+                const violenceVariableSelected = Number(findVariable?.modules?.find(itm => itm.id === dgtsBonusVariable.id)?.violence ?? 0);
                 let coutViolence = 0;
 
                 let v = 0;
@@ -1407,11 +2131,6 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             });
         }
 
-        this.data.roll.label = label;
-        this.data.roll.difficulte = difficulte;
-        this.data.roll.succesBonus = succesBonus;
-        this.data.roll.modificateur = modificateur;
-
         if(dices < 1) dices = 1;
 
         const depenseEnergie = this.#depenseEnergie(cout);
@@ -1537,10 +2256,8 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
     #entraide(data) {
         const actor = this.actor;
-        const label = data.find('input.label').val();
-        const base = this.rollData.base;
-        const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
-        const modificateur = parseInt(data.find('label.score.modificateur input').val());
+        const rollData = this.rollData;
+        const { difficulte, succesBonus, modificateur, label, base, whatRoll } = rollData;
         let carac = base ? [this.#getLabelRoll(base)] : [];
         let dices = this.#getValueAspect(actor, base);
         let bonus = [];
@@ -1563,10 +2280,6 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 label:`${game.i18n.localize('KNIGHT.BONUS.Succes')} : ${succesBonus}`,
             });
         }
-
-        this.data.roll.label = label;
-        this.data.roll.succesBonus = succesBonus;
-        this.data.roll.modificateur = modificateur;
 
         const exec = new game.knight.RollKnight(actor,
         {
@@ -1624,11 +2337,11 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 break;
         }
 
-        this.data.buttons = results;
+        this.system.buttons = results;
     }
 
     #prepareTitle() {
-        this.data.title = `${this.actor.name} : ${game.i18n.localize("KNIGHT.JETS.Label")}`;
+        this.system.title = `${this.actor.name} : ${game.i18n.localize("KNIGHT.JETS.Label")}`;
     }
 
     #prepareMods() {
@@ -1637,7 +2350,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         const otherMods = system.otherMods;
         const otherModsDice = Object.values(otherMods).find(itm => itm?.type === 'rollDice');
 
-        if(otherModsDice) this.data.roll.modificateur += otherModsDice.value;
+        if(otherModsDice) this.rollData.modificateur += otherModsDice.value;
     }
 
     #prepareOptions() {
@@ -1703,6 +2416,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         data.mods.push({
             key:'score',
             classes:'score difficulte colOne',
+            path:'roll.difficulte',
             label:game.i18n.localize('KNIGHT.AUTRE.Difficulte'),
             value:this.rollData.difficulte,
             min:0
@@ -1712,6 +2426,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         data.mods.push({
             key:'score',
             classes:'score succesBonus colTwo',
+            path:'roll.succesBonus',
             label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} (${game.i18n.localize('KNIGHT.JETS.Succes')})`,
             value:this.rollData.succesBonus
         });
@@ -1720,6 +2435,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         data.mods.push({
             key:'score',
             classes:'score modificateur colThree',
+            path:'roll.modificateur',
             label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} (${game.i18n.localize('KNIGHT.JETS.Des')})`,
             value:this.rollData?.modificateur ?? 0,
         });
@@ -1737,7 +2453,9 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
             data.mods.push({
                 key:'selectWithScore',
-                classes:'pilonnage rowFourTwo colTwoFive',
+                classes:'pilonnage colTwoFive',
+                selectPath:`roll.style.pilonnage.type`,
+                valuePath:`roll.style.pilonnage.value`,
                 label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.PILONNAGE.FullLabel')}`,
                 select:{
                     selected:system.combat.data.type,
@@ -1758,7 +2476,8 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
             data.mods.push({
                 key:'select',
-                classes:'precis rowFourTwo',
+                classes:'precis',
+                path:`roll.style.precis.type`,
                 label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.PRECIS.FullLabel')}`,
                 selected:'',
                 hasBlank:true,
@@ -1772,7 +2491,9 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
             data.mods.push({
                 key:'selectWithScore',
-                classes:'puissant rowFourTwo colTwoFive',
+                classes:'puissant colTwoFive',
+                selectPath:`roll.style.puissant.type`,
+                valuePath:`roll.style.puissant.value`,
                 label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.PUISSANT.FullLabel')}`,
                 select:{
                     selected:'degats',
@@ -1790,7 +2511,9 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
             data.mods.push({
                 key:'selectWithScore',
-                classes:'suppression rowFourTwo colTwoFive',
+                classes:'suppression colTwoFive',
+                selectPath:`roll.style.suppression.type`,
+                valuePath:`roll.style.suppression.value`,
                 label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.SUPPRESSION.FullLabel')}`,
                 select:{
                     selected:'degats',
@@ -1805,6 +2528,31 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                     min:0,
                 }
             });
+
+            //ON PREPARE LE TOTEM (ON VERRA PLUS TARD SI ON AFFICHE)
+            for(let i = 0;i < this.nbreTotemTotal;i++) {
+                data.mods.push({
+                    key:'select',
+                    classes:`totem totem${i} rowSixSeven`,
+                    path:`roll.totem.t${i}`,
+                    label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem')} ${i+1}`,
+                    selected:'',
+                    hasBlank:true,
+                    list:CONFIG.KNIGHT.caracteristiques,
+                });
+            }
+
+            for(let i = 0;i < this.nbreTotemLTotal;i++) {
+                data.mods.push({
+                    key:'select',
+                    classes:`totem totemL${i} rowSixSeven`,
+                    path:`roll.totemL.t${i}`,
+                    label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem')} ${i+1}`,
+                    selected:'',
+                    hasBlank:true,
+                    list:CONFIG.KNIGHT.caracteristiques,
+                });
+            }
         }
 
         //MODIFICATEUR AUX DEGATS
@@ -1832,6 +2580,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             buttons.grp.push({
                 key:'btn',
                 name:'nood',
+                action:'toggle',
                 classes:'btn withoutod',
                 btnclasses:'btn withoutod',
                 label:game.i18n.localize('KNIGHT.JETS.NoOd'),
@@ -1842,6 +2591,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         buttons.grp.push({
             key:'btn',
             name:'attaquesurprise',
+            action:'toggle',
             classes:'btn attaquesurprise',
             btnclasses:'btn attaquesurprise',
             label:game.i18n.localize('KNIGHT.JETS.AttackSurprise'),
@@ -1851,6 +2601,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         buttons.grp.push({
             key:'btn',
             name:'maximizedegats',
+            action:'toggle',
             classes:'btn maximizedegats',
             btnclasses:'btn maximizedegats',
             label:game.i18n.localize('KNIGHT.JETS.MaximizeDegats'),
@@ -1860,6 +2611,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         buttons.grp.push({
             key:'btn',
             name:'maximizeviolence',
+            action:'toggle',
             classes:'btn maximizeviolence',
             btnclasses:'btn maximizeviolence',
             label:game.i18n.localize('KNIGHT.JETS.MaximizeViolence'),
@@ -1869,6 +2621,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         buttons.grp.push({
             key:'btn',
             name:'modeheroique',
+            action:'toggle',
             classes:'btn modeheroique',
             btnclasses:'btn modeheroique',
             label:game.i18n.localize('KNIGHT.JETS.ModeHeroique'),
@@ -1885,6 +2638,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             buttons.grp.push({
                 key:'btn',
                 name:'equilibrerbalance',
+                action:'toggle',
                 classes:'btn equilibrerbalance',
                 btnclasses:'btn equilibrerbalance',
                 label:game.i18n.localize('KNIGHT.EFFETS.EQUILIBRERBALANCE.Label'),
@@ -1898,7 +2652,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
         //ARMES
         const wpns = this.#prepareWpn();
-        this.data.roll.allWpn = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
+        this.rollData.allWpn = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
 
         grpWpn.grp.push({
             key:'wpn',
@@ -1937,7 +2691,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
         data.mods.push({
             key:'info',
-            classes:'specialInfo rowFour colTwoFive',
+            classes:'specialInfo rowTwo colTwoFive',
         })
 
         if(this.actor.type === 'mechaarmure') {
@@ -1985,10 +2739,10 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         const wearArmor = this.armorIsWear || type === 'vehicule' || !isPJ ? true : false;
         const items = actor.items;
         const armure = items.find(itm => itm.type === 'armure');
-        const weapons = items.filter(itm => itm.type == 'arme' && (itm.system.equipped || itm.system.tourelle.has || !isPJ || itm.system.whoActivate === this.data.whoActivate));
-        const modules = this.#getWpnModules(items, type, this.data.whoActivate);
-        const modulesContact = this.#getBonusModulesByType(actor, type, 'contact', this.data.whoActivate);
-        const modulesDistance = this.#getBonusModulesByType(actor, type, 'distance', this.data.whoActivate);
+        const weapons = items.filter(itm => itm.type == 'arme' && (itm.system.equipped || itm.system.tourelle.has || !isPJ || itm.system.whoActivate === this.system.whoActivate));
+        const modules = this.#getWpnModules(items, type, this.system.whoActivate);
+        const modulesContact = this.#getBonusModulesByType(actor, type, 'contact', this.system.whoActivate);
+        const modulesDistance = this.#getBonusModulesByType(actor, type, 'distance', this.system.whoActivate);
         const cyberwareContact = this.#getBonusCyberwareByType(actor, 'contact');
         const cyberwareDistance = this.#getBonusCyberwareByType(actor, 'distance');
         const cyberware = this.#getWpnCyberware(items);
@@ -2419,6 +3173,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 for(let list in system.liste) {
                     let dataC = {
                         label:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
+                        action:'weapon',
                         classes:'btnWpn',
                         type:'contact',
                         id:`${ai}${list}c`,
@@ -2440,6 +3195,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
                     let dataD = {
                         label:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
+                        action:'weapon',
                         classes:'btnWpn',
                         type:'distance',
                         id:`${ai}${list}d`,
@@ -3081,6 +3837,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
     #addWpnContact(wpn, modules, addSpecial=true) {
         const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const armureLegend = this.actor.items.find(itm => itm.type === 'armurelegende');
         const avantages = this.actor.items.filter(itm =>
             itm.type === 'avantage' &&
             itm.system.type === 'standard' &&
@@ -3106,6 +3863,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         let data = {
             label:wpn.name,
             portee:system?.portee ?? '',
+            action:'weapon',
             classes:'btnWpn',
             options:[],
             type:'contact',
@@ -3133,10 +3891,28 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
         data.id = wpn.id;
 
-        if(armure && addSpecial) {
+        if(armure && addSpecial && this.armorIsWear) {
             if(armure.system.special.selected?.porteurlumiere ?? undefined) {
                 specialRaw = specialRaw.concat(armure.system.special.selected.porteurlumiere.bonus.effets.raw)
                 specialCustom = specialCustom.concat(armure.system.special.selected.porteurlumiere.bonus.effets.custom)
+            }
+
+            if(armure?.system?.capacites?.selected?.goliath ?? undefined) {
+                if(armure?.system?.capacites?.selected?.goliath?.active) {
+                    const taille = foundry.utils.getProperty(this.actor, 'system.equipements.armure.capacites.goliath.metre');
+
+                    if(taille >= 4) specialRaw.push('antivehicule');
+                }
+            }
+        }
+
+        if(armureLegend && addSpecial && this.armorIsWear) {
+            if(armureLegend?.system?.capacites?.selected?.goliath ?? undefined) {
+                if(armureLegend?.system?.capacites?.selected?.goliath?.active) {
+                    const taille = foundry.utils.getProperty(this.actor, 'system.equipements.armure.capacites.goliath.metre');
+
+                    if(taille >= 4) specialRaw.push('antivehicule');
+                }
             }
         }
 
@@ -3603,6 +4379,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
     #addWpnDistance(wpn, modules, addSpecial=true) {
         const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const armureLegend = this.actor.items.find(itm => itm.type === 'armurelegende');
         const avantages = this.actor.items.filter(itm =>
             itm.type === 'avantage' &&
             itm.system.type === 'standard' &&
@@ -3629,6 +4406,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         let data = {
             id:wpn?.id ?? '',
             label:wpn.name,
+            action:'weapon',
             classes:'btnWpn',
             options:[],
             type:'distance',
@@ -3661,10 +4439,28 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         if(system?.portee ?? undefined) data.portee = system.portee;
         data.id = wpn.id;
 
-        if(armure && addSpecial) {
+        if(armure && addSpecial && this.armorIsWear) {
             if(armure.system.special.selected?.porteurlumiere ?? undefined) {
                 specialRaw = specialRaw.concat(armure.system.special.selected.porteurlumiere.bonus.effets.raw)
                 specialCustom = specialCustom.concat(armure.system.special.selected.porteurlumiere.bonus.effets.custom)
+            }
+
+            if(armure?.system?.capacites?.selected?.goliath ?? undefined) {
+                if(armure?.system?.capacites?.selected?.goliath?.active) {
+                    const taille = foundry.utils.getProperty(this.actor, 'system.equipements.armure.capacites.goliath.metre');
+
+                    if(taille >= 4) specialRaw.push('antivehicule');
+                }
+            }
+        }
+
+        if(armureLegend && addSpecial && this.armorIsWear) {
+            if(armureLegend?.system?.capacites?.selected?.goliath ?? undefined) {
+                if(armureLegend?.system?.capacites?.selected?.goliath?.active) {
+                    const taille = foundry.utils.getProperty(this.actor, 'system.equipements.armure.capacites.goliath.metre');
+
+                    if(taille >= 4) specialRaw.push('antivehicule');
+                }
             }
         }
 
@@ -4118,56 +4914,6 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         return data;
     }
 
-    #renderInitialization(html) {
-        const scores = ['difficulte', 'succesBonus', 'modificateur'];
-        const actor = this.who;
-        const style = actor.system.combat.style;
-        const isPJ = this.isPJ;
-
-        html.find('input.label').val(this.rollData.label);
-        html.find('label.style select').val(style);
-        html.find('label.style span.hideInfo').remove();
-        html.find('label.style').append(`<span class="hideInfo" style="display:none;">${game.i18n.localize(CONFIG.KNIGHT.styles[style])}</span>`);
-
-        const aspects = html.find('.aspect button.btnCaracteristique');
-
-        for(let a of aspects) {
-            const value = $(a).data('value');
-            let setValue = `${this.#getValueAspect(actor, value)}`;
-
-            if(value === this.rollData.base) $(a).addClass('selected base');
-            else if(this.rollData.whatRoll.includes(value)) $(a).addClass('selected');
-
-            if((actor.system.wear === 'armure' || actor.system.wear === 'ascension') && isPJ) setValue += ` + ${this.#getODAspect(actor, value)} ${game.i18n.localize('KNIGHT.ASPECTS.OD')}`
-            else if(!isPJ) setValue += ` + ${this.#getODAspect(actor, value)} ${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnel-short')}`
-
-            $(a).find('span.value').text(setValue)
-
-            this.#updateBonusInterdits(a, html);
-        }
-
-        for(let s of scores) {
-            html.find(`label.score.${s} input`).val(this.rollData[s]);
-        }
-
-        html.find('.pilonnage select').val(this.rollData.style.pilonnage.type);
-        html.find('.precis select').val(this.rollData.style.precis.type);
-        html.find('.puissant select').val(this.rollData.style.puissant.type);
-        html.find('.suppression select').val(this.rollData.style.suppression.type);
-
-        html.find('.pilonnage input').val(this.rollData.style.pilonnage.value);
-        html.find('.puissant input').val(this.rollData.style.puissant.value);
-        html.find('.suppression input').val(this.rollData.style.suppression.value);
-
-        if(style === 'akimbo') {
-            this.rollData.html.find('span.specialInfo').text(game.i18n.localize("KNIGHT.COMBAT.STYLES.AKIMBO.SecondWpn"));
-            this.rollData.html.find('span.specialInfo').show();
-        }
-
-        this.#updateStyleShow(style, undefined);
-        this.#updateBtnShow(false, true);
-    }
-
     #updateComplexeWpn(id, property, value) {
         const complexe = this.rollData.allWpn.find(itm => itm.id === id);
         const wpn = this.rollData.allWpn.find(itm => itm.id === id);
@@ -4270,27 +5016,151 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             cout += boostViolenceSelected*boostviolence.value;
         }
 
-        longbow.cout = cout;
-        $(parent.find('button.btnWpn span p')).text(cout);
+        const p = parent.querySelector('button.btnWpn span p');
+        if(p) p.textContent = cout;
 
         if (longbow) {
             longbow.cout = cout;
         }
     }
 
-    #selectWpn(tgt, init=false, double=false) {
+    // Équivalent de jQuery .siblings(selector)
+    #siblings(element, selector) {
+        if(!element?.parentElement) return [];
+        return Array.from(element.parentElement.children)
+            .filter(el => el !== element && el.matches(selector));
+    }
+
+    // Vérifie si un sibling (h2/h3.summary) contient une icône donnée
+    #summaryHasIcon(element, summarySelector, iconClass) {
+        if(!element) return false;
+        const summary = this.#siblings(element, summarySelector)[0];
+        return summary?.querySelector('i')?.classList.contains(iconClass) ?? false;
+    }
+
+    #selectWpn(target, init=false, double=false) {
+        const button = target.closest('div.button');
+        const id = button?.dataset.id;
+        const grpWpn = target.closest('div.grpWpn');
+        const selectorParents = !double ? 'div.wpn button.btnWpn.selected' : 'div.wpn button.btnWpn.doubleSelected';
+        const parents = grpWpn ? grpWpn.querySelectorAll(selectorParents) : [];
+        const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+        const icon = target.querySelector('i');
+
+        if(!double) {
+            this.rollData.wpnSelected = id;
+            target.classList.add('selected');
+            icon?.classList.add('fa-solid', 'fa-check');
+        }
+        else {
+            this.rollData.wpnSecond = id;
+            target.classList.add('doubleSelected');
+            icon?.classList.add('fa-solid', 'fa-check-double');
+        }
+
+        // siblings .data / .bases / .effets → show
+        for(const cls of ['.data', '.bases', '.effets']) {
+            this.#siblings(target, cls).forEach(el => el.style.display = '');
+            this.#siblings(target, cls).forEach(el => this._slideDown(el));
+        }
+
+        if(!double) {
+            const labelInput = this.rollData.html.querySelector('input.label');
+            if(labelInput) labelInput.value = wpn.label;
+            this.rollData.label = wpn.label;
+        }
+
+        for(const p of parents) {
+            const pButton = p.closest('div.button');
+            const pCat = p.closest('div.cat');
+            const pId = pButton?.dataset.id;
+
+            if(id !== pId) {
+                const w = this.rollData.allWpn.find(itm => itm.id === pId);
+                if(w) w.classes = w.classes.replaceAll(' selected', '');
+
+                p.classList.remove('selected', 'doubleSelected');
+                p.querySelector('i')?.classList.remove('fa-solid', 'fa-check');
+                pButton?.classList.remove('selected');
+                pCat?.classList.remove('selected');
+
+                for(const cls of ['.data', '.bases', '.effets']) {
+                    this.#siblings(p, cls).forEach(el => this._slideUp(el));
+                }
+
+                if(this.#summaryHasIcon(pButton, 'h2.summary', 'fa-plus-square')) {
+                    if(pButton) this._slideUp(pButton);
+                }
+                if(this.#summaryHasIcon(pButton, 'h3.summary', 'fa-plus-square')) {
+                    if(pButton) this._slideUp(pButton);
+                }
+                if(this.#summaryHasIcon(pCat, 'h2.summary', 'fa-plus-square')) {
+                    if(pButton) this._slideUp(pButton);
+                    if(pCat) this._slideUp(pCat);
+                }
+            } else {
+                pButton?.classList.add('selected');
+                pCat?.classList.add('selected');
+
+                if(this.#summaryHasIcon(pButton, 'h2.summary', 'fa-minus-square')) {
+                    if(pButton) this._slideDown(pButton);
+                }
+                if(this.#summaryHasIcon(pButton, 'h3.summary', 'fa-minus-square')) {
+                    if(pButton) this._slideDown(pButton);
+                }
+                if(this.#summaryHasIcon(pCat, 'h2.summary', 'fa-minus-square')) {
+                    if(pButton) this._slideDown(pButton);
+                    if(pCat) this._slideDown(pCat);
+                }
+            }
+        }
+
+        button?.classList.add('selected');
+        target.closest('div.cat')?.classList.add('selected');
+
+        if(!double) {
+            const aspects = this.#siblings(grpWpn, 'div.aspects');
+            const totem = this.#siblings(grpWpn, 'label.totem');
+            const grpBtn = this.#siblings(grpWpn, 'div.grpBtn');
+
+            if(wpn?.tourelle) {
+                aspects.forEach(el => el.style.display = 'none');
+                totem.forEach(el => {
+                    el.classList.add('rowSevenEight');
+                    el.classList.remove('rowSixSeven');
+                });
+                grpBtn.forEach(el => {
+                    el.classList.remove('rowTwo', 'rowFour', 'rowOneFour', 'rowThreeFive');
+                    el.classList.add('rowTwoSix');
+                });
+            } else {
+                totem.forEach(el => {
+                    el.classList.add('rowSevenEight');
+                    el.classList.remove('rowSixSeven');
+                });
+                aspects.forEach(el => this._slideUp(el));
+            }
+        }
+
+        this.#updateStyleShow(undefined, wpn);
+    }
+
+    /*#selectWpn(target, init=false, double=false) {
+        const tgt = $(target);
         const id = tgt.parents('div.button').data('id');
         const parents = !double ?
-            tgt.parents('div.dialog-content').find('div.wpn button.btnWpn.selected') :
-            tgt.parents('div.dialog-content').find('div.wpn button.btnWpn.doubleSelected');
+            tgt.parents('div.grpWpn').find('div.wpn button.btnWpn.selected') :
+            tgt.parents('div.grpWpn').find('div.wpn button.btnWpn.doubleSelected');
         const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
         if(!double) {
-            this.data.roll.wpnSelected = id;
+            this.rollData.wpnSelected = id;
             tgt.addClass('selected');
             $(tgt.find('i')).addClass('fa-solid fa-check');
         }
         else {
-            this.data.roll.wpnSecond = id;
+            this.rollData.wpnSecond = id;
             tgt.addClass('doubleSelected');
             $(tgt.find('i')).addClass('fa-solid fa-check-double');
         }
@@ -4315,7 +5185,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
         if(!double) {
             this.rollData.html.find('input.label').val(wpn.label);
-            this.data.roll.label = wpn.label;
+            this.rollData.label = wpn.label;
         }
 
         for(let p of parents) {
@@ -4323,6 +5193,7 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 const w = this.rollData.allWpn.find(itm => itm.id === $(p).parents('div.button').data('id'));
                 if(w) w.classes.replaceAll(' selected', '');
                 $(p).removeClass('selected');
+                $(p).removeClass('doubleSelected');
                 $(p).find('i').removeClass('fa-solid fa-check');
                 $(p).parents('div.button').removeClass('selected');
                 $(p).parents('div.cat').removeClass('selected');
@@ -4338,53 +5209,9 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 $(p).siblings('.effets').hide({
                     complete: () => {},
                 });
-
-                if($(p).parents('div.button').siblings('h2.summary').find('i').hasClass('fa-plus-square')) {
-                    $(p).parents('div.button').hide({
-                        complete: () => {},
-                    });
-                }
-
-                if($(p).parents('div.button').siblings('h3.summary').find('i').hasClass('fa-plus-square')) {
-                    $(p).parents('div.button').hide({
-                        complete: () => {},
-                    });
-                }
-
-                if($(p).parents('div.cat').siblings('h2.summary').find('i').hasClass('fa-plus-square')) {
-                    $(p).parents('div.button').hide({
-                        complete: () => {},
-                    });
-
-                    $(p).parents('div.cat').hide({
-                        complete: () => {},
-                    });
-                }
             } else {
                 $(p).parents('div.button').addClass('selected');
                 $(p).parents('div.cat').addClass('selected');
-
-                if($(p).parents('div.button').siblings('h2.summary').find('i').hasClass('fa-minus-square')) {
-                    $(p).parents('div.button').show({
-                        complete: () => {},
-                    });
-                }
-
-                if($(p).parents('div.button').siblings('h3.summary').find('i').hasClass('fa-minus-square')) {
-                    $(p).parents('div.button').show({
-                        complete: () => {},
-                    });
-                }
-
-                if($(p).parents('div.cat').siblings('h2.summary').find('i').hasClass('fa-minus-square')) {
-                    $(p).parents('div.button').show({
-                        complete: () => {},
-                    });
-
-                    $(p).parents('div.cat').show({
-                        complete: () => {},
-                    });
-                }
             }
         }
 
@@ -4394,15 +5221,15 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
             if(wpn?.tourelle) {
                 $(tgt).parents('div.grpWpn').siblings('div.aspects').hide({
                     complete: () => {
-                        $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowThreeFive');
-                        $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowFourTwo rowFourSix');
-                        $(tgt).parents('div.grpWpn').siblings('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
+                        $(tgt).parents('div.grpWpn').siblings('label.totem').addClass('rowSevenEight');
+                        $(tgt).parents('div.grpWpn').siblings('label.totem').removeClass('rowSixSeven');
+                        $(tgt).parents('div.grpWpn').siblings('div.grpBtn').removeClass('rowTwo rowFour rowOneFour rowThreeFive');
                         $(tgt).parents('div.grpWpn').siblings('div.grpBtn').addClass('rowTwoSix');
                     },
                 });
             } else {
-                $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowFourSix rowThreeFive');
-                $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowTwo');
+                $(tgt).parents('div.grpWpn').siblings('label.totem').addClass('rowSevenEight');
+                $(tgt).parents('div.grpWpn').siblings('label.totem').removeClass('rowSixSeven');
 
                 $(tgt).parents('div.grpWpn').siblings('div.aspects').show({
                     complete: () => {
@@ -4412,9 +5239,64 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         }
 
         this.#updateStyleShow(undefined, wpn);
+    }*/
+
+    #unselectWpn(target, double=false) {
+        const button = target.closest('div.button');
+        const cat = target.closest('div.cat');
+        const grpWpn = target.closest('div.grpWpn');
+        const id = button?.dataset.id;
+
+        if(id === this.rollData.wpnSelected && !double) this.rollData.wpnSelected = '';
+        else if(id === this.rollData.wpnSecond && double) this.rollData.wpnSecond = '';
+
+        const icon = target.querySelector('i');
+
+        if(!double) {
+            target.classList.remove('selected');
+            icon?.classList.remove('fa-solid', 'fa-check');
+        }
+        else {
+            target.classList.remove('doubleSelected');
+            icon?.classList.remove('fa-solid', 'fa-check-double');
+        }
+
+        button?.classList.remove('selected');
+        cat?.classList.remove('selected');
+
+        // siblings .data / .bases / .effets → slideUp
+        for(const cls of ['.data', '.bases', '.effets']) {
+            this.#siblings(target, cls).forEach(el => this._slideUp(el));
+        }
+
+        if(this.#summaryHasIcon(button, 'h2.summary', 'fa-plus-square')) {
+            if(button) this._slideUp(button);
+        }
+        if(this.#summaryHasIcon(button, 'h3.summary', 'fa-plus-square')) {
+            if(button) this._slideUp(button);
+        }
+        if(this.#summaryHasIcon(cat, 'h2.summary', 'fa-plus-square')) {
+            if(button) this._slideUp(button);
+            if(cat) this._slideUp(cat);
+        }
+
+        if(!this.rollData.wpnSelected) {
+            const totem = this.#siblings(grpWpn, 'label.totem');
+            const aspects = this.#siblings(grpWpn, 'div.aspects');
+
+            totem.forEach(el => {
+                el.classList.remove('rowSevenEight');
+                el.classList.add('rowSixSeven');
+            });
+
+            aspects.forEach(el => this._slideDown(el));
+        }
+
+        this.#updateStyleShow(undefined, undefined, true);
     }
 
-    #unselectWpn(tgt, double=false) {
+    /*#unselectWpn(target, double=false) {
+        const tgt = $(target);
         const id = tgt.parents('div.button').data('id');
 
         if(id === this.rollData.wpnSelected && !double) this.rollData.wpnSelected = '';
@@ -4467,7 +5349,8 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         }
 
         if(!this.rollData.wpnSelected) {
-            $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowFourTwo rowThreeFive');
+            $(tgt).parents('div.grpWpn').siblings('label.totem').removeClass('rowSevenEight');
+            $(tgt).parents('div.grpWpn').siblings('label.totem').addClass('rowSixSeven');
 
             $(tgt).parents('div.grpWpn').siblings('div.aspects').show({
                 complete: () => {
@@ -4476,9 +5359,73 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         }
 
         this.#updateStyleShow(undefined, undefined, true);
-    }
+    }*/
 
     #updateStyleShow(style = undefined, wpn = undefined, forceUnselect = false) {
+        const data = this.rollData;
+        const html = data?.html;
+        if(!html) return;
+
+        const root = html;
+
+        const zones = {
+            pilonnage:   root.querySelector('.pilonnage'),
+            precis:      root.querySelector('.precis'),
+            puissant:    root.querySelector('.puissant'),
+            suppression: root.querySelector('.suppression'),
+        };
+
+        const hideAll = () => {
+            for(const z of Object.values(zones)) this._hide(z);
+        };
+        const showOnly = (key) => {
+            for(const [k, z] of Object.entries(zones)) {
+                if(k === key) this._show(z);
+                else this._hide(z);
+            }
+        };
+
+
+        // Source de vérité : rollData
+        const currentStyle = style ?? this.style;
+        const currentWpn   = wpn   ?? data.allWpn.find(itm => itm.id === data.wpnSelected);
+
+        if(!currentWpn || forceUnselect) {
+            hideAll();
+            return;
+        }
+
+        const rawEffets = [
+            ...(currentWpn?.effets?.raw ?? []),
+            ...(currentWpn?.distance?.raw ?? []),
+            ...(currentWpn?.structurelles?.raw ?? []),
+            ...(currentWpn?.ornementales?.raw ?? []),
+        ];
+        const effetSet = new Set(rawEffets);
+        const options  = currentWpn.options ?? {};
+        const type     = currentWpn.type;
+
+        const has    = (effet)  => this.#isEffetActive(effetSet, options, [effet]);
+        const hasAny = (effets) => this.#isEffetActive(effetSet, options, effets);
+
+        const DEUX_MAINS_LIKE = ['deuxmains', 'systemerefroidissement', 'munitionshypervelocite'];
+
+        const rules = {
+            pilonnage:   () => type === 'distance' && hasAny(DEUX_MAINS_LIKE),
+            precis:      () => type === 'contact'  && hasAny(DEUX_MAINS_LIKE),
+            puissant:    () => type === 'contact'  && (has('lourd') || (has('deuxmains') && hasAny(['systemerefroidissement', 'munitionshypervelocite']))),
+            suppression: () => type === 'distance' && (has('lourd') || (has('deuxmains') && hasAny(['systemerefroidissement', 'munitionshypervelocite']))),
+        };
+
+        if(!Object.hasOwn(rules, currentStyle) || !rules[currentStyle]()) {
+            hideAll();
+            return;
+        }
+
+        showOnly(currentStyle);
+    }
+
+    /*#updateStyleShow(style = undefined, wpn = undefined, forceUnselect = false) {
         const data = this.rollData;
         const html = data?.html;
         if (!html) return;
@@ -4549,273 +5496,252 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         } else {
           hideAll();
         }
-    }
+    }*/
 
     #updateBtnShow(forceUnselect=false, init=false) {
         const html = this.rollData.html;
         const hasWpn = this.rollData.wpnSelected === '' ? false : true;
         const isPJ = this.isPJ;
 
+        const modDmg = html.querySelector('.modificateurdegats');
+        const modVio = html.querySelector('.modificateurviolence');
+        const maxDmg = html.querySelector('.maximizedegats');
+        const maxVio = html.querySelector('.maximizeviolence');
+        const modHer = html.querySelector('.modeheroique');
+        const attSur = html.querySelector('.attaquesurprise');
+        const scoDif = html.querySelector('.score.difficulte');
+        const sucBon = html.querySelector('.score.succesBonus');
+        const sucMod = html.querySelector('.score.modificateur');
+        const grpBtn = html.querySelector('.grpBtn');
+
         if(!hasWpn || forceUnselect) {
             if(init) {
-                html.find('.modificateurdegats').hide();
+                const toHide = [modDmg, modVio, maxDmg, maxVio, modHer, attSur];
 
-                html.find('.modificateurviolence').hide();
+                toHide.forEach(h => this._hide(h));
+                this._show(scoDif);
 
-                html.find('.maximizedegats').hide();
+                sucBon.classList.add('colTwo');
+                sucMod.classList.add('colOne');
 
-                html.find('.maximizeviolence').hide();
-
-                html.find('.modeheroique').hide();
-
-                html.find('.attaquesurprise').hide();
-
-                html.find('.score.difficulte').show();
-
-                html.find('.score.difficulte').show();
-
-                html.find('.score.succesBonus').addClass('colTwo');
-                html.find('.score.modificateur').addClass('colThree');
-                html.find('.score.succesBonus').removeClass('colOne');
-                html.find('.score.modificateur').removeClass('colTwo');
+                sucBon.classList.remove('colOne');
+                sucMod.classList.remove('colTwo');
             } else {
-                html.find('.modificateurdegats').hide({
-                    complete: () => {},
-                });
+                const toHide = [modDmg, modVio, maxDmg, maxVio, modHer, attSur];
 
-                html.find('.modificateurviolence').hide({
-                    complete: () => {},
-                });
+                toHide.forEach(h => this._slideUp(h));
 
-                html.find('.maximizedegats').hide({
-                    complete: () => {},
-                });
+                this._slideDown(scoDif);
 
-                html.find('.maximizeviolence').hide({
-                    complete: () => {},
-                });
+                sucBon.classList.add('colTwo');
+                sucMod.classList.add('colThree');
 
-                html.find('.modeheroique').hide({
-                    complete: () => {},
-                });
-
-                html.find('.attaquesurprise').hide({
-                    complete: () => {},
-                });
-
-                html.find('.score.difficulte').show({
-                    complete: () => {},
-                });
-
-                html.find('.score.succesBonus').addClass('colTwo');
-                html.find('.score.modificateur').addClass('colThree');
-                html.find('.score.succesBonus').removeClass('colOne');
-                html.find('.score.modificateur').removeClass('colTwo');
+                sucBon.classList.remove('colOne');
+                sucMod.classList.remove('colTwo');
             }
 
-            if(!isPJ) html.find('.grpBtn').hide();
-
-            html.find('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
+            if(!isPJ) this._hide(grpBtn)
+            grpBtn.classList.add('rowTwo');
+            grpBtn.classList.remove('rowOneFour');
+            grpBtn.classList.remove('rowThreeFive');
         } else {
             if(init) {
-                html.find('.modificateurdegats').show();
+                const toShow = [modDmg, modVio, maxDmg, maxVio, attSur];
 
-                html.find('.modificateurviolence').show();
-
-                html.find('.maximizedegats').show();
-
-                html.find('.maximizeviolence').show();
+                toShow.forEach(h => this._show(h));
+                this._hide(scoDif);
 
                 if(isPJ) {
-                    html.find('.modeheroique').show();
+                    this._show(modHer);
                 } else {
-                    html.find('.modeheroique').hide();
+                    this._hide(modHer);
                 }
 
-                html.find('.attaquesurprise').show();
+                sucBon.classList.remove('colTwo');
+                sucMod.classList.remove('colThree');
 
-                html.find('.score.difficulte').hide();
-
-                html.find('.score.succesBonus').removeClass('colTwo');
-                html.find('.score.modificateur').removeClass('colThree');
-                html.find('.score.succesBonus').addClass('colOne');
-                html.find('.score.modificateur').addClass('colTwo');
+                sucBon.classList.add('colOne');
+                sucMod.classList.add('colTwo');
             } else {
-                html.find('.modificateurdegats').show({
-                    complete: () => {},
-                });
+                const toShow = [modDmg, modVio, maxDmg, maxVio, attSur];
 
-                html.find('.modificateurviolence').show({
-                    complete: () => {},
-                });
-
-                html.find('.maximizedegats').show({
-                    complete: () => {},
-                });
-
-                html.find('.maximizeviolence').show({
-                    complete: () => {},
-                });
+                toShow.forEach(h => this._slideDown(h));
 
                 if(isPJ) {
-                    html.find('.modeheroique').show({
-                        complete: () => {},
-                    });
+                    this._slideDown(modHer);
                 } else {
-                    html.find('.modeheroique').hide({
-                        complete: () => {},
-                    });
+                    this._slideUp(modHer);
                 }
 
-                html.find('.attaquesurprise').show({
-                    complete: () => {},
-                });
+                this._slideUp(scoDif);
 
-                html.find('.score.difficulte').hide({
-                    complete: () => {},
-                });
+                sucBon.classList.remove('colTwo');
+                sucMod.classList.remove('colThree');
 
-                html.find('.score.succesBonus').removeClass('colTwo');
-                html.find('.score.modificateur').removeClass('colThree');
-                html.find('.score.succesBonus').addClass('colOne');
-                html.find('.score.modificateur').addClass('colTwo');
+                sucBon.classList.add('colOne');
+                sucMod.classList.add('colTwo');
             }
 
-            if(!isPJ) html.find('.grpBtn').show();
+            if(!isPJ) this._show(grpBtn);
 
-            html.find('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive rowOneFour rowOneThree');
-            if(isPJ) html.find('div.grpBtn').addClass('rowOneFour');
-            else html.find('div.grpBtn').addClass('rowOneThree');
+            grpBtn.classList.remove('rowTwo', 'rowFour', 'rowOneFour', 'rowThreeFive');
+
+            if(isPJ) grpBtn.classList.add('rowOneFour');
+            else grpBtn.classList.add('rowThreeFive');
+        }
+    }
+
+    #reconcileBonusInterdits() {
+        const { bonus, interdits } = this.attrMods;
+        const rData = this.rollData;
+
+        // Retire les interdits de whatRoll + dédoublonne (cf. le [...new Set()] de #roll)
+        rData.whatRoll = [...new Set(rData.whatRoll.filter(v => !interdits.includes(v)))];
+
+        // Si la base est interdite, elle cède sa place au 1er whatRoll dispo
+        if(interdits.includes(rData.base)) {
+            rData.base = rData.whatRoll.shift() ?? '';
+        }
+
+        // Si la base est un bonus, elle bascule en whatRoll et cède sa place
+        if(bonus.includes(rData.base) && rData.whatRoll.length !== 0) {
+            const old = rData.base;
+            rData.base = rData.whatRoll.shift();
+            if(!rData.whatRoll.includes(old)) rData.whatRoll.push(old);
+        }
+    }
+
+    #renderBonusInterdits(html) {
+        const { bonus, interdits } = this.attrMods;
+        const rData = this.rollData;
+        const root = html instanceof jQuery ? html[0] : html;
+
+        for(const btn of root.querySelectorAll('button.btnCaracteristique')) {
+            const value = btn.dataset.value;
+            const i = btn.querySelector('i');
+            const isInterdit = interdits.includes(value);
+            const isBonus    = bonus.includes(value);
+            const isBase     = rData.base === value;
+            const isSelected = rData.whatRoll.includes(value);
+
+            // Opacité + hover
+            const dimmed = isInterdit || isBonus;
+            btn.style.opacity = dimmed ? '0.5' : '1';
+            btn.classList.toggle('wHover', !dimmed);
+
+            // Reset des classes/icônes pilotées par l'état
+            btn.classList.remove('base', 'selected');
+            i?.classList.remove('fa-solid', 'fa-check-double', 'fa-check');
+
+            if(isInterdit) continue; // interdit = rien d'autre
+
+            if(isBase) {
+                btn.classList.add('base');
+                i?.classList.add('fa-solid', 'fa-check-double');   // base = double
+            } else if(isSelected) {
+                btn.classList.add('selected');
+                i?.classList.add('fa-solid', 'fa-check');           // selected = simple
+            } else if(isBonus) {
+                i?.classList.add('fa-solid', 'fa-check');           // bonus = simple
+            }
         }
     }
 
     #updateBonusInterdits(b, html) {
-        const attrMods = this.attrMods;
-        const bonus = attrMods.bonus
-        const interdits = attrMods.interdits;
-        const btns = html.find('button.btnCaracteristique');
-
-        if(!b) {
-            for(let b of btns) {
-                const value = $(b).data('value');
-
-                if(interdits.includes(value)) {
-                    const rData = this.rollData;
-                    $(b).css('opacity', '0.5');
-                    $(b).removeClass('wHover');
-                    $(b).removeClass('selected base');
-                    $(b).find('i').removeClass('fa-solid fa-check-double fa-check');
-
-                    if(rData.base === value) {
-                        if(rData.whatRoll.length !== 0) {
-                            html.find(`button.btnCaracteristique.${rData.whatRoll[0]}`).addClass('base');
-
-                            rData.base = rData.whatRoll[0];
-                            rData.whatRoll.shift();
-                        } else {
-                            rData.base = '';
-                        }
-                    }
-
-                    if(rData.whatRoll.includes(value)) {
-                        $(b).find('i').removeClass('fa-solid fa-check-double fa-check');
-
-                        rData.whatRoll = rData.whatRoll.filter(item => item !== value);
-                    }
-                } else if(!bonus.includes(value)) {
-                    $(b).css('opacity', '1');
-
-                    if(!$(b).hasClass('wHover')) $(b).addClass('wHover');
-                }
-
-                if(bonus.includes(value)) {
-                    const rData = this.rollData;
-                    $(b).css('opacity', '0.5');
-                    $(b).removeClass('wHover');
-
-                    if(rData.base === value) {
-                        $(b).removeClass('base');
-                        $(b).find('i').removeClass('fa-check-double');
-                        $(b).find('i').addClass('fa-check');
-
-                        if(rData.whatRoll.length !== 0) {
-                            if(!$(b).hasClass('selected')) $(b).addClass('selected');
-                            html.find(`button.btnCaracteristique.${rData.whatRoll[0]}`).addClass('base');
-
-                            rData.base = rData.whatRoll[0];
-                            rData.whatRoll.shift();
-                            rData.whatRoll.push(value);
-                        }
-                    }
-                } else if(!interdits.includes(value)) {
-                    $(b).css('opacity', '1');
-
-                    if(!$(b).hasClass('wHover')) $(b).addClass('wHover');
-                }
-            }
-        } else {
-            const value = $(b).data('value');
-
-            if(interdits.includes(value)) {
-                const rData = this.rollData;
-                $(b).css('opacity', '0.5');
-                $(b).removeClass('wHover');
-
-                if(rData.base === value) {
-                    $(b).removeClass('selected base');
-
-                    if(rData.whatRoll.length !== 0) {
-                        $(b).find('i').removeClass('fa-solid fa-check-double fa-check');
-                        html.find(`button.btnCaracteristique.${rData.whatRoll[0]}`).addClass('base');
-
-                        rData.base = rData.whatRoll[0];
-                        rData.whatRoll.shift();
-                    } else {
-                        rData.base = '';
-                    }
-                }
-
-                if(rData.whatRoll.includes(value)) {
-                    $(b).find('i').removeClass('fa-solid fa-check-double fa-check');
-
-                    rData.whatRoll = rData.whatRoll.filter(item => item !== value);
-                }
-            } else if(!bonus.includes(value)) {
-                $(b).css('opacity', '1');
-
-                if(!$(b).hasClass('wHover')) $(b).addClass('wHover');
-            }
-
-            if(bonus.includes(value)) {
-                const rData = this.rollData;
-
-                if(rData.base === value) {
-                    if(rData.whatRoll.length !== 0) {
-                        html.find(`button.btnCaracteristique.${rData.whatRoll[0]}`).addClass('base');
-
-                        rData.base = rData.whatRoll[0];
-                        rData.whatRoll.shift();
-                    }
-                }
-
-                $(b).css('opacity', '0.5');
-                $(b).removeClass('wHover');
-                $(b).removeClass('base');
-                $(b).find('i').removeClass('fa-solid fa-check-double');
-                $(b).find('i').addClass('fa-solid fa-check');
-
-                if(!$(b).hasClass('selected')) $(b).addClass('selected');
-
-                rData.whatRoll.push(value);
-            } else if(!interdits.includes(value)) {
-                $(b).css('opacity', '1');
-
-                if(!$(b).hasClass('wHover')) $(b).addClass('wHover');
-            }
-        }
+        this.#reconcileBonusInterdits();
+        this.#renderBonusInterdits(html);
     }
 
     #sanitizeWpn(tgt, html) {
+        const { distance, contact, grenade, complexe, aidistance, aicontact, tourelle } = {
+            distance: this.rollData.typeWpn.distance.length > 0,
+            contact: this.rollData.typeWpn.contact.length > 0,
+            grenade: this.rollData.typeWpn.grenade.length > 0,
+            complexe: this.rollData.typeWpn.complexe.length > 0,
+            tourelle: this.rollData.typeWpn.tourelle.length > 0,
+            aidistance: this.rollData.typeWpn.aidistance.length > 0,
+            aicontact: this.rollData.typeWpn.aicontact.length > 0,
+        };
+
+        // Normalise tgt en tableau d'éléments
+        const targets = tgt == null
+            ? []
+            : (tgt instanceof Element ? [tgt] : Array.from(tgt));
+
+        for(const t of targets) {
+            const isSelected = t.classList.contains('selected');
+            const button = t.closest('div.button');
+            const cat = t.closest('div.cat');
+
+            if(isSelected) {
+                this._show(t);
+                if(button) this._show(button);
+                if(cat) this._show(cat);
+
+                // $button.parents('div.button').siblings('div.button')
+                // => les div.button frères du div.button parent de button
+                const parentButton = button?.parentElement?.closest('div.button');
+                if(parentButton) {
+                    this.#siblings(parentButton, 'div.button').forEach(el => this._show(el));
+                }
+            } else {
+                button?.classList.remove('selected');
+            }
+
+            // $cat.find('h3 i').hasClass('fa-minus-square')
+            const catIcon = cat?.querySelector('h3 i');
+            if(catIcon?.classList.contains('fa-minus-square')) {
+                // $cat.find('h3').siblings().show()
+                const h3 = cat.querySelector('h3');
+                if(h3) this.#siblings(h3, '*').forEach(el => this._show(el));
+            }
+        }
+
+        // toggle visibilité des zones
+        const setVisible = (selector, visible) => {
+            const el = html.querySelector(selector);
+            if(el) visible ? this._show(el) : this._hide(el);
+        };
+
+        setVisible('div.wpn.wpndistance', distance);
+        setVisible('div.wpn.wpncontact', contact);
+        setVisible('div.wpn.grenade', grenade);
+        setVisible('div.wpn.complexe', complexe);
+        setVisible('div.wpn.tourelle', tourelle);
+        setVisible('div.wpn.aicontact', aicontact);
+        setVisible('div.wpn.aidistance', aidistance);
+
+        // classes colonnes
+        const wpndistance = html.querySelector('div.wpn.wpndistance');
+        if(wpndistance) {
+            wpndistance.classList.toggle('colTwo', contact);
+            wpndistance.classList.toggle('colOne', !contact);
+        }
+
+        const grenadeEl = html.querySelector('div.wpn.grenade');
+        if(grenadeEl) {
+            grenadeEl.classList.toggle('colDuo',
+                (!tourelle && (complexe || (contact && distance))) ||
+                (!tourelle && (!complexe && (!contact && !distance))));
+            grenadeEl.classList.toggle('colOne',
+                tourelle && ((!distance && !contact) || (contact && distance) || complexe));
+            grenadeEl.classList.toggle('colTwo',
+                (!complexe && ((!distance && contact) || (distance && !contact))));
+        }
+
+        const tourelleEl = html.querySelector('div.wpn.tourelle');
+        if(tourelleEl) {
+            tourelleEl.classList.toggle('colDuo',
+                (!grenade || ((grenade && !distance && contact && !complexe) ||
+                            (grenade && !contact && distance && !complexe))));
+            tourelleEl.classList.toggle('colTwo',
+                grenade && ((!distance && !contact) || (contact && distance) || complexe));
+        }
+
+        this.#updateStyleShow(undefined, undefined);
+    }
+
+    /*#sanitizeWpn(tgt, html) {
         const { distance, contact, grenade, complexe, aidistance, aicontact, tourelle } = {
             distance: this.rollData.typeWpn.distance.length > 0,
             contact: this.rollData.typeWpn.contact.length > 0,
@@ -4866,84 +5792,8 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         .toggleClass('colDuo', (!grenade || ((grenade && !distance && contact && !complexe) || (grenade && !contact && distance && !complexe))))
         .toggleClass('colTwo', grenade && ((!distance && !contact) || (contact && distance) || complexe))
 
-        html.find('label.selectWithInfo select').change(async ev => {
-            const $tgt = $(ev.currentTarget);
-            const style = $tgt.val();
-
-            $tgt.siblings('span.hideInfo').remove();
-            $tgt.parents('label.style').append(`<span class="hideInfo" style="display:none;">${game.i18n.localize(CONFIG.KNIGHT.styles[style])}</span>`);
-
-            this.rollData.style.type = 'degats';
-            this.rollData.style.value = 0;
-
-            this.#updateStyleShow(style, undefined);
-
-            if(style !== 'akimbo') {
-                this.#unselectWpn($(this.rollData.html.find('.doubleSelected')), true);
-                this.rollData.html.find('span.specialInfo').hide();
-            }
-            else {
-                this.rollData.html.find('span.specialInfo').text(game.i18n.localize("KNIGHT.COMBAT.STYLES.AKIMBO.SecondWpn"));
-                this.rollData.html.find('span.specialInfo').show();
-            }
-
-            if(this.actor.type === 'mechaarmure') await this.actor.update({['system.combat.style']: style});
-            else await this.who.update({['system.combat.style']: style});
-        });
-
-        html.find('.precis select').change(ev => {
-            const tgt = $(ev.currentTarget);
-            const value = tgt.val();
-
-            this.rollData.style.precis.type = value;
-        });
-
-        html.find('.pilonnage select').change(ev => {
-            const tgt = $(ev.currentTarget);
-            const value = tgt.val();
-
-            this.rollData.style.pilonnage.type = value;
-            this.actor.update({['system.combat.data.type']:value});
-        });
-
-        html.find('.pilonnage input').change(ev => {
-            const tgt = $(ev.currentTarget);
-            const value = parseInt(tgt.val());
-
-            this.rollData.style.pilonnage.value = value;
-            this.actor.update({['system.combat.data.tourspasses']:value});
-        });
-
-        html.find('.puissant select').change(ev => {
-            const tgt = $(ev.currentTarget);
-            const value = tgt.val();
-
-            this.rollData.style.puissant.type = value;
-        });
-
-        html.find('.puissant input').change(ev => {
-            const tgt = $(ev.currentTarget);
-            const value = parseInt(tgt.val());
-
-            this.rollData.style.puissant.value = value;
-        });
-
-        html.find('.suppression select').change(ev => {
-            const tgt = $(ev.currentTarget);
-            const value = tgt.val();
-
-            this.rollData.style.suppression.type = value;
-        });
-
-        html.find('.suppression input').change(ev => {
-            const tgt = $(ev.currentTarget);
-            const value = parseInt(tgt.val());
-
-            this.rollData.style.suppression.value = value;
-        });
-
         this.#updateStyleShow(undefined, undefined);
-    }
+    }*/
 
     #getValueAspect(actor, name) {
         let whatName = this.isPJ ? name : this.#convertCaracToAspect(name);
@@ -5218,6 +6068,9 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
 
     #getWpnComplexeHTML(data={}) {
         const labels = getAllEffects();
+
+        if(data.id === this.rollData.wpnSelected) data.classes += ' selected';
+
         const start = `<div class="wpn wpnComplexe longbow button" data-id="${data.id}">
                 <button type="action" class="${data.classes}">
                     <i></i>
@@ -5370,46 +6223,111 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
     }
 
     #cleanHtml() {
-        this.data.roll.html.find('div.wpn.wpncontact .button').remove();
-        this.data.roll.html.find('div.wpn.wpndistance .button').remove();
-        this.data.roll.html.find('div.wpn.tourelle .button').remove();
-        this.data.roll.html.find('div.wpn.aicontact .cat .button').remove();
-        this.data.roll.html.find('div.wpn.aidistance .cat .button').remove();
-        this.data.roll.html.find('div.wpn.grenade .button').remove();
-        this.data.roll.html.find('div.complexe .button').remove();
+        const html = this.rollData.html;
+        const selectors = [
+            'div.wpn.wpncontact .button',
+            'div.wpn.wpndistance .button',
+            'div.wpn.tourelle .button',
+            'div.wpn.aicontact .cat .button',
+            'div.wpn.aidistance .cat .button',
+            'div.wpn.grenade .button',
+            'div.complexe .button',
+        ];
+        for(const sel of selectors) html.querySelectorAll(sel).forEach(el => el.remove());
     }
 
     #updateWpnContact(contact) {
+        const target = this.rollData.html.querySelector('div.wpn.wpncontact');
+        if(target) target.insertAdjacentHTML('beforeend', contact.map(w => this.#getWpnHTML(w)).join(''));
+    }
+
+    #updateWpnDistance(distance) {
+        const target = this.rollData.html.querySelector('div.wpn.wpndistance');
+        if(target) target.insertAdjacentHTML('beforeend', distance.map(w => this.#getWpnHTML(w)).join(''));
+    }
+
+    #updateWpnTourelle(distance) {
+        const target = this.rollData.html.querySelector('div.wpn.tourelle');
+        if(target) target.insertAdjacentHTML('beforeend', distance.map(w => this.#getWpnHTML(w)).join(''));
+    }
+
+    #updateWpnComplexe(complexe) {
+        const target = this.rollData.html.querySelector('div.complexe');
+        if(target) target.insertAdjacentHTML('beforeend', complexe.map(w => this.#getWpnComplexeHTML(w)).join(''));
+    }
+
+    #updateWpnAIContact(ai) {
+        const html = this.rollData.html;
+
+        for(const w of ai) {
+            let content = '';
+
+            for(const l of w.list) {
+                content += this.#getWpnHTML(l);
+            }
+
+            html.querySelector(`div.wpn.aicontact div.cat.${w.id}`)
+                ?.insertAdjacentHTML('beforeend', content);
+        }
+    }
+
+    #updateWpnAIDistance(ai) {
+        const html = this.rollData.html;
+
+        for(const w of ai) {
+            let content = '';
+
+            for(const l of w.list) {
+                content += this.#getWpnHTML(l);
+            }
+
+            html.querySelector(`div.wpn.aidistance div.cat.${w.id}`)
+                ?.insertAdjacentHTML('beforeend', content);
+        }
+    }
+
+    #updateWpnGrenade(grenade) {
+        const html = this.rollData.html;
+        const collapsed = !!html.querySelector('div.wpn.grenade h2 i.fa-plus-square');
+        let htmlGrenade = '';
+        for(const w of grenade) {
+            if(collapsed) w.noShow = true;
+            htmlGrenade += this.#getWpnHTML(w);
+        }
+        html.querySelector('div.wpn.grenade')?.insertAdjacentHTML('beforeend', htmlGrenade);
+    }
+
+    /*#updateWpnContact(contact) {
         let htmlContact = ``;
 
         for(let w of contact) {
             htmlContact += this.#getWpnHTML(w);
         }
 
-        this.data.roll.html.find('div.wpn.wpncontact').append(htmlContact);
-    }
+        this.rollData.html.find('div.wpn.wpncontact').append(htmlContact);
+    }*/
 
-    #updateWpnDistance(distance) {
+    /*#updateWpnDistance(distance) {
         let htmlDistance = ``;
 
         for(let w of distance) {
             htmlDistance += this.#getWpnHTML(w);
         }
 
-        this.data.roll.html.find('div.wpn.wpndistance').append(htmlDistance);
-    }
+        this.rollData.html.find('div.wpn.wpndistance').append(htmlDistance);
+    }*/
 
-    #updateWpnTourelle(distance) {
+    /*#updateWpnTourelle(distance) {
         let htmlDistance = ``;
 
         for(let w of distance) {
             htmlDistance += this.#getWpnHTML(w);
         }
 
-        this.data.roll.html.find('div.wpn.tourelle').append(htmlDistance);
-    }
+        this.rollData.html.find('div.wpn.tourelle').append(htmlDistance);
+    }*/
 
-    #updateWpnAIContact(ai) {
+    /*#updateWpnAIContact(ai) {
 
         for(let w of ai) {
             let html = ``;
@@ -5418,11 +6336,11 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 html += this.#getWpnHTML(l);
             }
 
-            this.data.roll.html.find(`div.wpn.aicontact div.cat.${w.id}`).append(html);
+            this.rollData.html.find(`div.wpn.aicontact div.cat.${w.id}`).append(html);
         }
-    }
+    }*/
 
-    #updateWpnAIDistance(ai) {
+    /*#updateWpnAIDistance(ai) {
         for(let w of ai) {
             let html = ``;
 
@@ -5430,31 +6348,31 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
                 html += this.#getWpnHTML(l);
             }
 
-            this.data.roll.html.find(`div.wpn.aidistance div.cat.${w.id}`).append(html);
+            this.rollData.html.find(`div.wpn.aidistance div.cat.${w.id}`).append(html);
         }
-    }
+    }*/
 
-    #updateWpnGrenade(grenade) {
+    /*#updateWpnGrenade(grenade) {
         let htmlGrenade = ``;
 
         for(let w of grenade) {
-            if(this.data.roll.html.find('div.wpn.grenade h2 i.fa-plus-square').length > 0) w.noShow = true;
+            if(this.rollData.html.find('div.wpn.grenade h2 i.fa-plus-square').length > 0) w.noShow = true;
 
             htmlGrenade += this.#getWpnHTML(w);
         }
 
-        this.data.roll.html.find('div.wpn.grenade').append(htmlGrenade);
-    }
+        this.rollData.html.find('div.wpn.grenade').append(htmlGrenade);
+    }*/
 
-    #updateWpnComplexe(complexe) {
+    /*#updateWpnComplexe(complexe) {
         let htmlComplexe = ``;
 
         for(let w of complexe) {
             htmlComplexe += this.#getWpnComplexeHTML(w);
         }
 
-        this.data.roll.html.find('div.complexe').append(htmlComplexe);
-    }
+        this.rollData.html.find('div.complexe').append(htmlComplexe);
+    }*/
 
     #updateWpn(id, update) {
         const wpn = this.rollData.allWpn.find(itm => itm.id === id);
@@ -5590,6 +6508,11 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         }
     }
 
+    #updateTotem() {
+        this.#prepareTotem(this.rollData.html, this.nbreTotemTotal, this.nbreTotemShow, 'totem');
+        this.#prepareTotem(this.rollData.html, this.nbreTotemLTotal, this.nbreTotemLShow, 'totemL');
+    }
+
     #getBonusModulesByType(actor, type, bonusType, whoActivate) {
         return actor.items.filter(itm => {
             if (itm.type !== 'module') return false;
@@ -5698,5 +6621,67 @@ export class KnightRollDialog extends JsTogglerMixin(HandlebarsApplicationMixin(
         }
 
         return result;
+    }
+
+    #prepareTotem(html, nbreTotal, nbreShow, search) {
+        for(let n = 0;n < nbreTotal;n++) {
+            const totem = html.querySelector(`label.${search}${n}`);
+            if(!totem) continue;
+            const select = totem.querySelector('select');
+
+            totem.style.display = n < nbreShow ? '' : 'none';
+
+            if(select) {
+                select.value = this?.rollData?.[search]?.[`t${n}`] ?? '';
+            }
+        }
+    }
+
+    #getStructureSignature() {
+        return {
+            nbreTotemTotal: this.nbreTotemTotal,
+            nbreTotemLTotal: this.nbreTotemLTotal,
+            // Ajoute ici tout ce qui modifie la STRUCTURE du template
+            // (pas juste les valeurs), ex: présence de styles spéciaux PJ/PNJ
+            isPJ: this.isPJ,
+            armorIsWear: this.armorIsWear,
+        };
+    }
+
+    #needFullRerender() {
+        const current = this.#getStructureSignature();
+        const previous = this.rollData.structure;
+
+        const changed = !foundry.utils.isEmpty(
+            foundry.utils.diffObject(previous, current)
+        ) || !foundry.utils.isEmpty(
+            foundry.utils.diffObject(current, previous)
+        );
+
+        return changed;
+    }
+
+    async #fullRerender() {
+        // On sauvegarde la signature
+        this.rollData.structure = this.#getStructureSignature();
+
+        // On re-prépare boutons / mods / titre au cas où ils dépendent de l'état
+        //this.#prepareTitle();
+        this.#prepareButtons();
+
+        // On régénère le contenu HTML complet (totems inclus)
+        this.system.content = await renderTemplate(
+            KnightRollDialog.dialogRoll,
+            this.#prepareOptions()
+        );
+
+        // render(true) va réinjecter content + rappeler activateListeners
+        // qui ré-attache tous les listeners et restaure l'état via
+        // #renderInitialization / #renderHTML
+        this.render(true);
+    }
+
+    static async #onSubmit(event, form, formData, options={}) {
+        await this.system.update(formData.object);
     }
 }

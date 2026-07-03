@@ -166,7 +166,7 @@ export const PreloadTemplates = async function() {
     "knight.effets": `${path}/common/parts/sections/effets.hbs`,
     "knight.itemButtons": `${path}/actors/parts/common/itemButtons.hbs`,
     "knight.itemCreate": `${path}/actors/parts/common/itemCreate.hbs`,
-    "knight.jsToggle": `${path}/actors/parts/common/jsToggle.hbs`,
+    "knight.jsToggle": `${path}/common/parts/jsToggle.hbs`,
     "knight.hideLimited": `${path}/actors/parts/common/hideLimited.hbs`,
     "knight.subMenu": `${path}/actors/parts/common/sections/parts/submenu.hbs`,
     "knight.npc.capacite": `${path}/actors/parts/npc/sections/capacite.hbs`,

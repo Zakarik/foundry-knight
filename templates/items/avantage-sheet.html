@@ -100,10 +100,10 @@
                         </span>
                         <input type="number" name="system.bonus.recuperation.espoir" value="{{systemData.bonus.recuperation.espoir}}" />
                     </label>
-                    {{#if (hasSetting 'advcampaign')}}
                     <div class="btn">
                         <button type="action" class="button {{#if systemData.bonus.noDmgSante}} buttonChecked {{else}} buttonUnchecked {{/if}} avantage" data-type="noDmgSante" title="{{localize "KNIGHT.ITEMS.AVANTAGE.NoDmgSante"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.Infatigable"}}</button>
                     </div>
+                    {{#if (hasSetting 'advcampaign')}}
                     <div class="btn">
                         <button type="action" class="button {{#if systemData.bonus.devasterAnatheme}} buttonChecked {{else}} buttonUnchecked {{/if}} avantage" data-type="devasterAnatheme" title="{{localize "KNIGHT.ITEMS.AVANTAGE.DevasterAnatheme"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.DevasterAnatheme"}}</button>
                     </div>

@@ -7,7 +7,7 @@
         {{#if (eq key 'score')}}
             <label class="{{classes}}" data-key="{{name}}">
                 <span>{{label}}</span>
-                <input type="number" class="value" value="{{value}}" min="{{min}}" max="{{max}}" />
+                <input type="number" class="value" name="{{path}}" value="{{value}}" min="{{min}}" max="{{max}}" />
             </label>
         {{/if}}
 
@@ -15,9 +15,9 @@
             <div class="{{classes}}" data-key="{{name}}">
                 <span>{{label}}</span>
                 <label>
-                    <input type="number" class="dice" data-key="dice" value="{{dice}}" min="{{dice.min}}" max="{{dice.max}}" />
+                    <input type="number" class="dice" name="{{dicePath}}"  data-key="dice" value="{{dice}}" min="{{dice.min}}" max="{{dice.max}}" />
                     <span>{{localize 'KNIGHT.JETS.Des-short'}}6+</span>
-                    <input type="number" class="value" data-key="value" value="{{value}}" min="{{value.min}}" max="{{value.max}}" />
+                    <input type="number" class="value" name="{{valuePath}}" data-key="value" value="{{value}}" min="{{value.min}}" max="{{value.max}}" />
                 </label>
             </div>
         {{/if}}
@@ -26,10 +26,9 @@
             <label class="{{classes}}">
                 {{#if label}}<span class="label">{{label}}</span>{{/if}}
                 {{#if info}}
-                    <span class="info">?</span>
-                    <span class="hideInfo" style="display:none;">{{{info}}}</span>
+                    <span class="info" data-tooltip="{{{info}}}">?</span>
                 {{/if}}
-                <select>
+                <select name="{{path}}" >
                     {{#if hasBlank}}{{selectOptions list selected=selected blank='' localize=true}}
                     {{else}}{{selectOptions list selected=selected localize=true}}{{/if}}
                 </select>
@@ -40,21 +39,21 @@
             <div class="{{classes}}">
                 <span class="label">{{label}}</span>
                 <label class="select {{select.classes}}">
-                    <select>
+                    <select name="{{selectPath}}" >
                         {{#if select.hasBlank}}{{selectOptions select.list selected=select.selected blank='' localize=true}}
                         {{else}}{{selectOptions select.list selected=select.selected localize=true}}{{/if}}
                     </select>
                 </label>
                 <label class="score {{score.classes}}">
                     <span class="sublabel">{{score.label}}</span>
-                    <input type="number" class="value" value="{{score.value}}" min="{{score.min}}" max="{{score.max}}" />
+                    <input type="number" class="value" name="{{valuePath}}" value="{{score.value}}" min="{{score.min}}" max="{{score.max}}" />
                 </label>
             </div>
         {{/if}}
 
         {{#if (eq key 'btn')}}
             <label class="{{classes}}" data-name="{{name}}">
-                <button type="action" class="{{btnclasses}}">
+                <button type="action" data-action="{{action}}" class="{{btnclasses}}">
                     <i></i>
                     {{label}}
                 </button>
@@ -65,7 +64,7 @@
             <div class="{{classes}}">
                 {{#each grp}}
                     <label class="{{classes}}" data-name="{{name}}">
-                        <button type="action" class="{{btnclasses}}">
+                        <button type="action" data-action="{{action}}" class="{{btnclasses}}">
                             <i></i>
                             {{label}}
                         </button>
@@ -80,19 +79,19 @@
                     {{#if (eq key 'wpn')}}
                     <div class="{{classes}}" {{#unless list}}style="display:none"{{/unless}}>
                         <h2 class="header summary">
-                            <i data-action="jsToggle" class="far fa-minus-square"></i>
+                            {{~> knight.jsToggle inverted=true}}
                             {{label}}
                         </h2>
                         {{#each list}}
                             {{#if list}}
                             <div class="cat {{id}}">
                                 <h3 class="header summary">
-                                    <i data-action="jsToggle" class="far fa-minus-square"></i>
+                                    {{~> knight.jsToggle inverted=true}}
                                     {{label}}
                                 </h3>
                                 {{#each list}}
                                     <div class="button" data-id="{{id}}">
-                                        <button type="action" class="{{classes}}">
+                                        <button type="action" data-action="{{action}}" class="{{classes}}">
                                             <i></i>
                                             {{label}}
                                         </button>
@@ -106,7 +105,7 @@
                             </div>
                             {{else}}
                                 <div class="button" data-id="{{id}}">
-                                    <button type="action" class="{{classes}}">
+                                    <button type="action" data-action="{{action}}" class="{{classes}}">
                                         <i></i>
                                         {{label}}
                                     </button>
@@ -124,12 +123,12 @@
                     {{#if (eq key 'complexe')}}
                     <div class="{{classes}}">
                         <h2 class="header summary">
-                            <i data-action="jsToggle" class="far fa-minus-square"></i>
+                            {{~> knight.jsToggle inverted=true}}
                             {{label}}
                         </h2>
                         {{#each list}}
                             <div class="wpnComplexe longbow button" data-id="{{id}}">
-                                <button type="action" class="{{classes}}">
+                                <button type="action" data-action="{{action}}" class="{{classes}}">
                                     <i></i>
                                     {{label}}
 
@@ -178,7 +177,7 @@
                                         </header>
                                         <div class="block">
                                             {{#each possibility.liste1.liste}}
-                                                <a class="{{raw}} {{ifThen custom 'custom' ''}}" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste1">
+                                                <a data-action="longbow" class="{{raw}} {{ifThen custom 'custom' ''}}" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste1">
                                                     <i></i>
                                                     {{ifThen isChargeur complet name}}
                                                 </a>
@@ -195,7 +194,7 @@
                                         </header>
                                         <div class="block">
                                             {{#each possibility.liste2.liste}}
-                                                <a title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste2">
+                                                <a data-action="longbow" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste2">
                                                     <i></i>
                                                     {{ifThen isChargeur complet name}}
                                                 </a>
@@ -212,7 +211,7 @@
                                         </header>
                                         <div class="block">
                                             {{#each possibility.liste3.liste}}
-                                                <a class="{{raw}} {{ifThen custom 'custom' ''}}" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste3">
+                                                <a data-action="longbow" class="{{raw}} {{ifThen custom 'custom' ''}}" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste3">
                                                     <i></i>
                                                     {{ifThen isChargeur complet name}}
                                                 </a>

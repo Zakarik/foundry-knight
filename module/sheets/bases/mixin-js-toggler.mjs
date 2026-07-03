@@ -176,6 +176,14 @@ const JsTogglerMixin = (superclass) => class extends superclass {
         };
         elem.addEventListener('transitionend', elem._endHandler);
     }
+
+    _hide = elem => {
+        elem.style.setProperty('display', 'none');
+    }
+
+    _show = elem => {
+        elem.style.removeProperty('display');
+    }
 };
 
 export default JsTogglerMixin;

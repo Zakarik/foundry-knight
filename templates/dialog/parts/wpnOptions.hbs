@@ -23,7 +23,7 @@
 {{/if}}
 
 {{#if (eq key 'btn')}}
-    <button type="action" class="{{classes}}" data-value="{{value}}" title="{{title}}">
+    <button type="action" data-action="option" class="{{classes}}" data-value="{{value}}" data-tooltip="{{title}}">
         {{#unless (eq special 'roll')}}<i></i>{{/unless}}
         {{label}}
     </button>

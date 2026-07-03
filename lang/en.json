@@ -2896,8 +2896,8 @@
       "Condition":"Requirements",
       "Description":"Details",
       "PASSIVE":{
-        "Sante":"Increases health by 50%.",
-        "NotSante":"Does not increase health by 50%.",
+        "Sante":"Increases health by 50% and no loss of 1 HP / 5 AP.",
+        "NotSante":"Does not increase health by 50% and keeps the loss of 1 HP / 5 AP.",
         "Contact":"Bonus contact points",
         "NotContact":"No bonus contact points",
         "Capacites":"Gives a bonus to armour abilities",

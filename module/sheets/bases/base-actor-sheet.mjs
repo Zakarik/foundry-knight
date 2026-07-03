@@ -290,9 +290,8 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     const reussites = Number(data?.reussitebonus) || 0;
     const succesTemp = Number(data?.succestemp) || 0;
     const modTemp = Number(data?.modtemp) || 0;
-    const id = actor.token ? actor.token.id : actor.id;
 
-    const dialog = new game.knight.applications.KnightRollDialog(id, {
+    const dialog = new game.knight.applications.KnightRollDialog(this.actor.uuid, {
       label:label,
       base:caracteristique ? caracteristique : aspect,
       whatRoll:caracAdd,
