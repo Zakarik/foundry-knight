@@ -231,7 +231,7 @@ export class MechaArmureSheet extends ActorSheet {
           break;
       }
 
-      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+      const actor = this.actor.system.actorUuid;
 
       const dialog = new game.knight.applications.KnightRollDialog(actor, {
         label:label,

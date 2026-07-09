@@ -502,7 +502,7 @@ export class CapaciteUltimeDataModel extends foundry.abstract.TypeDataModel {
 
             switch(special) {
                 case 'jet':
-                    const id = this.actor.token ? this.actor.token.id : this.actor.id;
+                    const id = this.actor.system.actorUuid;
 
                     const dialog = new game.knight.applications.KnightRollDialog(id, {
                         label:label,

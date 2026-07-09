@@ -15,55 +15,6 @@ function _sortByName(x, y) {
 export default class KnightRollData extends foundry.abstract.DataModel {
   static get baseDefinition() {
 
-    /*return {
-      uuid:'',
-      whoActivate:data?.whoActivate ?? 'none',
-      roll:{
-          html:undefined,
-          id:actor,
-          label:data?.label ?? '',
-          base:data?.base ?? '',
-          whatRoll:data?.whatRoll ?? [],
-          difficulte:data?.difficulte ?? 0,
-          succesBonus:data?.succesbonus ?? 0,
-          modificateur:data?.modificateur ?? 0,
-          wpnSelected:data?.wpn ?? '',
-          wpnSecond:'',
-          typeWpn:{
-              contact:[],
-              distance:[],
-              complexe:[],
-              grenade:[],
-              tourelle:[],
-              aicontact:[],
-              aidistance:[],
-          },
-          allWpn:[],
-          allVariableWpn:[],
-          btn:data?.btn ?? {},
-          scoredice:data?.scoredice ?? {},
-          style:{
-              pilonnage:{
-                  type:'degats',
-                  value:0,
-              },
-              precis:{
-                  type:'',
-              },
-              puissant:{
-                  type:'degats',
-                  value:0,
-              },
-              suppression:{
-                  type:'degats',
-                  value:0,
-              }
-          },
-          totem:{},
-          totemL:{},
-      },
-      buttons:{},
-    };*/
     return {
       uuid:["str", { initial:"",}],
       whoActivate:["str", { initial:"none",}],
@@ -89,6 +40,14 @@ export default class KnightRollData extends foundry.abstract.DataModel {
           allWpn:["arr", ["obj", {initial:{}}]],
           allVariableWpn:["arr", ["obj", {initial:{}}]],
           btn:["obj", {initial:{}}],
+          moddegats:["schema", {
+            dice:["num", { initial:0 }],
+            value:["num", { initial:0 }],
+          }],
+          modviolence:["schema", {
+            dice:["num", { initial:0 }],
+            value:["num", { initial:0 }],
+          }],
           scoredice:["obj", {initial:{}}],
           style:["schema", {
               pilonnage:["schema", {

@@ -719,11 +719,11 @@ export class MechaArmureDataModel extends BaseActorDataModel {
     }
     else base = 'combat';
 
-    const actor = this.actorId;
+    const actor = this.actorUuid;
 
     const dialog = new game.knight.applications.KnightRollDialog(actor, {
       label,
-      wpn,
+      wpnSelected:wpn,
       base,
       whatRoll,
       modificateur
@@ -870,9 +870,9 @@ export class MechaArmureDataModel extends BaseActorDataModel {
         break;
 
       case 'attaque':
-        const dialog = new game.knight.applications.KnightRollDialog(idActor, {
+        const dialog = new game.knight.applications.KnightRollDialog(this.actorUuid, {
           label:label,
-          wpn:`ma_${actor.id}_${key}`
+          wpnSelected:`ma_${actor.id}_${key}`
         });
 
         dialog.open();

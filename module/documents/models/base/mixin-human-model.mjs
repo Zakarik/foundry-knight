@@ -610,11 +610,11 @@ const HumanMixinModel = (superclass) => class extends superclass {
         const wpn = `grenade_${type}`;
         const label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${type.charAt(0).toUpperCase()+type.substr(1)}`)}`;
         const modificateur = this.rollWpnDistanceMod;
-        const actor = this.actorId;
+        const actor = this.actorUuid;
 
         const dialog = new game.knight.applications.KnightRollDialog(actor, {
             label,
-            wpn,
+            wpnSelected:wpn,
             modificateur
         });
 
@@ -626,12 +626,12 @@ const HumanMixinModel = (superclass) => class extends superclass {
     useLongbow() {
         const label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
         const wpn = `capacite_${this.dataArmor.id}_longbow`;
-        const actor = this.actorId;
+        const actor = this.actorUuid;
         const modificateur = this.rollWpnDistanceMod;
 
         const dialog = new game.knight.applications.KnightRollDialog(actor, {
           label,
-          wpn,
+          wpnSelected:wpn,
           modificateur
         });
 

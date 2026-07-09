@@ -77,7 +77,7 @@ const VehiculeMixinSheet = (superclass) => class extends superclass {
       const label = `${game.i18n.localize("KNIGHT.VEHICULE.Pilotage")} : ${this.actor.name}`
 
       if(actorId === '') return;
-      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+      const actor = this.actor.system.actorUuid;
 
       const dialog = new game.knight.applications.KnightRollDialog(actor, {
         whoActivate:actorId,

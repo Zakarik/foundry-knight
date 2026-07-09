@@ -15,9 +15,9 @@
             <div class="{{classes}}" data-key="{{name}}">
                 <span>{{label}}</span>
                 <label>
-                    <input type="number" class="dice" name="{{dicePath}}"  data-key="dice" value="{{dice}}" min="{{dice.min}}" max="{{dice.max}}" />
+                    <input type="number" class="dice" name="{{name}}.dice"  data-key="dice" value="{{dice}}" min="{{dice.min}}" max="{{dice.max}}" />
                     <span>{{localize 'KNIGHT.JETS.Des-short'}}6+</span>
-                    <input type="number" class="value" name="{{valuePath}}" data-key="value" value="{{value}}" min="{{value.min}}" max="{{value.max}}" />
+                    <input type="number" class="value" name="{{name}}.value" data-key="value" value="{{value}}" min="{{value.min}}" max="{{value.max}}" />
                 </label>
             </div>
         {{/if}}

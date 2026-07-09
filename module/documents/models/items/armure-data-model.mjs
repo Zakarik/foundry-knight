@@ -1758,7 +1758,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         const autre = [].concat(listC);
         autre.shift();
 
-        dialog = new game.knight.applications.KnightRollDialog(actor._id, {
+        dialog = new game.knight.applications.KnightRollDialog(actor.system.actorUuid, {
           label:getName,
           base:listC[0],
           whatRoll:autre,
@@ -1824,7 +1824,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
     switch(capacite) {
       case 'contrecoups':
-        dialog = new game.knight.applications.KnightRollDialog(actor._id, {
+        dialog = new game.knight.applications.KnightRollDialog(actor.system.actorUuid, {
           label:getName,
           base:getSpecial.jet[special],
           difficulte:actor?.system?.equipements?.armure?.special?.[capacite],
@@ -1837,7 +1837,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         break;
 
       case 'impregnation':
-        dialog = new game.knight.applications.KnightRollDialog(actor._id, {
+        dialog = new game.knight.applications.KnightRollDialog(actor.system.actorUuid, {
           label:getName,
           base:getSpecial.jets[`c1${special}`],
           whatRoll:[getSpecial.jets[`c2${special}`]],

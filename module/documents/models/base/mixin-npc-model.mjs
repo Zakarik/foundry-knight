@@ -473,11 +473,11 @@ const NPCMixinModel = (superclass) => class extends superclass {
 
         base = 'chair';
 
-        const actor = this.actorId;
+        const actor = this.actorUuid;
 
         const dialog = new game.knight.applications.KnightRollDialog(actor, {
           label,
-          wpn,
+          wpnSelected:wpn,
           base,
           whatRoll,
           modificateur

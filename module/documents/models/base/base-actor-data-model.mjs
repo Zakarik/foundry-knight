@@ -330,6 +330,10 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
         return this.actor?.token ? this.actor.token.id : this.actor.id;
     }
 
+    get actorUuid() {
+        return this.actor.uuid;
+    }
+
     /**
      * Récupère la collection d'items de l'acteur.
      * @returns {Collection<Item>} La collection d'items appartenant à l'acteur
@@ -678,7 +682,7 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
         const actorId = this.actorId;
         let rollData = {
             label:label,
-            wpn:id,
+            wpnSelected:id,
             modificateur
         };
 
@@ -688,7 +692,7 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
         }
 
         // Création et ouverture du dialogue de jet
-        const dialog = new game.knight.applications.KnightRollDialog(actorId, rollData);
+        const dialog = new game.knight.applications.KnightRollDialog(this.actorUuid, rollData);
 
         dialog.open();
 

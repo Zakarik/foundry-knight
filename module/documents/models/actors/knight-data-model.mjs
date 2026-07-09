@@ -2321,11 +2321,11 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         }
         else base = 'combat';
 
-        const actor = this.actorId;
+        const actor = this.actorUuid;
 
         const dialog = new game.knight.applications.KnightRollDialog(actor, {
           label,
-          wpn,
+          wpnSelected:wpn,
           base,
           whatRoll,
           modificateur

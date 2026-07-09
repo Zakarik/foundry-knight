@@ -8,7 +8,9 @@
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <label class="energie">
-                <input type="number" name="system.equipements.armure.capacites.ascension.energie" value="{{data.ascension.energie}}"
+                {{log data}}
+                <input type="number" name="system.equipements.armure.capacites.ascension.energie"
+                value="{{ifThen (lt data.ascension.energie energie.min) energie.min data.ascension.energie}}"
                 min="{{energie.min}}" max="{{energie.max}}" />
                 <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
             </label>
@@ -23,10 +25,10 @@
         {{else}}
             {{#unless ("ascension" @root/systemData/wear)}}
                 {{#if this.sansarmure.acces}}
-                <div class="blockMultiline">
+                <div class="blockMultiline"
                     <label class="energie">
                         <input type="number" name="system.equipements.armure.capacites.ascension.energie"
-                        value="{{data.ascension.energie}}"
+                        value="{{ifThen (lt data.ascension.energie energie.min) energie.min data.ascension.energie}}"
                         min="{{energie.min}}" max="{{energie.max}}" />
                         <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
                     </label>

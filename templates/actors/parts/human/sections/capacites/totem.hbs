@@ -7,6 +7,7 @@
         {{#if ("armure" @root/systemData/wear)}}
             <div class="blockMultiline">
                 <label class="allies">
+                    {{log data}}
                     <input type="number" class="{{#if data.totem.active}}update{{/if}}"
                     name="system.equipements.armure.capacites.totem.nombre"
                     data-capacite="{{key}}"
