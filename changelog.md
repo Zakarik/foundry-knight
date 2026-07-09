@@ -1,3 +1,7 @@
+## v3.58.31
+### Bugfix
+- Application du même correctif q'en v3.57.29.
+
 ## v3.58.30
 ### Bugfix
 - Application du même correctif q'en v3.57.28.
@@ -118,6 +122,11 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.29
+### Bugfix
+- Correction d'un problème avec la Berserk / le mode Rage, et amélioration des messages envoyés.
+- Correction d'un problème avec le Mode Totem en Méta-Armure de Légende, qui ne permettait pas la prolongation.
 
 ## v3.57.28
 ### Bugfix
