@@ -1630,16 +1630,6 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           pb = new PatchBuilder();
           const nActuel = getCapacite?.niveau || false;
 
-          if(variant === 'ennemi') {
-            new game.knight.RollKnight(actor,
-            {
-              name:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label")}`,
-            }).sendMessage({
-                text: game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Ennemi"),
-                sounds:CONFIG.sounds.notification,
-            });
-          }
-
           if(nActuel.colere) {
             pb.sys(getPath, {
               colere:false,
@@ -1686,16 +1676,16 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           }
 
           await pb.applyTo(armure);
-          await PatchBuilder.for(this)
+          await PatchBuilder.for(actor)
             .sys('combos.interdits.caracteristiques.rage', rageInterdit)
             .sys('combos.bonus.caracteristiques.rage', rageBonus)
             .apply();
 
-          const exec = new game.knight.RollKnight(this,
+          const exec = new game.knight.RollKnight(actor,
             {
-            name:game.i18n.localize(`KNIGHT.ACTIVATION.Label`),
+            name:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label"),
             }).sendMessage({
-                text:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label")} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label")}`,
+                text:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label")} : ${variant === 'ennemi' ? game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Ennemi") : game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir")}`,
                 sounds:CONFIG.sounds.notification,
             });
         } else if(special === 'degats') {
@@ -1705,7 +1695,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           const degatsLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats");
           const sante = this.actor.system.sante.value;
 
-          const rDegats = new game.knight.RollKnight(this, {
+          const rDegats = new game.knight.RollKnight(actor, {
             name:`${getName} : ${degatsLabel}`,
             dices:`${degatsRage}D6`,
           }, false);
@@ -1717,7 +1707,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           const labelRecuperationRage = recuperationRage[0] === 'proche' ? game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche") : `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.${capitalizeFirstLetter(recuperationRage[0])}`)} : ${game.i18n.localize(`KNIGHT.TYPE.${capitalizeFirstLetter(recuperationRage[1])}`)}`;
           const getRecuperationRageDices = recuperationRage[0] === 'proche' ? {dice:0, face:6, fixe:1}: getCapacite.nourri[recuperationRage[0]][recuperationRage[1]];
 
-          const rRecuperation = new game.knight.RollKnight(this, {
+          const rRecuperation = new game.knight.RollKnight(actor, {
             name:game.i18n.localize("KNIGHT.GAINS.Espoir") + ` (${labelRecuperationRage})`,
             dices:`${getRecuperationRageDices.dice}D${getRecuperationRageDices.face}+${getRecuperationRageDices.fixe}`,
           }, false);
@@ -1774,7 +1764,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         break;
       case "mechanic":
         const mechanic = getCapacite.reparation[special];
-        const roll = new game.knight.RollKnight(this, {
+        const roll = new game.knight.RollKnight(actor, {
           name:`${getName}`,
           dices:`${mechanic.dice}D6+${mechanic.fixe}`,
         }, false);
