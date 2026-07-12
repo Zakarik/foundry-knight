@@ -26,28 +26,28 @@
             <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.Personnelle"}}</span>
-                <input type="number" name="system.capacites.selected.changeling.energie.personnel"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.changeling.energie.personnel"
                 value="{{this.energie.personnel}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.Etendue"}}</span>
-                <input type="number" name="system.capacites.selected.changeling.energie.etendue"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.changeling.energie.etendue"
                 value="{{this.energie.etendue}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.ParFauxEtres"}}</span>
-                <input type="number" name="system.capacites.selected.changeling.energie.fauxEtre.value"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.changeling.energie.fauxEtre.value"
                 value="{{this.energie.fauxEtre.value}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <label class="longspan separation">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtresMax"}}</span>
-                <input type="number" name="system.capacites.selected.changeling.energie.fauxEtre.max"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.changeling.energie.fauxEtre.max"
                 value="{{this.energie.fauxEtre.max}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
@@ -90,12 +90,12 @@
             <label class="shortspan double {{#unless this.desactivationexplosive.acces}}hidden{{/unless}}">
                <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                <div>
-                    <input type="number" name="system.capacites.selected.changeling.desactivationexplosive.degats.dice"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.changeling.desactivationexplosive.degats.dice"
                     value="{{this.desactivationexplosive.degats.dice}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                     <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                    <input type="number" name="system.capacites.selected.changeling.desactivationexplosive.degats.fixe"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.changeling.desactivationexplosive.degats.fixe"
                     value="{{this.desactivationexplosive.degats.fixe}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -104,12 +104,12 @@
             <label class="shortspan double {{#unless this.desactivationexplosive.acces}}hidden{{/unless}}">
                <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                <div>
-                    <input type="number" name="system.capacites.selected.changeling.desactivationexplosive.violence.dice"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.changeling.desactivationexplosive.violence.dice"
                     value="{{this.desactivationexplosive.violence.dice}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                     <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                    <input type="number" name="system.capacites.selected.changeling.desactivationexplosive.violence.fixe"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.changeling.desactivationexplosive.violence.fixe"
                     value="{{this.desactivationexplosive.violence.fixe}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />

@@ -6,7 +6,7 @@
 
     <label class="oneLine">
         <span>{{localize "KNIGHT.AUTRE.PointGloire"}}</span>
-        <input type="number" name="system.prix" value="{{systemData.prix}}" min="0" />
+        <input type="number"  data-dtype="Number"name="system.prix" value="{{systemData.prix}}" min="0" />
     </label>
 
     <label class="oneLine">
@@ -18,7 +18,7 @@
 
     <label class="oneLine">
         <span>{{localize "KNIGHT.JETS.Depenseenergie"}}</span>
-        <input type="number" name="system.energie" value="{{systemData.energie}}" min="0" />
+        <input type="number"  data-dtype="Number"name="system.energie" value="{{systemData.energie}}" min="0" />
     </label>
 
     {{#unless (wpnHasMunitions (isWpnDistance systemData.type) systemData.optionsmunitions.has)}}

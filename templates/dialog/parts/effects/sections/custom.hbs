@@ -20,7 +20,7 @@
     <div class="{{type}} {{ifThen (gt @index 1) 'border' ''}}">
         <span class="label">{{localize i18n}}</span>
         <label>
-            <input type="number" name="{{name}}" value="{{value}}" min="{{min}}" max="{{max}}"/>
+            <input type="number"  data-dtype="Number"name="{{name}}" value="{{value}}" min="{{min}}" max="{{max}}"/>
             <span>{{localize span}}</span>
         </label>
     </div>

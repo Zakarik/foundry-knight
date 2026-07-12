@@ -25,14 +25,14 @@
             <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Tour"}}</span>
-                <input type="number" name="system.capacites.selected.ghost.energie.tour"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.ghost.energie.tour"
                 value="{{this.energie.tour}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Minute"}}</span>
-                <input type="number" name="system.capacites.selected.ghost.energie.minute"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.ghost.energie.minute"
                 value="{{this.energie.minute}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
@@ -59,7 +59,7 @@
         <div class="data">
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
-                <input type="number" name="system.capacites.selected.ghost.bonus.reussites" value="{{this.bonus.reussites}}" min="0" {{#if this.softlock}}disabled{{/if}}/>
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.ghost.bonus.reussites" value="{{this.bonus.reussites}}" min="0" {{#if this.softlock}}disabled{{/if}}/>
             </label>
             <label class="middlespan separation">
                 <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>

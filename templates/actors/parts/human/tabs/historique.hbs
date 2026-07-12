@@ -10,7 +10,7 @@
                 </h2>
                 <div class="subLine" style="display:none;">
                     <span>{{localize 'KNIGHT.JETS.Modificateur'}}</span>
-                    <input type="number" name="system.langues.bonus.user" value="{{systemData.langues.bonus.user}}" />
+                    <input type="number"  data-dtype="Number"name="system.langues.bonus.user" value="{{systemData.langues.bonus.user}}" />
                 </div>
             </div>
             {{#each actor.langue as | key langue|}}
@@ -30,14 +30,14 @@
                     {{localize "KNIGHT.HISTORIQUE.Contacts"}}
                     {{~> knight.itemCreate strLoc="KNIGHT.HISTORIQUE.Contacts" data=(object type="contact")}}
                     <div class="data">
-                        <input type="number" name="system.contacts.actuel" class="value" value="{{systemData.contacts.actuel}}" min="0" max="{{systemData.contacts.value}}" />
+                        <input type="number"  data-dtype="Number"name="system.contacts.actuel" class="value" value="{{systemData.contacts.actuel}}" min="0" max="{{systemData.contacts.value}}" />
                         <span>/</span>
                         <span class="headerScore">{{systemData.contacts.value}}</span>
                     </div>
                 </h2>
                 <div class="subLine" style="display:none;">
                     <span>{{localize 'KNIGHT.JETS.Modificateur'}}</span>
-                    <input type="number" name="system.contacts.bonus.user" value="{{systemData.contacts.bonus.user}}" />
+                    <input type="number"  data-dtype="Number"name="system.contacts.bonus.user" value="{{systemData.contacts.bonus.user}}" />
                 </div>
             </div>
             {{#each actor.contact as | key contact|}}

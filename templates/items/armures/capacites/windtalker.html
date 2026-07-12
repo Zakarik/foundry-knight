@@ -25,13 +25,13 @@
         <div class="data">
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Flux"}}</span>
-                <input type="number" name="system.capacites.selected.windtalker.flux" value="{{this.flux}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.windtalker.flux" value="{{this.flux}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.windtalker.energie" value="{{this.energie}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.windtalker.energie" value="{{this.energie}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>

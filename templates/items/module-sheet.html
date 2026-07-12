@@ -15,7 +15,7 @@
 
             <label>
                 <span>{{localize "KNIGHT.ITEMS.MODULE.NombreNiveau"}}</span>
-                <input type="number" name="system.niveau.max" value="{{systemData.niveau.max}}" min="1" />
+                <input type="number"  data-dtype="Number"name="system.niveau.max" value="{{systemData.niveau.max}}" min="1" />
             </label>
             <button type="action" class="nbreniveau" data-value="{{systemData.niveau.max}}">{{localize "KNIGHT.AUTRE.Valider"}}</button>
         </div>
@@ -34,32 +34,32 @@
             <div class="line slots">
                 <label class="block">
                     <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Tete"}}</span>
-                    <input type="number" name="system.slots.tete" value="{{systemData.slots.tete}}" min="0" />
+                    <input type="number"  data-dtype="Number"name="system.slots.tete" value="{{systemData.slots.tete}}" min="0" />
                 </label>
 
                 <label class="block">
                     <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasGauche"}}</span>
-                    <input type="number" name="system.slots.brasGauche" value="{{systemData.slots.brasGauche}}" min="0" />
+                    <input type="number"  data-dtype="Number"name="system.slots.brasGauche" value="{{systemData.slots.brasGauche}}" min="0" />
                 </label>
 
                 <label class="block">
                     <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasDroit"}}</span>
-                    <input type="number" name="system.slots.brasDroit" value="{{systemData.slots.brasDroit}}" min="0" />
+                    <input type="number"  data-dtype="Number"name="system.slots.brasDroit" value="{{systemData.slots.brasDroit}}" min="0" />
                 </label>
 
                 <label class="block">
                     <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Torse"}}</span>
-                    <input type="number" name="system.slots.torse" value="{{systemData.slots.torse}}" min="0" />
+                    <input type="number"  data-dtype="Number"name="system.slots.torse" value="{{systemData.slots.torse}}" min="0" />
                 </label>
 
                 <label class="block">
                     <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeGauche"}}</span>
-                    <input type="number" name="system.slots.jambeGauche" value="{{systemData.slots.jambeGauche}}" min="0" />
+                    <input type="number"  data-dtype="Number"name="system.slots.jambeGauche" value="{{systemData.slots.jambeGauche}}" min="0" />
                 </label>
 
                 <label class="block">
                     <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeDroite"}}</span>
-                    <input type="number" name="system.slots.jambeDroite" value="{{systemData.slots.jambeDroite}}" min="0" />
+                    <input type="number"  data-dtype="Number"name="system.slots.jambeDroite" value="{{systemData.slots.jambeDroite}}" min="0" />
                 </label>
             </div>
         </div>
@@ -134,7 +134,7 @@
 
                     <label class="oneLine">
                         <span>{{localize "KNIGHT.AUTRE.PointGloire"}}</span>
-                        <input type="number" name="system.niveau.details.{{nv}}.prix" value="{{key.prix}}" min="0" />
+                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.prix" value="{{key.prix}}" min="0" />
                     </label>
 
                     <div class="twoLine">
@@ -143,15 +143,15 @@
                         </span>
                         <label class="oneLine">
                             <input class="label" type="text" name="system.niveau.details.{{nv}}.energie.tour.label" value="{{key.energie.tour.label}}" />
-                            <input type="number" name="system.niveau.details.{{nv}}.energie.tour.value" value="{{key.energie.tour.value}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.energie.tour.value" value="{{key.energie.tour.value}}" min="0" />
                         </label>
                         <label class="oneLine">
                             <input class="label" type="text" name="system.niveau.details.{{nv}}.energie.minute.label" value="{{key.energie.minute.label}}" />
-                            <input type="number" name="system.niveau.details.{{nv}}.energie.minute.value" value="{{key.energie.minute.value}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.energie.minute.value" value="{{key.energie.minute.value}}" min="0" />
                         </label>
                         <label class="oneLine">
                             <span>{{localize "KNIGHT.AUTRE.EnergieSupplementaire"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.energie.supplementaire" value="{{key.energie.supplementaire}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.energie.supplementaire" value="{{key.energie.supplementaire}}" min="0" />
                         </label>
                     </div>
 
@@ -267,7 +267,7 @@
                         " data-type="bonus" data-subtype="armure" data-name="has" data-value="{{key.bonus.armure.has}}">{{key.labels.armure}}</button>
                         <label class="oneLine {{#unless key.bonus.armure.has}}hidden{{/unless}}">
                             <span>{{localize "KNIGHT.LATERAL.Armure"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.armure.value" value="{{key.bonus.armure.value}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.armure.value" value="{{key.bonus.armure.value}}" min="0" />
                         </label>
                     </div>
 
@@ -281,7 +281,7 @@
                         " data-type="bonus" data-subtype="champDeForce" data-name="has" data-value="{{key.bonus.champDeForce.has}}">{{key.labels.champDeForce}}</button>
                         <label class="oneLine {{#unless key.bonus.champDeForce.has}}hidden{{/unless}}">
                             <span>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.champDeForce.value" value="{{key.bonus.champDeForce.value}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.champDeForce.value" value="{{key.bonus.champDeForce.value}}" min="0" />
                         </label>
                     </div>
 
@@ -295,7 +295,7 @@
                         " data-type="bonus" data-subtype="energie" data-name="has" data-value="{{key.bonus.energie.has}}">{{key.labels.energie}}</button>
                         <label class="oneLine {{#unless key.bonus.energie.has}}hidden{{/unless}}">
                             <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.energie.value" value="{{key.bonus.energie.value}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.energie.value" value="{{key.bonus.energie.value}}" min="0" />
                         </label>
                     </div>
 
@@ -313,14 +313,14 @@
                             <label class="oneLinewOnlyDice {{#unless key.bonus.grenades.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.BONUS.DesDegats"}}</span>
                                 <div>
-                                    <input type="number" name="system.niveau.details.{{nv}}.bonus.grenades.liste.{{grenade}}.degats.dice" value="{{kgr.degats.dice}}" min="0" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.grenades.liste.{{grenade}}.degats.dice" value="{{kgr.degats.dice}}" min="0" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                 </div>
                             </label>
                             <label class="oneLinewOnlyDice {{#unless @last}}borderBottom{{/unless}} {{#unless key.bonus.grenades.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.BONUS.DesViolence"}}</span>
                                 <div>
-                                    <input type="number" name="system.niveau.details.{{nv}}.bonus.grenades.liste.{{grenade}}.violence.dice" value="{{kgr.violence.dice}}" min="0" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.grenades.liste.{{grenade}}.violence.dice" value="{{kgr.violence.dice}}" min="0" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                 </div>
                             </label>
@@ -339,7 +339,7 @@
                         " data-type="bonus" data-subtype="sante" data-name="has" data-value="{{key.bonus.sante.has}}">{{key.labels.sante}}</button>
                         <label class="oneLine {{#unless key.bonus.sante.has}}hidden{{/unless}}">
                             <span>{{localize "KNIGHT.LATERAL.Sante"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.sante.value" value="{{#if key.bonus.sante.value}}{{key.bonus.sante.value}}{{else}}0{{/if}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.sante.value" value="{{#if key.bonus.sante.value}}{{key.bonus.sante.value}}{{else}}0{{/if}}" min="0" />
                         </label>
                     </div>
 
@@ -365,36 +365,36 @@
                         <div class="oneLinewDice {{#unless key.bonus.degats.has}}hidden{{else}}{{#if key.bonus.degats.variable.has}}hidden{{/if}}{{/unless}}">
                             <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                             <div>
-                                <input type="number" name="system.niveau.details.{{nv}}.bonus.degats.dice" value="{{key.bonus.degats.dice}}" min="0" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.degats.dice" value="{{key.bonus.degats.dice}}" min="0" />
                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.bonus.degats.fixe" value="{{key.bonus.degats.fixe}}" min="0" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.degats.fixe" value="{{key.bonus.degats.fixe}}" min="0" />
                             </div>
                         </div>
                         <div class="oneLinewOnlyDice {{#unless key.bonus.degats.has}}hidden{{else}}{{#unless key.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.DesMinimum"}}</span>
                             <div>
-                                <input type="number" name="system.niveau.details.{{nv}}.bonus.degats.variable.min.dice" value="{{key.bonus.degats.variable.min.dice}}" min="0" max="{{key.bonus.degats.variable.max.dice}}" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.degats.variable.min.dice" value="{{key.bonus.degats.variable.min.dice}}" min="0" max="{{key.bonus.degats.variable.max.dice}}" />
                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                             </div>
                         </div>
                         <div class="oneLinewOnlyDice {{#unless key.bonus.degats.has}}hidden{{else}}{{#unless key.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.DesMaximum"}}</span>
                             <div>
-                                <input type="number" name="system.niveau.details.{{nv}}.bonus.degats.variable.max.dice" value="{{key.bonus.degats.variable.max.dice}}" min="{{key.bonus.degats.variable.min.dice}}" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.degats.variable.max.dice" value="{{key.bonus.degats.variable.max.dice}}" min="{{key.bonus.degats.variable.min.dice}}" />
                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                         </div>
                         </div>
                         <div class="oneLine {{#unless key.bonus.degats.has}}hidden{{else}}{{#unless key.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.FixeMinimum"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.degats.variable.min.fixe" value="{{key.bonus.degats.variable.min.fixe}}" min="0" max="{{key.bonus.degats.variable.max.fixe}}" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.degats.variable.min.fixe" value="{{key.bonus.degats.variable.min.fixe}}" min="0" max="{{key.bonus.degats.variable.max.fixe}}" />
                         </div>
                         <div class="oneLine {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.FixeMaximum"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.degats.variable.max.fixe" value="{{key.bonus.degats.variable.max.fixe}}" min="{{key.bonus.degats.variable.min.fixe}}" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.degats.variable.max.fixe" value="{{key.bonus.degats.variable.max.fixe}}" min="{{key.bonus.degats.variable.min.fixe}}" />
                         </div>
                         <label class="oneLine {{#unless key.bonus.degats.variable.has}}hidden{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.degats.variable.cout" value="{{key.bonus.degats.variable.cout}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.degats.variable.cout" value="{{key.bonus.degats.variable.cout}}" min="0" />
                         </label>
                     </div>
 
@@ -420,36 +420,36 @@
                         <div class="oneLinewDice {{#unless key.bonus.violence.has}}hidden{{else}}{{#if key.bonus.violence.variable.has}}hidden{{/if}}{{/unless}}">
                             <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                             <div>
-                                <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.dice" value="{{key.bonus.violence.dice}}" min="0" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.violence.dice" value="{{key.bonus.violence.dice}}" min="0" />
                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.fixe" value="{{key.bonus.violence.fixe}}" min="0" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.violence.fixe" value="{{key.bonus.violence.fixe}}" min="0" />
                             </div>
                         </div>
                         <div class="oneLinewOnlyDice {{#unless key.bonus.violence.has}}hidden{{else}}{{#unless key.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.DesMinimum"}}</span>
                             <div>
-                                <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.variable.min.dice" value="{{key.bonus.violence.variable.min.dice}}" min="0" max="{{key.bonus.violence.variable.max.dice}}" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.violence.variable.min.dice" value="{{key.bonus.violence.variable.min.dice}}" min="0" max="{{key.bonus.violence.variable.max.dice}}" />
                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                             </div>
                         </div>
                         <div class="oneLinewOnlyDice {{#unless key.bonus.violence.has}}hidden{{else}}{{#unless key.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.DesMaximum"}}</span>
                             <div>
-                                <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.variable.max.dice" value="{{key.bonus.violence.variable.max.dice}}" min="{{key.bonus.violence.variable.min.dice}}" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.violence.variable.max.dice" value="{{key.bonus.violence.variable.max.dice}}" min="{{key.bonus.violence.variable.min.dice}}" />
                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                             </div>
                         </div>
                         <div class="oneLine {{#unless systemData.bonus.violence.has}}hidden{{else}}{{#unless systemData.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMinimum"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.variable.min.fixe" value="{{key.bonus.violence.variable.min.fixe}}" min="0" max="{{key.bonus.violence.variable.max.fixe}}" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.violence.variable.min.fixe" value="{{key.bonus.violence.variable.min.fixe}}" min="0" max="{{key.bonus.violence.variable.max.fixe}}" />
                         </div>
                         <div class="oneLine {{#unless key.bonus.violence.has}}hidden{{else}}{{#unless key.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMaximum"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.variable.max.fixe" value="{{key.bonus.violence.variable.max.fixe}}" min="{{key.bonus.violence.variable.min.fixe}}" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.violence.variable.max.fixe" value="{{key.bonus.violence.variable.max.fixe}}" min="{{key.bonus.violence.variable.min.fixe}}" />
                         </div>
                         <label class="oneLine {{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}">
                             <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                            <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.variable.cout" value="{{key.bonus.violence.variable.cout}}" min="0" />
+                            <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.violence.variable.cout" value="{{key.bonus.violence.variable.cout}}" min="0" />
                         </label>
                     </div>
 
@@ -476,7 +476,7 @@
                             {{#each kAspect  as | kCarac carac|}}
                                 <label class="oneLine">
                                     <span>{{getCarac carac}}</span>
-                                    <input type="number" name="system.niveau.details.{{nv}}.bonus.overdrives.aspects.{{aspect}}.{{carac}}" value="{{kCarac}}" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.bonus.overdrives.aspects.{{aspect}}.{{carac}}" value="{{kCarac}}" />
                                 </label>
                             {{/each}}
                         </div>
@@ -523,7 +523,7 @@
 
                     <label class="oneLine">
                         <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAttaque"}}</span>
-                        <input type="number" name="system.niveau.details.{{nv}}.arme.energie" value="{{ifThen key.arme.energie key.arme.energie 0}}" min="0" />
+                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.energie" value="{{ifThen key.arme.energie key.arme.energie 0}}" min="0" />
                     </label>
 
                     {{#if (isWpnDistance key.arme.type)}}
@@ -539,7 +539,7 @@
                         {{#if key.arme.optionsmunitions.has}}
                             <label class="oneLine optionsMunitions">
                                 <span class="header">{{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Combiens"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.arme.optionsmunitions.value" value="{{#if key.arme.optionsmunitions.value}}{{key.arme.optionsmunitions.value}}{{else}}1{{/if}}" min="0" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.optionsmunitions.value" value="{{#if key.arme.optionsmunitions.value}}{{key.arme.optionsmunitions.value}}{{else}}1{{/if}}" min="0" />
                             </label>
                             <button type="action" class="optionsMunitionsValider"
                                 data-key="{{nv}}"
@@ -563,30 +563,30 @@
                             <div class="oneLinewDice {{#if key.arme.degats.variable.has}}hidden{{/if}}">
                                 <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                                 <div>
-                                    <input type="number" class="dgtsDBase" name="system.niveau.details.{{nv}}.arme.degats.dice" value="{{key.arme.degats.dice}}" min="0" />
+                                    <input type="number"  data-dtype="Number"class="dgtsDBase" name="system.niveau.details.{{nv}}.arme.degats.dice" value="{{key.arme.degats.dice}}" min="0" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                    <input type="number" class="dgtsF dgtsFBase" name="system.niveau.details.{{nv}}.arme.degats.fixe" value="{{key.arme.degats.fixe}}" min="0" />
+                                    <input type="number"  data-dtype="Number"class="dgtsF dgtsFBase" name="system.niveau.details.{{nv}}.arme.degats.fixe" value="{{key.arme.degats.fixe}}" min="0" />
                                 </div>
                             </div>
                             <div class="oneLinewDice {{#unless key.arme.degats.variable.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Minimum"}}</span>
                                 <div>
-                                    <input type="number" class="dgtsD" name="system.niveau.details.{{nv}}.arme.degats.variable.min.dice" value="{{key.arme.degats.variable.min.dice}}" min="0" max="{{key.arme.degats.variable.max.dice}}" />
+                                    <input type="number"  data-dtype="Number"class="dgtsD" name="system.niveau.details.{{nv}}.arme.degats.variable.min.dice" value="{{key.arme.degats.variable.min.dice}}" min="0" max="{{key.arme.degats.variable.max.dice}}" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                    <input type="number" class="dgtsF dgtsMin" name="system.niveau.details.{{nv}}.arme.degats.variable.min.fixe" value="{{key.arme.degats.fixe}}" />
+                                    <input type="number"  data-dtype="Number"class="dgtsF dgtsMin" name="system.niveau.details.{{nv}}.arme.degats.variable.min.fixe" value="{{key.arme.degats.fixe}}" />
                                 </div>
                             </div>
                             <div class="oneLinewDice {{#unless key.arme.degats.variable.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Maximum"}}</span>
                                 <div>
-                                    <input type="number" name="system.niveau.details.{{nv}}.arme.degats.variable.max.dice" value="{{key.arme.degats.variable.max.dice}}" min="{{key.arme.degats.variable.min.dice}}" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.degats.variable.max.dice" value="{{key.arme.degats.variable.max.dice}}" min="{{key.arme.degats.variable.min.dice}}" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                    <input type="number" class="dgtsF dgtsMax" name="system.niveau.details.{{nv}}.arme.degats.variable.max.fixe" value="{{key.arme.degats.fixe}}" />
+                                    <input type="number"  data-dtype="Number"class="dgtsF dgtsMax" name="system.niveau.details.{{nv}}.arme.degats.variable.max.fixe" value="{{key.arme.degats.fixe}}" />
                                 </div>
                             </div>
                             <label class="oneLine {{#unless key.arme.degats.variable.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.arme.degats.variable.cout" value="{{key.arme.degats.variable.cout}}" min="0" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.degats.variable.cout" value="{{key.arme.degats.variable.cout}}" min="0" />
                             </label>
                         </div>
 
@@ -601,30 +601,30 @@
                             <div class="oneLinewDice {{#if key.arme.violence.variable.has}}hidden{{/if}}">
                                 <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                                 <div>
-                                    <input type="number" class="violenceDBase" name="system.niveau.details.{{nv}}.arme.violence.dice" value="{{key.arme.violence.dice}}" min="0" />
+                                    <input type="number"  data-dtype="Number"class="violenceDBase" name="system.niveau.details.{{nv}}.arme.violence.dice" value="{{key.arme.violence.dice}}" min="0" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                    <input type="number" class="violenceF violenceFBase" name="system.niveau.details.{{nv}}.arme.violence.fixe" value="{{key.arme.violence.fixe}}" min="0" />
+                                    <input type="number"  data-dtype="Number"class="violenceF violenceFBase" name="system.niveau.details.{{nv}}.arme.violence.fixe" value="{{key.arme.violence.fixe}}" min="0" />
                                 </div>
                             </div>
                             <div class="oneLinewDice {{#unless key.arme.violence.variable.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.Minimum"}}</span>
                                 <div>
-                                    <input type="number" class="violenceD" name="system.niveau.details.{{nv}}.arme.violence.variable.min.dice" value="{{key.arme.violence.variable.min.dice}}" min="0" max="{{key.arme.violence.variable.max.dice}}" />
+                                    <input type="number"  data-dtype="Number"class="violenceD" name="system.niveau.details.{{nv}}.arme.violence.variable.min.dice" value="{{key.arme.violence.variable.min.dice}}" min="0" max="{{key.arme.violence.variable.max.dice}}" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                    <input type="number" class="violenceF violenceMin" name="system.niveau.details.{{nv}}.arme.violence.variable.min.fixe" value="{{key.arme.violence.fixe}}" min="0" />
+                                    <input type="number"  data-dtype="Number"class="violenceF violenceMin" name="system.niveau.details.{{nv}}.arme.violence.variable.min.fixe" value="{{key.arme.violence.fixe}}" min="0" />
                                 </div>
                             </div>
                             <div class="oneLinewDice {{#unless key.arme.violence.variable.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.Maximum"}}</span>
                                 <div>
-                                    <input type="number" name="system.niveau.details.{{nv}}.arme.violence.variable.max.dice" value="{{key.arme.violence.variable.max.dice}}" min="{{key.arme.violence.variable.min.dice}}" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.violence.variable.max.dice" value="{{key.arme.violence.variable.max.dice}}" min="{{key.arme.violence.variable.min.dice}}" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                    <input type="number" class="violenceF violenceMax" name="system.niveau.details.{{nv}}.arme.violence.variable.max.fixe" value="{{key.arme.violence.fixe}}" min="0" />
+                                    <input type="number"  data-dtype="Number"class="violenceF violenceMax" name="system.niveau.details.{{nv}}.arme.violence.variable.max.fixe" value="{{key.arme.violence.fixe}}" min="0" />
                                 </div>
                             </div>
                             <label class="oneLine {{#unless key.arme.violence.variable.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.arme.violence.variable.cout" value="{{key.arme.violence.variable.cout}}" min="0" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.violence.variable.cout" value="{{key.arme.violence.variable.cout}}" min="0" />
                             </label>
                         </div>
                     {{/unless}}
@@ -640,17 +640,17 @@
                                 <label class="demi">
                                     <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
                                     <div>
-                                        <input type="number" name="system.niveau.details.{{nv}}.arme.optionsmunitions.liste.{{effet}}.degats.dice" value="{{kM.degats.dice}}" min="0" />
+                                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.optionsmunitions.liste.{{effet}}.degats.dice" value="{{kM.degats.dice}}" min="0" />
                                         <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                        <input type="number" name="system.niveau.details.{{nv}}.arme.optionsmunitions.liste.{{effet}}.degats.fixe" value="{{kM.degats.fixe}}" />
+                                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.optionsmunitions.liste.{{effet}}.degats.fixe" value="{{kM.degats.fixe}}" />
                                     </div>
                                 </label>
                                 <label class="demi">
                                     <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
                                     <div>
-                                        <input type="number" name="system.niveau.details.{{nv}}.arme.optionsmunitions.liste.{{effet}}.violence.dice" value="{{kM.violence.dice}}" min="0" />
+                                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.optionsmunitions.liste.{{effet}}.violence.dice" value="{{kM.violence.dice}}" min="0" />
                                         <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                        <input type="number" name="system.niveau.details.{{nv}}.arme.optionsmunitions.liste.{{effet}}.violence.fixe" value="{{kM.violence.fixe}}" />
+                                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.arme.optionsmunitions.liste.{{effet}}.violence.fixe" value="{{kM.violence.fixe}}" />
                                     </div>
                                 </label>
                             </div>
@@ -818,16 +818,16 @@
                             <div>
                                 <label class="oneLine">
                                     <span>{{getAspect aspect}}</span>
-                                    <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.value" value="{{kAsp.value}}" min="0" max="20" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.value" value="{{kAsp.value}}" min="0" max="20" />
                                 </label>
                                 <h3>{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</h3>
                                 <label class="oneLine">
                                     <span>{{localize "KNIGHT.AUTRE.Mineur"}}</span>
-                                    <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.ae.mineur" value="{{kAsp.ae.mineur}}" min="0" max="10" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.ae.mineur" value="{{kAsp.ae.mineur}}" min="0" max="10" />
                                 </label>
                                 <label class="oneLine">
                                     <span>{{localize "KNIGHT.AUTRE.Majeur"}}</span>
-                                    <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.ae.majeur" value="{{kAsp.ae.majeur}}" min="0" max="10" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.ae.majeur" value="{{kAsp.ae.majeur}}" min="0" max="10" />
                                 </label>
                             </div>
                         {{/each}}
@@ -836,45 +836,45 @@
                         <div class="col3">
                             <label class="oneLine {{#unless (isBande kpnj.type)}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.AUTRE.Debordement"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.debordement" value="{{kpnj.debordement}}"/>
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.debordement" value="{{kpnj.debordement}}"/>
                             </label>
 
                             <div class="oneLinewDice {{#unless (isBande kpnj.type)}}noMarginTop{{/unless}}">
                                 <span>{{localize "KNIGHT.LATERAL.Initiative"}}</span>
                                 <div>
-                                    <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.initiative.dice" value="{{kpnj.initiative.dice}}" min="0" />
+                                    <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.initiative.dice" value="{{kpnj.initiative.dice}}" min="0" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                    <input type="number" name="system.pnj.liste.{{pnj}}.initiative.fixe" value="{{kpnj.initiative.fixe}}" min="0" />
+                                    <input type="number"  data-dtype="Number"name="system.pnj.liste.{{pnj}}.initiative.fixe" value="{{kpnj.initiative.fixe}}" min="0" />
                                 </div>
                             </div>
 
                             <label class="oneLine {{#unless (isBande kpnj.type)}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.LATERAL.Cohesion"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.sante" value="{{kpnj.sante}}"/>
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.sante" value="{{kpnj.sante}}"/>
                             </label>
                         </div>
 
                         <div class="col3">
                             <label class="oneLine">
                                 <span>{{localize "KNIGHT.LATERAL.Reaction"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.reaction" value="{{kpnj.reaction}}"/>
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.reaction" value="{{kpnj.reaction}}"/>
                             </label>
 
                             <label class="oneLine">
                                 <span>{{localize "KNIGHT.LATERAL.Defense"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.defense" value="{{kpnj.defense}}"/>
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.defense" value="{{kpnj.defense}}"/>
                             </label>
                         </div>
 
                         <div class="col3">
                             <label class="oneLine">
                                 <span>{{localize "KNIGHT.LATERAL.Armure"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armure" value="{{kpnj.armure}}"/>
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armure" value="{{kpnj.armure}}"/>
                             </label>
 
                             <label class="oneLine">
                                 <span>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.champDeForce" value="{{kpnj.champDeForce}}"/>
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.champDeForce" value="{{kpnj.champDeForce}}"/>
                             </label>
                         </div>
 
@@ -920,15 +920,15 @@
                                             </div>
 
                                             <div class="degats">
-                                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.degats.dice" value="{{aKey.degats.dice}}" min="0" />
+                                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.degats.dice" value="{{aKey.degats.dice}}" min="0" />
                                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.degats.fixe" value="{{aKey.degats.fixe}}" min="0" />
+                                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.degats.fixe" value="{{aKey.degats.fixe}}" min="0" />
                                             </div>
 
                                             <div class="violence">
-                                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.violence.dice" value="{{aKey.violence.dice}}" min="0" />
+                                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.violence.dice" value="{{aKey.violence.dice}}" min="0" />
                                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.violence.fixe" value="{{aKey.violence.fixe}}" min="0" />
+                                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.violence.fixe" value="{{aKey.violence.fixe}}" min="0" />
                                             </div>
                                         </div>
                                         {{#if (isValue aKey.type 'tourelle')}}
@@ -937,9 +937,9 @@
                                         </div>
                                         <div class="line">
                                             <div class="attaque">
-                                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.attaque.dice" value="{{aKey.attaque.dice}}" min="0" />
+                                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.attaque.dice" value="{{aKey.attaque.dice}}" min="0" />
                                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.attaque.fixe" value="{{aKey.attaque.fixe}}" min="0" />
+                                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.attaque.fixe" value="{{aKey.attaque.fixe}}" min="0" />
                                             </div>
                                         </div>
                                         {{/if}}
@@ -973,13 +973,13 @@
                                     </div>
 
                                     <label class="dice">
-                                        <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.jetSpecial.liste.{{jet}}.dice" value="{{kJet.dice}}" min="0" />
+                                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.jetSpecial.liste.{{jet}}.dice" value="{{kJet.dice}}" min="0" />
                                         <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                     </label>
 
                                     <label class="od">
                                         <span>{{localize "KNIGHT.ASPECTS.OD"}}</span>
-                                        <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.jetSpecial.liste.{{jet}}.overdrive" value="{{kJet.overdrive}}" min="0" />
+                                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.jetSpecial.liste.{{jet}}.overdrive" value="{{kJet.overdrive}}" min="0" />
                                     </label>
                                 </div>
                             {{/each}}
@@ -1000,7 +1000,7 @@
                         {{#each kAspect  as | kCarac carac|}}
                             <label class="oneLine">
                                 <span>{{getCarac carac}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.overdrives.aspects.{{aspect}}.{{carac}}" value="{{kCarac}}" />
+                                <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.overdrives.aspects.{{aspect}}.{{carac}}" value="{{kCarac}}" />
                             </label>
                         {{/each}}
                     </div>
@@ -1016,7 +1016,7 @@
                 <div class="col">
                     <label class="longspan">
                         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
-                        <input type="number" name="system.niveau.details.{{nv}}.ersatz.rogue.reussites" value="{{key.ersatz.rogue.reussites}}" min="0" />
+                        <input type="number"  data-dtype="Number"name="system.niveau.details.{{nv}}.ersatz.rogue.reussites" value="{{key.ersatz.rogue.reussites}}" min="0" />
                     </label>
 
                     <div class="oneLine">

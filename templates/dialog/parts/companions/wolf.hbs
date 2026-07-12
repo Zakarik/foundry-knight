@@ -6,11 +6,11 @@
         </h2>
         <label class="longspan">
             <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsRestantRepartir"}}</span>
-            <input class="aspectDistribuer" type="number" name="system.wolf.points.aspects" value="{{system.wolf.points.aspects}}" disabled />
+            <input class="aspectDistribuer" type="number"  data-dtype="Number"name="system.wolf.points.aspects" value="{{system.wolf.points.aspects}}" disabled />
         </label>
         <label class="longspan">
             <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsExceptionnelsRestantRepartir"}}</span>
-            <input class="aeDistribuer" type="number" name="system.wolf.points.ae" value="{{system.wolf.points.ae}}" disabled />
+            <input class="aeDistribuer" type="number"  data-dtype="Number"name="system.wolf.points.ae" value="{{system.wolf.points.ae}}" disabled />
         </label>
         {{#each system.wolf.aspects as | key aspect|}}
             <div class="block">
@@ -44,7 +44,7 @@
         </h2>
         <label class="longspan">
             <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.NiveauConfigurationRestant"}}</span>
-            <input class="bonusDistribuer" type="number" name="system.wolf.points.configuration" value="{{system.wolf.points.configuration}}" disabled />
+            <input class="bonusDistribuer" type="number"  data-dtype="Number"name="system.wolf.points.configuration" value="{{system.wolf.points.configuration}}" disabled />
         </label>
         <label></label>
 

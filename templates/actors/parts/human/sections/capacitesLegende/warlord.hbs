@@ -87,7 +87,7 @@
             </button>
             {{#if impulsions.force.choisi}}
                 <label class="allies">
-                    <input type="number" class="{{#if active.force.allie}}update{{/if}}" name="system.equipements.armure.capacites.warlord.force.nbre"
+                    <input type="number"  data-dtype="Number"class="{{#if active.force.allie}}update{{/if}}" name="system.equipements.armure.capacites.warlord.force.nbre"
                         data-capacite="{{this.key}}"
                         data-old="{{data.warlord.force.nbre}}"
                         data-cout="{{impulsions.force.energie.allie}}" value="{{data.warlord.force.nbre}}"
@@ -149,7 +149,7 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}} : {{localizeactivate active.esquive.porteur}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Porteur"}})
                 </button>
                 <label class="allies">
-                    <input type="number" class="{{#if active.esquive.allie}}update{{/if}}" name="system.equipements.armure.capacites.warlord.esquive.nbre"
+                    <input type="number"  data-dtype="Number"class="{{#if active.esquive.allie}}update{{/if}}" name="system.equipements.armure.capacites.warlord.esquive.nbre"
                         data-capacite="{{key}}"
                         data-old="{{data.warlord.esquive.nbre}}" data-cout="{{impulsions.esquive.energie.allie}}" value="{{data.warlord.esquive.nbre}}"
                         min="1" />
@@ -182,7 +182,7 @@
             {{/if}}
             {{#if impulsions.energie.choisi}}
                 <label class="allies">
-                    <input type="number" name="system.equipements.armure.capacites.warlord.energie.nbre"
+                    <input type="number"  data-dtype="Number"name="system.equipements.armure.capacites.warlord.energie.nbre"
                     data-capacite="{{key}}"
                     value="{{data.warlord.energie.nbre}}"
                     min="{{impulsions.energie.energie.min}}" max="{{impulsions.energie.energie.max}}" />
@@ -201,7 +201,7 @@
             {{/if}}
             {{#if impulsions.guerre.choisi}}
                 <label class="allies">
-                    <input type="number" class="{{#if active.guerre.allie}}update{{/if}}" name="system.equipements.armure.capacites.warlord.guerre.nbre"
+                    <input type="number"  data-dtype="Number"class="{{#if active.guerre.allie}}update{{/if}}" name="system.equipements.armure.capacites.warlord.guerre.nbre"
                         data-capacite="{{key}}" data-old="{{data.warlord.guerre.nbre}}"
                         data-cout="{{impulsions.guerre.energie.allie}}"
                         value="{{data.warlord.guerre.nbre}}"

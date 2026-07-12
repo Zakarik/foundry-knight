@@ -3,13 +3,13 @@
         <label for="dmg">
             {{localize "KNIGHT.JETS.DEGATSAUTO.TrueDamageReceived"}} :
         </label>
-        <input type="number" name="damage" id="dmg" min="0" step="1" value="{{dmg}}" />
+        <input type="number"  data-dtype="Number"name="damage" id="dmg" min="0" step="1" value="{{dmg}}" />
     </div>
     <div class="sub num">
         <label for="dmgBonus">
             {{localize "KNIGHT.JETS.DEGATSAUTO.DamageBonus"}} :
         </label>
-        <input type="number" name="damageBonus" id="dmgBonus" min="0" step="1" value="0" />
+        <input type="number"  data-dtype="Number"name="damageBonus" id="dmgBonus" min="0" step="1" value="0" />
     </div>
 
     <div class="sub dmg">
@@ -106,7 +106,7 @@
     {{/if}}
     <div class="sub num">
         <label for="penetrating">{{localize "KNIGHT.EFFETS.PENETRANT.Label"}} :</label>
-        <input type="number" name="penetrating" id="penetrating" min="0" value="{{#if effects.penetrant}}{{ effects.penetrant }}{{else}}0{{/if}}"/>
+        <input type="number"  data-dtype="Number"name="penetrating" id="penetrating" min="0" value="{{#if effects.penetrant}}{{ effects.penetrant }}{{else}}0{{/if}}"/>
     </div>
 
     <div  class="sub">
@@ -123,7 +123,7 @@
     </div>
     <div class="sub num">
         <label for="pierceArmor">{{localize "KNIGHT.EFFETS.PERCEARMURE.Label"}} :</label>
-        <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="{{#if effects.percearmure}}{{ effects.percearmure }}{{else}}0{{/if}}"/>
+        <input type="number"  data-dtype="Number"name="pierceArmor" id="pierceArmor" min="0" value="{{#if effects.percearmure}}{{ effects.percearmure }}{{else}}0{{/if}}"/>
     </div>
 
     {{#if pnj}}
@@ -143,25 +143,25 @@
     {{#if effects.meurtrier}}
     <div class="sub num">
         <label for="meurtrier">{{localize "KNIGHT.EFFETS.MEURTRIER.Label"}} :</label>
-        <input type="number" name="meurtrier" id="meurtrier" min="0" value="{{#if effects.meurtrier}}{{ effects.meurtrier }}{{else}}0{{/if}}" />
+        <input type="number"  data-dtype="Number"name="meurtrier" id="meurtrier" min="0" value="{{#if effects.meurtrier}}{{ effects.meurtrier }}{{else}}0{{/if}}" />
     </div>
     {{/if}}
     {{#if effects.destructeur}}
     <div class="sub num">
         <label for="destructeur">{{localize "KNIGHT.EFFETS.DESTRUCTEUR.Label"}} :</label>
-        <input type="number" name="destructeur" id="destructeur" min="0" value="{{#if effects.destructeur}}{{ effects.destructeur }}{{else}}0{{/if}}" />
+        <input type="number"  data-dtype="Number"name="destructeur" id="destructeur" min="0" value="{{#if effects.destructeur}}{{ effects.destructeur }}{{else}}0{{/if}}" />
     </div>
     {{/if}}
     {{#if effects.briserlaresilience}}
     <div class="sub num">
         <label for="briserlaresilience">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Label"}} :</label>
-        <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="{{#if effects.briserlaresilience}}{{ effects.briserlaresilience }}{{else}}0{{/if}}" />
+        <input type="number"  data-dtype="Number"name="briserlaresilience" id="briserlaresilience" min="0" value="{{#if effects.briserlaresilience}}{{ effects.briserlaresilience }}{{else}}0{{/if}}" />
     </div>
     {{/if}}
     {{#if effects.assassin}}
     <div class="sub num">
         <label for="assassin">{{localize "KNIGHT.EFFETS.ASSASSIN.Label"}} :</label>
-        <input type="number" name="assassin" id="assassin" min="0" value="{{#if effects.assassin}}{{ effects.assassin }}{{else}}0{{/if}}" />
+        <input type="number"  data-dtype="Number"name="assassin" id="assassin" min="0" value="{{#if effects.assassin}}{{ effects.assassin }}{{else}}0{{/if}}" />
     </div>
     {{/if}}
     </div>
@@ -174,25 +174,25 @@
     {{#if effects.fureur}}
     <div class="sub num">
         <label for="fureur">{{localize "KNIGHT.EFFETS.FUREUR.Label"}} :</label>
-        <input type="number" name="fureur" id="fureur" min="0" value="{{#if effects.fureur}}{{ effects.fureur }}{{else}}0{{/if}}"/>
+        <input type="number"  data-dtype="Number"name="fureur" id="fureur" min="0" value="{{#if effects.fureur}}{{ effects.fureur }}{{else}}0{{/if}}"/>
     </div>
     {{/if}}
     {{#if effects.ultraviolence}}
     <div class="sub num">
         <label for="ultraviolence">{{localize "KNIGHT.EFFETS.ULTRAVIOLENCE.Label"}} :</label>
-        <input type="number" name="ultraviolence" id="ultraviolence" min="0" value="{{#if effects.ultraviolence}}{{ effects.ultraviolence }}{{else}}0{{/if}}"/>
+        <input type="number"  data-dtype="Number"name="ultraviolence" id="ultraviolence" min="0" value="{{#if effects.ultraviolence}}{{ effects.ultraviolence }}{{else}}0{{/if}}"/>
     </div>
     {{/if}}
     {{#if effects.intimidantana}}
     <div class="sub num">
         <label for="intimidantana">{{localize "KNIGHT.EFFETS.INTIMIDANTEANATHEME.Label"}} :</label>
-        <input type="number" name="intimidantana" id="intimidantana" min="0" value="{{#if effects.intimidantana}}{{ effects.intimidantana }}{{else}}0{{/if}}"/>
+        <input type="number"  data-dtype="Number"name="intimidantana" id="intimidantana" min="0" value="{{#if effects.intimidantana}}{{ effects.intimidantana }}{{else}}0{{/if}}"/>
     </div>
     {{/if}}
     {{#if effects.intimidanthum}}
     <div class="sub num">
         <label for="intimidanthum">{{localize "KNIGHT.EFFETS.INTIMIDANTEHUMAINS.Label"}} :</label>
-        <input type="number" name="intimidanthum" id="intimidanthum" min="0" value="{{#if effects.intimidanthum}}{{ effects.intimidanthum }}{{else}}0{{/if}}"/>
+        <input type="number"  data-dtype="Number"name="intimidanthum" id="intimidanthum" min="0" value="{{#if effects.intimidanthum}}{{ effects.intimidanthum }}{{else}}0{{/if}}"/>
     </div>
     {{/if}}
     </div>

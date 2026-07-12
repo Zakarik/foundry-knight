@@ -15,7 +15,7 @@
         <div class="gain">
             <label>
                 <span>{{localize "KNIGHT.ITEMS.BLESSURETRAUMA.GainEspoir"}}</span>
-                <input class="gainEspoir" type="number" name="system.gainEspoir.value" value="{{systemData.gainEspoir.value}}" min="0" />
+                <input class="gainEspoir" type="number"  data-dtype="Number"name="system.gainEspoir.value" value="{{systemData.gainEspoir.value}}" min="0" />
             </label>
         </div>
         <div></div>
@@ -23,13 +23,13 @@
         {{#each systemData.aspects as | key aspect|}}
         <div class="aspect">
             <h2 class="header">{{key.label}}</h2>
-            <input class="aspect" type="number" name="system.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="9" />
+            <input class="aspect" type="number"  data-dtype="Number"name="system.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="9" />
             <div class="caracteristiques">
                 {{#each key.caracteristiques as | keyCar caracteristique|}}
                     <div class="line">
                         <label class="carac">
                             <span>{{keyCar.label}}</span>
-                            <input type="number" name="system.aspects.{{aspect}}.caracteristiques.{{caracteristique}}.value" value="{{keyCar.value}}" min="0" max="9" />
+                            <input type="number"  data-dtype="Number"name="system.aspects.{{aspect}}.caracteristiques.{{caracteristique}}.value" value="{{keyCar.value}}" min="0" max="9" />
                         </label>
                     </div>
                 {{/each}}

@@ -9,7 +9,7 @@
     {{#if (eq key 'number')}}
         <label class="number {{class}}">
             <span>{{label}}</span>
-            <input type="number" value="{{value}}" min="{{min}}" max="{{max}}" />
+            <input type="number"  data-dtype="Number"value="{{value}}" min="{{min}}" max="{{max}}" />
         </label>
     {{/if}}
     {{#if (eq key 'select')}}

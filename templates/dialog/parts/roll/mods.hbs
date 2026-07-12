@@ -7,7 +7,7 @@
         {{#if (eq key 'score')}}
             <label class="{{classes}}" data-key="{{name}}">
                 <span>{{label}}</span>
-                <input type="number" class="value" name="{{path}}" value="{{value}}" min="{{min}}" max="{{max}}" />
+                <input type="number"  data-dtype="Number"class="value" name="{{path}}" value="{{value}}" min="{{min}}" max="{{max}}" />
             </label>
         {{/if}}
 
@@ -15,9 +15,9 @@
             <div class="{{classes}}" data-key="{{name}}">
                 <span>{{label}}</span>
                 <label>
-                    <input type="number" class="dice" name="{{name}}.dice"  data-key="dice" value="{{dice}}" min="{{dice.min}}" max="{{dice.max}}" />
+                    <input type="number"  data-dtype="Number"class="dice" name="{{name}}.dice"  data-key="dice" value="{{dice}}" min="{{dice.min}}" max="{{dice.max}}" />
                     <span>{{localize 'KNIGHT.JETS.Des-short'}}6+</span>
-                    <input type="number" class="value" name="{{name}}.value" data-key="value" value="{{value}}" min="{{value.min}}" max="{{value.max}}" />
+                    <input type="number"  data-dtype="Number"class="value" name="{{name}}.value" data-key="value" value="{{value}}" min="{{value.min}}" max="{{value.max}}" />
                 </label>
             </div>
         {{/if}}
@@ -46,7 +46,7 @@
                 </label>
                 <label class="score {{score.classes}}">
                     <span class="sublabel">{{score.label}}</span>
-                    <input type="number" class="value" name="{{valuePath}}" value="{{score.value}}" min="{{score.min}}" max="{{score.max}}" />
+                    <input type="number"  data-dtype="Number"class="value" name="{{valuePath}}" value="{{score.value}}" min="{{score.min}}" max="{{score.max}}" />
                 </label>
             </div>
         {{/if}}

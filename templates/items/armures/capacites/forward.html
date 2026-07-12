@@ -26,7 +26,7 @@
         <div class="data">
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.FORWARD.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.forward.energie"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.forward.energie"
                 value="{{this.energie}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />

@@ -1,6 +1,6 @@
 {{#if (eq key 'input')}}
 <div class="subline">
     <span class="label">{{localize label}}</span>
-    <input type="number" name="system.{{value}}" min="{{min}}" max="{{max}}" value="{{getProperty data/systemData value}}" />
+    <input type="number"  data-dtype="Number"name="system.{{value}}" min="{{min}}" max="{{max}}" value="{{getProperty data/systemData value}}" />
 </div>
 {{/if}}

@@ -24,7 +24,7 @@
             <div class="data">
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.NombresModes"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.selection"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.selection"
                     value="{{this.impulsions.selection}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -42,14 +42,14 @@
                 <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
                 <label class="longspan noBorderTop">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.base.action.energie.allie"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.base.action.energie.allie"
                     value="{{this.base.action.energie.allie}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.base.action.energie.porteur"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.base.action.energie.porteur"
                     value="{{this.base.action.energie.porteur}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -72,7 +72,7 @@
                 <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}}</h4>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.force.bonus.champDeForce"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.force.bonus.champDeForce"
                     value="{{this.impulsions.force.bonus.champDeForce}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -80,21 +80,21 @@
                 <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
                 <label class="longspan noBorderTop">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.force.energie.allie"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.force.energie.allie"
                     value="{{this.impulsions.force.energie.allie}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
-                    <input class="absolute"  type="number" name="system.capacites.selected.warlord.impulsions.force.energie.porteur"
+                    <input class="absolute"  type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.force.energie.porteur"
                     value="{{this.impulsions.force.energie.porteur}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.AlliesPorteur"}}</span>
-                    <input class="absolute"  type="number" name="system.capacites.selected.warlord.impulsions.force.energie.prolonger"
+                    <input class="absolute"  type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.force.energie.prolonger"
                     value="{{this.impulsions.force.energie.prolonger}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -124,7 +124,7 @@
                 <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
                 <label class="longspan noBorderTop">
                     <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.energie.energie.min"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.energie.energie.min"
                     value="{{this.impulsions.energie.energie.min}}"
                     min="0"
                     max="{{this.impulsions.energie.energie.max}}"
@@ -132,7 +132,7 @@
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.energie.energie.max"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.energie.energie.max"
                     value="{{this.impulsions.energie.energie.max}}"
                     min="{{this.impulsions.energie.energie.min}}"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -157,14 +157,14 @@
                 <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}}</h4>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.BONUS.Defense"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.esquive.bonus.defense"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.esquive.bonus.defense"
                     value="{{this.impulsions.esquive.bonus.defense}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.BONUS.Reaction"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.esquive.bonus.reaction"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.esquive.bonus.reaction"
                     value="{{this.impulsions.esquive.bonus.reaction}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -172,21 +172,21 @@
                 <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
                 <label class="longspan noBorderTop">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.esquive.energie.allie"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.esquive.energie.allie"
                     value="{{this.impulsions.esquive.energie.allie}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
-                    <input class="absolute"  type="number" name="system.capacites.selected.warlord.impulsions.esquive.energie.porteur"
+                    <input class="absolute"  type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.esquive.energie.porteur"
                     value="{{this.impulsions.esquive.energie.porteur}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.AlliesPorteur"}}</span>
-                    <input class="absolute"  type="number" name="system.capacites.selected.warlord.impulsions.esquive.energie.prolonger"
+                    <input class="absolute"  type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.esquive.energie.prolonger"
                     value="{{this.impulsions.esquive.energie.prolonger}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -210,7 +210,7 @@
                 <div class="longspan noBorderTop">
                     <span>{{localize "KNIGHT.BONUS.Degats"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.warlord.impulsions.guerre.bonus.degats"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.guerre.bonus.degats"
                         value="{{this.impulsions.guerre.bonus.degats}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
@@ -220,7 +220,7 @@
                 <div class="longspan">
                     <span>{{localize "KNIGHT.BONUS.Violence"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.warlord.impulsions.guerre.bonus.violence"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.guerre.bonus.violence"
                         value="{{this.impulsions.guerre.bonus.violence}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
@@ -230,21 +230,21 @@
                 <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
                 <label class="longspan noBorderTop">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.guerre.energie.allie"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.guerre.energie.allie"
                     value="{{this.impulsions.guerre.energie.allie}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan noBorderTop">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.guerre.energie.porteur"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.guerre.energie.porteur"
                     value="{{this.impulsions.guerre.energie.porteur}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.AlliesPorteur"}}</span>
-                    <input class="absolute" type="number" name="system.capacites.selected.warlord.impulsions.guerre.energie.prolonger"
+                    <input class="absolute" type="number"  data-dtype="Number"name="system.capacites.selected.warlord.impulsions.guerre.energie.prolonger"
                     value="{{this.impulsions.guerre.energie.prolonger}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />

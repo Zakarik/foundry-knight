@@ -26,24 +26,24 @@
     <div class="diceWBonus {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
         <div>
-            <input type="number" name="system.passives.capacites.oriflamme.update.degats.dice" value="{{systemData.passives.capacites.oriflamme.update.degats.dice}}" min="0"/>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.oriflamme.update.degats.dice" value="{{systemData.passives.capacites.oriflamme.update.degats.dice}}" min="0"/>
             <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-            <input type="number" name="system.passives.capacites.oriflamme.update.degats.fixe" value="{{systemData.passives.capacites.oriflamme.update.degats.fixe}}" min="0"/>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.oriflamme.update.degats.fixe" value="{{systemData.passives.capacites.oriflamme.update.degats.fixe}}" min="0"/>
         </div>
     </div>
 
     <div class="diceWBonus {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
         <div>
-            <input type="number" name="system.passives.capacites.oriflamme.update.violence.dice" value="{{systemData.passives.capacites.oriflamme.update.violence.dice}}" min="0"/>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.oriflamme.update.violence.dice" value="{{systemData.passives.capacites.oriflamme.update.violence.dice}}" min="0"/>
             <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-            <input type="number" name="system.passives.capacites.oriflamme.update.violence.fixe" value="{{systemData.passives.capacites.oriflamme.update.violence.fixe}}" min="0"/>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.oriflamme.update.violence.fixe" value="{{systemData.passives.capacites.oriflamme.update.violence.fixe}}" min="0"/>
         </div>
     </div>
 
     <label class="{{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.AUTRE.Energie"}}</span>
-        <input type="number" name="system.passives.capacites.oriflamme.update.energie" value="{{systemData.passives.capacites.oriflamme.update.energie}}" min="0"/>
+        <input type="number"  data-dtype="Number"name="system.passives.capacites.oriflamme.update.energie" value="{{systemData.passives.capacites.oriflamme.update.energie}}" min="0"/>
     </label>
 
     <div class="textarea border {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">

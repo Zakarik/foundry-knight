@@ -36,7 +36,7 @@
     </button>
     <label class="longspan {{#unless this.maxeffets.value}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.MaxEffetsLabel"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.special.contrecoups.maxeffets.max" value="{{this.maxeffets.max}}" min="1" {{#if this.softlock}}disabled{{/if}}/>
+        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{key}}.special.contrecoups.maxeffets.max" value="{{this.maxeffets.max}}" min="1" {{#if this.softlock}}disabled{{/if}}/>
     </label>
 </div>
 

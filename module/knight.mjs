@@ -558,7 +558,7 @@ Hooks.on("createActiveEffect", async function(effect, data) {
     content += '</select>';
     content += '<label class="knightNumber">'
     content += '<span>Valeur de la peur ?</span>'
-    content += `<input type="number" name="value" min="1" value="1" />`
+    content += `<input type="number"  data-dtype="Number"name="value" min="1" value="1" />`
     content += '</label>'
     let update = [];
 
@@ -650,7 +650,7 @@ Hooks.on("createActiveEffect", async function(effect, data) {
     content += '</select>';
     content += '<label class="knightNumber">'
     content += '<span>Valeur de la peur ?</span>'
-    content += `<input type="number" name="value" min="1" value="1" />`
+    content += `<input type="number"  data-dtype="Number"name="value" min="1" value="1" />`
     content += '</label>'
     let update = [];
 

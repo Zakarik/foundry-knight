@@ -25,13 +25,13 @@
         <div class="data">
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.morph.energie" value="{{this.energie}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.energie" value="{{this.energie}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Espoir"}}</span>
-                <input type="number" name="system.capacites.selected.morph.espoir" value="{{this.espoir}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.espoir" value="{{this.espoir}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -47,7 +47,7 @@
             </label>
             <label class="longspan simpleSeparation">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.NbreCapacites"}}</span>
-                <input type="number" name="system.capacites.selected.morph.capacites" value="{{this.capacites}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.capacites" value="{{this.capacites}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -63,7 +63,7 @@
             <textarea data-capacite="morph" data-type="phase" data-min="115" style="height:{{this.textarea.phase}}px;" name="system.capacites.selected.morph.phase.description" {{#if this.softlock}}disabled{{/if}}>{{this.phase.description}}</textarea>
             <label class="shortspan simpleSeparation">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.morph.phase.energie" value="{{this.phase.energie}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.phase.energie" value="{{this.phase.energie}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -85,7 +85,7 @@
             {{#if phase.niveau2.acces}}
                 <label class="shortspan noSeparation">
                     <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                    <input type="number" name="system.capacites.selected.morph.phase.niveau2.energie" value="{{phase.niveau2.energie}}"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.phase.niveau2.energie" value="{{phase.niveau2.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
@@ -113,7 +113,7 @@
             </label>
             <label class="longspan simpleSeparation absolute">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Bonus"}}</span>
-                <input type="number" name="system.capacites.selected.morph.etirement.bonus" value="{{this.etirement.bonus}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.etirement.bonus" value="{{this.etirement.bonus}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -123,7 +123,7 @@
             <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.METAL.Label"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
-                <input type="number" name="system.capacites.selected.morph.metal.bonus.champDeForce" value="{{this.metal.bonus.champDeForce}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.metal.bonus.champDeForce" value="{{this.metal.bonus.champDeForce}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -133,13 +133,13 @@
             <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.FLUIDE.Label"}}</h4>
             <label class="doubleLine">
                 <span>{{localize "KNIGHT.BONUS.Defense"}}</span>
-                <input type="number" name="system.capacites.selected.morph.fluide.bonus.defense" value="{{this.fluide.bonus.defense}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.fluide.bonus.defense" value="{{this.fluide.bonus.defense}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="doubleLine">
                 <span>{{localize "KNIGHT.BONUS.Reaction"}}</span>
-                <input type="number" name="system.capacites.selected.morph.fluide.bonus.reaction" value="{{this.fluide.bonus.reaction}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.fluide.bonus.reaction" value="{{this.fluide.bonus.reaction}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -159,7 +159,7 @@
                 <div>
                     <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.morph.polymorphie.griffe.degats.dice" value="{{this.polymorphie.griffe.degats.dice}}"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.polymorphie.griffe.degats.dice" value="{{this.polymorphie.griffe.degats.dice}}"
                         {{#if this.softlock}}disabled{{/if}}
                         />
                         <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -168,7 +168,7 @@
                 <div>
                     <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.morph.polymorphie.griffe.violence.dice" value="{{this.polymorphie.griffe.violence.dice}}"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.polymorphie.griffe.violence.dice" value="{{this.polymorphie.griffe.violence.dice}}"
                         {{#if this.softlock}}disabled{{/if}}
                         />
                         <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -195,7 +195,7 @@
                 <div>
                     <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.morph.polymorphie.lame.degats.dice" value="{{this.polymorphie.lame.degats.dice}}"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.polymorphie.lame.degats.dice" value="{{this.polymorphie.lame.degats.dice}}"
                         {{#if this.softlock}}disabled{{/if}}
                         />
                         <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -204,7 +204,7 @@
                 <div>
                     <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.morph.polymorphie.lame.violence.dice" value="{{this.polymorphie.lame.violence.dice}}"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.polymorphie.lame.violence.dice" value="{{this.polymorphie.lame.violence.dice}}"
                         {{#if this.softlock}}disabled{{/if}}
                         />
                         <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -231,7 +231,7 @@
                 <div>
                     <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.morph.polymorphie.canon.degats.dice" value="{{this.polymorphie.canon.degats.dice}}"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.polymorphie.canon.degats.dice" value="{{this.polymorphie.canon.degats.dice}}"
                         {{#if this.softlock}}disabled{{/if}}
                         />
                         <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -240,7 +240,7 @@
                 <div>
                     <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.morph.polymorphie.canon.violence.dice" value="{{this.polymorphie.canon.violence.dice}}"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.morph.polymorphie.canon.violence.dice" value="{{this.polymorphie.canon.violence.dice}}"
                         {{#if this.softlock}}disabled{{/if}}
                         />
                         <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>

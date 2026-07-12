@@ -7,7 +7,7 @@
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <label class="allies">
-                <input type="number" name="system.equipements.armure.capacites.vision.energie" data-capacite="{{this.key}}" value="{{@root/systemData/equipements/armure/capacites/vision/energie}}"
+                <input type="number"  data-dtype="Number"name="system.equipements.armure.capacites.vision.energie" data-capacite="{{this.key}}" value="{{@root/systemData/equipements/armure/capacites/vision/energie}}"
                 min="{{this.energie.min}}" max="{{this.energie.max}}" />
                 <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
             </label>

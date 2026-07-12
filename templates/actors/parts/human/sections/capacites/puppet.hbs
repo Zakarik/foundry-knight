@@ -7,7 +7,7 @@
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <label class="allies">
-                <input type="number" class="{{#if data.puppet.active}}update{{/if}}"
+                <input type="number"  data-dtype="Number"class="{{#if data.puppet.active}}update{{/if}}"
                 name="system.equipements.armure.capacites.puppet.cible"
                 data-capacite="{{key}}"
                 data-old="{{data.puppet.cible}}"

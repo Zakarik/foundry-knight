@@ -5,11 +5,11 @@
     </h2>
     <label class="longspan">
         <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsRestantRepartir"}}</span>
-        <input class="aspectDistribuer" type="number" name="system.lion.points.aspects" value="{{system.lion.points.aspects}}" disabled />
+        <input class="aspectDistribuer" type="number"  data-dtype="Number"name="system.lion.points.aspects" value="{{system.lion.points.aspects}}" disabled />
     </label>
     <label class="longspan">
         <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.AspectsExceptionnelsRestantRepartir"}}</span>
-        <input class="aeDistribuer" type="number" name="system.lion.points.ae" value="{{system.lion.points.ae}}" disabled />
+        <input class="aeDistribuer" type="number"  data-dtype="Number"name="system.lion.points.ae" value="{{system.lion.points.ae}}" disabled />
     </label>
     {{#each system.lion.aspects as | key aspect|}}
         <div class="block">

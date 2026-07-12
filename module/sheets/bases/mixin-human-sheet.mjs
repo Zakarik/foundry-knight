@@ -75,6 +75,10 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     const id = header.dataset.itemId;
     const item = this.actor.items.get(id);
 
+    console.error(header);
+    console.error(type);
+    console.error(item);
+
     if(!item) return;
 
     switch(item.type) {
@@ -86,21 +90,20 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       case 'module':
       case 'armure':
       case 'armurelegende':
-        const typeArmure = tgt.typeArmure;
-        const subtype = tgt.subtype;
-        const value = tgt.value ? false : true;
-        const capacite = tgt.capacite;
-        const module = tgt.module;
-        const index = tgt.index;
+        const subtype = tgt?.subtype;
+        const value = tgt?.value === 'true' ? false : true;
+        const index = tgt?.index;
         const cout = tgt?.cout ?? 0;
+        const typeArmure = tgt.typeArmure;
+        const capacite = tgt.capacite;
         const armure = typeArmure === 'legend' ? await getArmorLegend(this.actor) : await getArmor(this.actor);
 
         if(type === 'capacites') armure.system.activateCapacity({capacite, special, variant});
         else if(type === 'special') armure.system.activateSpecial({capacite, special, variant});
-        else if(type === 'module') item.system.activate(value, subtype);
-        else if(type === 'modulePnj') item.system.activateNPC(value, subtype, index);
         else if(type === 'supplementaire') await this._depensePE('', eval(cout), true, false, false, true);
         else if(type === 'prolonger') await armure.system.prolongateCapacity({capacite, special, variant});
+        else if(type === 'module') item.system.activate(value, subtype);
+        else if(type === 'modulePnj') item.system.activateNPC(value, subtype, index);
         break;
 
       case 'capaciteultime':
@@ -1612,9 +1615,10 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     if(item.type === 'armure') this._resetArmure(actor);
 
     if(item.type === 'module') {
-      const btnActivations = header.find('.activation');
+      const btnActivations = header.querySelectorAll('.activation');
 
       for(let b of btnActivations) {
+        console.error(b);
         const target = $(b);
         const subtype = target.data("subtype");
         const index = target.data("index");

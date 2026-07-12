@@ -7,7 +7,7 @@
 
         <label class="generationArmure">
             <span>{{localize "KNIGHT.ITEMS.ARMURE.Generation"}}</span>
-            <input type="number" class="generation" name="system.generation" value="{{systemData.generation}}" min="1" max="4" />
+            <input type="number"  data-dtype="Number"class="generation" name="system.generation" value="{{systemData.generation}}" min="1" max="4" />
         </label>
 
         <button type="action" data-value="{{systemData.espoir.bonus}}" class="buttonEspoir {{#if systemData.espoir.bonus}} selected {{else}} unselected {{/if}}">
@@ -22,7 +22,7 @@
         <div class="armure">
             <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
 
-            <input type="number" name="system.armure.base" value="{{systemData.armure.base}}" min="0" />
+            <input type="number"  data-dtype="Number"name="system.armure.base" value="{{systemData.armure.base}}" min="0" />
         </div>
         {{/if}}
 
@@ -30,7 +30,7 @@
         <div class="champDeForce">
             <span class="label">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
 
-            <input type="number" name="system.champDeForce.base" value="{{systemData.champDeForce.base}}" min="0" />
+            <input type="number"  data-dtype="Number"name="system.champDeForce.base" value="{{systemData.champDeForce.base}}" min="0" />
         </div>
         {{/if}}
 
@@ -38,21 +38,21 @@
         <div class="energie">
             <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
 
-            <input type="number" name="system.energie.base" value="{{systemData.energie.base}}" min="0" />
+            <input type="number"  data-dtype="Number"name="system.energie.base" value="{{systemData.energie.base}}" min="0" />
         </div>
         {{/if}}
 
         {{#if systemData.jauges.egide}}
         <div class="egide">
             <span class="label">{{localize "KNIGHT.BONUS.Egide"}}</span>
-            <input type="number" name="system.egide.value" value="{{systemData.egide.value}}" />
+            <input type="number"  data-dtype="Number"name="system.egide.value" value="{{systemData.egide.value}}" />
         </div>
         {{/if}}
 
         {{#if systemData.espoir.bonus}}
         <div class="egide">
             <span class="label">{{localize "KNIGHT.BONUS.Espoir"}}</span>
-            <input type="number" name="system.espoir.value" value="{{systemData.espoir.value}}" />
+            <input type="number"  data-dtype="Number"name="system.espoir.value" value="{{systemData.espoir.value}}" />
         </div>
         {{/if}}
 
@@ -60,7 +60,7 @@
         <div class="flux">
             <span class="label">{{localize "KNIGHT.LATERAL.Flux"}}</span>
 
-            <input type="number" name="system.flux.value" value="{{systemData.flux.value}}" min="0" />
+            <input type="number"  data-dtype="Number"name="system.flux.value" value="{{systemData.flux.value}}" min="0" />
         </div>
         {{/if}}
 
@@ -68,7 +68,7 @@
         <div class="coutEspoir">
             <span class="label">{{localize "KNIGHT.REDUCTION.CoutEspoir"}}</span>
 
-            <input type="number" name="system.espoir.cout" value="{{systemData.espoir.cout}}" min="0" />
+            <input type="number"  data-dtype="Number"name="system.espoir.cout" value="{{systemData.espoir.cout}}" min="0" />
         </div>
         {{/if}}
     </header>
@@ -123,32 +123,32 @@
         <div class="line">
             <label>
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Tete"}}</span>
-                <input type="number" name="system.slots.tete.value" value="{{systemData.slots.tete.value}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.slots.tete.value" value="{{systemData.slots.tete.value}}" min="0" />
             </label>
 
             <label>
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasGauche"}}</span>
-                <input type="number" name="system.slots.brasGauche.value" value="{{systemData.slots.brasGauche.value}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.slots.brasGauche.value" value="{{systemData.slots.brasGauche.value}}" min="0" />
             </label>
 
             <label>
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasDroit"}}</span>
-                <input type="number" name="system.slots.brasDroit.value" value="{{systemData.slots.brasDroit.value}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.slots.brasDroit.value" value="{{systemData.slots.brasDroit.value}}" min="0" />
             </label>
 
             <label>
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Torse"}}</span>
-                <input type="number" name="system.slots.torse.value" value="{{systemData.slots.torse.value}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.slots.torse.value" value="{{systemData.slots.torse.value}}" min="0" />
             </label>
 
             <label>
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeGauche"}}</span>
-                <input type="number" name="system.slots.jambeGauche.value" value="{{systemData.slots.jambeGauche.value}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.slots.jambeGauche.value" value="{{systemData.slots.jambeGauche.value}}" min="0" />
             </label>
 
             <label>
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeDroite"}}</span>
-                <input type="number" name="system.slots.jambeDroite.value" value="{{systemData.slots.jambeDroite.value}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.slots.jambeDroite.value" value="{{systemData.slots.jambeDroite.value}}" min="0" />
             </label>
         </div>
     </div>
@@ -167,7 +167,7 @@
             {{#each key.liste as | keyOD OD|}}
                 <label>
                     <span class="label">{{getCarac OD}}</span>
-                    <input type="number" name="system.overdrives.{{aspect}}.liste.{{OD}}.value" value="{{keyOD.value}}" />
+                    <input type="number"  data-dtype="Number"name="system.overdrives.{{aspect}}.liste.{{OD}}.value" value="{{keyOD.value}}" />
                 </label>
             {{/each}}
         </div>
@@ -181,7 +181,7 @@
 
         <label class="paliers">
             <span>{{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.NbrePaliers"}}</span>
-            <input type="number" name="system.evolutions.paliers" min="0" value="{{systemData.evolutions.paliers}}" />
+            <input type="number"  data-dtype="Number"name="system.evolutions.paliers" min="0" value="{{systemData.evolutions.paliers}}" />
             <button type="action" data-value="{{systemData.evolutions.paliers}}">{{localize "KNIGHT.AUTRE.Valider"}}</button>
         </label>
 
@@ -192,7 +192,7 @@
                 {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.Label"}}
 
                 <label>
-                    <input type="number" name="system.evolutions.liste.{{evolution}}.value" value="{{key.value}}" min="{{#unless ../systemData.evolutions.aAcheter.value}}{{evolution}}{{else}}0{{/unless}}" data-key="{{evolution}}" class="{{#unless ../systemData.evolutions.aAcheter.value}} palier {{/unless}}" />
+                    <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{evolution}}.value" value="{{key.value}}" min="{{#unless ../systemData.evolutions.aAcheter.value}}{{evolution}}{{else}}0{{/unless}}" data-key="{{evolution}}" class="{{#unless ../systemData.evolutions.aAcheter.value}} palier {{/unless}}" />
                     <span>{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
                 </label>
             </h2>
@@ -203,21 +203,21 @@
                 <div class="data">
                     <label class="longspan">
                         <span>{{localize "KNIGHT.BONUS.Armure"}}</span>
-                        <input type="number" name="system.evolutions.liste.{{evolution}}.data.armure"
+                        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{evolution}}.data.armure"
                         value="{{this.data.armure}}"
                         min="0"
                         />
                     </label>
                     <label class="longspan">
                         <span>{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
-                        <input type="number" name="system.evolutions.liste.{{evolution}}.data.champDeForce"
+                        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{evolution}}.data.champDeForce"
                         value="{{this.data.champDeForce}}"
                         min="0"
                         />
                     </label>
                     <label class="longspan">
                         <span>{{localize "KNIGHT.BONUS.Energie"}}</span>
-                        <input type="number" name="system.evolutions.liste.{{evolution}}.data.energie"
+                        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{evolution}}.data.energie"
                         value="{{this.data.energie}}"
                         min="0"
                         />
@@ -225,7 +225,7 @@
                     {{#if @root/systemData/espoir/bonus}}
                     <label class="longspan">
                         <span>{{localize "KNIGHT.BONUS.Espoir"}}</span>
-                        <input type="number" name="system.evolutions.liste.{{evolution}}.data.espoir"
+                        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{evolution}}.data.espoir"
                         value="{{this.data.espoir}}"
                         min="0"
                         />

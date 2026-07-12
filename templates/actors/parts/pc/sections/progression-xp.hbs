@@ -9,8 +9,8 @@
         {{#if (isValue nom 'autre')}}
             <span class="value borderLeft"></span>
         {{else}}
-            <input type="number" class="borderLeft" name="system.progression.experience.depense.liste.{{index}}.bonus" value="{{bonus}}" min="0" />
+            <input type="number"  data-dtype="Number"class="borderLeft" name="system.progression.experience.depense.liste.{{index}}.bonus" value="{{bonus}}" min="0" />
         {{/if}}
     {{/if}}
-    <input type="number" class="borderLeft" name="system.progression.experience.depense.liste.{{index}}.cout" value="{{cout}}" min="0" />
+    <input type="number"  data-dtype="Number"class="borderLeft" name="system.progression.experience.depense.liste.{{index}}.cout" value="{{cout}}" min="0" />
 </div>

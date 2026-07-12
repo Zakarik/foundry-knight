@@ -25,28 +25,28 @@
             <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}}</span>
-                <input type="number" name="system.capacites.selected.nanoc.energie.base"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.nanoc.energie.base"
                 value="{{this.energie.base}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}}/>
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}}</span>
-                <input type="number" name="system.capacites.selected.nanoc.energie.detaille"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.nanoc.energie.detaille"
                 value="{{this.energie.detaille}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}}/>
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetMecanique"}}</span>
-                <input type="number" name="system.capacites.selected.nanoc.energie.mecanique"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.nanoc.energie.mecanique"
                 value="{{this.energie.mecanique}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}}/>
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.AUTRE.Prolonger"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ParMinute"}}</span>
-                <input type="number" name="system.capacites.selected.nanoc.energie.prolonger"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.nanoc.energie.prolonger"
                 value="{{this.energie.prolonger}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}}/>

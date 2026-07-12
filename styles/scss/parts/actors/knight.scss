@@ -3464,7 +3464,10 @@
             flex-wrap: wrap;
 
             header {
-                display: block;
+                display: grid;
+                grid-template-columns: max-content 1fr repeat(2, max-content);
+                grid-gap: 5px;
+                align-items: center;
                 position:relative;
                 width: 100%;
                 text-transform: uppercase;
@@ -3485,7 +3488,7 @@
 
                 span {
                 &.mainSpan {
-                    width: calc(100% - 210px - 65px);
+                    width: 100%;
                     display: inline-grid;
                     grid-template-columns: calc(100% - 150px) auto 40px;
                     grid-template-rows: auto auto;
@@ -3561,7 +3564,6 @@
                 margin-left: auto;
                 flex-wrap: wrap;
                 min-height:22px;
-                margin-top:-22px;
 
                 button {
                     position:relative;

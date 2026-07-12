@@ -11,9 +11,9 @@
         <input type="text" name="system.combat.nods.{{nods}}.dices" placeholder="3D6" value="{{key.dices}}" data-type="nods" data-nods="{{nods}}" title="{{localize 'KNIGHT.COMBAT.NODS.JetParDefaut'}}" />
         {{/if}}
         <div class="blockQuantite">
-            <input class="{{nods}}Value" type="number" name="system.combat.nods.{{nods}}.value" value="{{key.value}}" max="{{key.max}}"  />
+            <input class="{{nods}}Value" type="number"  data-dtype="Number"name="system.combat.nods.{{nods}}.value" value="{{key.value}}" max="{{key.max}}"  />
             <span>/</span>
-            <input type="number" name="system.combat.nods.{{nods}}.max" value="{{key.max}}" />
+            <input type="number"  data-dtype="Number"name="system.combat.nods.{{nods}}.max" value="{{key.max}}" />
         </div>
         <div class="blockRoll">
             <img src="systems/knight/assets/icons/D6Black.svg" data-tooltip='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice draggable"

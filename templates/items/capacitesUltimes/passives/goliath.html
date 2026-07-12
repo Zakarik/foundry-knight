@@ -11,16 +11,16 @@
 
     <label class="{{#unless systemData.passives.capacites.goliath.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.GOLIATH.Taille"}}</span>
-        <input type="number" name="system.passives.capacites.goliath.update.taille.max" value="{{systemData.passives.capacites.goliath.update.taille.max}}" min="0"/>
+        <input type="number"  data-dtype="Number"name="system.passives.capacites.goliath.update.taille.max" value="{{systemData.passives.capacites.goliath.update.taille.max}}" min="0"/>
     </label>
 
     <label class="{{#unless systemData.passives.capacites.goliath.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.GOLIATH.Reaction"}}</span>
-        <input type="number" name="system.passives.capacites.goliath.update.malus.reaction.value" value="{{systemData.passives.capacites.goliath.update.malus.reaction.value}}" min="0"/>
+        <input type="number"  data-dtype="Number"name="system.passives.capacites.goliath.update.malus.reaction.value" value="{{systemData.passives.capacites.goliath.update.malus.reaction.value}}" min="0"/>
     </label>
 
     <label class="{{#unless systemData.passives.capacites.goliath.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.GOLIATH.Defense"}}</span>
-        <input type="number" name="system.passives.capacites.goliath.update.malus.defense.value" value="{{systemData.passives.capacites.goliath.update.malus.defense.value}}" min="0"/>
+        <input type="number"  data-dtype="Number"name="system.passives.capacites.goliath.update.malus.defense.value" value="{{systemData.passives.capacites.goliath.update.malus.defense.value}}" min="0"/>
     </label>
 </div>

@@ -23,17 +23,17 @@
 
         <label class="longspan">
             <span class="label">{{localize "KNIGHT.LATERAL.Sante"}}</span>
-            <input type="number" name="system.phase2.sante" value="{{systemData.phase2.sante}}" />
+            <input type="number"  data-dtype="Number"name="system.phase2.sante" value="{{systemData.phase2.sante}}" />
         </label>
 
         <label class="longspan">
             <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
-            <input type="number" name="system.phase2.armure" value="{{systemData.phase2.armure}}" />
+            <input type="number"  data-dtype="Number"name="system.phase2.armure" value="{{systemData.phase2.armure}}" />
         </label>
 
         <label class="longspan">
             <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-            <input type="number" name="system.phase2.energie" value="{{systemData.phase2.energie}}" />
+            <input type="number"  data-dtype="Number"name="system.phase2.energie" value="{{systemData.phase2.energie}}" />
         </label>
 
         <div class="aspects">
@@ -41,7 +41,7 @@
             <div class="block">
                 <h3 class="header">
                     {{getAspect aspect}}
-                    <input type="number" name="system.phase2.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="20" />
+                    <input type="number"  data-dtype="Number"name="system.phase2.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="20" />
                 </h3>
                 <select name="system.phase2.aspects.{{aspect}}.ae.mineur">
                     {{selectOptions (getAE 'Mineur' '10') selected=key.ae.mineur}}

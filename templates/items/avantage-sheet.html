@@ -16,29 +16,29 @@
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.BonusSante"}}
                         </span>
-                        <input type="number" name="system.bonus.sante" min="0" value="{{systemData.bonus.sante}}" />
+                        <input type="number"  data-dtype="Number"name="system.bonus.sante" min="0" value="{{systemData.bonus.sante}}" />
                     </label>
 
                     <label class="espoir">
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.BonusEspoir"}}
                         </span>
-                        <input type="number" name="system.bonus.espoir" min="0" value="{{systemData.bonus.espoir}}" />
+                        <input type="number"  data-dtype="Number"name="system.bonus.espoir" min="0" value="{{systemData.bonus.espoir}}" />
                     </label>
 
                     <div class="initiative">
                         <span class="label">{{localize "KNIGHT.ITEMS.AVANTAGE.BonusInitiative"}}</span>
                         <div class="block">
-                            <input type="number" name="system.bonus.initiative.dice" min="0" value="{{systemData.bonus.initiative.dice}}" />
+                            <input type="number"  data-dtype="Number"name="system.bonus.initiative.dice" min="0" value="{{systemData.bonus.initiative.dice}}" />
                             <span>D6+</span>
-                            <input type="number" name="system.bonus.initiative.fixe" min="0" value="{{systemData.bonus.initiative.fixe}}" />
+                            <input type="number"  data-dtype="Number"name="system.bonus.initiative.fixe" min="0" value="{{systemData.bonus.initiative.fixe}}" />
                         </div>
                         <button type="action" class="button {{#if systemData.bonus.initiative.ifEmbuscade.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="initiative">{{localize "KNIGHT.ITEMS.AVANTAGE.BonusEmbuscade"}}</button>
                         <span class="{{#if systemData.bonus.initiative.ifEmbuscade.has}} label {{else}} hiddenLabel {{/if}}">{{localize "KNIGHT.ITEMS.AVANTAGE.BonusEmbuscade"}}</span>
                         <div class="{{#if systemData.bonus.initiative.ifEmbuscade.has}} block {{else}} hiddenBlock {{/if}}">
-                            <input type="number" name="system.bonus.initiative.ifEmbuscade.dice" min="0" value="{{systemData.bonus.initiative.ifEmbuscade.dice}}" />
+                            <input type="number"  data-dtype="Number"name="system.bonus.initiative.ifEmbuscade.dice" min="0" value="{{systemData.bonus.initiative.ifEmbuscade.dice}}" />
                             <span>D6+</span>
-                            <input type="number" name="system.bonus.initiative.ifEmbuscade.fixe" min="0" value="{{systemData.bonus.initiative.ifEmbuscade.fixe}}" />
+                            <input type="number"  data-dtype="Number"name="system.bonus.initiative.ifEmbuscade.fixe" min="0" value="{{systemData.bonus.initiative.ifEmbuscade.fixe}}" />
                         </div>
                     </div>
 
@@ -50,11 +50,11 @@
                             </span>
                             <label>
                                 <span>{{localize "KNIGHT.ITEMS.AVANTAGE.Diviser"}}</span>
-                                <input type="number" name="system.bonus.coutsReduits.aspect.divise" min="0" value="{{systemData.bonus.coutsReduits.aspect.divise}}" />
+                                <input type="number"  data-dtype="Number"name="system.bonus.coutsReduits.aspect.divise" min="0" value="{{systemData.bonus.coutsReduits.aspect.divise}}" />
                             </label>
                             <label>
                                 <span>{{localize "KNIGHT.ITEMS.AVANTAGE.Diminuer"}}</span>
-                                <input type="number" name="system.bonus.coutsReduits.aspect.value" min="0" value="{{systemData.bonus.coutsReduits.aspect.value}}" />
+                                <input type="number"  data-dtype="Number"name="system.bonus.coutsReduits.aspect.value" min="0" value="{{systemData.bonus.coutsReduits.aspect.value}}" />
                             </label>
                         </div>
                         <div class="{{#if systemData.bonus.coutsReduits.has}} blockCaracteristiques {{else}} hiddenBlock {{/if}}">
@@ -63,11 +63,11 @@
                             </span>
                             <label>
                                 <span>{{localize "KNIGHT.ITEMS.AVANTAGE.Diviser"}}</span>
-                                <input type="number" name="system.bonus.coutsReduits.caracteristique.divise" min="0" value="{{systemData.bonus.coutsReduits.caracteristique.divise}}" />
+                                <input type="number"  data-dtype="Number"name="system.bonus.coutsReduits.caracteristique.divise" min="0" value="{{systemData.bonus.coutsReduits.caracteristique.divise}}" />
                             </label>
                             <label>
                                 <span>{{localize "KNIGHT.ITEMS.AVANTAGE.Diminuer"}}</span>
-                                <input type="number" name="system.bonus.coutsReduits.caracteristique.value" min="0" value="{{systemData.bonus.coutsReduits.caracteristique.value}}" />
+                                <input type="number"  data-dtype="Number"name="system.bonus.coutsReduits.caracteristique.value" min="0" value="{{systemData.bonus.coutsReduits.caracteristique.value}}" />
                             </label>
                         </div>
                     </div>
@@ -77,28 +77,28 @@
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.RecuperationSante"}}
                         </span>
-                        <input type="number" name="system.bonus.recuperation.sante" value="{{systemData.bonus.recuperation.sante}}" />
+                        <input type="number"  data-dtype="Number"name="system.bonus.recuperation.sante" value="{{systemData.bonus.recuperation.sante}}" />
                     </label>
 
                     <label class="recuperationArmure">
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.RecuperationArmure"}}
                         </span>
-                        <input type="number" name="system.bonus.recuperation.armure" value="{{systemData.bonus.recuperation.armure}}" />
+                        <input type="number"  data-dtype="Number"name="system.bonus.recuperation.armure" value="{{systemData.bonus.recuperation.armure}}" />
                     </label>
 
                     <label class="recuperationEnergie">
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.RecuperationEnergie"}}
                         </span>
-                        <input type="number" name="system.bonus.recuperation.energie" value="{{systemData.bonus.recuperation.energie}}" />
+                        <input type="number"  data-dtype="Number"name="system.bonus.recuperation.energie" value="{{systemData.bonus.recuperation.energie}}" />
                     </label>
 
                     <label class="recuperationEspoir">
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.RecuperationEspoir"}}
                         </span>
-                        <input type="number" name="system.bonus.recuperation.espoir" value="{{systemData.bonus.recuperation.espoir}}" />
+                        <input type="number"  data-dtype="Number"name="system.bonus.recuperation.espoir" value="{{systemData.bonus.recuperation.espoir}}" />
                     </label>
                     <div class="btn">
                         <button type="action" class="button {{#if systemData.bonus.noDmgSante}} buttonChecked {{else}} buttonUnchecked {{/if}} avantage" data-type="noDmgSante" title="{{localize "KNIGHT.ITEMS.AVANTAGE.NoDmgSante"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.Infatigable"}}</button>

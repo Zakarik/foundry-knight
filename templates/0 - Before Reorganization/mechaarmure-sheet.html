@@ -51,26 +51,26 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="resilience"></span>
                     <span class="label">{{localize "KNIGHT.LATERAL.Resilience"}}</span>
-                    <input type="number" name="system.resilience.value" min="0" max="{{systemData.resilience.max}}" value="{{systemData.resilience.value}}" />
+                    <input type="number"  data-dtype="Number"name="system.resilience.value" min="0" max="{{systemData.resilience.max}}" value="{{systemData.resilience.value}}" />
                     <span class="separation">/</span>
                     <span class="score" title="{{systemData.resilience.base}} + {{systemData.resilience.mod}} = {{systemData.resilience.max}}">{{systemData.resilience.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                    <input type="number" name="system.resilience.base" data-type="resilience" min="0" value="{{systemData.resilience.base}}" />
+                    <input type="number"  data-dtype="Number"name="system.resilience.base" data-type="resilience" min="0" value="{{systemData.resilience.base}}" />
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
-                    <input class="withBorder" type="number" name="system.resilience.bonus.user" data-type="resilience" min="0" value="{{systemData.resilience.bonus.user}}" />
+                    <input class="withBorder" type="number"  data-dtype="Number"name="system.resilience.bonus.user" data-type="resilience" min="0" value="{{systemData.resilience.bonus.user}}" />
                 </div>
             </div>
 
             <div class="blindage">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.LATERAL.Blindage"}}</span>
-                    <input type="number" name="system.blindage.value" min="0" max="{{systemData.blindage.max}}" value="{{systemData.blindage.value}}" />
+                    <input type="number"  data-dtype="Number"name="system.blindage.value" min="0" max="{{systemData.blindage.max}}" value="{{systemData.blindage.value}}" />
                     <span class="separation">/</span>
-                    <input type="number" name="system.blindage.max" min="0" value="{{systemData.blindage.max}}" />
+                    <input type="number"  data-dtype="Number"name="system.blindage.max" min="0" value="{{systemData.blindage.max}}" />
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                    <input type="number" name="system.champDeForce.base" data-type="champDeForce" min="0" value="{{systemData.champDeForce.base}}" />
+                    <input type="number"  data-dtype="Number"name="system.champDeForce.base" data-type="champDeForce" min="0" value="{{systemData.champDeForce.base}}" />
                 </div>
             </div>
 
@@ -90,9 +90,9 @@
             <div class="energie">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                    <input type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
+                    <input type="number"  data-dtype="Number"name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
                     <span class="separation">/</span>
-                    <input type="number" name="system.energie.max" min="0" value="{{systemData.energie.max}}" />
+                    <input type="number"  data-dtype="Number"name="system.energie.max" min="0" value="{{systemData.energie.max}}" />
                 </div>
             </div>
             {{/unless}}
@@ -217,15 +217,15 @@
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                            <input type="number" name="system.vitesse.base" data-type="vitesse" min="0" value="{{systemData.vitesse.base}}" />
+                            <input type="number"  data-dtype="Number"name="system.vitesse.base" data-type="vitesse" min="0" value="{{systemData.vitesse.base}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
-                            <input type="number" name="system.vitesse.bonus.user" data-type="vitesse" min="0" value="{{systemData.vitesse.bonus.user}}" />
+                            <input type="number"  data-dtype="Number"name="system.vitesse.bonus.user" data-type="vitesse" min="0" value="{{systemData.vitesse.bonus.user}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
-                            <input class="withBorder" type="number" name="system.vitesse.malus.user" data-type="vitesse" min="0" value="{{systemData.vitesse.malus.user}}" />
+                            <input class="withBorder" type="number"  data-dtype="Number"name="system.vitesse.malus.user" data-type="vitesse" min="0" value="{{systemData.vitesse.malus.user}}" />
                         </div>
                     </div>
 
@@ -241,15 +241,15 @@
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                            <input type="number" name="system.manoeuvrabilite.base" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.base}}" />
+                            <input type="number"  data-dtype="Number"name="system.manoeuvrabilite.base" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.base}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
-                            <input type="number" name="system.manoeuvrabilite.bonus.user" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.bonus.user}}" />
+                            <input type="number"  data-dtype="Number"name="system.manoeuvrabilite.bonus.user" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.bonus.user}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
-                            <input class="withBorder" type="number" name="system.manoeuvrabilite.malus.user" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.malus.user}}" />
+                            <input class="withBorder" type="number"  data-dtype="Number"name="system.manoeuvrabilite.malus.user" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.malus.user}}" />
                         </div>
                     </div>
 
@@ -265,15 +265,15 @@
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                            <input type="number" name="system.puissance.base" data-type="puissance" min="0" value="{{systemData.puissance.base}}" />
+                            <input type="number"  data-dtype="Number"name="system.puissance.base" data-type="puissance" min="0" value="{{systemData.puissance.base}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
-                            <input type="number" name="system.puissance.bonus.user" data-type="puissance" min="0" value="{{systemData.puissance.bonus.user}}" />
+                            <input type="number"  data-dtype="Number"name="system.puissance.bonus.user" data-type="puissance" min="0" value="{{systemData.puissance.bonus.user}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.MALUS.Label"}}</span>
-                            <input type="number" name="system.puissance.malus.user" data-type="puissance" min="0" value="{{systemData.puissance.malus.user}}" />
+                            <input type="number"  data-dtype="Number"name="system.puissance.malus.user" data-type="puissance" min="0" value="{{systemData.puissance.malus.user}}" />
                         </div>
                     </div>
                 </div>
@@ -291,15 +291,15 @@
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                            <input type="number" name="system.senseurs.base" data-type="senseurs" min="0" value="{{systemData.senseurs.base}}" />
+                            <input type="number"  data-dtype="Number"name="system.senseurs.base" data-type="senseurs" min="0" value="{{systemData.senseurs.base}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
-                            <input type="number" name="system.senseurs.bonus.user" data-type="senseurs" min="0" value="{{systemData.senseurs.bonus.user}}" />
+                            <input type="number"  data-dtype="Number"name="system.senseurs.bonus.user" data-type="senseurs" min="0" value="{{systemData.senseurs.bonus.user}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
-                            <input class="withBorder" type="number" name="system.senseurs.malus.user" data-type="senseurs" min="0" value="{{systemData.senseurs.malus.user}}" />
+                            <input class="withBorder" type="number"  data-dtype="Number"name="system.senseurs.malus.user" data-type="senseurs" min="0" value="{{systemData.senseurs.malus.user}}" />
                         </div>
                     </div>
 
@@ -315,15 +315,15 @@
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                            <input type="number" name="system.systemes.base" data-type="systemes" min="0" value="{{systemData.systemes.base}}" />
+                            <input type="number"  data-dtype="Number"name="system.systemes.base" data-type="systemes" min="0" value="{{systemData.systemes.base}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
-                            <input type="number" name="system.systemes.bonus.user" data-type="systemes" min="0" value="{{systemData.systemes.bonus.user}}" />
+                            <input type="number"  data-dtype="Number"name="system.systemes.bonus.user" data-type="systemes" min="0" value="{{systemData.systemes.bonus.user}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.MALUS.Label"}}</span>
-                            <input type="number" name="system.systemes.malus.user" data-type="systemes" min="0" value="{{systemData.systemes.malus.user}}" />
+                            <input type="number"  data-dtype="Number"name="system.systemes.malus.user" data-type="systemes" min="0" value="{{systemData.systemes.malus.user}}" />
                         </div>
                     </div>
                 </div>

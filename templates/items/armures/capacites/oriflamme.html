@@ -25,7 +25,7 @@
         <div class="data">
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.oriflamme.energie"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.oriflamme.energie"
                 value="{{this.energie}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
@@ -54,12 +54,12 @@
             <div class="double">
                 <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                 <label>
-                    <input type="number" name="system.capacites.selected.oriflamme.degats.dice"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.oriflamme.degats.dice"
                     value="{{this.degats.dice}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                    <input type="number" name="system.capacites.selected.oriflamme.degats.fixe"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.oriflamme.degats.fixe"
                     value="{{this.degats.fixe}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -68,12 +68,12 @@
             <div class="double">
                 <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                 <label>
-                    <input type="number" name="system.capacites.selected.oriflamme.violence.dice"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.oriflamme.violence.dice"
                     value="{{this.violence.dice}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                    <input type="number" name="system.capacites.selected.oriflamme.violence.fixe"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.oriflamme.violence.fixe"
                     value="{{this.violence.fixe}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />

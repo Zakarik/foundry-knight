@@ -12,7 +12,7 @@
     <div class="dice {{#unless systemData.passives.capacites.mechanic.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.BONUS.Label"}}</span>
         <label>
-            <input type="number" name="system.passives.mechanic.update.bonus" value="{{systemData.passives.mechanic.update.bonus}}" min="0"/>
+            <input type="number"  data-dtype="Number"name="system.passives.mechanic.update.bonus" value="{{systemData.passives.mechanic.update.bonus}}" min="0"/>
             <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
         </label>
     </div>

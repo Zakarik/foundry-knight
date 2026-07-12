@@ -28,7 +28,7 @@
                 <img class="info" src="systems/knight/assets/icons/info.svg" data-tooltip="{{getEffetsDescription (ifThen custom customData.description description)}}" />
                 <span class="label">{{name}}</span>
                 {{#if double}}
-                        <input type="number" name="{{main}}.{{@index}}.value" value="{{value}}" min="0" max="{{max}}" />
+                        <input type="number"  data-dtype="Number"name="{{main}}.{{@index}}.value" value="{{value}}" min="0" max="{{max}}" />
                 {{/if}}
                 <a
                         data-action="add"

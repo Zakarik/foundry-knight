@@ -7,7 +7,7 @@
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <label class="metre">
-                <input type="number" class="{{#if active}}update{{/if}}" name="system.equipements.armure.capacites.goliath.metre"
+                <input type="number"  data-dtype="Number"class="{{#if active}}update{{/if}}" name="system.equipements.armure.capacites.goliath.metre"
                 data-capacite="{{this.key}}"
                 data-old="{{data.goliath.metre}}"
                 data-cout="{{energie}}"

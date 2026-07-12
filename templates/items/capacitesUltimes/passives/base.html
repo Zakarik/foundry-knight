@@ -21,7 +21,7 @@
 
     <label class="{{#unless systemData.passives.contact.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.BONUS.Label"}}</span>
-        <input type="number" name="system.passives.contact.value" value="{{systemData.passives.contact.value}}" min="0"/>
+        <input type="number"  data-dtype="Number"name="system.passives.contact.value" value="{{systemData.passives.contact.value}}" min="0"/>
     </label>
 </div>
 

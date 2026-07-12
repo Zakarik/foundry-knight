@@ -3,9 +3,9 @@
         {{~> knight.jsToggle}}
         {{localize "KNIGHT.COMBAT.GRENADES.Label"}}
         <div class="headerQuantity">
-            <input type="number" class="value" name="system.combat.grenades.quantity.value" value="{{systemData.combat.grenades.quantity.value}}" min="0" max="{{systemData.combat.grenades.quantity.max}}" />
+            <input type="number"  data-dtype="Number"class="value" name="system.combat.grenades.quantity.value" value="{{systemData.combat.grenades.quantity.value}}" min="0" max="{{systemData.combat.grenades.quantity.max}}" />
             <span>/</span>
-            <input type="number" name="system.combat.grenades.quantity.max" value="{{systemData.combat.grenades.quantity.max}}" min="0"  />
+            <input type="number"  data-dtype="Number"name="system.combat.grenades.quantity.max" value="{{systemData.combat.grenades.quantity.max}}" min="0"  />
         </div>
     </h2>
 

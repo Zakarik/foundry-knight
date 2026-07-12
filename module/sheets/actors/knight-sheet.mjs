@@ -119,14 +119,14 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       editCarac += `
       <label class="line">
           <span class="label">${game.i18n.localize(CONFIG.KNIGHT.caracteristiques[key])}</span>
-          <input type="number" class="${key}" name="system.aspects.${aspect}.caracteristiques.${key}.base" data-type="caracteristique" value="${carac.base}" min="0" max="9" />
+          <input type="number"  data-dtype="Number"class="${key}" name="system.aspects.${aspect}.caracteristiques.${key}.base" data-type="caracteristique" value="${carac.base}" min="0" max="9" />
       </label>
       `;
       listCarac.push(key);
     }
 
     const editDialog = `
-    <input type="number" class="aspect"  name="system.aspects.${aspect}.base" data-type="aspect" value="${dataAspect.base}" min="0" max="9" />
+    <input type="number"  data-dtype="Number"class="aspect"  name="system.aspects.${aspect}.base" data-type="aspect" value="${dataAspect.base}" min="0" max="9" />
     <div class="main">${editCarac}</div>
     `;
 

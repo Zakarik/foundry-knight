@@ -67,13 +67,13 @@
                 <span class="label">
                     {{localize "KNIGHT.ITEMS.CAPACITES.Multiplie"}}
                 </span>
-                <input type="number" name="system.bonus.sante.aspect.multiplie" value="{{systemData.bonus.sante.aspect.multiplie}}" min="1" />
+                <input type="number"  data-dtype="Number"name="system.bonus.sante.aspect.multiplie" value="{{systemData.bonus.sante.aspect.multiplie}}" min="1" />
             </label>
             <label class="longspan" {{#if systemData.bonus.sante.aspect.lie}}style="display:none;"{{/if}} {{#unless systemData.bonus.sante.has}}style="display:none;"{{/unless}}>
                 <span class="label">
                     {{localize "KNIGHT.BONUS.Label"}}
                 </span>
-                <input type="number" name="system.bonus.sante.value" value="{{systemData.bonus.sante.value}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.bonus.sante.value" value="{{systemData.bonus.sante.value}}" min="0" />
             </label>
         </div>
 
@@ -104,13 +104,13 @@
                 <span class="label">
                     {{localize "KNIGHT.ITEMS.CAPACITES.Multiplie"}}
                 </span>
-                <input type="number" name="system.bonus.armure.aspect.multiplie" value="{{systemData.bonus.armure.aspect.multiplie}}" min="1" />
+                <input type="number"  data-dtype="Number"name="system.bonus.armure.aspect.multiplie" value="{{systemData.bonus.armure.aspect.multiplie}}" min="1" />
             </label>
             <label class="longspan" {{#if systemData.bonus.armure.aspect.lie}}style="display:none;"{{/if}} {{#unless systemData.bonus.armure.has}}style="display:none;"{{/unless}}>
                 <span class="label">
                     {{localize "KNIGHT.BONUS.Label"}}
                 </span>
-                <input type="number" name="system.bonus.armure.value" value="{{systemData.bonus.armure.value}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.bonus.armure.value" value="{{systemData.bonus.armure.value}}" min="0" />
             </label>
         </div>
 
@@ -134,13 +134,13 @@
                 <span class="label">
                     {{localize "KNIGHT.ITEMS.CAPACITES.AspectMaximum"}}
                 </span>
-                <input type="number" name="system.bonus.aspectMax.maximum.aspect" value="{{systemData.bonus.aspectMax.maximum.aspect}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.bonus.aspectMax.maximum.aspect" value="{{systemData.bonus.aspectMax.maximum.aspect}}" min="0" />
             </label>
             <label class="longspan" {{#unless systemData.bonus.aspectMax.has}}style="display:none;"{{/unless}}>
                 <span class="label">
                     {{localize "KNIGHT.ITEMS.CAPACITES.AEMaximum"}}
                 </span>
-                <input type="number" name="system.bonus.aspectMax.maximum.ae" value="{{systemData.bonus.aspectMax.maximum.ae}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.bonus.aspectMax.maximum.ae" value="{{systemData.bonus.aspectMax.maximum.ae}}" min="0" />
             </label>
         </div>
 
@@ -153,9 +153,9 @@
                 {{/if}}
             </button>
             <div class="roll" {{#unless systemData.degats.has}}style="display:none;"{{/unless}}>
-                <input type="number" name="system.degats.system.dice" value="{{systemData.degats.system.dice}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.degats.system.dice" value="{{systemData.degats.system.dice}}" min="0" />
                 <span>{{localize "KNIGHT.JETS.Des-short"}}+</span>
-                <input type="number" name="system.degats.system.fixe" value="{{systemData.degats.system.fixe}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.degats.system.fixe" value="{{systemData.degats.system.fixe}}" min="0" />
             </div>
             <div class="effets" {{#unless systemData.degats.has}}style="display:none;"{{/unless}}>
                 {{#each systemData.degats.system.effets.liste as | key effet|}}
@@ -192,9 +192,9 @@
             </label>
             <h3 {{#unless systemData.attaque.has}}style="display:none;"{{/unless}}>{{localize "KNIGHT.AUTRE.Degats"}}</h3>
             <div class="roll" {{#unless systemData.attaque.has}}style="display:none;"{{/unless}}>
-                <input type="number" name="system.attaque.degats.dice" value="{{systemData.attaque.degats.dice}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.attaque.degats.dice" value="{{systemData.attaque.degats.dice}}" min="0" />
                 <span>{{localize "KNIGHT.JETS.Des-short"}}+</span>
-                <input type="number" name="system.attaque.degats.fixe" value="{{systemData.attaque.degats.fixe}}" min="0" />
+                <input type="number"  data-dtype="Number"name="system.attaque.degats.fixe" value="{{systemData.attaque.degats.fixe}}" min="0" />
             </div>
             <div class="effets" {{#unless systemData.attaque.has}}style="display:none;"{{/unless}}>
                 {{#each systemData.attaque.effets.liste as | key effet|}}

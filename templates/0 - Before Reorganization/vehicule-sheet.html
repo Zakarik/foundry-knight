@@ -57,7 +57,7 @@
             <div class="manoeuvrabilite">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.VEHICULE.Manoeuvrabilite"}}</span>
-                    <input type="number" name="system.manoeuvrabilite" value="{{systemData.manoeuvrabilite}}" />
+                    <input type="number"  data-dtype="Number"name="system.manoeuvrabilite" value="{{systemData.manoeuvrabilite}}" />
                 </div>
                 <button type="action" class="jetPilotage">{{localize "KNIGHT.JETS.JetPilotage"}}</button>
             </div>
@@ -66,14 +66,14 @@
             <div class="passagers">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.VEHICULE.Passagers"}}</span>
-                    <input type="number" name="system.passagers" value="{{systemData.passagers}}" min="0" />
+                    <input type="number"  data-dtype="Number"name="system.passagers" value="{{systemData.passagers}}" min="0" />
                 </div>
             </div>
             {{/unless}}
             <div class="vitesse">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.VEHICULE.Vitesse"}}</span>
-                    <input type="number" name="system.vitesse" value="{{systemData.vitesse}}" min="0" max="5" />
+                    <input type="number"  data-dtype="Number"name="system.vitesse" value="{{systemData.vitesse}}" min="0" max="5" />
                 </div>
             </div>
         </section>
@@ -82,13 +82,13 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="armure"></span>
                     <span class="label">{{localize (ifThen systemData.options.blindage "KNIGHT.LATERAL.Blindage" "KNIGHT.LATERAL.Armure")}}</span>
-                    <input type="number" name="system.armure.value" min="0" max="{{systemData.armure.max}}" value="{{systemData.armure.value}}" />
+                    <input type="number"  data-dtype="Number"name="system.armure.value" min="0" max="{{systemData.armure.max}}" value="{{systemData.armure.value}}" />
                     <span class="separation">/</span>
                     <span class="score" data-tooltip="{{menuTooltip 'armure' systemData}}">{{systemData.armure.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                    <input type="number" name="system.armure.base" data-type="armure" min="0" value="{{systemData.armure.base}}" />
+                    <input type="number"  data-dtype="Number"name="system.armure.base" data-type="armure" min="0" value="{{systemData.armure.base}}" />
                 </div>
             </div>
 
@@ -96,13 +96,13 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="energie"></span>
                     <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                    <input class="value" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
+                    <input class="value" type="number"  data-dtype="Number"name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
                     <span class="separation">/</span>
                     <span class="score" data-tooltip="{{menuTooltip 'energie' systemData}}">{{systemData.energie.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                    <input type="number" name="system.energie.base" data-type="energie" min="0" value="{{systemData.energie.base}}" />
+                    <input type="number"  data-dtype="Number"name="system.energie.base" data-type="energie" min="0" value="{{systemData.energie.base}}" />
                 </div>
             </div>
 
@@ -114,7 +114,7 @@
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                    <input type="number" name="system.champDeForce.base" data-type="champDeForce" min="0" value="{{systemData.champDeForce.base}}" />
+                    <input type="number"  data-dtype="Number"name="system.champDeForce.base" data-type="champDeForce" min="0" value="{{systemData.champDeForce.base}}" />
                 </div>
             </div>
         </section>
@@ -124,7 +124,7 @@
             <div class="debordement">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.AUTRE.Debordement"}}</span>
-                    <input type="number" name="system.debordement.value" min="0" value="{{systemData.debordement.value}}" />
+                    <input type="number"  data-dtype="Number"name="system.debordement.value" min="0" value="{{systemData.debordement.value}}" />
                 </div>
                 <div class="tour">
                     <span class="label">
@@ -134,7 +134,7 @@
                             {{localize "KNIGHT.AUTRE.Tour"}}
                         {{/if}}
                     </span>
-                    <input type="number" name="system.debordement.tour" min="1" value="{{systemData.debordement.tour}}" />
+                    <input type="number"  data-dtype="Number"name="system.debordement.tour" min="1" value="{{systemData.debordement.tour}}" />
                 </div>
                 <button type="action" class="jetDebordement" data-name="{{data.name}}" data-value="{{systemData.debordement.tour}}*{{systemData.debordement.value}}">{{localize "KNIGHT.AUTRE.Debordement"}}</button>
             </div>

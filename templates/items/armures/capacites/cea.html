@@ -26,7 +26,7 @@
             <div class="data">
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                    <input type="number" name="system.capacites.selected.cea.energie"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.cea.energie"
                     value="{{this.energie}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -45,7 +45,7 @@
                 </label>
                 <label class="longspan separation">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Espoir"}}</span>
-                    <input type="number" name="system.capacites.selected.cea.espoir"
+                    <input type="number"  data-dtype="Number"name="system.capacites.selected.cea.espoir"
                     value="{{this.espoir}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
@@ -61,7 +61,7 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.salve.degats.dice"
+                            <input type="number"  data-dtype="Number"name="system.capacites.selected.cea.salve.degats.dice"
                             value="{{this.salve.degats.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
@@ -72,7 +72,7 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.salve.violence.dice"
+                            <input type="number"  data-dtype="Number"name="system.capacites.selected.cea.salve.violence.dice"
                             value="{{this.salve.violence.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
@@ -107,7 +107,7 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.vague.degats.dice"
+                            <input type="number"  data-dtype="Number"name="system.capacites.selected.cea.vague.degats.dice"
                             value="{{this.vague.degats.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
@@ -118,7 +118,7 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.vague.violence.dice"
+                            <input type="number"  data-dtype="Number"name="system.capacites.selected.cea.vague.violence.dice"
                             value="{{this.vague.violence.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
@@ -151,7 +151,7 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.rayon.degats.dice"
+                            <input type="number"  data-dtype="Number"name="system.capacites.selected.cea.rayon.degats.dice"
                             value="{{this.rayon.degats.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
@@ -162,7 +162,7 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.rayon.violence.dice"
+                            <input type="number"  data-dtype="Number"name="system.capacites.selected.cea.rayon.violence.dice"
                             value="{{this.rayon.violence.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />

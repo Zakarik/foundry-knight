@@ -7,7 +7,7 @@
         {{#if ("armure" @root/systemData/wear)}}
             <div class="blockMultiline">
                 <label class="allies">
-                    <input type="number" class="{{#if @root/systemData/equipements/armure/capacites/totem/active}}update{{/if}}" name="system.equipements.armure.capacites.totem.nombre" data-capacite="{{this.key}}" data-old="{{@root/systemData/equipements/armure/capacites/totem/nombre}}" data-cout="{{this.energie.base}}" value="{{@root/systemData/equipements/armure/capacites/totem/nombre}}"
+                    <input type="number"  data-dtype="Number"class="{{#if @root/systemData/equipements/armure/capacites/totem/active}}update{{/if}}" name="system.equipements.armure.capacites.totem.nombre" data-capacite="{{this.key}}" data-old="{{@root/systemData/equipements/armure/capacites/totem/nombre}}" data-cout="{{this.energie.base}}" value="{{@root/systemData/equipements/armure/capacites/totem/nombre}}"
                     min="0" max="{{this.nombre}}" />
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totems"}}</span>
                 </label>

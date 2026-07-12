@@ -7,13 +7,13 @@
     <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Base"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.support.energie.base" value="{{this.support.energie.base}}"
+        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{key}}.capacites.borealis.support.energie.base" value="{{this.support.energie.base}}"
 
         />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Allie"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.support.energie.allie" value="{{this.support.energie.allie}}"
+        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{key}}.capacites.borealis.support.energie.allie" value="{{this.support.energie.allie}}"
 
         />
     </label>
@@ -37,13 +37,13 @@
     <textarea data-capacite="borealis" data-type="descriptionEOffensif" data-evolution="true" data-min="85" data-key="{{key}}" style="height:{{this.textarea.descriptionEOffensif}}px;" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.description">{{this.offensif.description}}</textarea>
     <label class="longspan simpleSeparation">
         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.energie" value="{{this.offensif.energie}}"/>
+        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.energie" value="{{this.offensif.energie}}"/>
     </label>
     <div class="double">
         <div class="doubleLine">
             <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
             <label>
-                <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.degats.dice" value="{{this.offensif.degats.dice}}"
+                <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.degats.dice" value="{{this.offensif.degats.dice}}"
 
                 />
                 <span>D6</span>
@@ -52,7 +52,7 @@
         <div class="doubleLine">
             <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
             <label>
-                <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.violence.dice" value="{{this.offensif.violence.dice}}"
+                <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.violence.dice" value="{{this.offensif.violence.dice}}"
 
                 />
                 <span>D6</span>
@@ -97,7 +97,7 @@
     <textarea data-capacite="borealis" data-type="descriptionEUtilitaire" data-min="150" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.descriptionEUtilitaire}}px;" name="system.evolutions.liste.{{key}}.capacites.borealis.utilitaire.description">{{this.utilitaire.description}}</textarea>
     <label class="longspan simpleSeparation">
         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.utilitaire.energie" value="{{this.utilitaire.energie}}"
+        <input type="number"  data-dtype="Number"name="system.evolutions.liste.{{key}}.capacites.borealis.utilitaire.energie" value="{{this.utilitaire.energie}}"
 
         />
     </label>

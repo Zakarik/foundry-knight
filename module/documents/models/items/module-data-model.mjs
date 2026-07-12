@@ -986,6 +986,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     if(value) {
       const depense = this.actor.type === 'vehicule' ? await this.usePEVehicule(type) : await this.usePE(type);
 
+      console.error(depense);
+
       if(!depense) return;
     }
 
@@ -997,6 +999,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
 
     pbM.sys(`active.base`, value)
     let abort = false;
+
+    console.error(pbM);
 
     if(dataNiveau.jetsimple.has && value) {
       const roll = new game.knight.RollKnight(this.actor, {

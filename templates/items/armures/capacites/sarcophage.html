@@ -24,7 +24,7 @@
         <div class="data">
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SARCOPHAGE.Paliers"}}</span>
-                <input type="number" name="system.capacites.selected.sarcophage.bonus.paliers" class="paliers" value="{{this.bonus.paliers}}"
+                <input type="number"  data-dtype="Number"name="system.capacites.selected.sarcophage.bonus.paliers" class="paliers" value="{{this.bonus.paliers}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
@@ -42,13 +42,13 @@
 
                 <div class="line">
                     <div class="PG {{#if @last}}last{{/if}}">
-                        <input type="number" name="system.capacites.selected.sarcophage.bonus.liste.{{bonus}}.pg.min" value="{{this.pg.min}}"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.sarcophage.bonus.liste.{{bonus}}.pg.min" value="{{this.pg.min}}"
                             min="0"
                             {{#if ../this.softlock}}disabled{{/if}}/>
                         {{#unless @last}}
                         <span class="middle">-</span>
 
-                        <input type="number" name="system.capacites.selected.sarcophage.bonus.liste.{{bonus}}.pg.max" value="{{this.pg.max}}"
+                        <input type="number"  data-dtype="Number"name="system.capacites.selected.sarcophage.bonus.liste.{{bonus}}.pg.max" value="{{this.pg.max}}"
                             min="{{this.pg.min}}"
                             {{#if ../this.softlock}}disabled{{/if}}/>
                         {{/unless}}
