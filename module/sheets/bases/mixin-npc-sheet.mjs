@@ -145,14 +145,15 @@ const NPCMixinSheet = (superclass) => class extends superclass {
     });
 
     html.find('button.addPF').click(ev => {
-        const value = $(html.find('select.pfselected')).val();
-        const previous = actor.system?.pointsFaibles ?? "";
+      const actor = this.actor;
+      const value = $(html.find('select.pfselected')).val();
+      const previous = actor.system?.pointsFaibles ?? "";
 
-        if(value === "") return;
+      if(value === "") return;
 
-        const newText = previous === "" ? value : `${previous} / ${value}`;
+      const newText = previous === "" ? value : `${previous} / ${value}`;
 
-        actor.update({[`system.pointsFaibles`]:newText});
+      actor.update({[`system.pointsFaibles`]:newText});
     });
 
     html.find('img.rollSpecifique').click(async ev => {
