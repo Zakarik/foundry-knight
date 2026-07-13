@@ -217,7 +217,10 @@ function assignToActor(actor, ctx, collections) {
   const hasWpnRestrictions = hasContrecoups !== undefined && hasContrecoups.armedistance.value === false ? true : false;
 
   for(let std of STD_ASSIGN) {
-    actor[std] = collections[std];
+    const collection = collections[std];
+    if(Array.isArray(collection)) collection.sort((a, b) => (a.sort ?? 0) - (b.sort ?? 0));
+
+    actor[std] = collection;
   }
 
   actor.moduleOD = overdrives;
