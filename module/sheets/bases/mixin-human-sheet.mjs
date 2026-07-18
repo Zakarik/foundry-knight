@@ -1720,8 +1720,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
       for(let b of btnActivations) {
         const target = $(b);
-        const type = target.data("type");
-        const module = target.data("module");
+        const header = target.parents('header.summary');
+        const type = header.data("type");
+        const module = header.data("itemId");
         const value = target.data("value") ? false : true;
         const subtype = target.data("subtype");
         const index = target.data("index");
