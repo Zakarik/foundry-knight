@@ -1,0 +1,45 @@
+<header class="sheet-header flexrow">
+    <h1 class="name">
+        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+    </h1>
+
+    <div class="description">
+        <h2 class="header js-toggler">
+            <i data-action="jsToggle" class="far fa-minus-square"></i>
+            {{localize "KNIGHT.Description"}}
+        </h2>
+
+        {{formInput
+            systemFields.description
+            enriched=enrichedDescription
+            value=systemData.description
+            documentUUID=item.uuid
+            name="system.description"
+            collaborate="false"
+            toggled="true"
+        }}
+    </div>
+
+    <label class="caracteristique">
+        <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+        <select name="system.jet.c1">
+            {{selectOptions (getList 'aspectsCaracteristiques') selected=systemData.jet.c1 localize=true}}
+        </select>
+    </label>
+
+    <label class="caracteristique">
+        <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+        <select name="system.jet.c2">
+            {{selectOptions (getList 'aspectsCaracteristiques') selected=systemData.jet.c2 localize=true}}
+        </select>
+    </label>
+
+    <button data-action="btnToggle" class="btn {{ifThen systemData.pratique.has 'selected' 'unselected'}}"
+        data-path="pratique.has">
+        {{localize (ifThen systemData.pratique.has 'KNIGHT.ART.PRATIQUE.Has' 'KNIGHT.ART.PRATIQUE.Hasnt')}}
+    </button>
+    <button data-action="btnToggle" class="btn {{ifThen systemData.oeuvre.has 'selected' 'unselected'}}"
+        data-path="oeuvre.has">
+        {{localize (ifThen systemData.oeuvre.has 'KNIGHT.ART.OEUVRE.Has' 'KNIGHT.ART.OEUVRE.Hasnt')}}
+    </button>
+</header>

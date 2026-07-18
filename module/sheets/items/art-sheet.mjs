@@ -1,37 +1,52 @@
+import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
+
 /**
  * @extends {ItemSheet}
  */
-export class ArtSheet extends ItemSheet {
-
+export class ArtSheet extends BaseItemSheet {
   /** @inheritdoc */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "item", "art"],
-      template: "systems/knight/templates/items/art-sheet.html",
-      width: 700,
-      height: 400,
-      scrollY: [".attributes"],
-    });
+  static DEFAULT_OPTIONS = {
+    classes: ["art"],
+    position: { width: 700, height: 400 },
+    scrollY: [".attributes"],
+    actions:{}
   }
+
+  static PARTS = {
+    img: {
+        template: "systems/knight/templates/items/parts/common/sections/img.hbs"
+    },
+    header: {
+        template: "systems/knight/templates/items/parts/art/header.hbs"
+    },
+    body: {
+        template: "systems/knight/templates/items/parts/art/body.hbs"
+    },
+  };
 
   /* -------------------------------------------- */
 
+
   /** @inheritdoc */
-  getData() {
-    const context = super.getData();
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
 
-    const pratique = context.data.system.pratique;
-    const oeuvre = context.data.system.oeuvre;
-
-    if(pratique.has) pratique.label = game.i18n.localize("KNIGHT.ART.PRATIQUE.Has");
-    else  pratique.label = game.i18n.localize("KNIGHT.ART.PRATIQUE.Hasnt");
-
-    if(oeuvre.has) oeuvre.label = game.i18n.localize("KNIGHT.ART.OEUVRE.Has");
-    else  oeuvre.label = game.i18n.localize("KNIGHT.ART.OEUVRE.Hasnt");
-
-    context.systemData = context.data.system;
-
+    console.error(context);
     return context;
+  }
+
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+    console.error(context);
+
+    switch(partId) {
+      case 'header':
+        console.error(context.document.system.description)
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.document.system.description, { async: true, });
+        break;
+    }
+
+    return await super._preparePartContext(partId, context, options);
   }
 
   /* -------------------------------------------- */

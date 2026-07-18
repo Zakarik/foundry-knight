@@ -6,8 +6,8 @@ import {
   capitalizeFirstLetter,
 } from "../../helpers/common.mjs";
 
-import BaseActorSheet from "../bases/base-actor-sheet.mjs";
-import HumanMixinSheet from "../bases/mixin-human-sheet.mjs";
+import BaseActorSheet from "../bases/actors/base-actor-sheet.mjs";
+import HumanMixinSheet from "../bases/actors/mixin-human-sheet.mjs";
 
 /**
  * @extends {BaseActorSheet}

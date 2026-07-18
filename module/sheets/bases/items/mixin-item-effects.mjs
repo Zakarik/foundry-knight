@@ -1,7 +1,7 @@
 import {
   listEffects,
   getAllEffects,
-} from "../../helpers/common.mjs";
+} from "../../../helpers/common.mjs";
 
 const EffectsMixin = (superclass) => class extends superclass {
     /** @inheritdoc */

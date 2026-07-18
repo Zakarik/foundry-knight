@@ -1,5 +1,5 @@
 
-import BaseActorSheet from "../bases/base-actor-sheet.mjs";
+import BaseActorSheet from "../bases/actors/base-actor-sheet.mjs";
 
 /**
  * @extends {BaseActorSheet}

@@ -1,6 +1,6 @@
-import BaseActorSheet from "../bases/base-actor-sheet.mjs";
-import HumanMixinSheet from "../bases/mixin-human-sheet.mjs";
-import NPCMixinSheet from "../bases/mixin-npc-sheet.mjs";
+import BaseActorSheet from "../bases/actors/base-actor-sheet.mjs";
+import HumanMixinSheet from "../bases/actors/mixin-human-sheet.mjs";
+import NPCMixinSheet from "../bases/actors/mixin-npc-sheet.mjs";
 
 /**
  * @extends {BaseActorSheet}

@@ -1,0 +1,17 @@
+div.img {
+    display:flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+
+    height: 262px;
+    width: 212px;
+    background: $lightBlack;
+    border: 1px solid $white;
+
+    img.profile-img {
+        width: 100%;
+        border:0px;
+        object-fit: contain;
+    }
+}

@@ -5,13 +5,13 @@ import {
   actualiseRoll,
   getArmor,
   capitalizeFirstLetter,
-} from "../../helpers/common.mjs";
+} from "../../../helpers/common.mjs";
 
-import prepareCharacterItems from "../../processor/items/main.mjs";
+import prepareCharacterItems from "../../../processor/items/main.mjs";
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
-import JsTogglerMixin from "./mixin-js-toggler.mjs";
+import JsTogglerMixin from "../mixin-js-toggler.mjs";
 
 /**
  * @extends {ActorSheet}

@@ -3,10 +3,10 @@ import {
   confirmationDialog,
   getArmor,
   getArmorLegend,
-} from "../../helpers/common.mjs";
+} from "../../../helpers/common.mjs";
 
-import ArmureAPI from "../../utils/armureAPI.mjs";
-import ArmureLegendeAPI from "../../utils/armureLegendeAPI.mjs";
+import ArmureAPI from "../../../utils/armureAPI.mjs";
+import ArmureLegendeAPI from "../../../utils/armureLegendeAPI.mjs";
 
 const HumanMixinSheet = (superclass) => class extends superclass {
   /** @inheritdoc */

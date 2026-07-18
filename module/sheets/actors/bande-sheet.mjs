@@ -1,7 +1,7 @@
 
-import BaseActorSheet from "../bases/base-actor-sheet.mjs";
-import NPCMixinSheet from "../bases/mixin-npc-sheet.mjs";
-import BandeMixinSheet from "../bases/mixin-bande-sheet.mjs";
+import BaseActorSheet from "../bases/actors/base-actor-sheet.mjs";
+import NPCMixinSheet from "../bases/actors/mixin-npc-sheet.mjs";
+import BandeMixinSheet from "../bases/actors/mixin-bande-sheet.mjs";
 
 /**
  * Fiche de Bande — AppV2.

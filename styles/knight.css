@@ -30512,6 +30512,365 @@ li.chat-message.emote {
   grid-column: 1/3;
 }
 
+form.item.art section.window-content {
+  display: grid;
+  grid-template-columns: 212px 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+}
+form.item.art section.window-content h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 5px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: "Signika";
+}
+form.item.art section.window-content h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+form.item.art section.window-content h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+form.item.art section.window-content h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+form.item.art section.window-content h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+form.item.art section.window-content h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+form.item.art section.window-content h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+form.item.art section.window-content h2.header .far {
+  cursor: pointer;
+}
+form.item.art section.window-content div.img {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  height: 262px;
+  width: 212px;
+  background: RGB(76 74 90);
+  border: 1px solid white;
+}
+form.item.art section.window-content div.img img.profile-img {
+  width: 100%;
+  border: 0px;
+  object-fit: contain;
+}
+form.item.art section.window-content header.sheet-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: initial;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+form.item.art section.window-content header.sheet-header h1.name {
+  grid-column: 1/3;
+  display: flex;
+  width: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  border-bottom: 3px solid white;
+}
+form.item.art section.window-content header.sheet-header h1.name input[type=text] {
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+  font-size: 28px;
+  font-weight: 400;
+}
+form.item.art section.window-content header.sheet-header div.description {
+  grid-column: 1/3;
+  width: 100%;
+  flex: none;
+}
+form.item.art section.window-content header.sheet-header div.description prose-mirror {
+  width: 100%;
+  min-height: 130px;
+  border-bottom: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
+}
+form.item.art section.window-content header.sheet-header div.description prose-mirror div.editor-content {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+form.item.art section.window-content header.sheet-header button.btn {
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid;
+  position: relative;
+  flex: none;
+  margin: 0px;
+}
+form.item.art section.window-content header.sheet-header button.btn.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+form.item.art section.window-content header.sheet-header button.btn.selected {
+  background: RGB(76 74 90);
+  border: 0px;
+}
+form.item.art section.window-content header.sheet-header label.caracteristique {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: initial;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex: none;
+  border: 1px solid RGB(87 110 178);
+}
+form.item.art section.window-content header.sheet-header label.caracteristique span {
+  width: 100%;
+  font-variant: small-caps;
+  font-size: 13px;
+  line-height: 23px;
+  background: RGB(43 42 51);
+  text-align: center;
+  margin: 0px;
+  border: 0px;
+}
+form.item.art section.window-content header.sheet-header label.caracteristique select {
+  width: 100%;
+  font-family: var(--font-primary);
+  background: RGB(76 74 90);
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  padding-left: 12px;
+}
+form.item.art section.window-content header.sheet-header label.caracteristique select option {
+  background: RGB(43 42 51);
+}
+form.item.art section.window-content div.description {
+  width: 100%;
+  flex: none;
+  margin-bottom: 5px;
+}
+form.item.art section.window-content div.body {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+  margin-top: 10px;
+}
+form.item.art section.window-content div.body div.pratique {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+  width: 100%;
+}
+form.item.art section.window-content div.body div.pratique h3 {
+  width: 100%;
+  font-variant: small-caps;
+  font-size: 13px;
+  line-height: 23px;
+  background: RGB(43 42 51);
+  text-align: center;
+  margin: 0px;
+  border: 0px;
+}
+form.item.art section.window-content div.body div.pratique textarea {
+  width: 100%;
+  font-family: var(--font-primary);
+  background: RGB(76 74 90);
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  font-size: 12px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+form.item.art section.window-content div.body div.col {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: calc(50% - 5px);
+}
+form.item.art section.window-content div.body div.oeuvre {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+  width: 100%;
+}
+form.item.art section.window-content div.body div.oeuvre textarea {
+  width: 100%;
+  font-family: var(--font-primary);
+  background: RGB(76 74 90);
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  font-size: 12px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+form.item.art section.window-content div.body div.oeuvre label {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex: none;
+  line-height: 26px;
+}
+form.item.art section.window-content div.body div.oeuvre label span {
+  width: 90px;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+  border-bottom: 1px solid RGB(43 42 51);
+}
+form.item.art section.window-content div.body div.oeuvre label input {
+  width: calc(100% - 90px);
+  display: flex;
+  min-height: 26px;
+  line-height: 20px;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+  align-content: center;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+  padding-right: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+}
+form.item.art section.window-content div.body div.oeuvre label input.notBorderBottom {
+  border-bottom: 0px;
+}
+form.item.art section.window-content div.body div.listeoeuvre {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+  margin-top: 5px;
+  width: 100%;
+}
+form.item.art section.window-content div.body div.listeoeuvre a {
+  position: absolute;
+  right: 5px;
+  line-height: 22px;
+}
+form.item.art section.window-content div.body div.listeoeuvre div {
+  display: flex;
+  position: relative;
+  width: 100%;
+  flex-wrap: wrap;
+}
+form.item.art section.window-content div.body div.listeoeuvre div a {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+}
+form.item.art section.window-content div.body div.listeoeuvre div input {
+  width: 100%;
+  display: flex;
+  min-height: 26px;
+  line-height: 20px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+  padding: 0px;
+}
+form.item.art section.window-content div.body div.listeoeuvre div textarea {
+  width: 100%;
+  font-family: var(--font-primary);
+  background: RGB(76 74 90);
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  font-size: 12px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+form.item.art section.window-content div.body div.listeoeuvre div:not(:first-of-type) {
+  border-top: 1px solid RGB(87 110 178);
+}
+
 .avantage header {
   align-items: flex-start;
   flex: none;
@@ -43880,387 +44239,6 @@ form.capacite div.main div.effets a.edit {
   border-left: 1px solid white;
   border-right: 1px solid white;
   border-bottom: 1px solid white;
-}
-
-form.artWindows {
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-form.artWindows h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  font-size: 20px;
-  padding-left: 5px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  font-family: "Signika";
-}
-form.artWindows h2.header .headerScore {
-  position: absolute;
-  width: 40px;
-  background: RGB(76 74 90);
-  line-height: 21px;
-  text-align: center;
-  right: 1px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 1px;
-}
-form.artWindows h2.header .headerQuantity {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  width: 48px;
-  background: RGB(76 74 90);
-  line-height: 22px;
-  height: 22px;
-  text-align: center;
-  right: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 0px;
-}
-form.artWindows h2.header .headerQuantity input {
-  text-align: center;
-  width: 20px;
-  height: 22px;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-}
-form.artWindows h2.header .headerQuantity span {
-  width: 8px;
-  line-height: 22px;
-  color: white;
-}
-form.artWindows h2.header a.verrouillage {
-  position: absolute;
-  right: 5px;
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-form.artWindows h2.header a.verrouillage:hover {
-  text-shadow: 0 0 10px white;
-}
-form.artWindows h2.header .far {
-  cursor: pointer;
-}
-form.artWindows div.img {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
-  width: 212px;
-}
-form.artWindows div.img div.blockImg {
-  height: 262px;
-  width: 212px;
-  background: RGB(76 74 90);
-  border: 1px solid white;
-  display: flex;
-  align-items: center;
-}
-form.artWindows div.img div.blockImg img.profile-img {
-  border: 0px;
-  object-fit: contain;
-}
-form.artWindows div.img label.oneLine {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  border: 1px solid RGB(87 110 178);
-  margin-top: 5px;
-}
-form.artWindows div.img label.oneLine span {
-  width: 50%;
-  padding-left: 5px;
-  line-height: 22px;
-  background: RGB(76 74 90);
-  font-variant: small-caps;
-}
-form.artWindows div.img label.oneLine select {
-  width: 50%;
-  height: 22px;
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  border-radius: 0px;
-  background: RGB(43 42 51);
-  color: white;
-}
-form.artWindows div.img label.oneLine select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-form.artWindows div.img label.oneLine input {
-  width: 50%;
-  height: 22px;
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  border-radius: 0px;
-  background: RGB(43 42 51);
-  color: white;
-  text-align: center;
-}
-form.artWindows header.sheet-header {
-  display: flex;
-  width: calc(100% - 222px);
-  flex-wrap: wrap;
-  flex-direction: initial;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-form.artWindows header.sheet-header h1.charname {
-  width: 100%;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  flex: none;
-}
-form.artWindows header.sheet-header h1.charname input[type=text] {
-  margin: 0px;
-  width: 100%;
-  text-align: center;
-  border-top: 0px;
-  border-right: 0px;
-  border-left: 0px;
-  border-radius: 0px;
-  border-width: unset;
-  border-color: white;
-  background: transparent;
-}
-form.artWindows header.sheet-header button[type=action] {
-  width: calc(50% - 5px);
-  color: white;
-  cursor: pointer;
-  border: 2px solid;
-  position: relative;
-  flex: none;
-  margin-top: 5px;
-  margin-left: 0px;
-  margin-right: 0px;
-}
-form.artWindows header.sheet-header button[type=action].unselected {
-  background: RGB(43 42 51);
-  border-color: RGB(76 74 90);
-}
-form.artWindows header.sheet-header button[type=action].selected {
-  background: RGB(76 74 90);
-  border: 0px;
-}
-form.artWindows header.sheet-header label.caracteristique {
-  display: flex;
-  width: calc(50% - 5px);
-  flex-wrap: wrap;
-  flex-direction: initial;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex: none;
-  border: 1px solid RGB(87 110 178);
-  margin-top: 5px;
-}
-form.artWindows header.sheet-header label.caracteristique span {
-  width: 100%;
-  font-variant: small-caps;
-  font-size: 13px;
-  line-height: 23px;
-  background: RGB(43 42 51);
-  text-align: center;
-  margin: 0px;
-  border: 0px;
-}
-form.artWindows header.sheet-header label.caracteristique select {
-  width: 100%;
-  font-family: var(--font-primary);
-  background: RGB(76 74 90);
-  border: 0px;
-  border-radius: 0px;
-  color: white;
-  font-size: 12px;
-  text-align: center;
-  padding-left: 12px;
-}
-form.artWindows header.sheet-header label.caracteristique select option {
-  background: RGB(43 42 51);
-}
-form.artWindows div.description {
-  width: 100%;
-  flex: none;
-  margin-bottom: 5px;
-}
-form.artWindows div.body {
-  display: flex;
-  width: 100%;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-form.artWindows div.body div.pratique {
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-  width: calc(50% - 5px);
-}
-form.artWindows div.body div.pratique h3 {
-  width: 100%;
-  font-variant: small-caps;
-  font-size: 13px;
-  line-height: 23px;
-  background: RGB(43 42 51);
-  text-align: center;
-  margin: 0px;
-  border: 0px;
-}
-form.artWindows div.body div.pratique textarea {
-  width: 100%;
-  font-family: var(--font-primary);
-  background: RGB(76 74 90);
-  border: 0px;
-  border-radius: 0px;
-  color: white;
-  font-size: 12px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-}
-form.artWindows div.body div.col {
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: calc(50% - 5px);
-}
-form.artWindows div.body div.oeuvre {
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-  width: 100%;
-}
-form.artWindows div.body div.oeuvre textarea {
-  width: 100%;
-  font-family: var(--font-primary);
-  background: RGB(76 74 90);
-  border: 0px;
-  border-radius: 0px;
-  color: white;
-  font-size: 12px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-}
-form.artWindows div.body div.oeuvre label {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex: none;
-  line-height: 26px;
-}
-form.artWindows div.body div.oeuvre label span {
-  width: 90px;
-  line-height: 26px;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-  border-bottom: 1px solid RGB(43 42 51);
-}
-form.artWindows div.body div.oeuvre label input {
-  width: calc(100% - 90px);
-  display: flex;
-  min-height: 26px;
-  line-height: 20px;
-  text-align: left;
-  justify-content: left;
-  align-items: center;
-  align-content: center;
-  border-top: 0px;
-  border-right: 0px;
-  border-left: 0px;
-  border-bottom: 1px solid RGB(76 74 90);
-  padding-right: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-}
-form.artWindows div.body div.oeuvre label input.notBorderBottom {
-  border-bottom: 0px;
-}
-form.artWindows div.body div.listeoeuvre {
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  border: 1px solid RGB(87 110 178);
-  margin-top: 5px;
-  width: 100%;
-}
-form.artWindows div.body div.listeoeuvre a {
-  position: absolute;
-  right: 5px;
-  line-height: 22px;
-}
-form.artWindows div.body div.listeoeuvre div {
-  display: flex;
-  position: relative;
-  width: 100%;
-  flex-wrap: wrap;
-}
-form.artWindows div.body div.listeoeuvre div a {
-  position: absolute;
-  top: 3px;
-  right: 5px;
-}
-form.artWindows div.body div.listeoeuvre div input {
-  width: 100%;
-  display: flex;
-  min-height: 26px;
-  line-height: 20px;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  border-top: 0px;
-  border-right: 0px;
-  border-left: 0px;
-  border-bottom: 1px solid RGB(76 74 90);
-  padding: 0px;
-}
-form.artWindows div.body div.listeoeuvre div textarea {
-  width: 100%;
-  font-family: var(--font-primary);
-  background: RGB(76 74 90);
-  border: 0px;
-  border-radius: 0px;
-  color: white;
-  font-size: 12px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-}
-form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
-  border-top: 1px solid RGB(87 110 178);
 }
 
 .distinction .header {

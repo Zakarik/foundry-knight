@@ -1,0 +1,120 @@
+
+header.sheet-header {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+    width:100%;
+    flex-wrap: wrap;
+    flex-direction: initial;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    h1.name {
+        grid-column: 1 / 3;
+        display: flex;
+        width:100%;
+        border:0px;
+        margin:0px;
+        padding:0px;
+        border-bottom:3px solid $white;
+
+        input[type="text"] {
+            margin: 0px;
+            width: 100%;
+            text-align: center;
+            border: 0px;
+            border-radius: 0px;
+            border-width: unset;
+            border-color: $white;
+            background:transparent;
+            font-size: 28px;
+            font-weight: 400;
+        }
+    }
+
+    div {
+        &.description {
+            grid-column: 1 / 3;
+            width:100%;
+            flex:none;
+
+            prose-mirror {
+                width:100%;
+                min-height:130px;
+                border-bottom: 1px solid $lightBlue;
+                border-left: 1px solid $lightBlue;
+                border-right: 1px solid $lightBlue;
+                background:$lightBlack;
+
+                div.editor-content {
+                    padding-left:5px;
+                    padding-right:5px;
+                }
+            }
+        }
+    }
+
+    button.btn {
+        width:100%;
+        color:$white;
+        cursor:pointer;
+        border:2px solid;
+        position:relative;
+        flex:none;
+        margin:0px;
+
+        &.unselected {
+            background:$black;
+            border-color:$lightBlack;
+        }
+
+        &.selected {
+            background:$lightBlack;
+            border:0px;
+        }
+    }
+
+    label.caracteristique {
+        display:flex;
+        width:100%;
+        flex-wrap: wrap;
+        flex-direction: initial;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex:none;
+        border:1px solid $lightBlue;
+
+        span {
+            width:100%;
+            font-variant: small-caps;
+            font-size: 13px;
+            line-height:23px;
+            background: $black;
+            text-align: center;
+            margin:0px;
+            border:0px;
+        }
+
+        select {
+            width:100%;
+            font-family: var(--font-primary);
+            background:$lightBlack;
+            border:0px;
+            border-radius:0px;
+            color:$white;
+            font-size:12px;
+            text-align: center;
+            padding-left:12px;
+
+            option {
+                background:$black;
+            }
+        }
+    }
+}
+
+div.description {
+    width:100%;
+    flex:none;
+    margin-bottom:5px;
+}

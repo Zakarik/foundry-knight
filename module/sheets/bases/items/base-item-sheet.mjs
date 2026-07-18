@@ -1,7 +1,7 @@
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
-import JsTogglerMixin from "./mixin-js-toggler.mjs";
+import JsTogglerMixin from "../mixin-js-toggler.mjs";
 
 /**
  * @extends {ItemSheet}
