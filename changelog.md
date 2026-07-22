@@ -1,3 +1,7 @@
+## v3.58.34
+### Bugfix
+- Application du même correctif q'en v3.57.32.
+
 ## v3.58.33
 ### Bugfix
 - Application du même correctif q'en v3.57.31.
@@ -130,6 +134,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.32
+### Bugfix
+- Correction d'un bug empêchant l'invocation de tourelle/pnj via les modules.
 
 ## v3.57.31
 ### Bugfix
