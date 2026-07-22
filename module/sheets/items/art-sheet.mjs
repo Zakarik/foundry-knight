@@ -1,3 +1,8 @@
+
+import {
+  confirmationDialog,
+} from "../../helpers/common.mjs";
+
 import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
 
 /**
@@ -9,7 +14,10 @@ export class ArtSheet extends BaseItemSheet {
     classes: ["art"],
     position: { width: 700, height: 400 },
     scrollY: [".attributes"],
-    actions:{}
+    actions:{
+      subItemCreate:this.#onSubItemCreate,
+      subItemDelete:this.#onSubItemDelete,
+    }
   }
 
   static PARTS = {
@@ -26,22 +34,42 @@ export class ArtSheet extends BaseItemSheet {
 
   /* -------------------------------------------- */
 
+  static #onSubItemCreate(event, target) {
+    const data = this.document.system;
+    const entries = Object.entries(data.oeuvre.liste);
+    const length = entries.length;
+    const save = {};
 
-  /** @inheritdoc */
-  async _prepareContext(options) {
-    const context = await super._prepareContext(options);
+    for(let i = 0; i < length;i++) {
+      save[`o${i}`] = {
+        name:entries[i].name,
+        description:entries[i].description,
+        textarea:entries[i].textarea
+      }
+    };
 
-    console.error(context);
-    return context;
+    save[`o${length}`] = {
+      name:"",
+      description:"",
+      textarea:50
+    };
+
+    this.document.update({[`system.oeuvre.liste`]:save});
+  }
+
+  static async #onSubItemDelete(event, target) {
+    const key = target.dataset.key;
+
+    if(!await confirmationDialog('delete', `Confirmation`)) return;
+
+    this.item.update({[`system.oeuvre.liste.-=${key}`]:null});
   }
 
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
-    console.error(context);
 
     switch(partId) {
       case 'header':
-        console.error(context.document.system.description)
         context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.document.system.description, { async: true, });
         break;
     }
@@ -52,75 +80,38 @@ export class ArtSheet extends BaseItemSheet {
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-	activateListeners(html) {
-    super.activateListeners(html);
+  _onRender(context, options) {
+    super._onRender(context, options);
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
 
-    html.find('.sheet-header button').click(async ev => {
-      const target = $(ev.currentTarget);
-      const type = target.data("type");
-      const value = target.data("value");
+    this.element.querySelectorAll('textarea').forEach(textarea => {
+      textarea.addEventListener('blur', async ev => {
+        const el = ev.currentTarget;
+        const type = el.dataset.type;
+        const key = el.dataset.key;
+        const min = Number(el.dataset.min);
 
-      const result = value ? false : true;
-      const update = {
-        system:{
-          [type]:{
-            has:result
-          }
+        el.style.height = `${min}px`;
+        const height = el.scrollHeight + 1;
+
+        el.style.height = `${Math.max(height, min)}px`;
+
+        switch(type) {
+          case 'oeuvreliste':
+            this.item.update({ [`system.oeuvre.liste.${key}.textarea`]: Math.max(height, min) });
+            break;
+
+          case 'oeuvrebase':
+            this.item.update({ [`system.oeuvre.textarea.base`]: Math.max(height, min) });
+            break;
+
+          default:
+            this.item.update({ [`system.pratique.textarea.${type}`]: Math.max(height, min) });
+            break;
         }
-      };
-
-      this.item.update(update);
-    });
-
-    html.find('.item-create').click(ev => {
-      const data = this.getData().data.system;
-      const entries = Object.entries(data.oeuvre.liste);
-      const length = entries.length;
-      const save = {};
-
-      for(let i = 0; i < length;i++) {
-        save[`o${i}`] = {
-          name:entries[i].name,
-          description:entries[i].description,
-          textarea:entries[i].textarea
-        }
-      };
-
-      save[`o${length}`] = {
-        name:"",
-        description:"",
-        textarea:50
-      };
-
-      this.item.update({[`system.oeuvre.liste`]:save});
-    });
-
-    html.find('.item-delete').click(ev => {
-      const target = $(ev.currentTarget);
-      const key = target.data("key");
-
-      this.item.update({[`system.oeuvre.liste.-=${key}`]:null});
-    });
-
-    html.find('textarea').blur(async ev => {
-      const textarea = $(ev.currentTarget);
-      const type = textarea.data("type");
-      const key = textarea.data("key");
-      const min = textarea.data("min");
-
-      textarea.height(min);
-      const height = ev.currentTarget.scrollHeight+1;
-
-      textarea.height(Math.max(height, min));
-
-      if(type === 'oeuvreliste') {
-        this.item.update({[`system.oeuvre.liste.${key}.textarea`]:Math.max(height, min)});
-      } else {
-        this.item.update({[`system.textarea.${type}`]:Math.max(height, min)});
-      }
+      });
     });
   }
 }

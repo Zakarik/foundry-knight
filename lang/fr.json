@@ -2689,6 +2689,7 @@
     },
     "BONUS":{
       "Label":"Bonus",
+      "Ajouter":"Ajouter un bonus",
       "Action": "Action supplémentaire",
       "Armure": "Bonus à l'armure",
       "Aspectmax": "Bonus aux maximum des aspects",
@@ -2887,7 +2888,8 @@
         "Hasnt":"N'a pas d'effet d'oeuvre",
         "Court":"Temps court",
         "Moyen":"Temps moyen",
-        "Long":"Temps long"
+        "Long":"Temps long",
+        "Title":"Oeuvre"
       }
     },
     "CAPACITEULTIME":{
@@ -3151,7 +3153,7 @@
       "DiscretionOD":"Masque : Overdrive de Discretion",
       "DexteriteOD":"Masque : Overdrive de Dextérité",
       "PerceptionOD":"Masque : Overdrive de Perception",
-      "NoMalusStyle":"Annule le malus des styles de combat (remplacer - true/false)"
+      "NoMalusStyle":"Annule le malus d'attaque des styles de combat (remplacer - true/false)"
     },
     "ERROR":{
       "NoArmor":"Aucune armure trouvée."

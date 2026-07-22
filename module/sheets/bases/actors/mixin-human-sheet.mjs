@@ -1887,8 +1887,9 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
       btnActivations.forEach(sel => {
         const tgt = sel.dataset;
+        const header = sel.closest('header.summary');
         const type = tgt.type;
-        const module = tgt.module;
+        const module = header.dataset.itemId;
         const value = tgt.value === 'true' ? false : true;
         const subtype = tgt.subtype;
         const index = tgt.index;

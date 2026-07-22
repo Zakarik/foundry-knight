@@ -1,23 +1,49 @@
+import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
+import SpecialEffectsMixin from "../bases/items/mixin-item-specialEffects.mjs";
+
 /**
  * @extends {ItemSheet}
  */
-export class AvantageSheet extends ItemSheet {
-
+export class AvantageSheet extends SpecialEffectsMixin(BaseItemSheet) {
   /** @inheritdoc */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "item", "avantage"],
-      template: "systems/knight/templates/items/avantage-sheet.html",
-      width: 700,
-      height: 450,
-      scrollY: [".attributes"],
-    });
+  static DEFAULT_OPTIONS = {
+    classes: ["avantage"],
+    position: { width: 700, height: 450 },
+    scrollY: [".attributes"],
+    actions:{}
   }
+
+  static PARTS = {
+    img: {
+        template: "systems/knight/templates/items/parts/common/sections/img.hbs"
+    },
+    header: {
+        template: "systems/knight/templates/items/parts/common/sections/header.hbs"
+    },
+    body: {
+        template: "systems/knight/templates/items/parts/avantage/body.hbs"
+    },
+  };
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  getData() {
+  get specialEffectsPath() {
+      return 'system.effects';
+  }
+
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+
+    switch(partId) {
+      case 'header':
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.document.system.description, { async: true, });
+        break;
+    }
+
+    return await super._preparePartContext(partId, context, options);
+  }
+  /*getData() {
     const context = super.getData();
     const type = this?.actor?.type || false;
 
@@ -28,12 +54,12 @@ export class AvantageSheet extends ItemSheet {
     console.error(context);
 
     return context;
-  }
+  }*/
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-	activateListeners(html) {
+	/*activateListeners(html) {
     super.activateListeners(html);
 
     // Everything below here is only needed if the sheet is editable
@@ -79,5 +105,5 @@ export class AvantageSheet extends ItemSheet {
 
       this.item.update({[`system.bonus.${type}`]:result});
     });
-  }
+  }*/
 }

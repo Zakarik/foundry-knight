@@ -1,0 +1,25 @@
+<div class="body effects">
+    <h2 class="header">
+        {{localize "KNIGHT.BONUS.Label"}}
+    </h2>
+
+    <div class="mod">
+        <div class="list">
+            {{#each systemData.effects.list as |data index |}}
+                <select class="path" name="system.effects.list.{{index}}.path">
+                    {{selectOptions (getCFG 'EFFECTS.SIMPLE') selected=data.path localize=true}}
+                </select>
+                <select class="type" name="system.effects.list.{{index}}.type">
+                    {{selectOptions (getCFG 'EFFECTS.TYPE') selected=data.type localize=true}}
+                </select>
+                <input class="value" type="{{getEFFECTSINPUT data.path}}" name="system.effects.list.{{index}}.value" value="{{data.value}}" />
+                <a class="delete" data-action="deleteSpecialEffects" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-index="{{index}}"><i class="fas fa-trash"></i></a>
+            {{/each}}
+        </div>
+    </div>
+    <button type="action" data-action="addSpecialEffects" class="add">
+        <i class="fa-solid fa-plus"></i>
+        <span>{{localize "KNIGHT.BONUS.Ajouter"}}</span>
+        <i class="fa-solid fa-plus"></i>
+    </button>
+</div>

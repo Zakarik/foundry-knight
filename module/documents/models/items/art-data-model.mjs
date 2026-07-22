@@ -21,6 +21,13 @@ export class ArtDataModel extends foundry.abstract.TypeDataModel {
                 apprenti:new StringField({initial:''}),
                 initie:new StringField({initial:''}),
                 maitre:new StringField({initial:''}),
+                textarea:new SchemaField({
+                    base:new NumberField({initial:50, nullable:false, integer:true}),
+                    apprenti:new NumberField({initial:50, nullable:false, integer:true}),
+                    initie:new NumberField({initial:50, nullable:false, integer:true}),
+                    maitre:new NumberField({initial:50, nullable:false, integer:true}),
+                    oeuvrebase:new NumberField({initial:50, nullable:false, integer:true}),
+                })
             }),
             oeuvre:new SchemaField({
                 has:new BooleanField({initial:false}),
@@ -33,10 +40,6 @@ export class ArtDataModel extends foundry.abstract.TypeDataModel {
                 liste:new ObjectField(),
                 textarea:new SchemaField({
                     base:new NumberField({initial:50, nullable:false, integer:true}),
-                    apprenti:new NumberField({initial:50, nullable:false, integer:true}),
-                    initie:new NumberField({initial:50, nullable:false, integer:true}),
-                    maitre:new NumberField({initial:50, nullable:false, integer:true}),
-                    oeuvrebase:new NumberField({initial:50, nullable:false, integer:true}),
                 })
             }),
         }

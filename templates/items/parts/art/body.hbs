@@ -1,26 +1,26 @@
 <div class="body">
     {{#if systemData.pratique.has}}
     <div class="pratique">
-        <h2 class="header js-toggler">
-            <i class="far fa-minus-square"></i>
+        <h2 class="header">
+            {{~> knight.jsToggle}}
             {{localize "KNIGHT.ART.PRATIQUE.Label"}}
         </h2>
         <h3>{{localize "KNIGHT.ART.PRATIQUE.Base"}}</h3>
         <textarea name="system.pratique.base" data-type="base" data-min="50" style="height:{{systemData.textarea.base}}px;">{{systemData.pratique.base}}</textarea>
         <h3>{{localize "KNIGHT.ART.PRATIQUE.Apprenti"}}</h3>
-        <textarea name="system.pratique.apprenti" data-type="apprenti" data-min="50" style="height:{{systemData.textarea.apprenti}}px;">{{systemData.pratique.apprenti}}</textarea>
-        <h3>{{localize "KNIGHT.ART.PRATIQUE.Initie" data-type="base" data-min="50" style="height:{{systemData.textarea.base}}px;"}}</h3>
-        <textarea name="system.pratique.initie" data-type="initie" data-min="50" style="height:{{systemData.textarea.initie}}px;">{{systemData.pratique.initie}}</textarea>
+        <textarea name="system.pratique.apprenti" data-type="apprenti" data-min="50" style="height:{{systemData.pratique.textarea.apprenti}}px;">{{systemData.pratique.apprenti}}</textarea>
+        <h3>{{localize "KNIGHT.ART.PRATIQUE.Initie" data-type="base" data-min="50" style="height:{{systemData.pratique.textarea.base}}px;"}}</h3>
+        <textarea name="system.pratique.initie" data-type="initie" data-min="50" style="height:{{systemData.pratique.textarea.initie}}px;">{{systemData.pratique.initie}}</textarea>
         <h3>{{localize "KNIGHT.ART.PRATIQUE.Maitre"}}</h3>
-        <textarea name="system.pratique.maitre" data-type="maitre" data-min="50" style="height:{{systemData.textarea.maitre}}px;">{{systemData.pratique.maitre}}</textarea>
+        <textarea name="system.pratique.maitre" data-type="maitre" data-min="50" style="height:{{systemData.pratique.textarea.maitre}}px;">{{systemData.pratique.maitre}}</textarea>
     </div>
     {{/if}}
 
     {{#if systemData.oeuvre.has}}
     <div class="col">
         <div class="oeuvre">
-            <h2 class="header js-toggler">
-                <i class="far fa-minus-square"></i>
+            <h2 class="header">
+                {{~> knight.jsToggle}}
                 {{localize "KNIGHT.ART.OEUVRE.Label"}}
             </h2>
             <label>
@@ -35,18 +35,18 @@
                 <span>{{localize "KNIGHT.ART.OEUVRE.Long"}}</span>
                 <input class="notBorderBottom" type="text" name="system.oeuvre.temps.long" value="{{systemData.oeuvre.temps.long}}">
             </label>
-            <textarea name="system.oeuvre.base" data-type="oeuvrebase" data-min="50" style="height:{{systemData.textarea.oeuvrebase}}px;">{{systemData.oeuvre.base}}</textarea>
+            <textarea name="system.oeuvre.base" data-type="oeuvrebase" data-min="50" style="height:{{systemData.oeuvre.textarea.base}}px;">{{systemData.oeuvre.base}}</textarea>
         </div>
 
         <div class="listeoeuvre">
-            <h2 class="header js-toggler">
-                <i class="far fa-minus-square"></i>
+            <h2 class="header">
+                {{~> knight.jsToggle}}
                 {{localize "KNIGHT.ART.OEUVRE.Liste"}}
-                <a class="item-control item-create" title="Create Item"><i class="fas fa-plus"></i></a>
+                <a data-action="subItemCreate" data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize 'KNIGHT.ART.OEUVRE.Title')}}"><i class="fas fa-plus"></i></a>
             </h2>
             {{#each systemData.oeuvre.liste  as | key oeuvre|}}
             <div>
-                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-key="{{oeuvre}}"><i class="fas fa-trash"></i></a>
+                <a data-action="subItemDelete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-key="{{oeuvre}}"><i class="fas fa-trash"></i></a>
                 <input type="text" name="system.oeuvre.liste.{{oeuvre}}.name" value="{{key.name}}"/>
                 <textarea name="system.oeuvre.liste.{{oeuvre}}.description" data-type="oeuvreliste" data-key="{{oeuvre}}" data-min="50" style="height:{{key.textarea}}px;">{{key.description}}</textarea>
             </div>

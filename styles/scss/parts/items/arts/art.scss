@@ -19,7 +19,6 @@ form.item.art section.window-content {
         width:100%;
         align-items: flex-start;
         align-content: flex-start;
-        margin-top:10px;
 
         div {
             &.pratique {
@@ -29,7 +28,6 @@ form.item.art section.window-content {
                 justify-content: space-between;
                 flex-wrap: wrap;
                 border:1px solid $lightBlue;
-
                 width:100%;
 
                 h3 {
@@ -57,13 +55,12 @@ form.item.art section.window-content {
             }
 
             &.col {
-                display:flex;
+                display: grid;
+                grid-template-columns: 1fr;
                 align-items: flex-start;
                 align-content: flex-start;
-                justify-content: space-between;
-                flex-wrap: wrap;
-
-                width:calc(50% - 5px);
+                width: 100%;
+                grid-gap: 5px;
             }
 
             &.oeuvre {
@@ -134,8 +131,6 @@ form.item.art section.window-content {
                 justify-content: space-between;
                 flex-wrap: wrap;
                 border:1px solid $lightBlue;
-                margin-top:5px;
-
                 width:100%;
 
                 a {

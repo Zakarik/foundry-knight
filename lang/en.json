@@ -2689,6 +2689,7 @@
     },
     "BONUS":{
       "Label":"Bonus",
+      "Ajouter":"Add a bonus",
       "Action": "Additional action",
       "Armure": "Armour bonus",
       "Aspectmax": "Aspects maximum bonus",
@@ -3151,7 +3152,7 @@
       "DiscretionOD":"Mask: Stealth Overdrive",
       "DexteriteOD":"Mask: Dexterity Overdrive",
       "PerceptionOD":"Mask: Perception Overdrive",
-      "NoMalusStyle":"Removes the malus from combat styles (override - true/false)"
+      "NoMalusStyle":"Removes the attack penalty from combat styles (override - true/false)"
     },
     "ERROR":{
       "NoArmor":"No armor found."
