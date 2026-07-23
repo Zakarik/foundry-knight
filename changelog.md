@@ -1,3 +1,7 @@
+## v3.58.35
+### Bugfix
+- Application du même correctif q'en v3.57.33.
+
 ## v3.58.34
 ### Bugfix
 - Application du même correctif q'en v3.57.32.
@@ -134,6 +138,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.33
+### Bugfix
+- Correction d'un bug n'ignorant pas le champ de force en cas d'attaque surprise.
 
 ## v3.57.32
 ### Bugfix

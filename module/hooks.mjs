@@ -457,7 +457,7 @@ export default class HooksKnight {
                 }
 
                 // Reduce the Champ de Force
-                if (champDeForce > 0 && !igncdf) {
+                if (champDeForce > 0 && !igncdf && !surprise) {
                     damagesLeft -=
                         champDeForce - penetrating > 0 ? champDeForce - penetrating : 0;
                 }
@@ -834,7 +834,7 @@ export default class HooksKnight {
                 }
 
                 // Reduce the Champ de Force
-                if (champDeForce > 0 && !igncdf) {
+                if (champDeForce > 0 && !igncdf && !surprise) {
                     damagesLeft -=
                     champDeForce - penetrating > 0 ? champDeForce - penetrating : 0;
                 }
