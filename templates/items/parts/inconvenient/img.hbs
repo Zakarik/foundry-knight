@@ -1,0 +1,11 @@
+<div class="sctImg">
+    <div class="img">
+        <img class="profile-img" data-action="editImage" src="{{item.img}}" data-edit="img" data-tooltip="{{item.name}}" />
+    </div>
+    <label>
+        <span>{{localize "KNIGHT.AUTRE.Type"}}</span>
+        <select name="system.type">
+            {{selectOptions (getList 'typeavantage') selected=systemData.type localize=true}}
+        </select>
+    </label>
+</div>

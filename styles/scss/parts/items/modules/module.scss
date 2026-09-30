@@ -1,0 +1,189 @@
+form.item.module section.window-content {
+  display: grid;
+  grid-template-columns: 212px 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+
+  @include header();
+
+  @import "../common/img";
+  @import "../common/header";
+  @import "./slots";
+  @import "./tabs";
+
+  .sheet-header {
+    grid-template-columns: 1fr 100px;
+
+    select {
+      display: flex;
+      width: 140px;
+      height: 32px;
+      font-size: 28px;
+      border: 0px;
+      flex: none;
+      margin: 0px;
+      padding: 0px;
+      text-align: left;
+      background: transparent;
+      color: $white;
+
+      option {
+        background: $lightBlack;
+      }
+    }
+  }
+
+  div {
+    &.sctImg {
+      display: grid;
+      border: 1px solid $lightBlue;
+
+      div.img {
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        width: 100%;
+        border-bottom: 1px solid $lightBlue;
+      }
+
+      label {
+        width: 100%;
+        padding-top: 2px;
+
+        span {
+          display: flex;
+          justify-content: center;
+          text-align: center;
+        }
+
+        input,
+        select {
+          margin: 0px;
+          padding: 0px;
+          border-radius: 0px;
+          border: 0px;
+          text-align: center;
+          background: transparent;
+
+          option {
+            background: $lightBlack;
+          }
+        }
+
+        &.borderBottom {
+          border-bottom: 1px solid $lightBlue;
+        }
+      }
+
+      button {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        color: $white;
+        border-radius: 0px;
+        line-height: 28px;
+        min-height: 30px;
+        margin: 0px;
+        cursor: pointer;
+        font-variant: small-caps;
+        border: 1px solid $lightBlack;
+        border-left: 0px;
+        border-right: 0px;
+      }
+    }
+  }
+
+  section.body {
+    grid-column: 1 / 3;
+
+    textarea {
+      background: $lightBlack;
+    }
+
+    div.tab {
+      display: grid;
+      grid-template-columns: 212px 1fr;
+      align-items: flex-start;
+      align-content: flex-start;
+      grid-gap: 5px;
+    }
+
+    nav.bodyTab {
+      grid-column: 2;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 1rem;
+      line-height: 2.5;
+      border-top: 1px solid var(--color-tabs-border);
+      border-bottom: 1px solid var(--color-tabs-border);
+
+      a {
+        display: grid;
+        padding-left: 5px;
+        padding-right: 5px;
+
+        &.active {
+          background-color: $lightBlue;
+        }
+      }
+    }
+
+    @import "./body/main";
+    @import "./body/menuLeft";
+    @import "./body/mods";
+    @import "./body/arme";
+    @import "./body/ersatz";
+    @import "./body/creature";
+
+    div {
+      @import "../common/specialEffects";
+
+      &.effects {
+        border: 1px solid $lightBlue;
+
+        button.add {
+          border-bottom: 0px;
+          border-left: 0px;
+          border-right: 0px;
+          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px;
+        }
+      }
+
+      &.blockEffets {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        margin-top: 5px;
+
+        div.effets,
+        div.distance,
+        div.structurelles,
+        div.ornementales {
+          display: flex;
+          position: relative;
+          width: 100%;
+          justify-content: space-evenly;
+          flex-wrap: wrap;
+
+          padding-right: 5px;
+          padding-bottom: 19px;
+          padding-left: 5px;
+          border: 1px solid $lightBlue;
+          flex: none;
+          align-items: flex-start;
+
+          @include effets();
+
+          &.hidden {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

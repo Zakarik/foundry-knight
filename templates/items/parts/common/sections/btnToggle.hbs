@@ -1,0 +1,9 @@
+<button
+  class="toggle {{ifThen value 'selected' 'unselected'}}"
+  data-action="{{ifThen lock '' 'btnToggle'}}"
+  data-path="{{path}}"
+  data-tooltip="{{ifThen tooltip (localize tooltip) ''}}"
+>
+  {{localize localize}}
+  <i class="fa-solid {{ifThen value 'fa-check green' 'fa-xmark red'}}"></i>
+</button>

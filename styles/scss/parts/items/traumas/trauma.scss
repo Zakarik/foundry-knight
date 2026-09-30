@@ -1,0 +1,49 @@
+form.item.trauma section.window-content {
+    display: grid;
+    grid-template-columns: 212px 1fr;
+    grid-gap: 5px;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow: auto;
+
+    @include header();
+
+    @import "../common/img";
+    @import "../common/header";
+
+    div {
+        &.sctImg {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 5px;
+
+            label {
+                display: grid;
+                grid-template-columns: 1fr;
+                border: 1px solid $lightBlue;
+
+                span {
+                    text-align: center;
+                    font-variant: small-caps;
+                    font-weight: bold;
+                    background: $lightBlue;
+                    font-size: 15px;
+                }
+
+                input {
+                    background: $black;
+                    color: $white;
+                    text-align: center;
+                    border: 0px;
+                    border-radius: 0px;
+                }
+            }
+        }
+
+        &.body {
+            grid-column: 1 / 3;
+            border: 1px solid $lightBlue;
+        }
+        @import "../common/specialEffects";
+    }
+}

@@ -1,0 +1,56 @@
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="degats">
+    <button type="action"
+        data-action="btnToggle"
+        data-path="degats.withMetaArmure"
+        class="toggle {{ifThen systemData.degats.withMetaArmure 'selected' 'unselected'}} double">
+        <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+        <i class="fa-solid {{ifThen systemData.degats.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+    <select name="system.degats.type">
+        {{selectOptions (getList 'typebonus') selected=systemData.degats.type localize=true}}
+    </select>
+    <button
+        type="action"
+        data-action="btnToggle"
+        data-path="degats.variable.has"
+        class="toggle {{ifThen systemData.degats.variable.has 'selected' 'unselected'}}">
+        <span>{{localize "KNIGHT.ITEMS.MODULE.ARME.DEGATS.Variable"}}</span>
+        <i class="fa-solid {{ifThen systemData.activation.permanent 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+    {{#unless systemData.degats.variable.has}}
+    <div class="simple">
+        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.degats.dice" value="{{systemData.degats.dice}}" min="0" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"  data-dtype="Number"name="system.degats.fixe" value="{{systemData.degats.fixe}}" min="0" />
+        </div>
+    </div>
+    {{/unless}}
+    {{#if systemData.degats.variable.has}}
+    <div class="variable">
+        <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.DesMinimum"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.degats.variable.min.dice" value="{{systemData.degats.variable.min.dice}}" min="0" max="{{systemData.degats.variable.max.dice}}" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </div>
+        <span Class="withSeparator">{{localize "KNIGHT.ITEMS.MODULE.DEGATS.DesMaximum"}}</span>
+        <div Class="withSeparator">
+            <input type="number"  data-dtype="Number"name="system.degats.variable.max.dice" value="{{systemData.degats.variable.max.dice}}" min="{{systemData.degats.variable.min.dice}}" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </div>
+        <label Class="withSeparator">
+            <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.FixeMinimum"}}</span>
+            <input type="number"  data-dtype="Number"name="system.degats.variable.min.fixe" value="{{systemData.degats.variable.min.fixe}}" min="0" max="{{systemData.degats.variable.max.fixe}}" />
+        </label>
+        <label Class="withSeparator">
+            <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.FixeMaximum"}}</span>
+            <input type="number"  data-dtype="Number"name="system.degats.variable.max.fixe" value="{{systemData.degats.variable.max.fixe}}" min="{{systemData.degats.variable.min.fixe}}" />
+        </label>
+        <label Class="withSeparator">
+            <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+            <input type="number"  data-dtype="Number"name="system.degats.variable.cout" value="{{systemData.degats.variable.cout}}" min="0" />
+        </label>
+    </div>
+    {{/if}}
+</div>

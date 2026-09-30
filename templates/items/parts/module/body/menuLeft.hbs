@@ -1,0 +1,38 @@
+<div class="menuLeft">
+
+    {{~> knight.item.btnToggle
+        value=effects.has
+        path=(concat "system.niveau.details." key ".effects.has")
+        localize="KNIGHT.ITEMS.MODULE.Bonus"
+    }}
+
+    {{~> knight.item.btnToggle
+        value=mods.has
+        path=(concat "system.niveau.details." key ".mods.has")
+        localize="KNIGHT.ITEMS.MODULE.OtherBonus"
+    }}
+
+    {{~> knight.item.btnToggle
+        value=arme.has
+        path=(concat "system.niveau.details." key ".arme.has")
+        localize="KNIGHT.ITEMS.MODULE.ARME.Has"
+    }}
+
+    {{~> knight.item.btnToggle
+        value=ersatz.has
+        path=(concat "system.niveau.details." key ".ersatz.has")
+        localize="KNIGHT.ITEMS.MODULE.ERSATZ.Has"
+    }}
+
+    {{~> knight.item.btnToggle
+        value=pnj.has
+        path=(concat "system.niveau.details." key ".pnj.has")
+        localize="KNIGHT.ITEMS.MODULE.PNJ.Has"
+    }}
+
+    {{~> knight.item.btnToggle
+        value=effets.has
+        path=(concat "system.niveau.details." key ".effets.has")
+        localize="KNIGHT.ITEMS.MODULE.EFFETS.Has"
+    }}
+</div>

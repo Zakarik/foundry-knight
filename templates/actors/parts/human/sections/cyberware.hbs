@@ -2,7 +2,7 @@
 <div class="cyberware item-list">
     <h2 class="header">
         {{localize "KNIGHT.CYBERWARE.Label"}}
-        <a class="item-control item-create" title="Create Item" data-type="cyberware"><i class="fas fa-plus"></i></a>
+        {{~> knight.itemCreate strLoc="KNIGHT.PERSONNAGE.Cyberware" data=(object type="cyberware")}}
     </h2>
     {{#each actor.cyberware}}
     <div class="block item" data-item-id="{{_id}}">

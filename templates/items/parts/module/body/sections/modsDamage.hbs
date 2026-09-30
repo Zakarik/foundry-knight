@@ -1,0 +1,75 @@
+
+<div class="damage">
+    {{~> knight.item.btnToggle
+        value=data.has
+        path=(concat "system.niveau.details." key ".mods." name ".has")
+        localize=(concat "KNIGHT.ITEMS.MODULE." (uppercase name) ".Bonus")
+    }}
+
+    {{#if data.has}}
+    {{~> knight.item.btnToggle
+        value=data.variable.has
+        path=(concat "system.niveau.details." key ".mods." name ".variable.has")
+        localize=(concat "KNIGHT.ITEMS.MODULE." (uppercase name) ".Variable")
+    }}
+    {{/if}}
+
+    <select name="system.niveau.details.{{key}}.mods.{{name}}.type" style="{{ifThen data.has '' 'display:none'}}">
+        {{selectOptions (getList 'typebonus') selected=data.type localize=true}}
+    </select>
+
+    <div class="diceWithLabel" style="{{ifThen data.has '' 'display:none;'}} {{ifThen data.variable.has 'display:none;' ''}}">
+        <span class="label">{{localize (concat "KNIGHT.AUTRE." (capitalize name))}}</span>
+        <div>
+            <input type="number"  name="system.niveau.details.{{key}}.mods.{{name}}.dice" value="{{data.dice}}" min="0" />
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"  name="system.niveau.details.{{key}}.mods.{{name}}.fixe" value="{{data.fixe}}" min="0" />
+        </div>
+    </div>
+
+    <div class="variable" style="{{ifThen (and data.variable.has data.has) '' 'display:none'}}">
+        <div class="diceSpanWithLabel">
+            <span class="label">{{localize (concat "KNIGHT.ITEMS.MODULE." (uppercase name) ".DesMinimum")}}</span>
+            <div>
+                <input type="number"
+                    name="system.niveau.details.{{key}}.mods.{{name}}.variable.min.dice"
+                    value="{{data.variable.min.dice}}"
+                    min="0"
+                    max="{{data.variable.max.dice}}" />
+                <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </div>
+        </div>
+        <div class="diceSpanWithLabel">
+            <span class="label">{{localize (concat "KNIGHT.ITEMS.MODULE." (uppercase name) ".DesMaximum")}}</span>
+            <div>
+                <input type="number"
+                    name="system.niveau.details.{{key}}.mods.{{name}}.variable.max.dice"
+                    value="{{data.variable.max.dice}}"
+                    min="{{data.variable.min.dice}}" />
+                <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </div>
+        </div>
+        <label class="inputWithLabel">
+            <span class="label">{{localize (concat "KNIGHT.ITEMS.MODULE." (uppercase name) ".FixeMinimum")}}</span>
+            <input type="number"
+                name="system.niveau.details.{{key}}.mods.{{name}}.variable.min.fixe"
+                value="{{data.variable.min.fixe}}"
+                min="0"
+                max="{{data.variable.max.fixe}}" />
+        </label>
+        <label class="inputWithLabel">
+            <span class="label">{{localize (concat "KNIGHT.ITEMS.MODULE." (uppercase name) ".FixeMaximum")}}</span>
+            <input type="number"
+                name="system.niveau.details.{{key}}.mods.{{name}}.variable.max.fixe"
+                value="{{data.variable.max.fixe}}"
+                min="{{data.variable.min.fixe}}" />
+        </label>
+        <label class="inputWithLabel">
+            <span class="label">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+            <input type="number"
+                name="system.niveau.details.{{key}}.mods.{{name}}.variable.cout"
+                value="{{data.variable.cout}}"
+                min="0" />
+        </label>
+    </div>
+</div>

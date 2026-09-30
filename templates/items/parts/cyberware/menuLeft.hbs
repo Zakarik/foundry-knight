@@ -1,0 +1,52 @@
+
+<div class="menuLeft">
+    <label class="marque">
+        <span>{{localize "KNIGHT.CYBERWARE.Marque"}}</span>
+        <input type="text" name="system.marque" value="{{systemData.marque}}" />
+    </label>
+    <label class="category">
+        <span>{{localize "KNIGHT.CYBERWARE.CATEGORIE.Label"}}</span>
+        <select name="system.categorie">
+            {{selectOptions (listSelect 'KNIGHT.CYBERWARE.CATEGORIE' 'medical' 'cosmetique' 'utilitaire' 'combat') selected=systemData.categorie localize=true}}
+        </select>
+    </label>
+    <label class="pg">
+        <span>{{localize "KNIGHT.PROGRESSION.GLOIRE.Label"}}</span>
+        <input type="number"  data-dtype="Number"name="system.prix" value="{{systemData.prix}}"/>
+    </label>
+    {{{menuVertical 'KNIGHT.CYBERWARE.MENULEFT' systemData 'dharmatech' 'activation' 'optimisation' 'arme' 'module' 'degats' 'violence' 'soin' 'recuperation' 'effects'}}}
+    {{#if systemData.activation.has}}
+    <div class="activation">
+        <label>
+            <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+            <select name="system.activation.type">
+                {{selectOptions (listSelect 'KNIGHT.ACTIVATION' 'aucune' 'gratuite' 'deplacement' 'combat') selected=systemData.activation.type localize=true}}
+            </select>
+        </label>
+        <label>
+            <span>{{localize "KNIGHT.AUTRE.Energie"}}</span>
+            <input type="number"  data-dtype="Number"name="system.activation.energie" value="{{systemData.activation.energie}}" min="0" />
+        </label>
+        <label class="duration">
+            <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        {{#unless systemData.activation.permanent}}
+            <textarea name="system.activation.duration">{{systemData.activation.duration}}</textarea>
+        {{/unless}}
+        </label>
+        <button type="action"
+            data-action="btnToggle"
+            class="toggle {{ifThen systemData.activation.permanent 'selected' 'unselected'}}"
+            data-path="activation.permanent">
+            <span>{{localize "KNIGHT.DUREE.Permanent"}} / {{localize "KNIGHT.DUREE.Instantanee"}}</span>
+            <i class="fa-solid {{ifThen systemData.activation.permanent 'fa-check green' 'fa-xmark red'}}"></i>
+        </button>
+        <button type="action"
+            data-action="btnToggle"
+            class="toggle {{ifThen systemData.activation.withMetaArmure 'selected' 'unselected'}}"
+            data-path="activation.withMetaArmure">
+            <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+            <i class="fa-solid {{ifThen systemData.activation.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
+        </button>
+    </div>
+    {{/if}}
+</div>

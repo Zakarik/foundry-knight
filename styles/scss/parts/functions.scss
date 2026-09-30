@@ -807,3 +807,182 @@ $news:#00ffcc44;
     @content;
   }
 }
+
+@mixin diceWithLabel() {
+  div.diceWithLabel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+
+    span {
+      display: grid;
+
+      &.label {
+        padding-left: 5px;
+        line-height: 22px;
+        font-variant: small-caps;
+        background: $lightBlack;
+        width: 100%;
+        align-items: center;
+      }
+
+      &.dice {
+        width: 100%;
+        text-align: center;
+        line-height: 23px;
+        background: transparent;
+        text-transform: uppercase;
+        align-items: center;
+      }
+    }
+
+    div {
+      display: grid;
+      grid-template-columns: 1fr 24px 1fr;
+      background: $black;
+
+      input {
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        border: 0px;
+        border-radius: 0px;
+        color: $white;
+        padding: 0px;
+
+        &:first-of-type {
+          text-align: right;
+        }
+
+        &:last-of-type {
+          text-align: left;
+        }
+      }
+    }
+
+    @content;
+  }
+}
+
+@mixin diceSpanWithLabel() {
+  div.diceSpanWithLabel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+
+    span {
+      display: grid;
+
+      &.label {
+        padding-left: 5px;
+        line-height: 22px;
+        font-variant: small-caps;
+        background: $lightBlack;
+        width: 100%;
+        align-items: center;
+      }
+
+      &.dice {
+        width: 100%;
+        text-align: left;
+        line-height: 23px;
+        background: transparent;
+        text-transform: uppercase;
+        align-items: center;
+      }
+    }
+
+    div {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: $black;
+
+      input {
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        border: 0px;
+        border-radius: 0px;
+        color: $white;
+        padding: 0px;
+        padding-top: 1px;
+        text-align: right
+      }
+    }
+
+    @content;
+  }
+}
+
+@mixin inputWithLabel {
+  label.inputWithLabel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+
+    span {
+      display: grid;
+
+      &.label {
+        padding-left: 5px;
+        line-height: 22px;
+        font-variant: small-caps;
+        background: $lightBlack;
+        width: 100%;
+        align-items: center;
+      }
+    }
+
+    input {
+      height: 100%;
+      width: 100%;
+      background: $black;
+      text-align: center;
+      border: 0px;
+      border-radius: 0px;
+      color: $white;
+      padding: 0px;
+    }
+
+    @content;
+  }
+}
+
+@mixin selectWithLabel {
+  label.selectWithLabel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+
+    span {
+      display: grid;
+
+      &.label {
+        padding-left: 5px;
+        line-height: 22px;
+        height: 100%;
+        font-variant: small-caps;
+        background: $lightBlack;
+        width: 100%;
+        align-items: center;
+      }
+    }
+
+    select {
+      height: 100%;
+      width: 100%;
+      background: $black;
+      text-align: center;
+      border: 0px;
+      border-radius: 0px;
+      color: $white;
+      padding: 0px;
+
+      option {
+        background: $lightBlack;
+      }
+    }
+
+    @content;
+  }
+}

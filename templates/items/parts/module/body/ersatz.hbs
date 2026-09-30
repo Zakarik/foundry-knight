@@ -1,0 +1,62 @@
+<div class="bodyTab ersatz" data-tab="ersatz" style="{{ifThen ersatz.has '' 'display:none'}}">
+    {{~> knight.item.btnToggle
+        value=ersatz.bard.has
+        path=(concat "system.niveau.details." key ".ersatz.bard.has")
+        localize="KNIGHT.ITEMS.MODULE.ERSATZ.BARD.Label"
+    }}
+
+    <div class="rogue">
+        {{~> knight.item.btnToggle
+            value=ersatz.rogue.has
+            path=(concat "system.niveau.details." key ".ersatz.rogue.has")
+            localize="KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label"
+        }}
+
+        <div style="{{ifThen ersatz.rogue.has '' 'display:none;'}}">
+            <label class="inputWithLabel">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
+                <input type="number"  data-dtype="Number"name="system.niveau.details.{{key}}.ersatz.rogue.reussites" value="{{ersatz.rogue.reussites}}" min="0" />
+            </label>
+
+            {{~> knight.item.btnToggle
+                value=ersatz.rogue.interruption.actif
+                path=(concat "system.niveau.details." key ".ersatz.rogue.interruption.actif")
+                localize="KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Interruption"
+            }}
+
+            <label class="selectWithLabel">
+                <span class="label">{{localize "KNIGHT.BONUS.Attaque"}}</span>
+                <select name="system.niveau.details.{{key}}.ersatz.rogue.attaque">
+                    {{selectOptions (onlyCarac) selected=ersatz.rogue.attaque localize=true}}
+                </select>
+            </label>
+
+            <h3 class="title">{{localize "KNIGHT.BONUS.Degats"}}</h3>
+
+            <label class="selectWithLabel">
+                <span class="label">{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+                <select name="system.niveau.details.{{key}}.ersatz.rogue.degats.caracteristique">
+                    {{selectOptions (onlyCarac) selected=ersatz.rogue.degats.caracteristique localize=true}}
+                </select>
+            </label>
+
+            {{~> knight.item.btnToggle
+                value=ersatz.rogue.degats.od
+                path=(concat "system.niveau.details." key ".ersatz.rogue.degats.od")
+                localize="KNIGHT.INCLUS.Od"
+            }}
+
+            {{~> knight.item.btnToggle
+                value=ersatz.rogue.degats.dice
+                path=(concat "system.niveau.details." key ".ersatz.rogue.degats.dice")
+                localize="KNIGHT.INCLUS.Dice"
+            }}
+
+            {{~> knight.item.btnToggle
+                value=ersatz.rogue.degats.fixe
+                path=(concat "system.niveau.details." key ".ersatz.rogue.degats.fixe")
+                localize="KNIGHT.INCLUS.Fixe"
+            }}
+        </div>
+    </div>
+</div>

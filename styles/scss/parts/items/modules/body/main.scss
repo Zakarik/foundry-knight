@@ -1,0 +1,209 @@
+div {
+  &.main {
+    @include buttons() {
+      border-radius: 0px;
+      border: 0px;
+      font-variant: small-caps;
+
+      &.unactive {
+        background: $black;
+      }
+
+      &.active {
+        background: $lightBlack;
+      }
+    }
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+    align-items: flex-start;
+    grid-column: 1 / 3;
+
+    h2 {
+      border-left: 0px;
+      border-right: 0px;
+    }
+
+    div {
+      &.col {
+        display: grid;
+        grid-gap: 5px;
+        align-items: flex-start;
+        align-content: flex-start;
+
+        label,
+        div {
+          border: 1px solid $lightBlue;
+
+          &.oneLine {
+            display: grid;
+            width: 100%;
+            grid-template-columns: 1fr 1fr;
+
+            span {
+              width: 100%;
+              padding-left: 5px;
+              line-height: 22px;
+              background: $lightBlack;
+              font-variant: small-caps;
+            }
+
+            select {
+              width: 100%;
+              height: 22px;
+              padding: 0px;
+              margin: 0px;
+              border: 0px;
+              border-radius: 0px;
+              background: $black;
+              color: $white;
+
+              option {
+                background: $black;
+                color: $white;
+              }
+            }
+
+            input {
+              width: 50%;
+              height: 22px;
+              padding: 0px;
+              margin: 0px;
+              border: 0px;
+              border-radius: 0px;
+              background: $black;
+              color: $white;
+              text-align: center;
+            }
+          }
+
+          &.twoLine {
+            display: grid;
+            width: 100%;
+
+            button {
+              border-bottom: 1px solid $lightBlack;
+
+              &.active {
+                border-top: 1px solid $black;
+              }
+
+              &.noBorderBottom {
+                border-bottom: 0px;
+              }
+
+              &.borderTop {
+                border-top: 1px solid $lightBlack;
+              }
+            }
+
+            span {
+              width: 100%;
+              line-height: 22px;
+              background: $lightBlack;
+              font-variant: small-caps;
+              text-align: center;
+            }
+
+            select {
+              width: 100%;
+              height: 27px;
+              padding: 0px;
+              margin: 0px;
+              border: 0px;
+              border-radius: 0px;
+              background: $black;
+              color: $white;
+              text-align: center;
+              padding-left: 15px;
+
+              option {
+                background: $black;
+                color: $white;
+                text-align: center;
+                font-variant: small-caps;
+              }
+            }
+
+            input {
+              width: 100%;
+              height: 22px;
+              padding: 0px;
+              margin: 0px;
+              border: 0px;
+              border-radius: 0px;
+              background: $black;
+              color: $white;
+              text-align: center;
+            }
+
+            textarea {
+              border: 0px;
+              color: $white;
+              font-family: var(--font-primary);
+              padding: 2px;
+              resize: none;
+            }
+
+            div,
+            label {
+              &.oneLine {
+                display: grid;
+                width: 100%;
+                grid-template-columns: 1fr 1fr;
+                border-top: 1px solid $lightBlue;
+                border-bottom: 0px;
+                border-left: 0px;
+                border-right: 0px;
+
+                span {
+                  width: 100%;
+                  padding-left: 5px;
+                  line-height: 22px;
+                  background: $lightBlack;
+                  font-variant: small-caps;
+                }
+
+                select {
+                  width: 100%;
+                  height: 22px;
+                  padding: 0px;
+                  margin: 0px;
+                  border: 0px;
+                  border-radius: 0px;
+                  background: $black;
+                  color: $white;
+
+                  option {
+                    background: $black;
+                    color: $white;
+                  }
+                }
+
+                input {
+                  width: 100%;
+                  height: 22px;
+                  padding: 0px;
+                  margin: 0px;
+                  border: 0px;
+                  border-radius: 0px;
+                  background: $black;
+                  color: $white;
+                  text-align: center;
+
+                  &.label {
+                    width: 100%;
+                    background: $lightBlack;
+                    font-variant: small-caps;
+                    font-size: 14px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

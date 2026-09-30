@@ -1,0 +1,11 @@
+<input type="hidden" name="{{name}}" value="{{value}}" data-dtype="Boolean" />
+<button
+  data-action="{{ifThen lock '' 'btnToggleArray'}}"
+  data-path="{{path}}"
+  data-index="{{index}}"
+  data-key="{{key}}"
+  class="toggle {{ifThen value 'selected' 'unselected'}}"
+>
+  {{localize localize}}
+  <i class="fa-solid {{ifThen value 'fa-check green' 'fa-xmark red'}}"></i>
+</button>

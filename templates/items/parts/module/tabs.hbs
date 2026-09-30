@@ -1,0 +1,10 @@
+<nav class="sheet-tabs tabs">
+  {{#each systemData.niveau.details as |data id|}}
+    <a data-action="mTab" data-group="primary" data-tab="{{id}}" class="{{id}}">
+      {{localize "KNIGHT.ITEMS.MODULE.Niveau"}}
+      {{addValue @index 1}}
+      {{#if (gt @index 0)}} (+{{prix}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) {{/if}}
+      <i class="fa-solid fa-check active"></i>
+    </a>
+  {{/each}}
+</nav>

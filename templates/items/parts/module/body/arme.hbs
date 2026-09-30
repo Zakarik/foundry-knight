@@ -1,0 +1,46 @@
+<div class="bodyTab arme" data-tab="arme" style="{{ifThen arme.has '' 'display:none'}}">
+    <span class="important double">
+        {{localize "KNIGHT.AUTRE.GlisserDeposerWpn"}}
+    </span>
+
+    <label class="oneLine">
+        <span class="header">{{localize "KNIGHT.ITEMS.ARME.TypeArme"}}</span>
+        <select name="system.niveau.details.{{key}}.arme.type">
+            {{selectOptions (getList 'typearmes') selected=arme.type localize=true}}
+        </select>
+    </label>
+
+    <label class="oneLine">
+        <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.niveau.details.{{key}}.arme.portee">
+            {{selectOptions (getList 'portee') selected=arme.portee localize=true}}
+        </select>
+    </label>
+
+    {{~> knight.module.body.wpnDamage
+        key=key
+        name="degats"
+        data=arme.degats
+    }}
+
+    {{~> knight.module.body.wpnDamage
+        key=key
+        name="violence"
+        data=arme.violence
+    }}
+
+    <div class="blockEffets">
+        <h2 class="header">
+            {{localize "KNIGHT.EFFETS.Label"}}
+        </h2>
+
+        <div class="effets">
+            {{#each arme.effets.liste as | key effet|}}
+                {{~> knight.effets type='base'}}
+            {{/each}}
+            <a class="edit" data-action="editEffects" data-path="niveau.details.{{key}}.arme.effets">
+                <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,144 @@
+<div class="liste">
+    <div class="header">
+        <select name="{{path}}.type">
+            {{selectOptions (getList 'typepnj') selected=type localize=true}}
+        </select>
+        <input type="text" name="{{path}}.nom" value="{{nom}}" />
+        <a class="delete" data-action="delete" data-type="pnj" data-id="{{id}}" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}">
+            <i class="fas fa-minus"></i>
+        </a>
+    </div>
+
+    {{~> knight.item.btnToggle
+        value=aspects.has
+        path=(concat path ".aspects.has")
+        localize="KNIGHT.ITEMS.MODULE.PNJ.ASPECTS.Has"
+    }}
+
+    {{~> knight.item.btnToggle
+        value=armes.has
+        path=(concat path ".armes.has")
+        localize="KNIGHT.ITEMS.MODULE.PNJ.ARMES.Has"
+        lock=(isBande type)
+    }}
+
+    {{~> knight.item.btnToggle
+        value=jetSpecial.has
+        path=(concat path ".jetSpecial.has")
+        localize="KNIGHT.ITEMS.MODULE.PNJ.JETSPECIAL.Has"
+    }}
+
+    <div class="bases">
+        <div class="diceWithLabel noBorderLeft">
+            <span class="label">{{localize "KNIGHT.LATERAL.Initiative"}}</span>
+            <div>
+                <input type="number" name="{{path}}.initiative.dice" value="{{initiative.dice}}" min="0" />
+                <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                <input type="number" name="{{path}}.initiative.fixe" value="{{initiative.fixe}}" min="0" />
+            </div>
+        </div>
+
+        <label class="inputWithLabel" style="{{ifThen (isBande type) '' 'display:none;'}}">
+            <span class="label">{{localize "KNIGHT.AUTRE.Debordement"}}</span>
+            <input type="number" name="{{path}}.debordement" value="{{debordement}}"/>
+        </label>
+
+        <label class="inputWithLabel noBorderRight" style="{{ifThen (isBande type) '' 'display:none;'}}">
+            <span class="label">{{localize "KNIGHT.LATERAL.Cohesion"}}</span>
+            <input type="number" name="{{path}}.sante" value="{{sante}}"/>
+        </label>
+
+        <label class="inputWithLabel {{ifThen (isBande type) 'noBorderLeft' ''}}">
+            <span class="label">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
+            <input type="number" name="{{path}}.reaction" value="{{reaction}}"/>
+        </label>
+
+        <label class="inputWithLabel {{ifThen (isBande type) '' 'noBorderRight'}}">
+            <span class="label">{{localize "KNIGHT.LATERAL.Defense"}}</span>
+            <input type="number" name="{{path}}.defense" value="{{defense}}"/>
+        </label>
+
+        <label class="inputWithLabel {{ifThen (isBande type) 'noBorderRight' 'noBorderLeft'}}">
+            <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+            <input type="number" name="{{path}}.armure" value="{{./armure}}"/>
+        </label>
+
+        <label class="inputWithLabel {{ifThen (isBande type) 'noBorderLeft' ''}}">
+            <span class="label">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
+            <input type="number" name="{{path}}.champDeForce" value="{{champDeForce}}"/>
+        </label>
+    </div>
+
+    <div class="aspects {{ifThen (and (eq armes.has false) (eq jetSpecial.has false)) 'noBorderBottom' ''}}" style="{{ifThen aspects.has "" "display:none;"}}">
+    {{#each aspects.liste  as | kAsp aspect|}}
+        <div>
+            <label class="inputWithLabel">
+                <span class="label">{{getAspect aspect}}</span>
+                <input type="number" name="{{../path}}.aspects.liste.{{aspect}}.value" value="{{kAsp.value}}" min="0" max="20" />
+            </label>
+            <h3>{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</h3>
+            <label class="inputWithLabel">
+                <span class="label">{{localize "KNIGHT.AUTRE.Mineur"}}</span>
+                <input type="number" name="{{../path}}.aspects.liste.{{aspect}}.ae.mineur" value="{{kAsp.ae.mineur}}" min="0" max="10" />
+            </label>
+            <label class="inputWithLabel">
+                <span class="label">{{localize "KNIGHT.AUTRE.Majeur"}}</span>
+                <input type="number" name="{{../path}}.aspects.liste.{{aspect}}.ae.majeur" value="{{kAsp.ae.majeur}}" min="0" max="10" />
+            </label>
+        </div>
+    {{/each}}
+    </div>
+
+    <div class="armes" style="{{ifThen (isBande type) 'display:none;' ''}} {{ifThen armes.has "" "display:none;"}}">
+        <h3>
+            {{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}
+
+            <a class="create" data-action="create" data-type="armes" data-id="{{id}}" data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize 'KNIGHT.ITEMS.MODULE.ARME.Label')}}">
+                <i class="fas fa-plus"></i>
+            </a>
+        </h3>
+        {{#each armes.data}}
+            {{~> knight.module.body.wpnCreature path=(concat "system." @root.paths.npcWpn "." id) simplePath=(concat @root.paths.npcWpn "." id) npc=../id}}
+        {{/each}}
+    </div>
+
+    <div class="jetSpecial {{ifThen armes.has 'noBorderRight' 'noBorderLeft'}}" style="{{ifThen jetSpecial.has "" "display:none;"}}">
+        <h3>
+            {{localize "KNIGHT.ITEMS.MODULE.PNJ.JETSPECIAL.Label"}}
+
+            <a class="create" data-action="create" data-type="jetSpecial" data-id="{{id}}" data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize 'KNIGHT.ITEMS.MODULE.PNJ.JETSPECIAL.Label')}}">
+                <i class="fas fa-plus"></i>
+            </a>
+        </h3>
+        {{#each jetSpecial.data}}
+            <div class="liste">
+                <div class="header">
+                    <input type="text" name="system.{{@root.paths.npcJSpe}}.{{id}}.nom" value="{{nom}}" placeholder="{{localize "KNIGHT.Nom"}}"/>
+
+                    <a class="delete" data-action="delete" data-type="jetSpecial" data-id="{{id}}" data-npc="{{../id}}" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}">
+                        <i class="fas fa-minus"></i>
+                    </a>
+                </div>
+
+                <div class="diceWithLabel col mid">
+                    <span class="label">{{localize "KNIGHT.JETS.Label"}}</span>
+                    <div>
+                        <input type="number"
+                        name="system.{{@root.paths.npcJSpe}}.{{id}}.dice"
+                        value="{{dice}}"
+                        min="0" />
+
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+
+                        <input type="number"
+                        name="system.{{@root.paths.npcJSpe}}.{{id}}.overdrive"
+                        value="{{overdrive}}"
+                        min="0"
+                        data-tooltip="{{localize "KNIGHT.ASPECTS.OD"}}"
+                        />
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

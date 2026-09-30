@@ -1,0 +1,21 @@
+<div class="sctImg">
+    <div class="img">
+        <img class="profile-img" data-action="editImage" src="{{item.img}}" data-edit="img" data-tooltip="{{item.name}}" />
+    </div>
+
+    <label class="borderBottom">
+        <span>{{localize "KNIGHT.ITEMS.MODULE.CATEGORIE.Label"}}</span>
+        <select name="system.categorie">
+            {{selectOptions
+            document.system.allPossibleCategory
+            selected=systemData.categorie blank=''
+            localize=true
+            sort=true}}
+        </select>
+    </label>
+    <label>
+        <span>{{localize "KNIGHT.ITEMS.MODULE.NombreNiveau"}}</span>
+        <input type="number"  data-dtype="Number" name="system.niveau.max" value="{{systemData.niveau.max}}" min="1" />
+    </label>
+    <button type="action" data-action="changeLvl" data-value="{{systemData.niveau.max}}">{{localize "KNIGHT.AUTRE.Valider"}}</button>
+</div>

@@ -1,0 +1,14 @@
+div {
+    &.menuLeft {
+        display: grid;
+        grid-gap: 5px;
+        grid-row: 2 / 5;
+
+        @include buttons();
+
+        button {
+            text-align: left;
+            height: auto;
+        }
+    }
+}

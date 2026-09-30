@@ -1,0 +1,18 @@
+<section class="body">
+    {{#each systemData.niveau.details as |data id|}}
+        {{log this}}
+        <div class="tab {{id}}" data-mainpath="niveau.details" data-mainindex="{{id}}">
+            {{~> knight.module.main key=id}}
+            {{~> knight.module.menuLeft key=id}}
+
+            {{{customMenuHorizontal this '' 'KNIGHT.ITEMS.MODULE.MENU' 'bodyTab' 'bodyItem' 'effects' 'mods' 'arme' 'ersatz' 'pnj' 'effets'}}}
+
+            {{~> knight.module.effects key=id}}
+            {{~> knight.module.mods key=id}}
+            {{~> knight.module.arme key=id}}
+            {{~> knight.module.ersatz key=id}}
+            {{~> knight.module.creature key=id}}
+            {{~> knight.module.effets key=id}}
+        </div>
+    {{/each}}
+</section>

@@ -1,0 +1,34 @@
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="recuperation">
+    <label class="inline">
+        <span class="label">{{localize "KNIGHT.CYBERWARE.RecuperationLimite"}}</span>
+        <input type="number"  data-dtype="Number"name="system.recuperation.limite.max" value="{{systemData.recuperation.limite.max}}" min="0" />
+    </label>
+    <label class="{{#if (and systemData.recuperation.nods (ne systemData.recuperation.type 'espoir'))}}double{{/if}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Type"}}</span>
+        <select name="system.recuperation.type">
+            {{selectOptions (getCFG 'RECUPERATION.TYPE') selected=systemData.recuperation.type localize=true}}
+        </select>
+    </label>
+    {{#unless (and systemData.recuperation.nods (ne systemData.recuperation.type 'espoir'))}}
+    <div>
+        <span class="label">{{localize "KNIGHT.AUTRE.Quantite"}}</span>
+        <div class="roll">
+            <input type="number"  data-dtype="Number"name="system.recuperation.dice" value="{{systemData.recuperation.dice}}" min="0" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+            <input type="number"  data-dtype="Number"name="system.recuperation.face" value="{{systemData.recuperation.face}}" min="0" />
+            <span>+</span>
+            <input type="number"  data-dtype="Number"name="system.recuperation.bonus" value="{{systemData.recuperation.bonus}}" />
+        </div>
+    </div>
+    {{/unless}}
+    {{#unless (eq systemData.recuperation.type 'espoir')}}
+    <button
+        type="action"
+        data-action="btnToggle"
+        data-path="recuperation.nods"
+        class="toggle double {{ifThen systemData.recuperation.nods 'selected' 'unselected'}}">
+        <span>{{localize "KNIGHT.CYBERWARE.UtiliseNods"}}</span>
+        <i class="fa-solid {{ifThen systemData.recuperation.nods 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+    {{/unless}}
+</div>

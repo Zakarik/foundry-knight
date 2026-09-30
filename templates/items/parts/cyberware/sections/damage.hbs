@@ -1,0 +1,37 @@
+
+<div class="simple">
+    <span class="header">{{localize (concat "KNIGHT.AUTRE." (capitalize label))}}</span>
+    <div style="{{ifThen (getProperty systemData (concat 'arme.' label '.variable.has')) 'display:none;' ''}}">
+        {{~> knight.wpn.dmg
+            path=(concat 'arme.' label)
+        }}
+    </div>
+</div>
+<div class="variable" style="{{ifThen (getProperty systemData (concat 'arme.' label '.variable.has')) '' 'display:none;'}}">
+    <div class="diceWithLabel">
+        <span class="label">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+        <div>
+            {{~> knight.wpn.dmg
+                path=(concat 'arme.' label '.variable.min')
+                max=(getProperty systemData (concat 'arme.' label '.variable.max.dice'))
+                classFixe=(concat label 'F')
+            }}
+        </div>
+    </div>
+
+    <div class="diceWithLabel">
+        <span class="label">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+        <div class="simple">
+            {{~> knight.wpn.dmg
+                path=(concat 'arme.' label '.variable.max')
+                min=(getProperty systemData (concat 'arme.' label '.variable.min.dice'))
+                classFixe=(concat label 'F')
+            }}
+        </div>
+    </div>
+
+    <label class="inputWithLabel">
+        <span class="label">{{localize "KNIGHT.ITEMS.ARME.CoutAugmentation"}}</span>
+        <input type="number"  data-dtype="Number"name="system.arme.{{label}}.variable.cout" value="{{getProperty systemData (concat 'arme.' label '.variable.cout')}}" min="0" />
+    </label>
+</div>

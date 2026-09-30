@@ -1,0 +1,42 @@
+<div class="bodyTab mods" data-tab="mods" style="{{ifThen mods.has '' 'display:none'}}">
+    {{~> knight.module.body.modsDamage
+        key=key
+        name="degats"
+        data=mods.degats
+    }}
+
+    {{~> knight.module.body.modsDamage
+        key=key
+        name="violence"
+        data=mods.violence
+    }}
+
+    <div class="grenades">
+        {{~> knight.item.btnToggle
+            value=mods.grenade.has
+            path=(concat "system.niveau.details." key ".mods.grenade.has")
+            localize="KNIGHT.ITEMS.MODULE.GRENADES.Has"
+        }}
+
+        {{#each mods.grenade.liste}}
+        <div class="grenade" style="{{ifThen ../mods.grenade.has "" "display:none;"}}">
+            <input type="hidden" name="system.niveau.details.{{../key}}.mods.grenade.liste.{{@index}}.id" value="{{id}}" />
+            <h3>{{localize (concat "KNIGHT.COMBAT.GRENADES." (capitalize id))}}</h3>
+            <div class="diceSpanWithLabel">
+                <span class="label">{{localize "KNIGHT.BONUS.DesDegats"}}</span>
+                <div>
+                    <input type="number"  name="system.niveau.details.{{../key}}.mods.grenade.liste.{{@index}}.degats.dice" value="{{degats.dice}}" />
+                    <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+            </div>
+            <div class="diceSpanWithLabel">
+                <span class="label">{{localize "KNIGHT.BONUS.DesViolence"}}</span>
+                <div>
+                    <input type="number"  name="system.niveau.details.{{../key}}.mods.grenade.liste.{{@index}}.violence.dice" value="{{violence.dice}}" />
+                    <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

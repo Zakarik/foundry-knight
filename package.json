@@ -1,0 +1,16 @@
+{
+  "name": "foundry-knight",
+  "version": "1.0.0",
+  "description": "Knight est un JDR Français",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@league-of-foundry-developers/foundry-vtt-types": "^13.346.0-beta.20250812191140",
+    "eslint": "^10.10.0"
+  }
+}

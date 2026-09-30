@@ -1,0 +1,69 @@
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="arme">
+    <span class="important double">
+        {{localize "KNIGHT.AUTRE.GlisserDeposerWpn"}}
+    </span>
+    <button type="action"
+        data-action="btnToggle"
+        data-path="arme.withMetaArmure"
+        class="toggle {{ifThen systemData.arme.withMetaArmure 'selected' 'unselected'}} double">
+        <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+        <i class="fa-solid {{ifThen systemData.arme.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+
+    <button type="action"
+        data-action="btnToggle"
+        data-path="arme.degats.variable.has"
+        class="toggle {{ifThen systemData.arme.degats.variable.has 'selected' 'unselected'}}">
+        <span>{{localize "KNIGHT.ITEMS.ARME.DEGATS.Variable"}}</span>
+        <i class="fa-solid {{ifThen systemData.arme.degats.variable.has 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+
+    <button type="action"
+        data-action="btnToggle"
+        data-path="arme.violence.variable.has"
+        class="toggle {{ifThen systemData.arme.violence.variable.has 'selected' 'unselected'}}">
+        <span>{{localize "KNIGHT.ITEMS.ARME.VIOLENCE.Variable"}}</span>
+        <i class="fa-solid {{ifThen systemData.arme.violence.variable.has 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+
+    <label>
+        <span class="header">{{localize "KNIGHT.ITEMS.ARME.TypeArme"}}</span>
+        <select name="system.arme.type">
+            {{selectOptions (getList 'typearmes') selected=systemData.arme.type localize=true}}
+        </select>
+    </label>
+
+    <label>
+        <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.arme.portee">
+            {{selectOptions (getList 'portee') selected=systemData.arme.portee localize=true}}
+        </select>
+    </label>
+
+    <div class="dmg">
+        {{~> knight.cyberware.damage
+            label='degats'
+        }}
+    </div>
+
+    <div class="dmg">
+        {{~> knight.cyberware.damage
+            label='violence'
+        }}
+    </div>
+
+    <div class="blockEffets">
+        <h2 class="header">
+            {{localize "KNIGHT.EFFETS.Label"}}
+        </h2>
+
+        <div class="effets">
+            {{#each systemData.arme.effets.liste as | key effet|}}
+                {{~> knight.effets type='base'}}
+            {{/each}}
+            <a class="edit" data-action="editEffects" data-path="arme.effets">
+                <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+            </a>
+        </div>
+    </div>
+</div>

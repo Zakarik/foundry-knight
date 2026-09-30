@@ -9,7 +9,6 @@
     grid-gap: 5px;
     align-items: flex-start;
     align-content: flex-start;
-    padding-top: 5px;
 
     span {
         display: inline-block;
@@ -47,7 +46,7 @@
             div {
                 &.list {
                     display: grid;
-                    grid-template-columns: 1fr 100px 50px 20px;
+                    grid-template-columns: 1fr 150px 50px 20px;
                     align-items: center;
                     align-content:center;
                     grid-gap: 2px;

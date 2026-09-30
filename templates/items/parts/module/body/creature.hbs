@@ -1,0 +1,16 @@
+<div class="bodyTab pnj" data-tab="pnj" style="{{ifThen pnj.has '' 'display:none'}}">
+
+    <h2 class="header">
+        {{localize "KNIGHT.ITEMS.MODULE.PNJ.LabelP"}}
+
+        <a class="create" data-action="create" data-type="pnj" data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize 'KNIGHT.ITEMS.MODULE.PNJ.LabelP')}}">
+            <i class="fas fa-plus"></i>
+        </a>
+    </h2>
+    {{#each pnj.liste}}
+        <input type="hidden" name="system.niveau.details.{{../key}}.pnj.liste.{{@index}}" value="{{this}}" />
+    {{/each}}
+    {{#each pnj.data}}
+        {{~> knight.module.body.creature path=(concat "system." @root.paths.npc "." id)}}
+    {{/each}}
+</div>

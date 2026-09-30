@@ -1,0 +1,16 @@
+<div class="blessure">
+    <button type="action"
+        data-action="btnToggle"
+        class="btn {{ifThen systemData.soigne.implant 'selected' 'unselected'}}"
+        data-path="soigne.implant">
+        {{localize "KNIGHT.ITEMS.BLESSURETRAUMA.SoinImplant"}}
+        <i class="fa-solid {{ifThen systemData.soigne.implant 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+    <button type="action"
+        data-action="btnToggle"
+        class="btn {{ifThen systemData.soigne.reconstruction 'selected' 'unselected'}}"
+        data-path="soigne.reconstruction">
+        {{localize "KNIGHT.ITEMS.BLESSURETRAUMA.SoinReconstruction"}}
+        <i class="fa-solid {{ifThen systemData.soigne.reconstruction 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+</div>

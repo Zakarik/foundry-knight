@@ -1,0 +1,85 @@
+div.ersatz {
+    @include buttons('toggle');
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding-top: 5px;
+    grid-gap: 5px;
+
+    @include inputWithLabel();
+    @include selectWithLabel();
+
+    button.toggle,
+    >button.toggle.unselected {
+        border-radius: 0px;
+        border: 1px solid $lightBlue;
+    }
+
+    div {
+        &.rogue {
+            display: grid;
+            grid-template-columns: 1fr;
+            align-items: flex-start;
+            border: 1px solid $lightBlue;
+
+            button {
+                border: 0px;
+                border-radius: 0px;
+            }
+
+            div {
+                button.toggle {
+                    border-top: 1px solid $black;
+
+                    &.unselected {
+                        border-top: 1px solid $lightBlack;
+                    }
+                }
+
+                span {
+                    background: $lightBlack;
+                }
+
+                label,
+                div {
+                    span {
+                        border-top: 1px solid $black;
+                    }
+
+                    input,
+                    select {
+                        border-top: 1px solid $black;
+                    }
+                }
+
+                h3 {
+                    color: $white;
+                    margin: 0px;
+                    font-size: 16px;
+                    font-variant: small-caps;
+                    text-align: center;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                    border-top: 1px solid $lightBlack;
+                    border-bottom: 1px solid $lightBlack;
+                }
+
+                h3 + label {
+                    span,
+                    input {
+                        border-top: 0px;
+                    }
+                }
+
+                button.toggle.unselected + label {
+                    span,
+                    select {
+                        border-top: 1px solid $lightBlack;
+                    }
+                }
+            }
+        }
+    }
+}

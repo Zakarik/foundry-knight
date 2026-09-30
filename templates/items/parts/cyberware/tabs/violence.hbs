@@ -1,0 +1,56 @@
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="violence">
+    <button type="action"
+        data-action="btnToggle"
+        data-path="violence.withMetaArmure"
+        class="toggle {{ifThen systemData.violence.withMetaArmure 'selected' 'unselected'}} double">
+        <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+        <i class="fa-solid {{ifThen systemData.violence.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+    <select name="system.violence.type">
+        {{selectOptions (getList 'typebonus') selected=systemData.violence.type localize=true}}
+    </select>
+    <button
+        type="action"
+        data-action="btnToggle"
+        data-path="violence.variable.has"
+        class="toggle {{ifThen systemData.violence.variable.has 'selected' 'unselected'}}">
+        <span>{{localize "KNIGHT.ITEMS.MODULE.ARME.VIOLENCE.Variable"}}</span>
+        <i class="fa-solid {{ifThen systemData.violence.variable.has 'fa-check green' 'fa-xmark red'}}"></i>
+    </button>
+    {{#unless systemData.violence.variable.has}}
+    <div class="simple">
+        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.violence.dice" value="{{systemData.violence.dice}}" min="0" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"  data-dtype="Number"name="system.violence.fixe" value="{{systemData.violence.fixe}}" min="0" />
+        </div>
+    </div>
+    {{/unless}}
+    {{#if systemData.violence.variable.has}}
+    <div class="variable">
+        <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.DesMinimum"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.violence.variable.min.dice" value="{{systemData.violence.variable.min.dice}}" min="0" max="{{systemData.violence.variable.max.dice}}" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </div>
+        <span class="withSeparator">{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.DesMaximum"}}</span>
+        <div class="withSeparator">
+            <input type="number"  data-dtype="Number"name="system.violence.variable.max.dice" value="{{systemData.violence.variable.max.dice}}" min="{{systemData.violence.variable.min.dice}}" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </div>
+        <label class="withSeparator">
+            <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMinimum"}}</span>
+            <input type="number"  data-dtype="Number"name="system.violence.variable.min.fixe" value="{{systemData.violence.variable.min.fixe}}" min="0" max="{{systemData.violence.variable.max.fixe}}" />
+        </label>
+        <label class="withSeparator">
+            <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMaximum"}}</span>
+            <input type="number"  data-dtype="Number"name="system.violence.variable.max.fixe" value="{{systemData.violence.variable.max.fixe}}" min="{{systemData.violence.variable.min.fixe}}" />
+        </label>
+        <label class="withSeparator">
+            <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+            <input type="number"  data-dtype="Number"name="system.violence.variable.cout" value="{{systemData.violence.variable.cout}}" min="0" />
+        </label>
+    </div>
+    {{/if}}
+</div>

@@ -1,0 +1,73 @@
+<div class="main">
+    <div class="col">
+        <label class="twoLine">
+            <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+            <select name="system.niveau.details.{{key}}.activation">
+                {{selectOptions (getCFG 'LIST.activation') selected=activation localize=true}}
+            </select>
+        </label>
+
+        <div class="twoLine">
+            {{~> knight.item.btnToggle
+                value=secondmode.has
+                path=(concat "system.niveau.details." key ".secondmode.has")
+                localize="KNIGHT.ITEMS.MODULE.Secondmode"
+            }}
+
+            {{#if secondmode.has}}
+                <select name="system.niveau.details.{{key}}.secondmode.activation">
+                    {{selectOptions (getCFG 'LIST.activation') selected=secondmode.activation localize=true}}
+                </select>
+            {{/if}}
+        </div>
+
+        <div class="twoLine">
+            <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+            {{~> knight.item.btnToggle
+                value=permanent
+                path=(concat "system.niveau.details." key ".permanent")
+                localize="KNIGHT.ITEMS.MODULE.DUREE.Permanent"
+            }}
+            <textarea class="{{#if permanent}}hidden{{/if}}" data-type="duree" data-min="22" style="height:{{textarea.duree}}px;" name="system.niveau.details.{{key}}.duree">{{duree}}</textarea>
+        </div>
+    </div>
+
+    <div class="col">
+        <label class="oneLine">
+            <span>{{localize "KNIGHT.ITEMS.MODULE.RARETE.Label"}}</span>
+            <select name="system.niveau.details.{{key}}.rarete">
+                {{selectOptions (getCFG 'LIST.rarete') selected=rarete localize=true}}
+            </select>
+        </label>
+
+        <label class="oneLine">
+            <span>{{localize "KNIGHT.AUTRE.PointGloire"}}</span>
+            <input type="number"  data-dtype="Number" name="system.niveau.details.{{key}}.prix" value="{{prix}}" min="0" />
+        </label>
+
+        <div class="twoLine">
+            <span>
+                {{localize "KNIGHT.LATERAL.Energie"}}
+            </span>
+            <label class="oneLine">
+                <input class="label" type="text" name="system.niveau.details.{{key}}.energie.tour.label" value="{{energie.tour.label}}" />
+                <input type="number"  data-dtype="Number"name="system.niveau.details.{{key}}.energie.tour.value" value="{{energie.tour.value}}" min="0" />
+            </label>
+            <label class="oneLine">
+                <input class="label" type="text" name="system.niveau.details.{{key}}.energie.minute.label" value="{{energie.minute.label}}" />
+                <input type="number"  data-dtype="Number"name="system.niveau.details.{{key}}.energie.minute.value" value="{{energie.minute.value}}" min="0" />
+            </label>
+            <label class="oneLine">
+                <span>{{localize "KNIGHT.AUTRE.EnergieSupplementaire"}}</span>
+                <input type="number"  data-dtype="Number"name="system.niveau.details.{{key}}.energie.supplementaire" value="{{energie.supplementaire}}" min="0" />
+            </label>
+        </div>
+
+        <label class="oneLine">
+            <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+            <select name="system.niveau.details.{{key}}.portee">
+                {{selectOptions (getCFG 'LIST.porteecomplet') selected=portee localize=true}}
+            </select>
+        </label>
+    </div>
+</div>

@@ -12,9 +12,97 @@ form.item.avantage section.window-content {
     @import "../common/header";
 
     div {
+        &.sctImg {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 5px;
+
+            label {
+                display: grid;
+                grid-template-columns: 1fr;
+                border: 1px solid $lightBlue;
+
+                span {
+                    text-align: center;
+                    font-variant: small-caps;
+                    font-weight: bold;
+                    background: $lightBlue;
+                    font-size: 15px;
+                }
+
+                select {
+                    background: $black;
+                    color: $white;
+                    text-align: center;
+                    border: 0px;
+                    border-radius: 0px;
+                }
+            }
+        }
+
         &.body {
             grid-column: 1 / 3;
             border: 1px solid $lightBlue;
+        }
+
+        &.reduction {
+            grid-column: 1 / 3;
+            border: 1px solid $lightBlue;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: flex-start;
+            align-content: flex-start;
+            grid-gap: 5px;
+
+            div {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+
+                span {
+                    display: grid;
+                    background: $lightBlack;
+                    align-items: center;
+
+                    &.label {
+                        width: 100%;
+                        line-height: 26px;
+                        text-align: center;
+                        font-variant: small-caps;
+                        font-weight: bold;
+                        grid-column: 1 / 3;
+                        border-bottom: 1px solid $black;
+                    }
+                }
+
+                label {
+                    display: grid;
+                    grid-template-columns: 1fr 50px;
+
+                    span {
+                        padding-left: 5px;
+                    }
+
+                    input {
+                        margin: 0px;
+                        padding: 0px;
+                        text-align: center;
+                        height: 25px;
+                    }
+
+                    &:not(:first-of-type) {
+                        border-left: 1px solid $black;
+                    }
+                }
+
+                &:first-of-type {
+                    border-right: 1px solid $lightBlue;
+                }
+
+                &:last-of-type {
+                    border-left: 1px solid $lightBlue;
+                }
+            }
         }
 
         @import "../common/specialEffects";

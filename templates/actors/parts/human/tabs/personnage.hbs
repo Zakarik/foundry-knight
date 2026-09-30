@@ -14,7 +14,7 @@
                 <button type="action"
                 data-action="roll"
                 data-name="{{localize "KNIGHT.PERSONNAGE.MotivationAccomplie"}}"
-                data-value="1D6+{{systemData.espoir.recuperation.bonus}}-{{systemData.espoir.recuperation.malus}}"
+                data-value="1D6+{{sumObj systemData.espoir.recuperation.bonus}}-{{sumObj systemData.espoir.recuperation.malus}}"
                 data-updates-path="system.espoir.value"
                 data-updates-value="{{systemData.espoir.value}}+@{rollTotal}"
                 >{{localize "KNIGHT.PERSONNAGE.MotivationAccomplie"}}</button>

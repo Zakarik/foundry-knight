@@ -1,0 +1,13 @@
+form.item.motivationMineure section.window-content {
+    display: grid;
+    grid-template-columns: 212px 1fr;
+    grid-gap: 5px;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow: auto;
+
+    @include header();
+
+    @import "../common/img";
+    @import "../common/header";
+}
