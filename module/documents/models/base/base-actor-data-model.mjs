@@ -694,25 +694,15 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
   }
 
   preSanitizeData() {
-    const list = ["defense", "reaction", "champDeForce", "egide", "energie"];
+    const list = ["defense", "reaction", "champDeForce", "egide", "energie", "initiative"];
 
-    for (const s of list) {
-      if (this?.[s]) {
-        for (const m in this[s].bonus) {
+    const sanitize = (name, type) => {
+      const data = this?.[name]?.[type];
+      if (data) {
+        for (const m in this[name][type]) {
           if (m === "user") continue;
 
-          Object.defineProperty(this[s].bonus, m, {
-            value: 0,
-            writable: true,
-            enumerable: true,
-            configurable: true,
-          });
-        }
-
-        for (const m in this[s].malus) {
-          if (m === "user") continue;
-
-          Object.defineProperty(this[s].malus, m, {
+          Object.defineProperty(this[name][type], m, {
             value: 0,
             writable: true,
             enumerable: true,
@@ -720,6 +710,13 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
           });
         }
       }
+    };
+
+    for (const s of list) {
+      sanitize(s, "bonus");
+      sanitize(s, "diceBonus");
+      sanitize(s, "diceMalus");
+      sanitize(s, "malus");
     }
   }
 
