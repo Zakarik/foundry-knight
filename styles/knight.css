@@ -36914,6 +36914,48 @@ form.item.capacite section.window-content header.sheet-header div.description pr
   padding-left: 5px;
   padding-right: 5px;
 }
+form.item.capacite section.window-content nav {
+  width: 100%;
+  border-color: white;
+}
+form.item.capacite section.window-content nav a {
+  font-variant: small-caps;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+form.item.capacite section.window-content nav a.active {
+  background-color: RGB(87 110 178);
+}
+form.item.capacite section.window-content div.hLeft {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+form.item.capacite section.window-content div.hLeft button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  min-height: 32px;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  border-radius: 5px;
+}
+form.item.capacite section.window-content div.hLeft button.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.hLeft button.selected {
+  background: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.hLeft button i.red {
+  color: #C50000;
+}
+form.item.capacite section.window-content div.hLeft button i.green {
+  color: #59d13e;
+}
 
 .armure form.armureWindows {
   display: flex;

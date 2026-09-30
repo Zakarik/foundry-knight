@@ -2370,10 +2370,7 @@
           "Has": "Bonus lié à un aspect",
           "Hasnt": "Bonus non lié à un aspect"
         },
-        "ISPHASE2": {
-          "Has": "Est une capacité de phase 2",
-          "Hasnt": "N'est pas une capacité de phase 2"
-        },
+        "IsPhase2": "Est une capacité de phase 2 ?",
         "ASPECTSUPP": {
           "Label": "Aspect lié supplémentaire",
           "Has": "Ajoute un aspect aux capacités liées à un aspect",

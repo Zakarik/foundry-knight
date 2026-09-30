@@ -10,4 +10,17 @@ form.item.capacite section.window-content {
 
   @import "../common/img";
   @import "../common/header";
+  @import "../../parts/nav";
+
+  div {
+    &.hLeft {
+      @include buttons;
+
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 5px;
+      align-items: flex-start;
+      align-content: flex-start;
+    }
+  }
 }

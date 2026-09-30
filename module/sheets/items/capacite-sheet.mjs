@@ -15,14 +15,25 @@ export class CapaciteSheet extends BaseItemSheet {
 
   static PARTS = {
     img: {
-      template: "systems/knight/templates/items/parts/common/sections/img.hbs",
+      template: "systems/knight/templates/items/parts/capacite/sections/img.hbs",
     },
     header: {
       template: "systems/knight/templates/items/parts/common/sections/header.hbs",
     },
+    nav: { template: "templates/generic/tab-navigation.hbs" },
     /*body: {
       template: "systems/knight/templates/items/parts/art/body.hbs",
     },*/
+  };
+
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "modificateurs", label: "KNIGHT.LISTEFFECTS.Label" },
+        { id: "autre", label: "KNIGHT.AUTRE.Label" },
+      ],
+      initial: "modificateurs",
+    },
   };
 
   /** @inheritdoc */
@@ -48,6 +59,22 @@ export class CapaciteSheet extends BaseItemSheet {
   }*/
 
   /* -------------------------------------------- */
+
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+
+    switch (partId) {
+      case "header":
+        context.enrichedDescription =
+          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            context.document.system.description,
+            { async: true },
+          );
+        break;
+    }
+
+    return await super._preparePartContext(partId, context, options);
+  }
 
   _prepareEffets(context) {
     const dEffets = context.data.system.degats.effets;

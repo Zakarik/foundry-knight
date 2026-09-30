@@ -1,0 +1,16 @@
+<div class="hLeft">
+  <div class="img">
+    <img
+      class="profile-img"
+      data-action="editImage"
+      src="{{item.img}}"
+      data-edit="img"
+      data-tooltip="{{item.name}}"
+    />
+  </div>
+    {{~> knight.item.btnToggle
+        value=systemData.isPhase2
+        path=(concat "system.isPhase2")
+        localize="KNIGHT.ITEMS.CAPACITES.IsPhase2"
+    }}
+</div>

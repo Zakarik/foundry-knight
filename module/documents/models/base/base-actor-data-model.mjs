@@ -528,6 +528,7 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
   prepareBaseData() {
     super.prepareBaseData();
+    this.preSanitizeData();
 
     //HOOK pour le début de PrepareData
     this._startPrepareData();
@@ -690,6 +691,36 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
     const getAllSpecialEffects = getActiveEffects();
     await processAEUpdate(this, getAllSpecialEffects, "blessure");
+  }
+
+  preSanitizeData() {
+    const list = ["defense", "reaction", "champDeForce", "egide", "energie"];
+
+    for (const s of list) {
+      if (this?.[s]) {
+        for (const m in this[s].bonus) {
+          if (m === "user") continue;
+
+          Object.defineProperty(this[s].bonus, m, {
+            value: 0,
+            writable: true,
+            enumerable: true,
+            configurable: true,
+          });
+        }
+
+        for (const m in this[s].malus) {
+          if (m === "user") continue;
+
+          Object.defineProperty(this[s].malus, m, {
+            value: 0,
+            writable: true,
+            enumerable: true,
+            configurable: true,
+          });
+        }
+      }
+    }
   }
 
   /* -------------------------------------------- */
