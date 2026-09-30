@@ -1,117 +1,194 @@
-import BaseArmeSheet from "../bases/base-arme-sheet.mjs";
+import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
+import ArmeMixinSheet from "../bases/items/mixin-arme-sheet.mjs";
+import EffectsMixin from "../bases/items/mixin-item-effects.mjs";
+import SpecialEffectsMixin from "../bases/items/mixin-item-specialEffects.mjs";
 import concatHtml from "../../utils/generateHTML.mjs";
 import PatchBuilder from "../../utils/patchBuilder.mjs";
 
 /**
  * @extends {ItemSheet}
  */
-export class CyberwareSheet extends BaseArmeSheet {
+export class CyberwareSheet extends SpecialEffectsMixin(
+  ArmeMixinSheet(EffectsMixin(BaseItemSheet)),
+) {
+  constructor(options = {}) {
+    super(options);
+
+    // État local de l'onglet "niveau" actif
+    this._activeMTab = null;
+    this._activeBodyTab = null;
+    this.#dragDrop = this.#createDragDropHandlers();
+  }
 
   /** @inheritdoc */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "item", "cyberware"],
-      template: "systems/knight/templates/items/cyberware-sheet.html",
-      width: 900,
-      height: 800,
-      scrollY: [".attributes"],
+  static DEFAULT_OPTIONS = {
+    classes: ["cyberware"],
+    position: { width: 900, height: 800 },
+    scrollY: [".attributes"],
+    actions: {},
+    dragDrop: [{ dragSelector: null, dropSelector: null }],
+  };
+
+  static PARTS = {
+    img: {
+      template: "systems/knight/templates/items/parts/common/sections/img.hbs",
+    },
+    header: {
+      template: "systems/knight/templates/items/parts/common/sections/header.hbs",
+    },
+    menuleft: {
+      template: "systems/knight/templates/items/parts/cyberware/menuLeft.hbs",
+    },
+    nav: { template: "templates/generic/tab-navigation.hbs" },
+    arme: {
+      template: "systems/knight/templates/items/parts/cyberware/tabs/arme.hbs",
+      classes: ["tab", "arme"],
+    },
+    module: {
+      template: "systems/knight/templates/items/parts/cyberware/tabs/module.hbs",
+      classes: ["tab", "module"],
+    },
+    degats: {
+      template: "systems/knight/templates/items/parts/cyberware/tabs/degats.hbs",
+      classes: ["tab", "degats"],
+    },
+    violence: {
+      template: "systems/knight/templates/items/parts/cyberware/tabs/violence.hbs",
+      classes: ["tab", "violence"],
+    },
+    soin: {
+      template: "systems/knight/templates/items/parts/cyberware/tabs/soin.hbs",
+      classes: ["tab", "soin"],
+    },
+    recuperation: {
+      template: "systems/knight/templates/items/parts/cyberware/tabs/recuperation.hbs",
+      classes: ["tab", "recuperation"],
+    },
+    effects: {
+      template: "systems/knight/templates/items/parts/cyberware/tabs/effects.hbs",
+      classes: ["tab", "effects"],
+    },
+  };
+
+  static TABS = {
+    primary: {
       tabs: [
-        {navSelector: ".sheet-tabs", contentSelector: ".body", initial: ""},
+        { id: "arme", label: "KNIGHT.CYBERWARE.MENU.Arme" },
+        { id: "module", label: "KNIGHT.CYBERWARE.MENU.Module" },
+        { id: "degats", label: "KNIGHT.CYBERWARE.MENU.Degats" },
+        { id: "violence", label: "KNIGHT.CYBERWARE.MENU.Violence" },
+        { id: "soin", label: "KNIGHT.CYBERWARE.MENU.Soin" },
+        { id: "recuperation", label: "KNIGHT.CYBERWARE.MENU.Recuperation" },
+        { id: "effects", label: "KNIGHT.CYBERWARE.MENU.Effects" },
       ],
-      dragDrop: [{ dragSelector: ".item-list", dropSelector: null }],
+      initial: "arme",
+    },
+  };
+
+  #dragDrop;
+
+  #createDragDropHandlers() {
+    const DragDrop = foundry.applications.ux.DragDrop.implementation; // v13
+    // En v12 : const DragDrop = globalThis.DragDrop;
+
+    return this.options.dragDrop.map((d) => {
+      d.permissions = {
+        dragstart: () => false,
+        drop: () => this.isEditable,
+      };
+      d.callbacks = {
+        drop: this._onDrop.bind(this),
+      };
+      return new DragDrop(d);
     });
   }
 
-  /* -------------------------------------------- */
-
   /** @inheritdoc */
-  getData() {
-    const context = super.getData();
+  get specialEffectsPath() {
+    return "system.effects";
+  }
 
-    context.systemData = context.data.system;
-    const actor = context.item.system.actor;
-    context.degats = {
-      base:concatHtml('degats', {
-        systemPath:'system.arme',
-        arme:context.systemData.arme
-      }),
+  get effectsPath() {
+    return ["system.arme.effets"];
+  }
+
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+    context.tab = context.tabs[partId];
+
+    switch (partId) {
+      case "header":
+        context.enrichedDescription =
+          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            context.document.system.description,
+            { async: true },
+          );
+        break;
+
+      case "effects":
+        context.enrichedEffects =
+          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            context.document.system.effects.other,
+            { async: true },
+          );
+        break;
     }
 
-    context.violence = {
-      base:concatHtml('violence', {
-        systemPath:'system.arme',
-        arme:context.systemData.arme
-      }),
-    }
+    return await super._preparePartContext(partId, context, options);
+  }
 
-    context.blessures = {
-      '':'',
-    }
+  _prepareTabs(group) {
+    const tabs = super._prepareTabs(group);
 
-    if(actor) {
-      const filterItm = actor.items.filter(itm =>
-        itm.type === 'blessure' &&
-        ((!itm.system.soigne.implant && !itm.system.soigne.reconstruction) ||
-        itm.id === context.data.system.soin.blessuresSoignees));
-      for(let b of filterItm) {
-          context.blessures[b._id] = b.name.replace(` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`, "");
+    if (group === "primary") {
+      const data = this.item.system;
+      let initial = false;
+
+      for (let t in tabs) {
+        if (!data?.[t]?.has) delete tabs[t];
+      }
+
+      const availableIds = Object.keys(tabs);
+
+      // Si l'onglet actif n'existe plus (ou n'a jamais été défini), on bascule sur le premier dispo
+      if (!availableIds.includes(this.tabGroups.primary)) {
+        this.tabGroups.primary = availableIds[0] ?? null;
+      }
+
+      for (const t of availableIds) {
+        const isActive = t === this.tabGroups.primary;
+        tabs[t].active = isActive;
+        tabs[t].cssClass = isActive ? "active" : "";
       }
     }
 
-    console.error(context);
-
-    return context;
+    return tabs;
   }
 
-  /* -------------------------------------------- */
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const tabs = this?.constructor?.TABS?.primary?.tabs ?? [];
+    const count = tabs.filter((t) => this.item.system?.[t.id]?.has).length;
 
-  /** @inheritdoc */
-	activateListeners(html) {
-    super.activateListeners(html);
+    if (count === 0)
+      this.element.querySelectorAll("nav").forEach((el) => el.style.setProperty("display", "none"));
 
-    // Everything below here is only needed if the sheet is editable
-    if ( !this.isEditable ) return;
+    const inputToQuery = ["degatsF", "violenceF"];
 
-    html.find('button.toggle').click(ev => {
-      const tgt = $(ev.currentTarget);
-      const path = tgt.data("path");
-      const item = this.item;
-      const value = !foundry.utils.getProperty(item, path);
-
-      item.update({[path]:value});
-    });
-
-    html.find('button.add').click(ev => {
-      const tgt = $(ev.currentTarget);
-      const path = tgt.data("path");
-      const defaultValuePath = path.split(".")
-                              .slice(0, -1)
-                              .join(".");
-      const item = this.item;
-      const array = foundry.utils.getProperty(item, path);
-      const arrayDefaultField = foundry.utils.getProperty(item, `${defaultValuePath}.defaultListValue`);
-
-      array.push(arrayDefaultField);
-      item.update({[path]:array});
-    });
-
-    html.find('div.menuLeft button.menuV').click(ev => {
-      const tgt = $(ev.currentTarget);
-      const type = tgt.data("type");
-      const item = this.item;
-      const value = item.system[type]?.has ?? false;
-
-      item.update({[`system.${type}.has`]:!value});
-    });
-
-    html.find('div.effects div.list .delete').click(ev => {
-      const tgt = $(ev.currentTarget);
-      const index = tgt.data("index");
-      const list = this.item.system.effects.list;
-      list.splice(index, 1);
-
-      this.item.update({[`system.effects.list`]:list});
-    });
+    for (let n of inputToQuery) {
+      this.element.querySelectorAll(`.${n}`).forEach((input) => {
+        console.error("test");
+        input.addEventListener("change", (event) => {
+          const valeur = event.target.value;
+          console.error(valeur);
+          this.element.querySelectorAll(`.${n}`).forEach((el) => {
+            console.error(el, event.target);
+            if (el !== event.target) el.value = valeur;
+          });
+        });
+      });
+    }
+    this.#dragDrop.forEach((d) => d.bind(this.element));
   }
 
   /** Réagir au drop */
@@ -120,18 +197,18 @@ export class CyberwareSheet extends BaseArmeSheet {
     const data = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (!data) return;
     const item = await foundry.utils.fromUuid(data.uuid);
-    if(!item) return;
+    if (!item) return;
 
-    if(item.type !== 'arme') return;
+    if (item.type !== "arme") return;
 
     let pb = new PatchBuilder();
-    pb.sys('arme.has', true);
-    pb.sys('arme.type', item.system.type);
-    pb.sys('arme.portee', item.system.portee);
-    pb.sys('arme.optionsmunitions', item.system.optionsmunitions);
-    pb.sys('arme.degats', item.system.degats);
-    pb.sys('arme.violence', item.system.violence);
-    pb.sys('arme.effets', item.system.effets);
+    pb.sys("arme.has", true);
+    pb.sys("arme.type", item.system.type);
+    pb.sys("arme.portee", item.system.portee);
+    pb.sys("arme.optionsmunitions", item.system.optionsmunitions);
+    pb.sys("arme.degats", item.system.degats);
+    pb.sys("arme.violence", item.system.violence);
+    pb.sys("arme.effets", item.system.effets);
     pb.applyTo(this.item);
   }
 }

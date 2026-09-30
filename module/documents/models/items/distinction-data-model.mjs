@@ -1,19 +1,25 @@
-export class DistinctionDataModel extends foundry.abstract.TypeDataModel {
-	static defineSchema() {
-		const {HTMLField, NumberField} = foundry.data.fields;
+import ItemSpecialEffectsPathMixinModel from "../base/mixin-item-specialEffects-path-model.mjs";
+import ItemSpecialEffectsInternalMixinModel from "../base/mixin-item-specialEffects-internal-model.mjs";
+import BaseItemDataModel from "../base/base-item-data-model.mjs";
+import { combine } from '../../../utils/field-builder.mjs';
 
-        return {
-            description:new HTMLField({initial:''}),
-            espoir:new NumberField({initial:0, nullable:false, integer:true}),
-            egide:new NumberField({initial:0, nullable:false, integer:true}),
+export class DistinctionDataModel extends ItemSpecialEffectsPathMixinModel(ItemSpecialEffectsInternalMixinModel(BaseItemDataModel)) {
+    static get baseDefinition() {
+        const base = super.baseDefinition;
+
+        const specific = {
+            espoir:["num", { initial: 0, integer: true, nullable: false }],
+            egide:["num", { initial: 0, integer: true, nullable: false }],
         }
+
+        return combine(base, specific);
     }
 
-    prepareBaseData() {
+    get listEffect() {
+        return this.effects.list;
+    }
 
-	}
-
-	prepareDerivedData() {
-
+    get hasEffects() {
+        return true;
     }
 }

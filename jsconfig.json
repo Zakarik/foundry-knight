@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "checkJs": false,
+    "allowJs": true,
+    "types": ["@league-of-foundry-developers/foundry-vtt-types"]
+  },
+  "exclude": ["node_modules"]
+}

@@ -13,11 +13,16 @@ export class CaracteristiqueDataModel extends foundry.abstract.DataModel {
         }),
         value:new NumberField({ initial: 0, integer: true, nullable: false }),
         override:new ObjectField(),
+        divide:new ObjectField(),
         overdrive:new SchemaField({
             base:new NumberField({ initial: 0, integer: true, nullable: false }),
+            baseBonus:new ObjectField(),
+            baseMalus:new ObjectField(),
+            baseOverride:new ObjectField(),
             bonus:new ObjectField(),
             malus:new ObjectField(),
             override:new ObjectField(),
+            divide:new ObjectField(),
             value:new NumberField({ initial: 0, integer: true, nullable: false }),
         }),
       };
@@ -37,6 +42,21 @@ export class CaracteristiqueDataModel extends foundry.abstract.DataModel {
     return override;
   }
 
+  get baseOverdrive() {
+    let base = this.overdrive.base;
+    const bonus = Object.values(this.overdrive.baseBonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+    const malus = Object.values(this.overdrive.baseMalus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+    const override = Object.values(this.overdrive.baseOverride).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
+
+    if(override > 0) base = override;
+    else {
+      base += bonus;
+      base -= malus;
+    }
+
+    return Math.max(base, 0);
+  }
+
   prepareData(aspect) {
     const overrideC = this.hasOverrideC;
     const overrideO = this.hasOverrideO;
@@ -49,11 +69,18 @@ export class CaracteristiqueDataModel extends foundry.abstract.DataModel {
   }
 
   _overdriveSum() {
+    const divide = Object.values(this.overdrive.divide).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
     const bonusOverdrive = Object.values(this.overdrive.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
     const malusOverdrive = Object.values(this.overdrive.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+    const mod = divide > 0 ? Math.floor((bonusOverdrive - malusOverdrive) / divide) : (bonusOverdrive - malusOverdrive);
+    const base = this.baseOverdrive;
+
+    Object.defineProperty(this.overdrive, 'base', {
+      value: base,
+    });
 
     Object.defineProperty(this.overdrive, 'value', {
-      value: Math.max(this.overdrive.base+bonusOverdrive-malusOverdrive, 0),
+      value: Math.max(base + mod, 0),
     });
   }
 
@@ -64,13 +91,15 @@ export class CaracteristiqueDataModel extends foundry.abstract.DataModel {
   }
 
   _caracteristiqueSum(aspect) {
+      const divide = Object.values(this.divide).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
       const bonus = Object.values(this.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
       const malus = Object.values(this.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
       const bonusOpti = Object.values(this.optimisation.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
       const malusOpti = Object.values(this.optimisation.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      const base = divide > 0 ? Math.floor(this.base/divide) : this.base;
 
       Object.defineProperty(this, 'value', {
-        value: Math.max(Math.min(aspect, this.base+bonus-malus)+(bonusOpti-malusOpti), 0),
+        value: Math.max(Math.min(aspect, base+bonus-malus)+(bonusOpti-malusOpti), 0),
       });
   }
 

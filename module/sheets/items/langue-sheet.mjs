@@ -1,37 +1,37 @@
+import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
+
 /**
- * @extends {ItemSheet}
+ * @extends {BaseItemSheet}
  */
-export class LangueSheet extends ItemSheet {
-
+export class LangueSheet extends BaseItemSheet {
   /** @inheritdoc */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "item", "langue"],
-      template: "systems/knight/templates/items/langue-sheet.html",
-      width: 700,
-      height: 120,
-      scrollY: [".attributes"],
-    });
+  static DEFAULT_OPTIONS = {
+    classes: ["langue"],
+    position: { width: 700, height: 400 },
+    scrollY: [".attributes"],
+    actions:{}
   }
+
+  static PARTS = {
+    img: {
+        template: "systems/knight/templates/items/parts/common/sections/img.hbs"
+    },
+    header: {
+        template: "systems/knight/templates/items/parts/common/sections/header.hbs"
+    },
+  };
 
   /* -------------------------------------------- */
 
-  /** @inheritdoc */
-  getData() {
-    const context = super.getData();
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
 
-    context.systemData = context.data.system;
+    switch(partId) {
+      case 'header':
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.document.system.description, { async: true, });
+        break;
+    }
 
-    return context;
-  }
-
-  /* -------------------------------------------- */
-
-  /** @inheritdoc */
-	activateListeners(html) {
-    super.activateListeners(html);
-
-    // Everything below here is only needed if the sheet is editable
-    if ( !this.isEditable ) return;
+    return await super._preparePartContext(partId, context, options);
   }
 }

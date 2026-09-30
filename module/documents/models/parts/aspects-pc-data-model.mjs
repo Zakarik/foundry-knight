@@ -22,7 +22,12 @@ export class AspectsPCDataModel extends foundry.abstract.DataModel {
             malus:new ObjectField(),
           }),
           override:new ObjectField(),
+          divide:new ObjectField(),
           max:new NumberField({ initial: 9, integer: true, nullable: false }),
+          bonusMax:new ObjectField(),
+          malusMax:new ObjectField(),
+          overrideMax:new ObjectField(),
+          divideMax:new ObjectField(),
           value:new NumberField({ initial: 0, integer: true, nullable: false }),
           description:new StringField({ initial: ""}),
           caracteristiques:new SchemaField(caracteristiques),
@@ -33,20 +38,27 @@ export class AspectsPCDataModel extends foundry.abstract.DataModel {
     }
 
     prepareData() {
+      this.#prepareMax();
+      this.#prepareValue();
+    }
+
+    #prepareValue() {
       for(let a in this) {
         const override = Object.values(this[a].override).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
 
         if(!override) {
+          const divide = Object.values(this[a].divide).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
           const bonus = Object.values(this[a].bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
           const malus = Object.values(this[a].malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
           const bonusOpti = Object.values(this[a].optimisation.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
           const malusOpti = Object.values(this[a].optimisation.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+          const base = divide > 0 ? Math.floor(this[a].base/divide) : this[a].base;
 
           Object.defineProperty(this[a], 'mod', {
               value: bonus-malus,
           });
 
-          const value = Math.max(this[a].base+this[a].mod, 0);
+          const value = Math.max(base+this[a].mod, 0);
 
           Object.defineProperty(this[a], 'value', {
               value: Math.max(Math.min(value, this[a].max)+(bonusOpti-malusOpti), 0),
@@ -63,6 +75,29 @@ export class AspectsPCDataModel extends foundry.abstract.DataModel {
           for(let c in this[a].caracteristiques) {
             this[a].caracteristiques[c].prepareData(this[a].value);
           }
+        }
+      }
+    }
+
+    #prepareMax() {
+      for(let a in this) {
+        const override = Object.values(this[a].overrideMax).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
+
+        if(!override) {
+          const divide = Object.values(this[a].divideMax).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
+          const bonus = Object.values(this[a].bonusMax).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+          const malus = Object.values(this[a].malusMax).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+          const base = divide > 0 ? Math.floor(this[a].max / divide) : this[a].max;
+          const mod = bonus - malus;
+          const max = Math.max(base + mod, 0);
+
+          Object.defineProperty(this[a], 'max', {
+              value: max,
+          });
+        } else {
+          Object.defineProperty(this[a], 'max', {
+              value: override,
+          });
         }
       }
     }

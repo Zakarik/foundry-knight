@@ -1,4 +1,8 @@
-import { BaseArmeDataModel } from "../base/base-arme-data-model.mjs";
+import ItemSpecialEffectsPathMixinModel from "../base/mixin-item-specialEffects-path-model.mjs";
+import ItemSpecialEffectsInternalMixinModel from "../base/mixin-item-specialEffects-internal-model.mjs";
+import BaseItemDataModel from "../base/base-item-data-model.mjs";
+import ArmePathMixinModel from "../base/mixin-arme-path-model.mjs";
+import ArmeInternalMixinModel from "../base/mixin-arme-internal-model.mjs";
 import { combine } from '../../../utils/field-builder.mjs';
 import { EFFECTSFIELD, DGTSVIOLENCEFIELD, OPTIONSMUNITIONS } from "../base/base-fields-models.mjs";
 import {
@@ -8,9 +12,7 @@ import {
 } from "../../../helpers/common.mjs";
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
 
-export class CyberwareDataModel extends BaseArmeDataModel {
-    // Pour Héritage
-    // Extension : on ajoute/modifie
+export class CyberwareDataModel extends ItemSpecialEffectsPathMixinModel(ItemSpecialEffectsInternalMixinModel(ArmePathMixinModel(ArmeInternalMixinModel(BaseItemDataModel)))) {
     static get baseDefinition() {
         const base = super.baseDefinition;
         const specific = {
@@ -37,6 +39,11 @@ export class CyberwareDataModel extends BaseArmeDataModel {
             soin:["schema", {
                 has:["bool", { initial: false}],
                 blessuresSoignees:["str", { initial: "", nullable:false}],
+                blessures:["obj", {
+                    initial:{
+                        '':'',
+                    }
+                }],
             }],
             recuperation:["schema", {
                 has:["bool", { initial: false}],
@@ -124,16 +131,6 @@ export class CyberwareDataModel extends BaseArmeDataModel {
             effects:["schema", {
                 has:["bool", { initial: false}],
                 other:["html", { initial: ""}],
-                list:["arr", ["schema", {
-                    type:["str", { initial: "add", nullable:false}],
-                    path:["str", { initial: "", nullable:false}],
-                    value:["str", {initial:'0', nullable:false}],
-                }]],
-                defaultListValue:["arr", ["schema", {
-                    type:["str", { initial: "add", nullable:false}],
-                    path:["str", { initial: "", nullable:false}],
-                    value:["str", {initial:'0', nullable:false}],
-                }]],
             }]
         }
 
@@ -153,22 +150,16 @@ export class CyberwareDataModel extends BaseArmeDataModel {
         return result;
     }
 
-    get getAllEffects() {
-        const effects = this.effects;
-        let result = [];
+    get listEffect() {
+        return this.effects.list;
+    }
 
-        if(effects.has) {
-            if(this.optimisation.has) {
-                result = this.effects.list.map(e => ({
-                    ...e,
-                    path: e.path && e.path.includes('aspects') && !e.path.includes('overdrive') && !e.type.includes('override') ? `${e.path}.optimisation` : e.path
-                }))
-            } else {
-                result = this.effects.list;
-            }
-        }
+    get hasEffects() {
+        return true;
+    }
 
-        return result;
+    get hasOptimisation() {
+        return this.optimisation.has;
     }
 
     get wpn() {
@@ -206,6 +197,7 @@ export class CyberwareDataModel extends BaseArmeDataModel {
     prepareBaseData() {
         const recuperation = this.recuperation;
         const activation = this.activation;
+        const actor = this.actor;
 
         if(recuperation.limite.value > recuperation.limite.max) {
             Object.defineProperty(recuperation.limite, 'value', {
@@ -217,6 +209,17 @@ export class CyberwareDataModel extends BaseArmeDataModel {
             Object.defineProperty(this, 'active', {
                 value: true,
             });
+        }
+
+        if(actor) {
+            const filterItm = actor.items.filter(itm =>
+                itm.type === 'blessure' &&
+                ((!itm.system.soigne.implant && !itm.system.soigne.reconstruction) ||
+                itm.id === this.soin.blessuresSoignees));
+
+            for(let b of filterItm) {
+                this.blessures[b._id] = b.name.replace(` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`, "");
+            }
         }
 	}
 

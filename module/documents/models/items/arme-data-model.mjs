@@ -3,12 +3,12 @@ import {
 } from "../../../helpers/common.mjs";
 
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
-import { BaseArmeDataModel } from "../base/base-arme-data-model.mjs";
+import BaseItemDataModel from "../base/base-item-data-model.mjs";
+import ArmePathMixinModel from "../base/mixin-arme-path-model.mjs";
+import ArmeInternalMixinModel from "../base/mixin-arme-internal-model.mjs";
 import { combine } from '../../../utils/field-builder.mjs';
 
-export class ArmeDataModel extends BaseArmeDataModel {
-  // Pour Héritage
-  // Extension : on ajoute/modifie
+export class ArmeDataModel extends ArmePathMixinModel(ArmeInternalMixinModel(BaseItemDataModel)) {
   static get baseDefinition() {
     const base = super.baseDefinition;
     const specific = {
@@ -196,9 +196,6 @@ export class ArmeDataModel extends BaseArmeDataModel {
         update['system.rack'] = true;
         break;
     }
-
-    console.error(update);
-    console.error(type);
 
     item.update(update);
   }

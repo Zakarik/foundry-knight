@@ -3,8 +3,7 @@
  * Pre-loaded templates are compiled and cached for fast access when rendering
  * @return {Promise}
  */
-export const PreloadTemplates = async function() {
-
+export const PreloadTemplates = async function () {
   const path = `systems/knight/templates`;
 
   // Define template paths to load
@@ -171,7 +170,9 @@ export const PreloadTemplates = async function() {
     "knight.subMenu": `${path}/actors/parts/common/sections/parts/submenu.hbs`,
     "knight.npc.capacite": `${path}/actors/parts/npc/sections/capacite.hbs`,
     "knight.npc.aspectsExceptionnels": `${path}/actors/parts/npc/sections/aspectsExceptionnels.hbs`,
-  }
+    "knight.item.btnToggleArray": `${path}/items/parts/common/sections/btnToggleArray.hbs`,
+    "knight.item.btnToggle": `${path}/items/parts/common/sections/btnToggle.hbs`,
+  };
 
   const humanPartials = {
     "knight.cyberware": `${path}/actors/parts/human/sections/cyberware.hbs`,
@@ -182,75 +183,75 @@ export const PreloadTemplates = async function() {
   };
 
   const actorCapacitesPartials = {
-    'knight.actor.capacites.ascension':`${path}/actors/parts/human/sections/capacites/ascension.hbs`,
-    'knight.actor.capacites.sarcophage':`${path}/actors/parts/human/sections/capacites/sarcophage.hbs`,
-    'knight.actor.capacites.shrine':`${path}/actors/parts/human/sections/capacites/shrine.hbs`,
-    'knight.actor.capacites.personnalise':`${path}/actors/parts/human/sections/capacites/personnalise.hbs`,
-    'knight.actor.capacites.borealis':`${path}/actors/parts/human/sections/capacites/borealis.hbs`,
-    'knight.actor.capacites.changeling':`${path}/actors/parts/human/sections/capacites/changeling.hbs`,
-    'knight.actor.capacites.companions':`${path}/actors/parts/human/sections/capacites/companions.hbs`,
-    'knight.actor.capacites.cea':`${path}/actors/parts/human/sections/capacites/cea.hbs`,
-    'knight.actor.capacites.discord':`${path}/actors/parts/human/sections/capacites/discord.hbs`,
-    'knight.actor.capacites.falcon':`${path}/actors/parts/human/sections/capacites/falcon.hbs`,
-    'knight.actor.capacites.forward':`${path}/actors/parts/human/sections/capacites/forward.hbs`,
-    'knight.actor.capacites.ghost':`${path}/actors/parts/human/sections/capacites/ghost.hbs`,
-    'knight.actor.capacites.goliath':`${path}/actors/parts/human/sections/capacites/goliath.hbs`,
-    'knight.actor.capacites.illumination':`${path}/actors/parts/human/sections/capacites/illumination.hbs`,
-    'knight.actor.capacites.longbow':`${path}/actors/parts/human/sections/capacites/longbow.hbs`,
-    'knight.actor.capacites.mechanic':`${path}/actors/parts/human/sections/capacites/mechanic.hbs`,
-    'knight.actor.capacites.morph':`${path}/actors/parts/human/sections/capacites/morph.hbs`,
-    'knight.actor.capacites.oriflamme':`${path}/actors/parts/human/sections/capacites/oriflamme.hbs`,
-    'knight.actor.capacites.puppet':`${path}/actors/parts/human/sections/capacites/puppet.hbs`,
-    'knight.actor.capacites.rage':`${path}/actors/parts/human/sections/capacites/rage.hbs`,
-    'knight.actor.capacites.record':`${path}/actors/parts/human/sections/capacites/record.hbs`,
-    'knight.actor.capacites.rewind':`${path}/actors/parts/human/sections/capacites/rewind.hbs`,
-    'knight.actor.capacites.totem':`${path}/actors/parts/human/sections/capacites/totem.hbs`,
-    'knight.actor.capacites.warlord':`${path}/actors/parts/human/sections/capacites/warlord.hbs`,
-    'knight.actor.capacites.watchtower':`${path}/actors/parts/human/sections/capacites/watchtower.hbs`,
-    'knight.actor.capacites.windtalker':`${path}/actors/parts/human/sections/capacites/windtalker.hbs`,
-    'knight.actor.capacites.zen':`${path}/actors/parts/human/sections/capacites/zen.hbs`,
-    'knight.actor.capacites.nanoc':`${path}/actors/parts/human/sections/capacites/nanoc.hbs`,
-    'knight.actor.capacites.type':`${path}/actors/parts/human/sections/capacites/type.hbs`,
-    'knight.actor.capacites.vision':`${path}/actors/parts/human/sections/capacites/vision.hbs`,
+    "knight.actor.capacites.ascension": `${path}/actors/parts/human/sections/capacites/ascension.hbs`,
+    "knight.actor.capacites.sarcophage": `${path}/actors/parts/human/sections/capacites/sarcophage.hbs`,
+    "knight.actor.capacites.shrine": `${path}/actors/parts/human/sections/capacites/shrine.hbs`,
+    "knight.actor.capacites.personnalise": `${path}/actors/parts/human/sections/capacites/personnalise.hbs`,
+    "knight.actor.capacites.borealis": `${path}/actors/parts/human/sections/capacites/borealis.hbs`,
+    "knight.actor.capacites.changeling": `${path}/actors/parts/human/sections/capacites/changeling.hbs`,
+    "knight.actor.capacites.companions": `${path}/actors/parts/human/sections/capacites/companions.hbs`,
+    "knight.actor.capacites.cea": `${path}/actors/parts/human/sections/capacites/cea.hbs`,
+    "knight.actor.capacites.discord": `${path}/actors/parts/human/sections/capacites/discord.hbs`,
+    "knight.actor.capacites.falcon": `${path}/actors/parts/human/sections/capacites/falcon.hbs`,
+    "knight.actor.capacites.forward": `${path}/actors/parts/human/sections/capacites/forward.hbs`,
+    "knight.actor.capacites.ghost": `${path}/actors/parts/human/sections/capacites/ghost.hbs`,
+    "knight.actor.capacites.goliath": `${path}/actors/parts/human/sections/capacites/goliath.hbs`,
+    "knight.actor.capacites.illumination": `${path}/actors/parts/human/sections/capacites/illumination.hbs`,
+    "knight.actor.capacites.longbow": `${path}/actors/parts/human/sections/capacites/longbow.hbs`,
+    "knight.actor.capacites.mechanic": `${path}/actors/parts/human/sections/capacites/mechanic.hbs`,
+    "knight.actor.capacites.morph": `${path}/actors/parts/human/sections/capacites/morph.hbs`,
+    "knight.actor.capacites.oriflamme": `${path}/actors/parts/human/sections/capacites/oriflamme.hbs`,
+    "knight.actor.capacites.puppet": `${path}/actors/parts/human/sections/capacites/puppet.hbs`,
+    "knight.actor.capacites.rage": `${path}/actors/parts/human/sections/capacites/rage.hbs`,
+    "knight.actor.capacites.record": `${path}/actors/parts/human/sections/capacites/record.hbs`,
+    "knight.actor.capacites.rewind": `${path}/actors/parts/human/sections/capacites/rewind.hbs`,
+    "knight.actor.capacites.totem": `${path}/actors/parts/human/sections/capacites/totem.hbs`,
+    "knight.actor.capacites.warlord": `${path}/actors/parts/human/sections/capacites/warlord.hbs`,
+    "knight.actor.capacites.watchtower": `${path}/actors/parts/human/sections/capacites/watchtower.hbs`,
+    "knight.actor.capacites.windtalker": `${path}/actors/parts/human/sections/capacites/windtalker.hbs`,
+    "knight.actor.capacites.zen": `${path}/actors/parts/human/sections/capacites/zen.hbs`,
+    "knight.actor.capacites.nanoc": `${path}/actors/parts/human/sections/capacites/nanoc.hbs`,
+    "knight.actor.capacites.type": `${path}/actors/parts/human/sections/capacites/type.hbs`,
+    "knight.actor.capacites.vision": `${path}/actors/parts/human/sections/capacites/vision.hbs`,
   };
 
   const actorCapacitesLegendsPartials = {
-    'knight.actor.capacitesLegends.personnalise':`${path}/actors/parts/human/sections/capacitesLegende/personnalise.hbs`,
-    'knight.actor.capacitesLegends.shrine':`${path}/actors/parts/human/sections/capacitesLegende/shrine.hbs`,
-    'knight.actor.capacitesLegends.changeling':`${path}/actors/parts/human/sections/capacitesLegende/changeling.hbs`,
-    'knight.actor.capacitesLegends.companions':`${path}/actors/parts/human/sections/capacitesLegende/companions.hbs`,
-    'knight.actor.capacitesLegends.discord':`${path}/actors/parts/human/sections/capacitesLegende/discord.hbs`,
-    'knight.actor.capacitesLegends.falcon':`${path}/actors/parts/human/sections/capacitesLegende/falcon.hbs`,
-    'knight.actor.capacitesLegends.record':`${path}/actors/parts/human/sections/capacitesLegende/record.hbs`,
-    'knight.actor.capacitesLegends.rewind':`${path}/actors/parts/human/sections/capacitesLegende/rewind.hbs`,
-    'knight.actor.capacitesLegends.goliath':`${path}/actors/parts/human/sections/capacitesLegende/goliath.hbs`,
-    'knight.actor.capacitesLegends.ghost':`${path}/actors/parts/human/sections/capacitesLegende/ghost.hbs`,
-    'knight.actor.capacitesLegends.mechanic':`${path}/actors/parts/human/sections/capacitesLegende/mechanic.hbs`,
-    'knight.actor.capacitesLegends.nanoc':`${path}/actors/parts/human/sections/capacitesLegende/nanoc.hbs`,
-    'knight.actor.capacitesLegends.oriflamme':`${path}/actors/parts/human/sections/capacitesLegende/oriflamme.hbs`,
-    'knight.actor.capacitesLegends.puppet':`${path}/actors/parts/human/sections/capacitesLegende/puppet.hbs`,
-    'knight.actor.capacitesLegends.totem':`${path}/actors/parts/human/sections/capacitesLegende/totem.hbs`,
-    'knight.actor.capacitesLegends.type':`${path}/actors/parts/human/sections/capacitesLegende/type.hbs`,
-    'knight.actor.capacitesLegends.vision':`${path}/actors/parts/human/sections/capacitesLegende/vision.hbs`,
-    'knight.actor.capacitesLegends.warlord':`${path}/actors/parts/human/sections/capacitesLegende/warlord.hbs`,
-    'knight.actor.capacitesLegends.windtalker':`${path}/actors/parts/human/sections/capacitesLegende/windtalker.hbs`,
+    "knight.actor.capacitesLegends.personnalise": `${path}/actors/parts/human/sections/capacitesLegende/personnalise.hbs`,
+    "knight.actor.capacitesLegends.shrine": `${path}/actors/parts/human/sections/capacitesLegende/shrine.hbs`,
+    "knight.actor.capacitesLegends.changeling": `${path}/actors/parts/human/sections/capacitesLegende/changeling.hbs`,
+    "knight.actor.capacitesLegends.companions": `${path}/actors/parts/human/sections/capacitesLegende/companions.hbs`,
+    "knight.actor.capacitesLegends.discord": `${path}/actors/parts/human/sections/capacitesLegende/discord.hbs`,
+    "knight.actor.capacitesLegends.falcon": `${path}/actors/parts/human/sections/capacitesLegende/falcon.hbs`,
+    "knight.actor.capacitesLegends.record": `${path}/actors/parts/human/sections/capacitesLegende/record.hbs`,
+    "knight.actor.capacitesLegends.rewind": `${path}/actors/parts/human/sections/capacitesLegende/rewind.hbs`,
+    "knight.actor.capacitesLegends.goliath": `${path}/actors/parts/human/sections/capacitesLegende/goliath.hbs`,
+    "knight.actor.capacitesLegends.ghost": `${path}/actors/parts/human/sections/capacitesLegende/ghost.hbs`,
+    "knight.actor.capacitesLegends.mechanic": `${path}/actors/parts/human/sections/capacitesLegende/mechanic.hbs`,
+    "knight.actor.capacitesLegends.nanoc": `${path}/actors/parts/human/sections/capacitesLegende/nanoc.hbs`,
+    "knight.actor.capacitesLegends.oriflamme": `${path}/actors/parts/human/sections/capacitesLegende/oriflamme.hbs`,
+    "knight.actor.capacitesLegends.puppet": `${path}/actors/parts/human/sections/capacitesLegende/puppet.hbs`,
+    "knight.actor.capacitesLegends.totem": `${path}/actors/parts/human/sections/capacitesLegende/totem.hbs`,
+    "knight.actor.capacitesLegends.type": `${path}/actors/parts/human/sections/capacitesLegende/type.hbs`,
+    "knight.actor.capacitesLegends.vision": `${path}/actors/parts/human/sections/capacitesLegende/vision.hbs`,
+    "knight.actor.capacitesLegends.warlord": `${path}/actors/parts/human/sections/capacitesLegende/warlord.hbs`,
+    "knight.actor.capacitesLegends.windtalker": `${path}/actors/parts/human/sections/capacitesLegende/windtalker.hbs`,
   };
 
   const actorSpecialPartials = {
-    'knight.actor.special.apeiron':`${path}/actors/parts/human/sections/special/apeiron.hbs`,
-    'knight.actor.special.contrecoups':`${path}/actors/parts/human/sections/special/contrecoups.hbs`,
-    'knight.actor.special.impregnation':`${path}/actors/parts/human/sections/special/impregnation.hbs`,
-    'knight.actor.special.lenteetlourde':`${path}/actors/parts/human/sections/special/lenteetlourde.hbs`,
-    'knight.actor.special.personnalise':`${path}/actors/parts/human/sections/special/personnalise.hbs`,
-    'knight.actor.special.plusespoir':`${path}/actors/parts/human/sections/special/plusespoir.hbs`,
-    'knight.actor.special.porteurlumiere':`${path}/actors/parts/human/sections/special/porteurlumiere.hbs`,
-    'knight.actor.special.recolteflux':`${path}/actors/parts/human/sections/special/recolteflux.hbs`,
-    'knight.actor.special.energiedeficiente':`${path}/actors/parts/human/sections/special/energiedeficiente.hbs`,
+    "knight.actor.special.apeiron": `${path}/actors/parts/human/sections/special/apeiron.hbs`,
+    "knight.actor.special.contrecoups": `${path}/actors/parts/human/sections/special/contrecoups.hbs`,
+    "knight.actor.special.impregnation": `${path}/actors/parts/human/sections/special/impregnation.hbs`,
+    "knight.actor.special.lenteetlourde": `${path}/actors/parts/human/sections/special/lenteetlourde.hbs`,
+    "knight.actor.special.personnalise": `${path}/actors/parts/human/sections/special/personnalise.hbs`,
+    "knight.actor.special.plusespoir": `${path}/actors/parts/human/sections/special/plusespoir.hbs`,
+    "knight.actor.special.porteurlumiere": `${path}/actors/parts/human/sections/special/porteurlumiere.hbs`,
+    "knight.actor.special.recolteflux": `${path}/actors/parts/human/sections/special/recolteflux.hbs`,
+    "knight.actor.special.energiedeficiente": `${path}/actors/parts/human/sections/special/energiedeficiente.hbs`,
   };
 
   const actorSpecialLegendsPartials = {
-    'knight.actor.specialLegends.recolteflux':`${path}/actors/parts/human/sections/specialLegende/recolteflux.hbs`,
-  }
+    "knight.actor.specialLegends.recolteflux": `${path}/actors/parts/human/sections/specialLegende/recolteflux.hbs`,
+  };
 
   const pcPartials = {
     "knight.distinctions": `${path}/actors/parts/pc/sections/distinctions.hbs`,
@@ -277,7 +278,26 @@ export const PreloadTemplates = async function() {
     "knight.dialog.effects.effect": `${path}/dialog/parts/effects/effect.hbs`,
     "knight.dialog.effects.custom": `${path}/dialog/parts/effects/sections/custom.hbs`,
     "knight.dialog.wpnOptions": `${path}/dialog/parts/wpnOptions.hbs`,
-  }
+  };
+
+  const cyberwarePartials = {
+    "knight.cyberware.damage": `${path}/items/parts/cyberware/sections/damage.hbs`,
+  };
+
+  const modulePartials = {
+    "knight.module.main": `${path}/items/parts/module/body/main.hbs`,
+    "knight.module.menuLeft": `${path}/items/parts/module/body/menuLeft.hbs`,
+    "knight.module.effects": `${path}/items/parts/module/body/effects.hbs`,
+    "knight.module.mods": `${path}/items/parts/module/body/mods.hbs`,
+    "knight.module.arme": `${path}/items/parts/module/body/arme.hbs`,
+    "knight.module.ersatz": `${path}/items/parts/module/body/ersatz.hbs`,
+    "knight.module.creature": `${path}/items/parts/module/body/creature.hbs`,
+    "knight.module.effets": `${path}/items/parts/module/body/effets.hbs`,
+    "knight.module.body.creature": `${path}/items/parts/module/body/sections/creature.hbs`,
+    "knight.module.body.wpnCreature": `${path}/items/parts/module/body/sections/wpnCreature.hbs`,
+    "knight.module.body.modsDamage": `${path}/items/parts/module/body/sections/modsDamage.hbs`,
+    "knight.module.body.wpnDamage": `${path}/items/parts/module/body/sections/wpnDamage.hbs`,
+  };
 
   // Précharger
   return foundry.applications.handlebars.loadTemplates({
@@ -290,6 +310,8 @@ export const PreloadTemplates = async function() {
     ...actorSpecialPartials,
     ...actorSpecialLegendsPartials,
     ...wpnPartials,
-    ...dialogPartials
+    ...cyberwarePartials,
+    ...modulePartials,
+    ...dialogPartials,
   });
 };

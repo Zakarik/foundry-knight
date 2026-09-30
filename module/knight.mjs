@@ -28,7 +28,7 @@ import { CarteHeroiqueSheet } from "./sheets/items/carteheroique-sheet.mjs";
 import { CapaciteHeroiqueSheet } from "./sheets/items/capaciteheroique-sheet.mjs";
 import { CapaciteUltimeSheet } from "./sheets/items/capaciteultime-sheet.mjs";
 import { DistinctionSheet } from "./sheets/items/distinction-sheet.mjs";
-//import { CyberwareSheet } from "./sheets/items/cyberware-sheet.mjs";
+import { CyberwareSheet } from "./sheets/items/cyberware-sheet.mjs";
 
 // Import helper/utility classes and constants.
 import { RegisterHandlebars } from "./handlebars.mjs";
@@ -354,141 +354,144 @@ Hooks.once('init', async function() {
 
   if(patreonAuthorized.includes('cyberware')) CONFIG.Item.dataModels.cyberware = CyberwareDataModel;
 
-  // Register sheet application classes
-  Actors.unregisterSheet("core", ActorSheet);
-  Items.unregisterSheet("core", ItemSheet);
+  const Actor = foundry.documents.collections.Actors;
+  const Item = foundry.documents.collections.Items
 
-  Actors.registerSheet("knight", KnightSheet, {
+  // Register sheet application classes
+  Actor.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
+  Item.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
+
+  Actor.registerSheet("knight", KnightSheet, {
     types: ["knight"],
     makeDefault: true
   });
 
-  Actors.registerSheet("ia", IASheet, {
+  Actor.registerSheet("ia", IASheet, {
     types: ["ia"],
     makeDefault: true
   });
 
-  Actors.registerSheet("pnj", PNJSheet, {
+  Actor.registerSheet("pnj", PNJSheet, {
     types: ["pnj"],
     makeDefault: true
   });
 
-  Actors.registerSheet("creature", CreatureSheet, {
+  Actor.registerSheet("creature", CreatureSheet, {
     types: ["creature"],
     makeDefault: true
   });
 
-  Actors.registerSheet("bande", BandeSheet, {
+  Actor.registerSheet("bande", BandeSheet, {
     types: ["bande"],
     makeDefault: true
   });
 
-  Actors.registerSheet("vehicule", VehiculeSheet, {
+  Actor.registerSheet("vehicule", VehiculeSheet, {
     types: ["vehicule"],
     makeDefault: true
   });
 
-  Actors.registerSheet("mechaarmure", MechaArmureSheet, {
+  Actor.registerSheet("mechaarmure", MechaArmureSheet, {
     types: ["mechaarmure"],
     makeDefault: true
   });
 
-  Items.registerSheet("avantage", AvantageSheet, {
+  Item.registerSheet("avantage", AvantageSheet, {
     types: ["avantage"],
     makeDefault: true
   });
 
-  Items.registerSheet("inconvenient", InconvenientSheet, {
+  Item.registerSheet("inconvenient", InconvenientSheet, {
     types: ["inconvenient"],
     makeDefault: true
   });
 
-  Items.registerSheet("motivationMineure", MotivationMineureSheet, {
+  Item.registerSheet("motivationMineure", MotivationMineureSheet, {
     types: ["motivationMineure"],
     makeDefault: true
   });
 
-  Items.registerSheet("langue", LangueSheet, {
+  Item.registerSheet("langue", LangueSheet, {
     types: ["langue"],
     makeDefault: true
   });
 
-  Items.registerSheet("contact", ContactSheet, {
+  Item.registerSheet("contact", ContactSheet, {
     types: ["contact"],
     makeDefault: true
   });
 
-  Items.registerSheet("blessure", BlessureSheet, {
+  Item.registerSheet("blessure", BlessureSheet, {
     types: ["blessure"],
     makeDefault: true
   });
 
-  Items.registerSheet("trauma", TraumaSheet, {
+  Item.registerSheet("trauma", TraumaSheet, {
     types: ["trauma"],
     makeDefault: true
   });
 
-  Items.registerSheet("armure", ArmureSheet, {
+  Item.registerSheet("armure", ArmureSheet, {
     types: ["armure"],
     makeDefault: true
   });
 
-  Items.registerSheet("armurelegende", ArmureLegendeSheet, {
+  Item.registerSheet("armurelegende", ArmureLegendeSheet, {
     types: ["armurelegende"],
     makeDefault: true
   });
 
-  Items.registerSheet("module", ModuleSheet, {
+  Item.registerSheet("module", ModuleSheet, {
     types: ["module"],
     makeDefault: true
   });
 
-  Items.registerSheet("arme", ArmeSheet, {
+  Item.registerSheet("arme", ArmeSheet, {
     types: ["arme"],
     makeDefault: true
   });
 
-  Items.registerSheet("capacite", CapaciteSheet, {
+  Item.registerSheet("capacite", CapaciteSheet, {
     types: ["capacite"],
     makeDefault: true
   });
 
-  Items.registerSheet("carteheroique", CarteHeroiqueSheet, {
+  Item.registerSheet("carteheroique", CarteHeroiqueSheet, {
     types: ["carteheroique"],
     makeDefault: true
   });
 
-  Items.registerSheet("capaciteheroique", CapaciteHeroiqueSheet, {
+  Item.registerSheet("capaciteheroique", CapaciteHeroiqueSheet, {
     types: ["capaciteheroique"],
     makeDefault: true
   });
 
-  Items.registerSheet("effet", EffetSheet, {
+  Item.registerSheet("effet", EffetSheet, {
     types: ["effet"],
     makeDefault: true
   });
 
-  Items.registerSheet("art", ArtSheet, {
+  Item.registerSheet("art", ArtSheet, {
     types: ["art"],
     makeDefault: true
   });
 
-  Items.registerSheet("distinction", DistinctionSheet, {
+  Item.registerSheet("distinction", DistinctionSheet, {
     types: ["distinction"],
     makeDefault: true
   });
 
-  Items.registerSheet("capaciteultime", CapaciteUltimeSheet, {
+  Item.registerSheet("capaciteultime", CapaciteUltimeSheet, {
     types: ["capaciteultime"],
     makeDefault: true
   });
 
-  /*if(patreonAuthorized.includes('cyberware')) {
-    Items.registerSheet("cyberware", CyberwareSheet, {
+  if(patreonAuthorized.includes('cyberware')) {
+    Item.registerSheet("cyberware", CyberwareSheet, {
       types: ["cyberware"],
       makeDefault: true
     });
-  }*/
+  }
 
   menuKnight.init();
 });

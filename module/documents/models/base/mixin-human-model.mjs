@@ -563,17 +563,29 @@ const HumanMixinModel = (superclass) => class extends superclass {
             let update = {}
 
             if(heal) {
+                const getDivide = foundry.utils.getProperty(this, `combat.nods.${type}.divide`) ?? {};
+                const divide = Object.values(getDivide).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+                const getBonus = foundry.utils.getProperty(this, `combat.nods.${type}.bonus`) ?? {};
+                const bonus = Object.values(getBonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+                const getMalus = foundry.utils.getProperty(this, `combat.nods.${type}.malus`) ?? {};
+                const malus = Object.values(getMalus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+                const getOverride = foundry.utils.getProperty(this, `combat.nods.${type}.override`) ?? {};
+                const override = Object.values(getOverride ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
+
                 switch(type) {
                     case 'soin':
-                    update['system.sante.value'] = `@{rollTotal}+${this.sante.value}`;
+                    update['system.sante.value'] = `@{rollTotal}${divide ? `/ ${divide}` : ``}+${override ? this.sante.value + override : this.sante.value + (bonus - malus)}`;
                     break;
 
                     case 'energie':
-                    update[`system.${str}energie.value`] = `@{rollTotal}+${this.energie.value}`;
+                    update[`system.${str}energie.value`] = `@{rollTotal}${divide ? `/ ${divide}` : ``}${override ? this.energie.value + override : this.energie.value + (bonus - malus)}`;
                     break;
 
                     case 'armure':
-                    update[`system.${str}armure.value`] = `@{rollTotal}+${this.armure.value}`;
+                    update[`system.${str}armure.value`] = `@{rollTotal}${divide ? `/ ${divide}` : ``}${override ? this.armure.value + override : this.armure.value + (bonus - malus)}`;
                     break;
                 }
             }

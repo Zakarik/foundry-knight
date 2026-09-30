@@ -1,7 +1,9 @@
-import { BaseItemDataModel } from "../base/base-item-data-model.mjs";
+import ItemSpecialEffectsPathMixinModel from "../base/mixin-item-specialEffects-path-model.mjs";
+import ItemSpecialEffectsInternalMixinModel from "../base/mixin-item-specialEffects-internal-model.mjs";
+import BaseItemDataModel from "../base/base-item-data-model.mjs";
 import { combine } from '../../../utils/field-builder.mjs';
 
-export class BlessureDataModel extends BaseItemDataModel {
+export class BlessureDataModel extends ItemSpecialEffectsPathMixinModel(ItemSpecialEffectsInternalMixinModel(BaseItemDataModel)) {
   // Pour Héritage
   // Extension : on ajoute/modifie
   static get baseDefinition() {
@@ -33,6 +35,14 @@ export class BlessureDataModel extends BaseItemDataModel {
     }
 
     return combine(base, specific);
+  }
+
+  get listEffect() {
+    return this.effects.list;
+  }
+
+  get hasEffects() {
+    return true;
   }
 
 	/*static defineSchema() {
@@ -67,10 +77,6 @@ export class BlessureDataModel extends BaseItemDataModel {
 
     return foundry.utils.mergeObject(base, specific);
   }*/
-
-  prepareBaseData() {}
-
-	prepareDerivedData() {}
 
   async removeCyberware() {
     const item = this.item;

@@ -9,8 +9,9 @@ import { AspectsPCDataModel } from '../parts/aspects-pc-data-model.mjs';
 import { combine } from '../../../utils/field-builder.mjs';
 import BaseActorDataModel from "../base/base-actor-data-model.mjs";
 import HumanMixinModel from "../base/mixin-human-model.mjs";
+import ActorSpecialEffectsMixinModel from "../base/mixin-actor-specialEffects-model.mjs";
 
-export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
+export class KnightDataModel extends ActorSpecialEffectsMixinModel(HumanMixinModel(BaseActorDataModel)) {
     static get baseDefinition() {
         const base = super.baseDefinition;
         const specific = {
@@ -298,20 +299,12 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         return combine(base, specific);
     }
 
-    get blessures() {
-        return this.items.filter(items => items.type === 'blessure');
-    }
-
     get traumas() {
         return this.items.filter(items => items.type === 'trauma');
     }
 
     get distinctions() {
         return this.items.filter(items => items.type === 'distinction');
-    }
-
-    get avantages() {
-        return this.items.filter(items => items.type === 'avantage');
     }
 
     get inconvenients() {
@@ -344,6 +337,26 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         return this.isRemplaceEnergie ?
             this?.espoir?.value ?? 0 :
             this?.equipements?.[wear]?.energie?.value ?? 0;
+    }
+
+    get hasAvantage() {
+        return true;
+    }
+
+    get hasInconvenient() {
+        return true;
+    }
+
+    get hasTrauma() {
+        return true;
+    }
+
+    get hasDistinction() {
+        return true;
+    }
+
+    get hasBlessure() {
+        return true;
     }
 
     static migrateData(source) {
@@ -427,17 +440,17 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         this.#capacites();
         this.#speciaux();
         this.#blessures();
-        this.#traumas();
+        //this.#traumas();
         this.#armes();
-        this.#distinctions();
+        //this.#distinctions();
         this.#gloire();
     }
 
     _startPrepareDerivedData() {
         super._startPrepareDerivedData();
 
-        this.#avantages();
-        this.#inconvenients();
+        //this.#avantages();
+        //this.#inconvenients();
     }
 
     _EndPrepareDerivedData() {
@@ -445,7 +458,7 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
 
         this.#style();
         this.#derived();
-        this.initiative.prepareData();
+        //this.initiative.prepareData();
         this.#sanitizeValue();
         this.#setJauges();
         this.#sanitizeCyberware();
@@ -866,10 +879,11 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
     }
 
     #derived() {
-        const setValue = (name, withMax=true) => {
+        const setValue = (name, withMax=true, fromEqp=true) => {
             const wear = this.whatWear;
             const property = withMax ? 'max' : 'value';
 
+            const divide = Object.values(this[name]?.divide ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
             const override = Object.values(this[name]?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
 
             const baseBonus = Object.values(this[name]?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
@@ -879,23 +893,22 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
             const malus = Object.values(this.equipements[wear]?.[name]?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
             if(!override) {
-                Object.defineProperty(this[name], 'mod', {
-                    value: (baseBonus + bonus) - (baseMalus + malus),
-                });
+                const base = divide > 0 ? Math.floor(this[name].base / divide) : this[name].base;
 
-                Object.defineProperty(this[name], property, {
-                    value: this[name].base+this[name].mod,
-                });
+                foundry.utils.setProperty(this, `${name}.mod`, (baseBonus + bonus) - (baseMalus + malus));
+                foundry.utils.setProperty(this, `${name}.${property}`, base + this[name].mod);
             } else {
-                Object.defineProperty(this[name], property, {
-                    value: override,
-                });
+                foundry.utils.setProperty(this, `${name}.${property}`, override);
             }
 
-            if(withMax) {
-                Object.defineProperty(this[name], 'value', {
-                    value: Math.min(this.equipements[this.wear]?.[name]?.value ?? 0, this[name].max),
-                });
+            if(withMax && fromEqp) {
+                foundry.utils.setProperty(this, `${name}.value`, Math.min(this.equipements[this.wear]?.[name]?.value ?? 0, this[name].max));
+            } else if(withMax) {
+                const max = foundry.utils.getProperty(this, `${name}.max`);
+
+                if(foundry.utils.getProperty(this, `${name}.value`) > max) {
+                    foundry.utils.setProperty(this, `${name}.value`, max);
+                }
             }
         }
 
@@ -916,182 +929,27 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
             let base;
             let mod;
             let override;
+            let divide;
 
             switch(aspect) {
                 case 'chair':
-                    override = Object.values(this.sante?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
-
-                    if(!override) {
-                        bonus = Object.values(this.sante.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                        malus = Object.values(this.sante.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                        base = 0;
-                        mod = 0;
-
-                        if(this.options.kraken) base = 8;
-                        else base = 6;
-
-                        Object.defineProperty(this.sante, 'base', {
-                            value: (base*maxCaracWOD)+10,
-                        });
-
-                        mod += bonus-malus;
-
-                        if(this.armorISwear && this.aspects.chair.caracteristiques.endurance.overdrive.value >= 3) mod += 6;
-
-                        if(this.capaciteUltime && this.armorISwear) {
-                            if(this.capaciteUltime.type === 'passive' && this.capaciteUltime.passive.sante) mod += Math.floor((this.sante.base+mod)/2);
-                        }
-
-                        Object.defineProperty(this.sante, 'mod', {
-                            value: mod,
-                        });
-
-                        Object.defineProperty(this.sante, 'max', {
-                            value: this.sante.base+this.sante.mod,
-                        });
-                    } else {
-                        Object.defineProperty(this.sante, 'max', {
-                            value: override,
-                        });
-                    }
-
+                    this._sumSpecialEffects('sante', 'sante');
                     break;
 
                 case 'bete':
-                    // DEFENSE
-                    const defenseOverride = Object.values(this.defense.override).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-                    if(!defenseOverride) {
-                        base = maxCarac;
-                        base += this.options.kraken ? 1 : 0;
-                        bonus = Object.values(this.defense.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                        malus = Object.values(this.defense.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-                        Object.defineProperty(this.defense, 'base', {
-                            value: base,
-                        });
-
-                        if(this.armorISwear && this.aspects.dame.caracteristiques.aura.overdrive.value >= 5) bonus += this.aspects.dame.caracteristiques.aura.value;
-
-                        Object.defineProperty(this.defense, 'mod', {
-                            value: bonus-malus,
-                        });
-
-                        Object.defineProperty(this.defense, 'value', {
-                            value: Math.max(this.defense.base+this.defense.mod, 0),
-                        });
-
-                        Object.defineProperty(this.defense, 'valueWOMod', {
-                            value: this.defense.base + bonus,
-                        });
-
-                        Object.defineProperty(this.defense, 'malustotal', {
-                            value: malus,
-                        });
-                    } else {
-                        Object.defineProperty(this.defense, 'value', {
-                            value: defenseOverride,
-                        });
-
-                        Object.defineProperty(this.defense, 'valueWOMod', {
-                            value: defenseOverride,
-                        });
-                    }
+                    this._sumSpecialEffects('defense', 'defense');
                     break;
 
                 case 'machine':
-                    // REACTION
-                    const reactionOverride = Object.values(this.reaction.override).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-                    if(!reactionOverride) {
-                        let isWatchtower = false;
-                        if(this.dataArmor) isWatchtower = this.dataArmor?.system?.capacites?.selected?.watchtower?.active ?? false;
-
-                        base = maxCarac;
-                        base += this.options.kraken ? 1 : 0;
-                        bonus = Object.values(this.reaction.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                        malus = Object.values(this.reaction.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-                        Object.defineProperty(this.reaction, 'base', {
-                            value: base,
-                        });
-
-                        Object.defineProperty(this.reaction, 'mod', {
-                            value: bonus-malus,
-                        });
-
-                        Object.defineProperty(this.reaction, 'value', {
-                            value: isWatchtower ? Math.floor((this.reaction.base+this.reaction.mod)/2) : Math.max(this.reaction.base+this.reaction.mod, 0),
-                        });
-
-                        Object.defineProperty(this.reaction, 'valueWOMod', {
-                            value: this.reaction.base + bonus,
-                        });
-
-                        Object.defineProperty(this.reaction, 'malustotal', {
-                            value: malus,
-                        });
-
-                        Object.defineProperty(this.reaction, 'iswatchtower', {
-                            value: isWatchtower,
-                        });
-                    } else {
-
-                        Object.defineProperty(this.reaction, 'value', {
-                            value: reactionOverride,
-                        });
-
-                        Object.defineProperty(this.reaction, 'valueWOMod', {
-                            value: reactionOverride,
-                        });
-                    }
+                    this._sumSpecialEffects('reaction', 'reaction');
                     break;
 
                 case 'dame':
-                    // CONTACTS
-                    const contactBonus = Object.values(this.contacts.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-                    base = maxCaracWOD;
-                    bonus = this.contacts.mod;
-
-                    if(this.wear === 'armure' && this.capaciteUltime) {
-                        if(this.capaciteUltime.system.passives.contact.active && this.capaciteUltime.system.type === 'passive') bonus += this.capaciteUltime.contact.value;
-                    }
-
-                    Object.defineProperty(this.contacts, 'value', {
-                        value: Math.max(base+bonus+contactBonus, 0),
-                    });
+                    this._sumSpecialEffects('contact', 'contacts');
                     break;
 
                 case 'masque':
-                    bonus = Object.values(this.initiative.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                    malus = Object.values(this.initiative.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                    base = 0;
-                    mod = 0;
-
-                    Object.defineProperty(this.initiative, 'base', {
-                        value: maxCarac,
-                    });
-
-                    mod += bonus-malus;
-
-                    if(this.armorISwear && this.aspects.bete.caracteristiques.instinct.overdrive.value >= 3) mod += this.aspects.bete.caracteristiques.instinct.overdrive.value*3;
-
-                    if(this.options.embuscadeSubis) {
-                        Object.defineProperty(this.initiative, 'diceMod', {
-                            value: this.bonusSiEmbuscade.bonusInitiative.dice,
-                        });
-
-                        mod += this.bonusSiEmbuscade.bonusInitiative.fixe;
-                    }
-
-                    if(this.options.embuscadePris) {
-                        mod += 10;
-                    }
-
-                    Object.defineProperty(this.initiative, 'mod', {
-                        value: mod,
-                    });
+                    this._sumSpecialEffects('initiative', 'initiative');
                     break;
             }
         }
@@ -1114,41 +972,18 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
 
         // ESPOIR
         let espoirBase = 50;
-        const espoirBonus = Object.values(this.espoir.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const espoirMalus = Object.values(this.espoir.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
         if(this.armorISwear) {
             const dataArmor = this.dataArmor?.system;
             if(dataArmor?.special?.selected?.plusespoir?.espoir?.base ?? undefined) espoirBase = dataArmor.special.selected.plusespoir.espoir.base;
         }
 
-        Object.defineProperty(this.espoir, 'base', {
-            value: espoirBase,
-        });
+        foundry.utils.setProperty(this, `espoir.base`, espoirBase);
 
-        Object.defineProperty(this.espoir, 'mod', {
-            value: espoirBonus-espoirMalus,
-        });
-
-        Object.defineProperty(this.espoir, 'max', {
-            value: Math.max(this.espoir.base+this.espoir.mod, 0),
-        });
-
-        if(this.espoir.value > this.espoir.max) {
-            this.actor.update({['system.espoir.value']:this.espoir.max})
-        }
+        setValue('espoir', true, false);
 
         //EGIDE
-        const egideBonus = Object.values(this.egide.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const egideMalus = Object.values(this.egide.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-        Object.defineProperty(this.egide, 'mod', {
-            value: egideBonus-egideMalus,
-        });
-
-        Object.defineProperty(this.egide, 'value', {
-            value: Math.max(this.egide.base+this.egide.mod, 0),
-        });
+        setValue('egide', false, false);
 
         // PG
         const PGProgression = this.progression.gloire;
@@ -2017,34 +1852,12 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
     #blessures() {
         const blessures = this.blessures;
         let espoir = 0;
-        let aspects = []
-        let caracteristiques = [];
 
         for(let b of blessures) {
             const system = b.system;
 
             if(system.soigne.implant) {
                 espoir += 3;
-            }
-
-            if(system.soigne.implant || system.soigne.reconstruction) continue;
-
-            for(let a in system.aspects) {
-                if(system.aspects[a].value > 0) {
-                    aspects.push({
-                        key:a,
-                        value:system.aspects[a].value,
-                    });
-                }
-
-                for(let c in system.aspects[a].caracteristiques) {
-                    if(system.aspects[a].caracteristiques[c].value > 0) {
-                        caracteristiques.push({
-                            key:c,
-                            value:system.aspects[a].caracteristiques[c].value,
-                        });
-                    }
-                }
             }
         }
 
@@ -2054,24 +1867,6 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
             enumerable:true,
             configurable:true
         });
-
-        for(let a of aspects) {
-            Object.defineProperty(this.aspects[a.key].malus, 'blessures', {
-                value: a.value,
-                writable:true,
-                enumerable:true,
-                configurable:true
-            });
-        }
-
-        for(let c of caracteristiques) {
-            Object.defineProperty(this._getAspectPath(c.key).malus, 'blessures', {
-                value: c.value,
-                writable:true,
-                enumerable:true,
-                configurable:true
-            });
-        }
     }
 
     #traumas() {

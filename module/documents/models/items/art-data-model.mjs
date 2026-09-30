@@ -1,5 +1,84 @@
-export class ArtDataModel extends foundry.abstract.TypeDataModel {
-	static defineSchema() {
+import BaseItemDataModel from "../base/base-item-data-model.mjs";
+import { combine } from "../../../utils/field-builder.mjs";
+
+export class ArtDataModel extends BaseItemDataModel {
+  static get baseDefinition() {
+    const base = super.baseDefinition;
+
+    const specific = {
+      aspects: [
+        "schema",
+        {
+          chair: [
+            "arr",
+            ["str", { initial: "" }],
+            { initial: ["deplacement", "force", "endurance"] },
+          ],
+          bete: ["arr", ["str", { initial: "" }], { initial: ["hargne", "combat", "instinct"] }],
+          machine: ["arr", ["str", { initial: "" }], { initial: ["tir", "savoir", "technique"] }],
+          dame: ["arr", ["str", { initial: "" }], { initial: ["aura", "parole", "sangFroid"] }],
+          masque: [
+            "arr",
+            ["str", { initial: "" }],
+            { initial: ["discretion", "dexterite", "perception"] },
+          ],
+        },
+      ],
+      jet: [
+        "schema",
+        {
+          c1: ["str", { initial: "chair" }],
+          c2: ["str", { initial: "chair" }],
+        },
+      ],
+      pratique: [
+        "schema",
+        {
+          has: ["bool", { initial: false }],
+          base: ["str", { initial: "" }],
+          apprenti: ["str", { initial: "" }],
+          initie: ["str", { initial: "" }],
+          maitre: ["str", { initial: "" }],
+          textarea: [
+            "schema",
+            {
+              base: ["num", { initial: 50, nullable: false, integer: true }],
+              apprenti: ["num", { initial: 50, nullable: false, integer: true }],
+              initie: ["num", { initial: 50, nullable: false, integer: true }],
+              maitre: ["num", { initial: 50, nullable: false, integer: true }],
+              oeuvrebase: ["num", { initial: 50, nullable: false, integer: true }],
+            },
+          ],
+        },
+      ],
+      oeuvre: [
+        "schema",
+        {
+          has: ["bool", { initial: false }],
+          base: ["str", { initial: "" }],
+          temps: [
+            "schema",
+            {
+              court: ["str", { initial: "" }],
+              moyen: ["str", { initial: "" }],
+              long: ["str", { initial: "" }],
+            },
+          ],
+          liste: ["obj"],
+          textarea: [
+            "schema",
+            {
+              base: ["num", { initial: 50, nullable: false, integer: true }],
+            },
+          ],
+        },
+      ],
+    };
+
+    return combine(base, specific);
+  }
+
+  /*static defineSchema() {
 		const {HTMLField, NumberField, SchemaField, ArrayField, StringField, BooleanField, ObjectField} = foundry.data.fields;
 
         return {
@@ -51,5 +130,5 @@ export class ArtDataModel extends foundry.abstract.TypeDataModel {
 
 	prepareDerivedData() {
 
-    }
+    }*/
 }

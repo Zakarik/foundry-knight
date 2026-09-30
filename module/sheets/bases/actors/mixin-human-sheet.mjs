@@ -75,10 +75,6 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     const id = header.dataset.itemId;
     const item = this.actor.items.get(id);
 
-    console.error(header);
-    console.error(type);
-    console.error(item);
-
     if(!item) return;
 
     switch(item.type) {
@@ -1618,7 +1614,6 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       const btnActivations = header.querySelectorAll('.activation');
 
       for(let b of btnActivations) {
-        console.error(b);
         const target = $(b);
         const subtype = target.data("subtype");
         const index = target.data("index");

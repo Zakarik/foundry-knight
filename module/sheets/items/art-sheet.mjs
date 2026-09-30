@@ -1,7 +1,4 @@
-
-import {
-  confirmationDialog,
-} from "../../helpers/common.mjs";
+import { confirmationDialog } from "../../helpers/common.mjs";
 
 import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
 
@@ -14,21 +11,21 @@ export class ArtSheet extends BaseItemSheet {
     classes: ["art"],
     position: { width: 700, height: 400 },
     scrollY: [".attributes"],
-    actions:{
-      subItemCreate:this.#onSubItemCreate,
-      subItemDelete:this.#onSubItemDelete,
-    }
-  }
+    actions: {
+      subItemCreate: this.#onSubItemCreate,
+      subItemDelete: this.#onSubItemDelete,
+    },
+  };
 
   static PARTS = {
     img: {
-        template: "systems/knight/templates/items/parts/common/sections/img.hbs"
+      template: "systems/knight/templates/items/parts/common/sections/img.hbs",
     },
     header: {
-        template: "systems/knight/templates/items/parts/art/header.hbs"
+      template: "systems/knight/templates/items/parts/art/header.hbs",
     },
     body: {
-        template: "systems/knight/templates/items/parts/art/body.hbs"
+      template: "systems/knight/templates/items/parts/art/body.hbs",
     },
   };
 
@@ -40,37 +37,41 @@ export class ArtSheet extends BaseItemSheet {
     const length = entries.length;
     const save = {};
 
-    for(let i = 0; i < length;i++) {
+    for (let i = 0; i < length; i++) {
       save[`o${i}`] = {
-        name:entries[i].name,
-        description:entries[i].description,
-        textarea:entries[i].textarea
-      }
-    };
+        name: entries[i].name,
+        description: entries[i].description,
+        textarea: entries[i].textarea,
+      };
+    }
 
     save[`o${length}`] = {
-      name:"",
-      description:"",
-      textarea:50
+      name: "",
+      description: "",
+      textarea: 50,
     };
 
-    this.document.update({[`system.oeuvre.liste`]:save});
+    this.document.update({ [`system.oeuvre.liste`]: save });
   }
 
   static async #onSubItemDelete(event, target) {
     const key = target.dataset.key;
 
-    if(!await confirmationDialog('delete', `Confirmation`)) return;
+    if (!(await confirmationDialog("delete", `Confirmation`))) return;
 
-    this.item.update({[`system.oeuvre.liste.-=${key}`]:null});
+    this.item.update({ [`system.oeuvre.liste.-=${key}`]: null });
   }
 
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
-    switch(partId) {
-      case 'header':
-        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.document.system.description, { async: true, });
+    switch (partId) {
+      case "header":
+        context.enrichedDescription =
+          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            context.document.system.description,
+            { async: true },
+          );
         break;
     }
 
@@ -84,10 +85,10 @@ export class ArtSheet extends BaseItemSheet {
     super._onRender(context, options);
 
     // Everything below here is only needed if the sheet is editable
-    if ( !this.isEditable ) return;
+    if (!this.isEditable) return;
 
-    this.element.querySelectorAll('textarea').forEach(textarea => {
-      textarea.addEventListener('blur', async ev => {
+    this.element.querySelectorAll("textarea").forEach((textarea) => {
+      textarea.addEventListener("blur", async (ev) => {
         const el = ev.currentTarget;
         const type = el.dataset.type;
         const key = el.dataset.key;
@@ -98,12 +99,12 @@ export class ArtSheet extends BaseItemSheet {
 
         el.style.height = `${Math.max(height, min)}px`;
 
-        switch(type) {
-          case 'oeuvreliste':
+        switch (type) {
+          case "oeuvreliste":
             this.item.update({ [`system.oeuvre.liste.${key}.textarea`]: Math.max(height, min) });
             break;
 
-          case 'oeuvrebase':
+          case "oeuvrebase":
             this.item.update({ [`system.oeuvre.textarea.base`]: Math.max(height, min) });
             break;
 

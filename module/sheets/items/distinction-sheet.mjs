@@ -1,37 +1,46 @@
+import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
+import SpecialEffectsMixin from "../bases/items/mixin-item-specialEffects.mjs";
+
 /**
- * @extends {ItemSheet}
+ * @extends {BaseItemSheet}
  */
-export class DistinctionSheet extends ItemSheet {
-
+export class DistinctionSheet extends SpecialEffectsMixin(BaseItemSheet)  {
   /** @inheritdoc */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "item", "distinction"],
-      template: "systems/knight/templates/items/distinction-sheet.html",
-      width: 700,
-      height: 400,
-      scrollY: [".attributes"],
-    });
+  static DEFAULT_OPTIONS = {
+    classes: ["distinction"],
+    position: { width: 700, height: 640 },
+    scrollY: [".attributes"],
+    actions:{}
   }
+
+  static PARTS = {
+    img: {
+        template: "systems/knight/templates/items/parts/common/sections/img.hbs"
+    },
+    header: {
+        template: "systems/knight/templates/items/parts/common/sections/header.hbs"
+    },
+    body: {
+        template: "systems/knight/templates/items/parts/common/sections/specialEffects.hbs"
+    },
+  };
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  getData() {
-    const context = super.getData();
-
-    context.systemData = context.data.system;
-
-    return context;
+  get specialEffectsPath() {
+      return 'system.effects';
   }
 
-  /* -------------------------------------------- */
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
 
-  /** @inheritdoc */
-	activateListeners(html) {
-    super.activateListeners(html);
+    switch(partId) {
+      case 'header':
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.document.system.description, { async: true, });
+        break;
+    }
 
-    // Everything below here is only needed if the sheet is editable
-    if ( !this.isEditable ) return;
+    return await super._preparePartContext(partId, context, options);
   }
 }

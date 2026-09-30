@@ -1,17 +1,6 @@
-export class SimpleDataModel extends foundry.abstract.TypeDataModel {
-	static defineSchema() {
-		const {HTMLField} = foundry.data.fields;
+import BaseItemDataModel from "../base/base-item-data-model.mjs";
+import { combine } from '../../../utils/field-builder.mjs';
 
-        return {
-            description:new HTMLField({initial:''}),
-        }
-    }
+export class SimpleDataModel extends BaseItemDataModel {
 
-    prepareBaseData() {
-
-	}
-
-	prepareDerivedData() {
-
-    }
 }

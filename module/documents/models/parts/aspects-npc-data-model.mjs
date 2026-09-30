@@ -11,6 +11,7 @@ export class AspectsNPCDataModel extends foundry.abstract.DataModel {
         bonus:new ObjectField(),
         malus:new ObjectField(),
         override:new ObjectField(),
+        divide:new ObjectField(),
         ae:new SchemaField({
           mineur:new SchemaField({
             value:new NumberField({ initial: 0, min:0, integer: true, nullable: false }),

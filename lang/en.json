@@ -1508,7 +1508,9 @@
         "NoDmgSante":"Does not lose health points due to armour damage (usually 1 HP / 5 AP)",
         "devasterAnatheme":"Devastate the Anathema",
         "bourreauTenebres":"Executioner of Darkness",
-        "equilibrerBalance":"Balance the Scales"
+        "equilibrerBalance":"Balance the Scales",
+        "Aspects":"Cost of aspects",
+        "Caracteristiques":"Cost of characteristics"
       },
       "DESAVANTAGE":{
         "MalusSante": "Health penalty",
@@ -1531,7 +1533,9 @@
           "AspectDame": "Lady",
           "AspectMasque": "Mask"
         },
-        "AucunGainEspoir": "No gain of hope"
+        "AucunGainEspoir": "No gain of hope",
+        "Aspects":"Cost of aspects",
+        "Caracteristiques":"Cost of characteristics"
       },
       "BLESSURETRAUMA":{
         "SoinImplant": "Treated by a cybernetic implant",
@@ -2165,10 +2169,7 @@
         "QuelNiveau":"Add it at which level?",
         "NombreNiveau":"Number of levels",
         "DepenseSupplementaire":"Additional energy expenditure",
-        "SECONDMODE":{
-          "Has":"Has a second activation mode",
-          "Hasnt":"No second activation mode"
-        },
+        "Secondmode":"Second activation mode",
         "ARME":{
           "Label":"Weapon",
           "Has":"Is a weapon",
@@ -2240,8 +2241,7 @@
           "Espoir":"Relic of hope"
         },
         "DUREE":{
-          "Permanent":"The effect is permanent",
-          "NotPermanent":"The effect is not permanent"
+          "Permanent":"Effect is permanent"
         },
         "JET":{
           "Jet":"Requires a roll",
@@ -2289,10 +2289,7 @@
           "FixeMinimum":"Minimum fixed bonus",
           "FixeMaximum":"Maximum fixed bonus"
         },
-        "BONUS":{
-          "Has":"Gives bonuses",
-          "Hasnt":"Does not give bonus"
-        },
+        "BONUS":"Grants modifiers?",
         "OVERDRIVES":{
           "Label":"Available overdrive levels",
           "Has":"Gives overdrive levels",
@@ -2540,6 +2537,7 @@
       "Ajouter":"Add",
       "Diminuer":"Reduce",
       "Surcharger":"Override",
+      "Diviser":"Divide",
       "Supprimer": "Delete",
       "Supprime": "Deleted",
       "NoSupprime": "Not deleted",

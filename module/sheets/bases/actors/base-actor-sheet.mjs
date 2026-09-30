@@ -92,8 +92,6 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     // Initialize a default name.
     const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
 
-    console.error(data);
-
     // Prepare the item object.
     const itemData = {
       name: name,
@@ -216,8 +214,6 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
     const path = target.dataset.path;
     const index = target.dataset.index;
     const isArray = target.dataset.array === 'true' ? true : false;
-
-    console.error(path, index, isArray);
 
     if(isArray) {
       const list = foundry.utils.getProperty(this.document.system, path);
@@ -1161,8 +1157,6 @@ export default class BaseActorSheet extends JsTogglerMixin(HandlebarsApplication
           break;
       }
     }
-
-    console.error(itemData);
   }
 
   async _onItemCreate_post(create, itemData) {}

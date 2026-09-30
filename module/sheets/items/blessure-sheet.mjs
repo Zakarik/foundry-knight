@@ -1,67 +1,65 @@
+import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
+import SpecialEffectsMixin from "../bases/items/mixin-item-specialEffects.mjs";
+
 /**
- * @extends {ItemSheet}
+ * @extends {BaseItemSheet}
  */
-export class BlessureSheet extends ItemSheet {
-
+export class BlessureSheet extends SpecialEffectsMixin(BaseItemSheet) {
   /** @inheritdoc */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "item", "blessure"],
-      template: "systems/knight/templates/items/blessure-sheet.html",
-      width: 700,
-      height: 645,
-      scrollY: [".attributes"],
-    });
+  static DEFAULT_OPTIONS = {
+    classes: ["blessure"],
+    position: { width: 800, height: 650 },
+    scrollY: [".attributes"],
+    actions:{}
   }
+
+  static PARTS = {
+    img: {
+        template: "systems/knight/templates/items/parts/common/sections/img.hbs"
+    },
+    header: {
+        template: "systems/knight/templates/items/parts/common/sections/header.hbs"
+    },
+    reduction: {
+        template: "systems/knight/templates/items/parts/blessure/guerison.hbs"
+    },
+    body: {
+        template: "systems/knight/templates/items/parts/common/sections/specialEffects.hbs"
+    },
+  };
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  getData() {
-    const context = super.getData();
-
-    for (let [key, aspect] of Object.entries(context.data.system.aspects)){
-      aspect.label = game.i18n.localize(CONFIG.KNIGHT.blessures[key]);
-
-      for (let [keyCar, carac] of Object.entries(aspect.caracteristiques)){
-        carac.label = game.i18n.localize(CONFIG.KNIGHT.blessures[keyCar]);
-      }
-    }
-
-    context.systemData = context.data.system;
-
-    return context;
+  get specialEffectsPath() {
+      return 'system.effects';
   }
 
-  /* -------------------------------------------- */
+  _toggleBtn(update, target, value) {
+    const tgt = target.dataset;
+    const path = tgt.path;
+    const implant = path.includes('implant');
+    const getData = foundry.utils.getProperty(this.item, `system.${path}`);
 
-  /** @inheritdoc */
-	activateListeners(html) {
-    super.activateListeners(html);
-
-    // Everything below here is only needed if the sheet is editable
-    if ( !this.isEditable ) return;
-
-    html.find('.button').click(ev => {
-      const type = $(ev.currentTarget).data("type");
-      const actuel = this.item.system.soigne[type] || false;
-
-      let result = false;
-
-      if(!actuel) { result = true; }
-      let update = {};
-
-      if(type === 'implant' && !result) {
+    if(implant && getData) {
         this.item.system.removeCyberware();
         update['name'] = this.item.name.replace(` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`, "");
-      }
-      else if(!result) update['name'] = this.item.name.replace(` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`, "");
-      else if(result) update['name'] = `${this.item.name} (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`;
+    }
+    else if(getData) update['name'] = this.item.name.replace(` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`, "");
+    else if(!getData) update['name'] = `${this.item.name} (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`;
 
-      update[`system.soigne.${type}`] = result;
+    this.item.update(update);
+  }
 
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
 
-      this.item.update(update);
-    });
+    switch(partId) {
+      case 'header':
+        context.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.document.system.description, { async: true, });
+        break;
+    }
+
+    return await super._preparePartContext(partId, context, options);
   }
 }
