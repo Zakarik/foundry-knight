@@ -346,6 +346,7 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
   prepareBaseData() {
     super.prepareBaseData();
 
+    this.preSanitizeData();
     //HOOK pour le début de PrepareData
     this._startPrepareData();
 
@@ -868,6 +869,40 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
       enumerable: true,
       configurable: true,
     });
+  }
+
+  preSanitizeData() {
+    const list = [
+      "defense",
+      "reaction",
+      "champDeForce",
+      "egide",
+      "energie",
+      "initiative",
+    ];
+
+    const sanitize = (name, type) => {
+      const data = this?.[name]?.[type];
+      if (data) {
+        for (const m in this[name][type]) {
+          if (m === "user") continue;
+
+          Object.defineProperty(this[name][type], m, {
+            value: 0,
+            writable: true,
+            enumerable: true,
+            configurable: true,
+          });
+        }
+      }
+    };
+
+    for (const s of list) {
+      sanitize(s, "bonus");
+      sanitize(s, "diceBonus");
+      sanitize(s, "diceMalus");
+      sanitize(s, "malus");
+    }
   }
 
   givePE(energy, autoApply = true) {
