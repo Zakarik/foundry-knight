@@ -1,10 +1,15 @@
 import { listEffects, getAllEffects } from "../../helpers/common.mjs";
 import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
+import SpecialEffectsMixin from "../bases/items/mixin-item-specialEffects.mjs";
+import ArmeMixinSheet from "../bases/items/mixin-arme-sheet.mjs";
+import EffectsMixin from "../bases/items/mixin-item-effects.mjs";
 
 /**
  * @extends {ItemSheet}
  */
-export class CapaciteSheet extends BaseItemSheet {
+export class CapaciteSheet extends SpecialEffectsMixin(
+  ArmeMixinSheet(EffectsMixin(BaseItemSheet)),
+) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["capacite"],
@@ -21,22 +26,38 @@ export class CapaciteSheet extends BaseItemSheet {
       template: "systems/knight/templates/items/parts/common/sections/header.hbs",
     },
     nav: { template: "templates/generic/tab-navigation.hbs" },
-    /*body: {
-      template: "systems/knight/templates/items/parts/art/body.hbs",
-    },*/
+    effects: {
+      template: "systems/knight/templates/items/parts/capacite/tab/modificateurs.hbs",
+      classes: ["tab", "effects"],
+    },
+    other: {
+      template: "systems/knight/templates/items/parts/capacite/tab/other.hbs",
+      classes: ["tab", "other"],
+    },
   };
 
   static TABS = {
     primary: {
       tabs: [
-        { id: "modificateurs", label: "KNIGHT.LISTEFFECTS.Label" },
-        { id: "autre", label: "KNIGHT.AUTRE.Label" },
+        { id: "effects", label: "KNIGHT.LISTEFFECTS.Label" },
+        { id: "other", label: "KNIGHT.AUTRE.Label" },
       ],
-      initial: "modificateurs",
+      initial: "effects",
     },
   };
 
   /** @inheritdoc */
+  get specialEffectsPath() {
+    return "system.effects";
+  }
+
+  get effectsPath() {
+    return ["system.arme.effets"];
+  }
+
+  get effectsPath() {
+    return ["system.attaque.effets", "system.degats.system.effets"];
+  }
   /*static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "item", "capacite"],

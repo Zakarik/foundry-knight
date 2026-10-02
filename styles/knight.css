@@ -1204,7 +1204,7 @@ li.chat-message.emote {
   color: #59d13e;
 }
 .rollDialog section.window-content div.wpn div.data i.red {
-  color: #AF0000;
+  color: #af0000;
 }
 .rollDialog section.window-content div.wpn div.cat {
   display: grid;
@@ -2508,7 +2508,7 @@ li.chat-message.emote {
   background: transparent;
 }
 .askdice div.dialog-content button.unselected i {
-  color: #AF0000;
+  color: #af0000;
 }
 .askdice div.dialog-content button.selected i {
   color: #59d13e;
@@ -2762,7 +2762,7 @@ li.chat-message.emote {
   align-items: center;
 }
 .pnj header.sheet-header div.headerData button.setbtn.unselected i {
-  color: #AF0000;
+  color: #af0000;
 }
 .pnj header.sheet-header div.headerData button.setbtn.selected {
   background: RGB(87 110 178);
@@ -4334,7 +4334,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .pnj section.body div.capacites div.wolf div.configuration div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.wolf div.configuration div.effets div i.activable.active {
   color: #59d13e;
@@ -4343,7 +4343,7 @@ li.chat-message.emote {
   color: white;
 }
 .pnj section.body div.capacites div.wolf div.configuration div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.wolf div.configuration div.effets div i.green {
   color: #59d13e;
@@ -5043,7 +5043,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -5052,7 +5052,7 @@ li.chat-message.emote {
   color: white;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.green {
   color: #59d13e;
@@ -5359,7 +5359,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active {
   color: #59d13e;
@@ -5368,7 +5368,7 @@ li.chat-message.emote {
   color: white;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green {
   color: #59d13e;
@@ -6174,7 +6174,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -6183,7 +6183,7 @@ li.chat-message.emote {
   color: white;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.green {
   color: #59d13e;
@@ -6629,7 +6629,7 @@ li.chat-message.emote {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.activable.inactive,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.activable.inactive,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.activable.active,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.activable.active,
@@ -6644,7 +6644,7 @@ li.chat-message.emote {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.red,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.red,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.green,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.green,
@@ -7492,7 +7492,7 @@ li.chat-message.emote {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
@@ -7507,7 +7507,7 @@ li.chat-message.emote {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
@@ -7924,7 +7924,7 @@ li.chat-message.emote {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
@@ -7939,7 +7939,7 @@ li.chat-message.emote {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
@@ -8271,7 +8271,7 @@ li.chat-message.emote {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
@@ -8286,7 +8286,7 @@ li.chat-message.emote {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.red,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.green,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
@@ -8694,7 +8694,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -8703,7 +8703,7 @@ li.chat-message.emote {
   color: white;
 }
 .pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.green {
   color: #59d13e;
@@ -9249,7 +9249,7 @@ li.chat-message.emote {
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.inactive,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.active,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
@@ -9261,7 +9261,7 @@ li.chat-message.emote {
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.red,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.green,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
@@ -11786,7 +11786,7 @@ li.chat-message.emote {
 }
 .actor.knight div.armure div.capacites div.mainData div.data div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.data div.effets div i.activable.active,
 .actor.knight div.armure div.special div.mainData div.data div.effets div i.activable.active {
@@ -11798,7 +11798,7 @@ li.chat-message.emote {
 }
 .actor.knight div.armure div.capacites div.mainData div.data div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.data div.effets div i.green,
 .actor.knight div.armure div.special div.mainData div.data div.effets div i.green {
@@ -12402,7 +12402,7 @@ li.chat-message.emote {
 .actor.knight div.armure div.special div.mainData div.lion div.armes div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.wolf div.armes div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.crow div.armes div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.lion div.armes div.effets div i.activable.active,
 .actor.knight div.armure div.capacites div.mainData div.wolf div.armes div.effets div i.activable.active,
@@ -12426,7 +12426,7 @@ li.chat-message.emote {
 .actor.knight div.armure div.special div.mainData div.lion div.armes div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.wolf div.armes div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.crow div.armes div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.lion div.armes div.effets div i.green,
 .actor.knight div.armure div.capacites div.mainData div.wolf div.armes div.effets div i.green,
@@ -13830,7 +13830,7 @@ li.chat-message.emote {
 .actor.knight div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
 .actor.knight div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
@@ -13854,7 +13854,7 @@ li.chat-message.emote {
 .actor.knight div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
 .actor.knight div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
@@ -14437,7 +14437,7 @@ li.chat-message.emote {
 .actor.knight div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
 .actor.knight div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
@@ -14461,7 +14461,7 @@ li.chat-message.emote {
 .actor.knight div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
 .actor.knight div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
@@ -14920,7 +14920,7 @@ li.chat-message.emote {
 .actor.knight div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
 .actor.knight div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
 .actor.knight div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
@@ -14944,7 +14944,7 @@ li.chat-message.emote {
 .actor.knight div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
 .actor.knight div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div i.green,
 .actor.knight div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
@@ -15876,7 +15876,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .actor.knight div.armure div.modules div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.modules div.mainBlock div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -15885,7 +15885,7 @@ li.chat-message.emote {
   color: white;
 }
 .actor.knight div.armure div.modules div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.modules div.mainBlock div.data div.effets div i.green {
   color: #59d13e;
@@ -16193,7 +16193,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .actor.knight div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active {
   color: #59d13e;
@@ -16202,7 +16202,7 @@ li.chat-message.emote {
   color: white;
 }
 .actor.knight div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green {
   color: #59d13e;
@@ -18106,7 +18106,7 @@ li.chat-message.emote {
 }
 .actor.knight div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.inactive,
 .actor.knight div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.active,
 .actor.knight div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
@@ -18118,7 +18118,7 @@ li.chat-message.emote {
 }
 .actor.knight div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.red,
 .actor.knight div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.green,
 .actor.knight div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
@@ -19620,7 +19620,7 @@ li.chat-message.emote {
   background: RGB(76 74 90);
 }
 .actor.knight div.autre button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.knight div.autre button i.green {
   color: #59d13e;
@@ -21174,7 +21174,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .bande div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .bande div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -21183,7 +21183,7 @@ li.chat-message.emote {
   color: white;
 }
 .bande div.capacites div.capacite div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .bande div.capacites div.capacite div.mainBlock div.data div.effets div i.green {
   color: #59d13e;
@@ -21834,7 +21834,7 @@ li.chat-message.emote {
   background: RGB(76 74 90);
 }
 .bande div.autre button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .bande div.autre button i.green {
   color: #59d13e;
@@ -23760,7 +23760,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .creature div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .creature div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -23769,7 +23769,7 @@ li.chat-message.emote {
   color: white;
 }
 .creature div.capacites div.capacite div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .creature div.capacites div.capacite div.mainBlock div.data div.effets div i.green {
   color: #59d13e;
@@ -24311,7 +24311,7 @@ li.chat-message.emote {
 }
 .creature div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.inactive,
 .creature div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .creature div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.active,
 .creature div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
@@ -24323,7 +24323,7 @@ li.chat-message.emote {
 }
 .creature div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.red,
 .creature div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .creature div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.green,
 .creature div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
@@ -25405,7 +25405,7 @@ li.chat-message.emote {
   background: RGB(76 74 90);
 }
 .creature div.autre button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .creature div.autre button i.green {
   color: #59d13e;
@@ -27331,7 +27331,7 @@ li.chat-message.emote {
   cursor: pointer;
 }
 .actor.pnj div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.pnj div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -27340,7 +27340,7 @@ li.chat-message.emote {
   color: white;
 }
 .actor.pnj div.capacites div.capacite div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.pnj div.capacites div.capacite div.mainBlock div.data div.effets div i.green {
   color: #59d13e;
@@ -27882,7 +27882,7 @@ li.chat-message.emote {
 }
 .actor.pnj div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.inactive,
 .actor.pnj div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.pnj div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.active,
 .actor.pnj div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
@@ -27894,7 +27894,7 @@ li.chat-message.emote {
 }
 .actor.pnj div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.red,
 .actor.pnj div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.pnj div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.green,
 .actor.pnj div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
@@ -28976,7 +28976,7 @@ li.chat-message.emote {
   background: RGB(76 74 90);
 }
 .actor.pnj div.autre button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .actor.pnj div.autre button i.green {
   color: #59d13e;
@@ -30460,7 +30460,7 @@ li.chat-message.emote {
 .arme section.window-content div.blockEffets div.distance div i.activable.inactive,
 .arme section.window-content div.blockEffets div.structurelles div i.activable.inactive,
 .arme section.window-content div.blockEffets div.ornementales div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .arme section.window-content div.blockEffets div.effets div i.activable.active,
 .arme section.window-content div.blockEffets div.distance div i.activable.active,
@@ -30478,7 +30478,7 @@ li.chat-message.emote {
 .arme section.window-content div.blockEffets div.distance div i.red,
 .arme section.window-content div.blockEffets div.structurelles div i.red,
 .arme section.window-content div.blockEffets div.ornementales div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .arme section.window-content div.blockEffets div.effets div i.green,
 .arme section.window-content div.blockEffets div.distance div i.green,
@@ -31119,7 +31119,7 @@ form.item.avantage section.window-content div.effects button.add.selected {
   background: RGB(76 74 90);
 }
 form.item.avantage section.window-content div.effects button.add i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.avantage section.window-content div.effects button.add i.green {
   color: #59d13e;
@@ -31450,7 +31450,7 @@ form.item.inconvenient section.window-content div.effects button.add.selected {
   background: RGB(76 74 90);
 }
 form.item.inconvenient section.window-content div.effects button.add i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.inconvenient section.window-content div.effects button.add i.green {
   color: #59d13e;
@@ -31732,7 +31732,7 @@ form.item.trauma section.window-content div.effects button.add.selected {
   background: RGB(76 74 90);
 }
 form.item.trauma section.window-content div.effects button.add i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.trauma section.window-content div.effects button.add i.green {
   color: #59d13e;
@@ -32314,7 +32314,7 @@ form.item.distinction section.window-content div.effects button.add.selected {
   background: RGB(76 74 90);
 }
 form.item.distinction section.window-content div.effects button.add i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.distinction section.window-content div.effects button.add i.green {
   color: #59d13e;
@@ -33012,7 +33012,7 @@ form.item.blessure section.window-content div button.btn.selected {
   background: RGB(76 74 90);
 }
 form.item.blessure section.window-content div button.btn i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.blessure section.window-content div button.btn i.green {
   color: #59d13e;
@@ -33044,7 +33044,7 @@ form.item.blessure section.window-content div.body.effects button.add.selected {
   background: RGB(76 74 90);
 }
 form.item.blessure section.window-content div.body.effects button.add i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.blessure section.window-content div.body.effects button.add i.green {
   color: #59d13e;
@@ -33320,7 +33320,7 @@ form.item.cyberware section.window-content div.effects button.add.selected {
   background: RGB(76 74 90);
 }
 form.item.cyberware section.window-content div.effects button.add i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.effects button.add i.green {
   color: #59d13e;
@@ -33424,7 +33424,7 @@ form.item.cyberware section.window-content div.menuLeft button.menuV.selected {
   background: RGB(76 74 90);
 }
 form.item.cyberware section.window-content div.menuLeft button.menuV i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.menuLeft button.menuV i.green {
   color: #59d13e;
@@ -33520,7 +33520,7 @@ form.item.cyberware section.window-content div.menuLeft div.activation button.to
   background: RGB(76 74 90);
 }
 form.item.cyberware section.window-content div.menuLeft div.activation button.toggle i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.menuLeft div.activation button.toggle i.green {
   color: #59d13e;
@@ -33590,7 +33590,7 @@ form.item.cyberware section.window-content div.arme button.toggle.selected {
   background: RGB(76 74 90);
 }
 form.item.cyberware section.window-content div.arme button.toggle i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.arme button.toggle i.green {
   color: #59d13e;
@@ -33938,7 +33938,7 @@ form.item.cyberware section.window-content div.arme div.blockEffets div.effets d
 form.item.cyberware section.window-content div.arme div.blockEffets div.distance div i.activable.inactive,
 form.item.cyberware section.window-content div.arme div.blockEffets div.structurelles div i.activable.inactive,
 form.item.cyberware section.window-content div.arme div.blockEffets div.ornementales div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.arme div.blockEffets div.effets div i.activable.active,
 form.item.cyberware section.window-content div.arme div.blockEffets div.distance div i.activable.active,
@@ -33956,7 +33956,7 @@ form.item.cyberware section.window-content div.arme div.blockEffets div.effets d
 form.item.cyberware section.window-content div.arme div.blockEffets div.distance div i.red,
 form.item.cyberware section.window-content div.arme div.blockEffets div.structurelles div i.red,
 form.item.cyberware section.window-content div.arme div.blockEffets div.ornementales div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.arme div.blockEffets div.effets div i.green,
 form.item.cyberware section.window-content div.arme div.blockEffets div.distance div i.green,
@@ -34005,7 +34005,7 @@ form.item.cyberware section.window-content div.module button.toggle.selected {
   background: RGB(76 74 90);
 }
 form.item.cyberware section.window-content div.module button.toggle i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.module button.toggle i.green {
   color: #59d13e;
@@ -34133,7 +34133,7 @@ form.item.cyberware section.window-content div.degats button.toggle.selected, fo
   background: RGB(76 74 90);
 }
 form.item.cyberware section.window-content div.degats button.toggle i.red, form.item.cyberware section.window-content div.violence button.toggle i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.degats button.toggle i.green, form.item.cyberware section.window-content div.violence button.toggle i.green {
   color: #59d13e;
@@ -34273,7 +34273,7 @@ form.item.cyberware section.window-content div.effects button.add.selected {
   background: RGB(76 74 90);
 }
 form.item.cyberware section.window-content div.effects button.add i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.effects button.add i.green {
   color: #59d13e;
@@ -34410,7 +34410,7 @@ form.item.cyberware section.window-content div.recuperation button.toggle.select
   background: RGB(76 74 90);
 }
 form.item.cyberware section.window-content div.recuperation button.toggle i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.cyberware section.window-content div.recuperation button.toggle i.green {
   color: #59d13e;
@@ -34835,7 +34835,7 @@ form.item.module section.window-content section.body div.main button.selected {
   background: RGB(76 74 90);
 }
 form.item.module section.window-content section.body div.main button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.main button i.green {
   color: #59d13e;
@@ -35059,7 +35059,7 @@ form.item.module section.window-content section.body div.menuLeft button.selecte
   background: RGB(76 74 90);
 }
 form.item.module section.window-content section.body div.menuLeft button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.menuLeft button i.green {
   color: #59d13e;
@@ -35093,7 +35093,7 @@ form.item.module section.window-content section.body div.mods button.selected {
   background: RGB(76 74 90);
 }
 form.item.module section.window-content section.body div.mods button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.mods button i.green {
   color: #59d13e;
@@ -35296,7 +35296,7 @@ form.item.module section.window-content section.body div.arme button.toggle.sele
   background: RGB(76 74 90);
 }
 form.item.module section.window-content section.body div.arme button.toggle i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.arme button.toggle i.green {
   color: #59d13e;
@@ -35659,7 +35659,7 @@ form.item.module section.window-content section.body div.arme div.blockEffets di
 form.item.module section.window-content section.body div.arme div.blockEffets div.distance div i.activable.inactive,
 form.item.module section.window-content section.body div.arme div.blockEffets div.structurelles div i.activable.inactive,
 form.item.module section.window-content section.body div.arme div.blockEffets div.ornementales div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.arme div.blockEffets div.effets div i.activable.active,
 form.item.module section.window-content section.body div.arme div.blockEffets div.distance div i.activable.active,
@@ -35677,7 +35677,7 @@ form.item.module section.window-content section.body div.arme div.blockEffets di
 form.item.module section.window-content section.body div.arme div.blockEffets div.distance div i.red,
 form.item.module section.window-content section.body div.arme div.blockEffets div.structurelles div i.red,
 form.item.module section.window-content section.body div.arme div.blockEffets div.ornementales div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.arme div.blockEffets div.effets div i.green,
 form.item.module section.window-content section.body div.arme div.blockEffets div.distance div i.green,
@@ -35727,7 +35727,7 @@ form.item.module section.window-content section.body div.ersatz button.toggle.se
   background: RGB(76 74 90);
 }
 form.item.module section.window-content section.body div.ersatz button.toggle i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.ersatz button.toggle i.green {
   color: #59d13e;
@@ -35867,7 +35867,7 @@ form.item.module section.window-content section.body div.pnj button.selected {
   background: RGB(76 74 90);
 }
 form.item.module section.window-content section.body div.pnj button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.pnj button i.green {
   color: #59d13e;
@@ -36353,7 +36353,7 @@ form.item.module section.window-content section.body div.pnj div.liste div.armes
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.distance div i.activable.inactive,
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.structurelles div i.activable.inactive,
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.ornementales div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.effets div i.activable.active,
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.distance div i.activable.active,
@@ -36371,7 +36371,7 @@ form.item.module section.window-content section.body div.pnj div.liste div.armes
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.distance div i.red,
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.structurelles div i.red,
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.ornementales div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.effets div i.green,
 form.item.module section.window-content section.body div.pnj div.liste div.armes div.liste div.blockEffets div.distance div i.green,
@@ -36497,7 +36497,7 @@ form.item.module section.window-content section.body div.effects button.add.sele
   background: RGB(76 74 90);
 }
 form.item.module section.window-content section.body div.effects button.add i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.effects button.add i.green {
   color: #59d13e;
@@ -36722,7 +36722,7 @@ form.item.module section.window-content section.body div.blockEffets div.effets 
 form.item.module section.window-content section.body div.blockEffets div.distance div i.activable.inactive,
 form.item.module section.window-content section.body div.blockEffets div.structurelles div i.activable.inactive,
 form.item.module section.window-content section.body div.blockEffets div.ornementales div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.blockEffets div.effets div i.activable.active,
 form.item.module section.window-content section.body div.blockEffets div.distance div i.activable.active,
@@ -36740,7 +36740,7 @@ form.item.module section.window-content section.body div.blockEffets div.effets 
 form.item.module section.window-content section.body div.blockEffets div.distance div i.red,
 form.item.module section.window-content section.body div.blockEffets div.structurelles div i.red,
 form.item.module section.window-content section.body div.blockEffets div.ornementales div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.module section.window-content section.body div.blockEffets div.effets div i.green,
 form.item.module section.window-content section.body div.blockEffets div.distance div i.green,
@@ -36914,6 +36914,190 @@ form.item.capacite section.window-content header.sheet-header div.description pr
   padding-left: 5px;
   padding-right: 5px;
 }
+form.item.capacite section.window-content div.blockEffets {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: 1/3;
+  width: 100%;
+  margin-top: 5px;
+}
+form.item.capacite section.window-content div.blockEffets div.effets,
+form.item.capacite section.window-content div.blockEffets div.distance,
+form.item.capacite section.window-content div.blockEffets div.structurelles,
+form.item.capacite section.window-content div.blockEffets div.ornementales {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding-right: 5px;
+  padding-bottom: 19px;
+  padding-left: 5px;
+  border: 1px solid RGB(87 110 178);
+  flex: none;
+  align-items: flex-start;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div,
+form.item.capacite section.window-content div.blockEffets div.distance div,
+form.item.capacite section.window-content div.blockEffets div.structurelles div,
+form.item.capacite section.window-content div.blockEffets div.ornementales div {
+  display: block;
+  position: relative;
+  width: max-content;
+  padding-left: 15px;
+  padding-right: 25px;
+  background: RGB(76 74 90);
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div span.label,
+form.item.capacite section.window-content div.blockEffets div.distance div span.label,
+form.item.capacite section.window-content div.blockEffets div.structurelles div span.label,
+form.item.capacite section.window-content div.blockEffets div.ornementales div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div span.label input,
+form.item.capacite section.window-content div.blockEffets div.distance div span.label input,
+form.item.capacite section.window-content div.blockEffets div.structurelles div span.label input,
+form.item.capacite section.window-content div.blockEffets div.ornementales div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div img.info,
+form.item.capacite section.window-content div.blockEffets div.distance div img.info,
+form.item.capacite section.window-content div.blockEffets div.structurelles div img.info,
+form.item.capacite section.window-content div.blockEffets div.ornementales div img.info {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  background: RGB(76 74 90);
+  top: 4px;
+  right: 2px;
+  cursor: pointer;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div img.info.clicked, form.item.capacite section.window-content div.blockEffets div.effets div img.info:hover,
+form.item.capacite section.window-content div.blockEffets div.distance div img.info.clicked,
+form.item.capacite section.window-content div.blockEffets div.distance div img.info:hover,
+form.item.capacite section.window-content div.blockEffets div.structurelles div img.info.clicked,
+form.item.capacite section.window-content div.blockEffets div.structurelles div img.info:hover,
+form.item.capacite section.window-content div.blockEffets div.ornementales div img.info.clicked,
+form.item.capacite section.window-content div.blockEffets div.ornementales div img.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+form.item.capacite section.window-content div.blockEffets div.effets div span.hideInfo,
+form.item.capacite section.window-content div.blockEffets div.distance div span.hideInfo,
+form.item.capacite section.window-content div.blockEffets div.structurelles div span.hideInfo,
+form.item.capacite section.window-content div.blockEffets div.ornementales div span.hideInfo {
+  display: none;
+  position: absolute;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  padding: 5px;
+  z-index: 90;
+  margin-top: -2px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  right: 0;
+  top: 100%;
+  text-align: justify;
+  word-break: break-word;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div section.btnChargeur,
+form.item.capacite section.window-content div.blockEffets div.distance div section.btnChargeur,
+form.item.capacite section.window-content div.blockEffets div.structurelles div section.btnChargeur,
+form.item.capacite section.window-content div.blockEffets div.ornementales div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div section.btnChargeur a.btnEffChange,
+form.item.capacite section.window-content div.blockEffets div.distance div section.btnChargeur a.btnEffChange,
+form.item.capacite section.window-content div.blockEffets div.structurelles div section.btnChargeur a.btnEffChange,
+form.item.capacite section.window-content div.blockEffets div.ornementales div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div i.activable,
+form.item.capacite section.window-content div.blockEffets div.distance div i.activable,
+form.item.capacite section.window-content div.blockEffets div.structurelles div i.activable,
+form.item.capacite section.window-content div.blockEffets div.ornementales div i.activable {
+  cursor: pointer;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div i.activable.inactive,
+form.item.capacite section.window-content div.blockEffets div.distance div i.activable.inactive,
+form.item.capacite section.window-content div.blockEffets div.structurelles div i.activable.inactive,
+form.item.capacite section.window-content div.blockEffets div.ornementales div i.activable.inactive {
+  color: #c50000;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div i.activable.active,
+form.item.capacite section.window-content div.blockEffets div.distance div i.activable.active,
+form.item.capacite section.window-content div.blockEffets div.structurelles div i.activable.active,
+form.item.capacite section.window-content div.blockEffets div.ornementales div i.activable.active {
+  color: #59d13e;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div i.activable:hover,
+form.item.capacite section.window-content div.blockEffets div.distance div i.activable:hover,
+form.item.capacite section.window-content div.blockEffets div.structurelles div i.activable:hover,
+form.item.capacite section.window-content div.blockEffets div.ornementales div i.activable:hover {
+  color: white;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div i.red,
+form.item.capacite section.window-content div.blockEffets div.distance div i.red,
+form.item.capacite section.window-content div.blockEffets div.structurelles div i.red,
+form.item.capacite section.window-content div.blockEffets div.ornementales div i.red {
+  color: #c50000;
+}
+form.item.capacite section.window-content div.blockEffets div.effets div i.green,
+form.item.capacite section.window-content div.blockEffets div.distance div i.green,
+form.item.capacite section.window-content div.blockEffets div.structurelles div i.green,
+form.item.capacite section.window-content div.blockEffets div.ornementales div i.green {
+  color: #59d13e;
+}
+form.item.capacite section.window-content div.blockEffets div.effets a.edit,
+form.item.capacite section.window-content div.blockEffets div.distance a.edit,
+form.item.capacite section.window-content div.blockEffets div.structurelles a.edit,
+form.item.capacite section.window-content div.blockEffets div.ornementales a.edit {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  color: white;
+  font-variant: small-caps;
+}
+form.item.capacite section.window-content div.blockEffets div.effets.hidden,
+form.item.capacite section.window-content div.blockEffets div.distance.hidden,
+form.item.capacite section.window-content div.blockEffets div.structurelles.hidden,
+form.item.capacite section.window-content div.blockEffets div.ornementales.hidden {
+  display: none;
+}
+form.item.capacite section.window-content div.allEffects {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  grid-column: 1/3;
+}
 form.item.capacite section.window-content nav {
   width: 100%;
   border-color: white;
@@ -36925,6 +37109,114 @@ form.item.capacite section.window-content nav a {
 }
 form.item.capacite section.window-content nav a.active {
   background-color: RGB(87 110 178);
+}
+form.item.capacite section.window-content nav {
+  grid-column: 1/3;
+  justify-content: space-evenly;
+}
+form.item.capacite section.window-content div.effects {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+form.item.capacite section.window-content div.effects button.add {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  min-height: 32px;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  border-radius: 5px;
+}
+form.item.capacite section.window-content div.effects button.add.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.effects button.add.selected {
+  background: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.effects button.add i.red {
+  color: #c50000;
+}
+form.item.capacite section.window-content div.effects button.add i.green {
+  color: #59d13e;
+}
+form.item.capacite section.window-content div.effects.active {
+  display: grid;
+}
+form.item.capacite section.window-content div.effects span {
+  display: inline-block;
+  line-height: 27px;
+  text-align: center;
+  font-variant: small-caps;
+}
+form.item.capacite section.window-content div.effects span.header {
+  width: 100%;
+}
+form.item.capacite section.window-content div.effects div.eOther {
+  grid-column: 1/3;
+  border: 1px solid white;
+}
+form.item.capacite section.window-content div.effects div.eOther div.editor {
+  width: 100%;
+  height: 100%;
+  min-height: 130px;
+  background: RGB(76 74 90);
+  border-top: 1px solid white;
+}
+form.item.capacite section.window-content div.effects div.eOther div.editor div.editor-content {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+form.item.capacite section.window-content div.effects div.mod {
+  grid-column: 1/3;
+}
+form.item.capacite section.window-content div.effects div.mod div.list {
+  display: grid;
+  grid-template-columns: 1fr 150px 50px 20px;
+  align-items: center;
+  align-content: center;
+  grid-gap: 2px;
+  width: calc(100% + 1px);
+}
+form.item.capacite section.window-content div.effects div.mod div.list input,
+form.item.capacite section.window-content div.effects div.mod div.list select {
+  border-radius: 0px;
+  border-color: black;
+  background: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.effects div.mod div.list input option,
+form.item.capacite section.window-content div.effects div.mod div.list select option {
+  background: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.effects div.mod div.list input.path,
+form.item.capacite section.window-content div.effects div.mod div.list select.path {
+  border-left: 0px;
+}
+form.item.capacite section.window-content div.effects div.mod div.list input.type,
+form.item.capacite section.window-content div.effects div.mod div.list select.type {
+  text-align: center;
+}
+form.item.capacite section.window-content div.effects div.mod div.list input.value,
+form.item.capacite section.window-content div.effects div.mod div.list select.value {
+  border-right: 0px;
+  text-align: center;
+}
+form.item.capacite section.window-content div.effects div.mod div.list a {
+  text-align: center;
+}
+form.item.capacite section.window-content div.effects div.mod button {
+  width: calc(100% - 1px);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  background: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.effects div.mod button:hover {
+  background: RGB(87 110 178);
+  border-top: 1px solid RGB(76 74 90);
 }
 form.item.capacite section.window-content div.hLeft {
   display: grid;
@@ -36951,10 +37243,165 @@ form.item.capacite section.window-content div.hLeft button.selected {
   background: RGB(76 74 90);
 }
 form.item.capacite section.window-content div.hLeft button i.red {
-  color: #C50000;
+  color: #c50000;
 }
 form.item.capacite section.window-content div.hLeft button i.green {
   color: #59d13e;
+}
+form.item.capacite section.window-content div.tab {
+  grid-column: 1/3;
+}
+form.item.capacite section.window-content div.effects {
+  grid-template-columns: 1fr;
+}
+form.item.capacite section.window-content div.other {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+form.item.capacite section.window-content div.other button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  min-height: 32px;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  border-radius: 5px;
+}
+form.item.capacite section.window-content div.other button.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.other button.selected {
+  background: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.other button i.red {
+  color: #c50000;
+}
+form.item.capacite section.window-content div.other button i.green {
+  color: #59d13e;
+}
+form.item.capacite section.window-content div.other div.diceWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.capacite section.window-content div.other div.diceWithLabel span {
+  display: grid;
+}
+form.item.capacite section.window-content div.other div.diceWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.capacite section.window-content div.other div.diceWithLabel span.dice {
+  width: 100%;
+  text-align: center;
+  line-height: 23px;
+  background: transparent;
+  text-transform: uppercase;
+  align-items: center;
+}
+form.item.capacite section.window-content div.other div.diceWithLabel div {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+  background: RGB(43 42 51);
+}
+form.item.capacite section.window-content div.other div.diceWithLabel div input {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.capacite section.window-content div.other div.diceWithLabel div input:first-of-type {
+  text-align: right;
+}
+form.item.capacite section.window-content div.other div.diceWithLabel div input:last-of-type {
+  text-align: left;
+}
+form.item.capacite section.window-content div.other label.selectWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.capacite section.window-content div.other label.selectWithLabel span {
+  display: grid;
+}
+form.item.capacite section.window-content div.other label.selectWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  height: 100%;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.capacite section.window-content div.other label.selectWithLabel select {
+  height: 100%;
+  width: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.capacite section.window-content div.other label.selectWithLabel select option {
+  background: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.other.active {
+  display: grid;
+}
+form.item.capacite section.window-content div.other div.atk > select, form.item.capacite section.window-content div.other div.dmg > select {
+  width: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+  height: 23px;
+}
+form.item.capacite section.window-content div.other div.atk > select option, form.item.capacite section.window-content div.other div.dmg > select option {
+  background: RGB(76 74 90);
+}
+form.item.capacite section.window-content div.other div.atk div.diceWithLabel div, form.item.capacite section.window-content div.other div.dmg div.diceWithLabel div {
+  grid-template-columns: 1fr 17px 1fr;
+}
+form.item.capacite section.window-content div.other div.atk div.diceWithLabel.borderTop > span, form.item.capacite section.window-content div.other div.dmg div.diceWithLabel.borderTop > span {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.capacite section.window-content div.other div.atk div.diceWithLabel.borderTop > div, form.item.capacite section.window-content div.other div.dmg div.diceWithLabel.borderTop > div {
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.capacite section.window-content div.other div.atk label.selectWithLabel.borderTop span, form.item.capacite section.window-content div.other div.dmg label.selectWithLabel.borderTop span {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.capacite section.window-content div.other div.atk label.selectWithLabel.borderTop select, form.item.capacite section.window-content div.other div.dmg label.selectWithLabel.borderTop select {
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.capacite section.window-content div.other div.btn.checked {
+  border: 1px solid RGB(87 110 178);
+}
+form.item.capacite section.window-content div.other div.btn.checked button.toggle {
+  border-radius: 0px;
+}
+form.item.capacite section.window-content div.other div.blockEffets {
+  margin-top: 0px;
+}
+form.item.capacite section.window-content div.other div.blockEffets div.effets,
+form.item.capacite section.window-content div.other div.blockEffets div.distance,
+form.item.capacite section.window-content div.other div.blockEffets div.structurelles,
+form.item.capacite section.window-content div.other div.blockEffets div.ornementales {
+  border: 0px;
 }
 
 .armure form.armureWindows {
@@ -37829,7 +38276,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -37838,7 +38285,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.green {
   color: #59d13e;
@@ -39932,7 +40379,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable.active {
   color: #59d13e;
@@ -39941,7 +40388,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.green {
   color: #59d13e;
@@ -40179,7 +40626,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 }
 .armure form.armureWindows div.capacites div.longbow div.effets div i.activable.inactive,
 .armure form.armureWindows div.capacites div.longbow div.distance div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.longbow div.effets div i.activable.active,
 .armure form.armureWindows div.capacites div.longbow div.distance div i.activable.active {
@@ -40191,7 +40638,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 }
 .armure form.armureWindows div.capacites div.longbow div.effets div i.red,
 .armure form.armureWindows div.capacites div.longbow div.distance div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.longbow div.effets div i.green,
 .armure form.armureWindows div.capacites div.longbow div.distance div i.green {
@@ -40600,7 +41047,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -40609,7 +41056,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.green {
   color: #59d13e;
@@ -40762,7 +41209,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -40771,7 +41218,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.green {
   color: #59d13e;
@@ -40946,7 +41393,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -40955,7 +41402,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.green {
   color: #59d13e;
@@ -41284,7 +41731,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -41293,7 +41740,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.green {
   color: #59d13e;
@@ -41818,7 +42265,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable.inactive,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable.inactive,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable.active,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable.active,
@@ -41833,7 +42280,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.red,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.red,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.green,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.green,
@@ -42266,7 +42713,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
@@ -42281,7 +42728,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.red,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.green,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
@@ -42634,7 +43081,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -42643,7 +43090,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.green {
   color: #59d13e;
@@ -43557,7 +44004,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -43566,7 +44013,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.green {
   color: #59d13e;
@@ -44770,7 +45217,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable.active {
   color: #59d13e;
@@ -44779,7 +45226,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.green {
   color: #59d13e;
@@ -45253,7 +45700,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -45262,7 +45709,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.green {
   color: #59d13e;
@@ -45774,7 +46221,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable.inactive,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable.inactive,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable.active,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable.active,
@@ -45789,7 +46236,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.red,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.red,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.green,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.green,
@@ -46221,7 +46668,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
@@ -46236,7 +46683,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.red,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.green,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
@@ -47617,7 +48064,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .capaciteUltime div.passive div.data div.effets div i.activable.inactive, .capaciteUltime div.active div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .capaciteUltime div.passive div.data div.effets div i.activable.active, .capaciteUltime div.active div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -47626,7 +48073,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .capaciteUltime div.passive div.data div.effets div i.red, .capaciteUltime div.active div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .capaciteUltime div.passive div.data div.effets div i.green, .capaciteUltime div.active div.data div.effets div i.green {
   color: #59d13e;
@@ -49167,7 +49614,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .vehicule section.body div.modules div.mainBlock div.data div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .vehicule section.body div.modules div.mainBlock div.data div.effets div i.activable.active {
   color: #59d13e;
@@ -49176,7 +49623,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .vehicule section.body div.modules div.mainBlock div.data div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .vehicule section.body div.modules div.mainBlock div.data div.effets div i.green {
   color: #59d13e;
@@ -49483,7 +49930,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active {
   color: #59d13e;
@@ -49492,7 +49939,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green {
   color: #59d13e;
@@ -49857,7 +50304,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
   color: #59d13e;
@@ -49866,7 +50313,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
   color: #59d13e;
@@ -51466,7 +51913,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   cursor: pointer;
 }
 .mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.activable.inactive, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.activable.inactive {
-  color: #C50000;
+  color: #c50000;
 }
 .mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.activable.active, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.activable.active {
   color: #59d13e;
@@ -51475,7 +51922,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: white;
 }
 .mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.red, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.red {
-  color: #C50000;
+  color: #c50000;
 }
 .mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.green, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.green {
   color: #59d13e;
@@ -51707,11 +52154,11 @@ form.item.capacite section.window-content div.hLeft button i.green {
 }
 .knight-roll div.listTargets span.dmg {
   font-weight: bold;
-  color: #AF0000;
+  color: #af0000;
 }
 .knight-roll div.listTargets span.fail {
   font-weight: bold;
-  color: #AF0000;
+  color: #af0000;
 }
 .knight-roll div.listTargets span.subtitle {
   grid-column: 1/3;
@@ -51837,7 +52284,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   font-size: 16px;
 }
 .knight-roll div.fail {
-  color: #AF0000;
+  color: #af0000;
   font-variant: small-caps;
   font-size: 16px;
 }
@@ -51880,7 +52327,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   display: block;
   width: 100%;
   text-align: center;
-  color: #AF0000;
+  color: #af0000;
   font-variant: small-caps;
   font-size: 18px;
 }
@@ -51892,7 +52339,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
 .knight-roll span.dice-fail {
   display: block;
   width: 100%;
-  color: #AF0000;
+  color: #af0000;
 }
 .knight-roll button.btn {
   background: rgba(0, 0, 0, 0.1);
@@ -53045,7 +53492,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   border-top: 0px;
 }
 .effetsDialog section.window-content div.effetCustom .red {
-  color: #AF0000;
+  color: #af0000;
 }
 .effetsDialog section.window-content div.effetCustom .green {
   color: #59d13e;
@@ -53481,7 +53928,7 @@ form.item.capacite section.window-content div.hLeft button i.green {
   color: #59d13e;
 }
 .effetsDialog section.window-content div.dialog-content div.effetCustom button i.red {
-  color: #AF0000;
+  color: #af0000;
 }
 .effetsDialog section.window-content div.dialog-content div.effetCustom button.ajouter, .effetsDialog section.window-content div.dialog-content div.effetCustom button.update, .effetsDialog section.window-content div.dialog-content div.effetCustom button.annuler {
   grid-template-columns: 1fr;

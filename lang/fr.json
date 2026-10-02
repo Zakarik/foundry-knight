@@ -2395,8 +2395,7 @@
         },
         "ATTAQUE": {
           "Label": "Attaque",
-          "Has": "Est une attaque",
-          "Hasnt": "N'est pas une attaque"
+          "Has": "Est une attaque"
         },
         "AspectBonus": "Aspect bonus",
         "Multiplie": "Valeur multipliée par",
@@ -3195,6 +3194,18 @@
       "LimitationAspectMachine": "Modification du maximum de l'aspect Machine",
       "LimitationAspectDame": "Modification du maximum de l'aspect Dame",
       "LimitationAspectMasque": "Modification du maximum de l'aspect Masque",
+      "LimitationAspectsMinTous": "Modification du maximum de tous les aspects exceptionnels mineurs",
+      "LimitationAspectMinBete": "Modification du maximum de l'aspect exceptionnel Bête (mineur)",
+      "LimitationAspectMinChair": "Modification du maximum de l'aspect exceptionnel Chair (mineur)",
+      "LimitationAspectMinMachine": "Modification du maximum de l'aspect exceptionnel Machine (mineur)",
+      "LimitationAspectMinDame": "Modification du maximum de l'aspect exceptionnel Dame (mineur)",
+      "LimitationAspectMinMasque": "Modification du maximum de l'aspect exceptionnel Masque (mineur)",
+      "LimitationAspectsMajTous": "Modification du maximum de tous les aspects exceptionnels majeurs",
+      "LimitationAspectMajBete": "Modification du maximum de l'aspect exceptionnel Bête (majeur)",
+      "LimitationAspectMajChair": "Modification du maximum de l'aspect exceptionnel Chair (majeur)",
+      "LimitationAspectMajMachine": "Modification du maximum de l'aspect exceptionnel Machine (majeur)",
+      "LimitationAspectMajDame": "Modification du maximum de l'aspect exceptionnel Dame (majeur)",
+      "LimitationAspectMajMasque": "Modification du maximum de l'aspect exceptionnel Masque (majeur)",
       "AucunGainEspoir": "Spécial : Aucun gain d'espoir (remplacer - true / false)",
       "SantePourcentage": "Spécial : Modificateur en pourcentage (santé - Ajouter / Diminuer)"
     },

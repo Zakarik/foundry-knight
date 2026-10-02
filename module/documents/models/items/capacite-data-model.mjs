@@ -1,7 +1,13 @@
 import BaseItemDataModel from "../base/base-item-data-model.mjs";
+import ItemSpecialEffectsPathMixinModel from "../base/mixin-item-specialEffects-path-model.mjs";
+import ItemSpecialEffectsInternalMixinModel from "../base/mixin-item-specialEffects-internal-model.mjs";
+import ArmeInternalMixinModel from "../base/mixin-arme-internal-model.mjs";
+import { listEffects, getAllEffects } from "../../../helpers/common.mjs";
 import { combine } from "../../../utils/field-builder.mjs";
 
-export class CapaciteDataModel extends BaseItemDataModel {
+export class CapaciteDataModel extends ItemSpecialEffectsPathMixinModel(
+  ItemSpecialEffectsInternalMixinModel(ArmeInternalMixinModel(BaseItemDataModel)),
+) {
   static get baseDefinition() {
     const base = super.baseDefinition;
 
@@ -63,9 +69,65 @@ export class CapaciteDataModel extends BaseItemDataModel {
           ],
         },
       ],
+      degats: [
+        "schema",
+        {
+          has: ["bool", { initial: false }],
+          system: [
+            "schema",
+            {
+              dice: ["num", { initial: 0 }],
+              fixe: ["num", { initial: 0 }],
+              effets: [
+                "schema",
+                {
+                  raw: ["arr", ["str", {}]],
+                  custom: ["arr", ["obj", {}]],
+                  liste: ["arr", ["str", {}]],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      attaque: [
+        "schema",
+        {
+          has: ["bool", { initial: false }],
+          type: ["str", { initial: "contact" }],
+          portee: ["str", { initial: "contact" }],
+          degats: [
+            "schema",
+            {
+              dice: ["num", { initial: 0 }],
+              fixe: ["num", { initial: 0 }],
+            },
+          ],
+          effets: [
+            "schema",
+            {
+              raw: ["arr", ["str", {}]],
+              custom: ["arr", ["obj", {}]],
+              liste: ["arr", ["str", {}]],
+            },
+          ],
+        },
+      ],
     };
 
     return combine(base, specific);
+  }
+
+  get listEffect() {
+    return this.effects.list;
+  }
+
+  get hasEffects() {
+    return true;
+  }
+
+  get wpnPath() {
+    return `system.attaque.`;
   }
 
   /*static defineSchema() {
@@ -185,5 +247,22 @@ export class CapaciteDataModel extends BaseItemDataModel {
 
   prepareBaseData() {}
 
-  prepareDerivedData() {}
+  prepareDerivedData() {
+    this._prepareEffets();
+  }
+
+  _prepareEffets() {
+    const aEffets = this.attaque.effets;
+    const dEffets = this.degats.system.effets;
+
+    const labels = getAllEffects();
+
+    Object.defineProperty(this.attaque.effets, "liste", {
+      value: listEffects(aEffets, labels, aEffets?.chargeur),
+    });
+
+    Object.defineProperty(this.degats.system.effets, "liste", {
+      value: listEffects(dEffets, labels, dEffets?.chargeur),
+    });
+  }
 }

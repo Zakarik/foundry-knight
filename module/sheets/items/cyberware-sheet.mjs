@@ -180,7 +180,6 @@ export class CyberwareSheet extends SpecialEffectsMixin(
         console.error("test");
         input.addEventListener("change", (event) => {
           const valeur = event.target.value;
-          console.error(valeur);
           this.element.querySelectorAll(`.${n}`).forEach((el) => {
             console.error(el, event.target);
             if (el !== event.target) el.value = valeur;

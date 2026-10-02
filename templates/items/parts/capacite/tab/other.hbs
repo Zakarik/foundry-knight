@@ -1,0 +1,80 @@
+<div class="{{ tabs.other.cssClass }}" data-group="primary" data-tab="other">
+  <div class="btn {{ifThen systemData.attaque.has 'checked' ''}}">
+    {{~> knight.item.btnToggle
+          value=systemData.attaque.has
+          path="system.attaque.has"
+          localize="KNIGHT.ITEMS.CAPACITES.ATTAQUE.Has"
+    }}
+
+    <div class="atk" style="{{ifThen systemData.attaque.has '' 'display:none;'}}">
+      <select name="system.attaque.type">
+          {{selectOptions (getList 'typearmes') selected=systemData.attaque.type localize=true}}
+      </select>
+      <label class="selectWithLabel borderTop">
+          <span class="label">
+              {{localize "KNIGHT.PORTEE.Label"}}
+          </span>
+          <select name="system.attaque.portee">
+              {{selectOptions (getList 'portee') selected=systemData.attaque.portee localize=true}}
+          </select>
+      </label>
+      <div class="diceWithLabel borderTop">
+        <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+          <input type="number"  data-dtype="Number"name="system.attaque.degats.dice" value="{{systemData.attaque.degats.dice}}" min="0" />
+          <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}+</span>
+          <input type="number"  data-dtype="Number"name="system.attaque.degats.fixe" value="{{systemData.attaque.degats.fixe}}" min="0" />
+        </div>
+      </div>
+
+        <div class="blockEffets">
+          <h2 class="header js-toggler">
+              <i class="far fa-minus-square"></i>
+              {{localize "KNIGHT.EFFETS.Label"}}
+          </h2>
+
+          <div class="effets">
+              {{#each systemData.attaque.effets.liste as | key effet|}}
+                  {{~> knight.effets type='base'}}
+              {{/each}}
+              <a class="edit" data-action="editEffects" data-limit-effects="false" data-path="attaque.effets">
+                  <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+              </a>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="btn {{ifThen systemData.degats.has 'checked' ''}}">
+    {{~> knight.item.btnToggle
+          value=systemData.degats.has
+          path="system.degats.has"
+          localize="KNIGHT.ITEMS.CAPACITES.DEGATS.Has"
+    }}
+    <div class="dmg" style="{{ifThen systemData.degats.has '' 'display:none;'}}">
+        <div class="diceWithLabel borderTop">
+          <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+          <div>
+            <input type="number"  data-dtype="Number"name="system.degats.system.dice" value="{{systemData.degats.system.dice}}" min="0" />
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}+</span>
+            <input type="number"  data-dtype="Number"name="system.degats.system.fixe" value="{{systemData.degats.system.fixe}}" min="0" />
+          </div>
+        </div>
+
+        <div class="blockEffets">
+          <h2 class="header js-toggler">
+              <i class="far fa-minus-square"></i>
+              {{localize "KNIGHT.EFFETS.Label"}}
+          </h2>
+
+          <div class="effets">
+              {{#each systemData.degats.system.effets.liste as | key effet|}}
+                  {{~> knight.effets type='base'}}
+              {{/each}}
+              <a class="edit" data-action="editEffects" data-limit-effects="false" data-path="degats.system.effets">
+                  <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+              </a>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
