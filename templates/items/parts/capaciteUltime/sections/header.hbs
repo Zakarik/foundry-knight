@@ -1,0 +1,37 @@
+<header class="sheet-header flexrow">
+  <h1 class="name">
+    <input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'KNIGHT.Nom'}}" />
+  </h1>
+
+  <div class="description">
+    <h2 class="header">
+      {{localize "KNIGHT.CAPACITEULTIME.Condition"}}
+    </h2>
+
+    {{formInput
+      systemFields.condition
+      enriched=enrichedCondition
+      value=systemData.condition
+      documentUUID=item.uuid
+      name="system.condition"
+      collaborate="false"
+      toggled="true"
+    }}
+  </div>
+
+  <div class="description">
+    <h2 class="header">
+      {{localize "KNIGHT.Description"}}
+    </h2>
+
+    {{formInput
+      systemFields.description
+      enriched=enrichedDescription
+      value=systemData.description
+      documentUUID=item.uuid
+      name="system.description"
+      collaborate="false"
+      toggled="true"
+    }}
+  </div>
+</header>

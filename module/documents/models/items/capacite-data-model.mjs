@@ -13,62 +13,6 @@ export class CapaciteDataModel extends ItemSpecialEffectsPathMixinModel(
 
     const specific = {
       isPhase2: ["bool", { initial: false }],
-      bonus: [
-        "schema",
-        {
-          aspectsLieSupplementaire: [
-            "schema",
-            {
-              has: ["bool", { initial: false }],
-              value: ["str", { initial: "chair" }],
-            },
-          ],
-          sante: [
-            "schema",
-            {
-              has: ["bool", { initial: false }],
-              aspect: [
-                "schema",
-                {
-                  lie: ["bool", { initial: false }],
-                  value: ["str", { initial: "chair" }],
-                  multiplie: ["num", { initial: 5, nullable: false, integer: true }],
-                },
-              ],
-              value: ["num", { initial: 0, nullable: false, integer: true }],
-            },
-          ],
-          armure: [
-            "schema",
-            {
-              has: ["bool", { initial: false }],
-              aspect: [
-                "schema",
-                {
-                  lie: ["bool", { initial: false }],
-                  value: ["str", { initial: "chair" }],
-                  multiplie: ["num", { initial: 5, nullable: false, integer: true }],
-                },
-              ],
-              value: ["num", { initial: 0, nullable: false, integer: true }],
-            },
-          ],
-          aspectMax: [
-            "schema",
-            {
-              has: ["bool", { initial: false }],
-              aspect: ["str", { initial: "chair" }],
-              maximum: [
-                "schema",
-                {
-                  aspect: ["num", { initial: 40, nullable: false, integer: true }],
-                  ae: ["num", { initial: 20, nullable: false, integer: true }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
       degats: [
         "schema",
         {
@@ -116,6 +60,73 @@ export class CapaciteDataModel extends ItemSpecialEffectsPathMixinModel(
     };
 
     return combine(base, specific);
+  }
+
+  static migrateData(source) {
+    if (source?.bonus) {
+      const data = source.bonus;
+      const result = [];
+
+      if (data?.aspectsLieSupplementaire?.has)
+        result.push({
+          path: "item.system.aspectsLieSupplementaire",
+          type: "add",
+          value: data.aspectsLieSupplementaire.value,
+        });
+
+      const list = ["sante", "armure"];
+
+      for (const d of list) {
+        if (data?.[d]?.has) {
+          const getListData = data[d];
+
+          if (getListData.value != 0)
+            result.push({
+              path: `system.${d}`,
+              type: getListData.value > 0 ? "add" : "decrease",
+              value: getListData.value,
+            });
+
+          if (getListData?.aspect?.lie) {
+            let listAspectLie = "";
+
+            if (getListData.aspect.value)
+              listAspectLie = `system.${d}.aspectMultiplier.${getListData.aspect.value}`;
+
+            if (listAspectLie !== "")
+              result.push({
+                path: listAspectLie,
+                type: "add",
+                value: getListData.aspect.multiplie,
+              });
+          }
+        }
+      }
+
+      if (data?.aspectMax?.has) {
+        result.push({
+          path: `system.aspects.${data.aspectMax.aspect}.max`,
+          type: "override",
+          value: data.aspectMax.maximum.aspect,
+        });
+
+        result.push({
+          path: `system.aspects.${data.aspectMax.aspect}.ae.mineur.max`,
+          type: "override",
+          value: data.aspectMax.maximum.ae,
+        });
+
+        result.push({
+          path: `system.aspects.${data.aspectMax.aspect}.ae.majeur.max`,
+          type: "override",
+          value: data.aspectMax.maximum.ae,
+        });
+      }
+
+      source.effects = {
+        list: result,
+      };
+    }
   }
 
   get listEffect() {
@@ -245,9 +256,9 @@ export class CapaciteDataModel extends ItemSpecialEffectsPathMixinModel(
     };
   }*/
 
-  prepareBaseData() {}
-
   prepareDerivedData() {
+    super.prepareDerivedData();
+
     this._prepareEffets();
   }
 

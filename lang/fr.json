@@ -3207,7 +3207,18 @@
       "LimitationAspectMajDame": "Modification du maximum de l'aspect exceptionnel Dame (majeur)",
       "LimitationAspectMajMasque": "Modification du maximum de l'aspect exceptionnel Masque (majeur)",
       "AucunGainEspoir": "Spécial : Aucun gain d'espoir (remplacer - true / false)",
-      "SantePourcentage": "Spécial : Modificateur en pourcentage (santé - Ajouter / Diminuer)"
+      "SantePourcentage": "Spécial : Modificateur en pourcentage (santé - Ajouter / Diminuer)",
+      "SanteChairMultiplie": "Spécial : Aspect Chair multiplié par la valeur (Bonus de santé)",
+      "SanteBeteMultiplie": "Spécial : Aspect Bête multiplié par la valeur (Bonus de santé)",
+      "SanteMachineMultiplie": "Spécial : Aspect Machine multiplié par la valeur (Bonus de santé)",
+      "SanteDameMultiplie": "Spécial : Aspect Dame multiplié par la valeur (Bonus de santé)",
+      "SanteMasqueMultiplie": "Spécial : Aspect Masque multiplié par la valeur (Bonus d'armure)",
+      "ArmureChairMultiplie": "Spécial : Aspect Chair multiplié par la valeur (Bonus d'armure)",
+      "ArmureBeteMultiplie": "Spécial : Aspect Bête multiplié par la valeur (Bonus d'armure)",
+      "ArmureMachineMultiplie": "Spécial : Aspect Machine multiplié par la valeur (Bonus d'armure)",
+      "ArmureDameMultiplie": "Spécial : Aspect Dame multiplié par la valeur (Bonus d'armure)",
+      "ArmureMasqueMultiplie": "Spécial : Aspect Masque multiplié par la valeur (Bonus d'armure)",
+      "AddAspectLie": "Spécial : Ajoute un aspect aux capacités liées à un aspect"
     },
     "ERROR": {
       "NoArmor": "Aucune armure trouvée."

@@ -74,6 +74,16 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
           max: ["num", { initial: 16, nullable: false, integer: true }],
           bonusValue: ["num", { initial: 0, nullable: false, integer: true }],
           malusValue: ["num", { initial: 0, nullable: false, integer: true }],
+          aspectMultiplier: [
+            "schema",
+            {
+              chair: ["arr", ["num", { initial: 0 }]],
+              bete: ["arr", ["num", { initial: 0 }]],
+              dame: ["arr", ["num", { initial: 0 }]],
+              masque: ["arr", ["num", { initial: 0 }]],
+              machine: ["arr", ["num", { initial: 0 }]],
+            },
+          ],
           pourcentage: [
             "schema",
             {
@@ -108,6 +118,16 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
           mod: ["num", { initial: 0, nullable: false, integer: true }],
           value: ["num", { initial: 0, nullable: false, integer: true }],
           max: ["num", { initial: 0, nullable: false, integer: true }],
+          aspectMultiplier: [
+            "schema",
+            {
+              chair: ["arr", ["num", { initial: 0 }]],
+              bete: ["arr", ["num", { initial: 0 }]],
+              dame: ["arr", ["num", { initial: 0 }]],
+              masque: ["arr", ["num", { initial: 0 }]],
+              machine: ["arr", ["num", { initial: 0 }]],
+            },
+          ],
           bonus: [
             "obj",
             {

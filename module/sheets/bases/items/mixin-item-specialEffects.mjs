@@ -22,7 +22,7 @@ const SpecialEffectsMixin = (superclass) =>
 
     static #onAddSpecialEffects(event, target) {
       const { header } = target.dataset;
-
+      console.error(header);
       if (header) this.#onAddSpecialEffectsARRAY(event, target, header);
       else this.#onAddSpecialEffectsSTD(event, target);
     }
@@ -95,6 +95,27 @@ const SpecialEffectsMixin = (superclass) =>
       const update = { [arrayPath]: array };
 
       this.item.update(update);
+    }
+
+    _onRender(context, options) {
+      super._onRender(context, options);
+
+      const specialPaths = CONFIG.KNIGHT.EFFECTS.NOTTYPE;
+      const elem = this.element;
+      const effects = elem.querySelectorAll("div.effects div.mod div.list select.path");
+
+      for (const e of effects) {
+        if (specialPaths.includes(e.value)) {
+          const inputSearch = e.name.replace(".path", ".type");
+
+          const itm = elem.querySelector(
+            `div.effects div.mod div.list select.type[name="${CSS.escape(inputSearch)}"]`,
+          );
+
+          e.style.gridColumn = "1 / 3";
+          itm.style.display = "none";
+        }
+      }
     }
   };
 

@@ -22,15 +22,12 @@ const ItemSpecialEffectsPathMixinModel = (superclass) =>
               ],
             ],
             defaultListValue: [
-              "arr",
-              [
-                "schema",
-                {
-                  type: ["str", { initial: "add", nullable: false }],
-                  path: ["str", { initial: "", nullable: false }],
-                  value: ["str", { initial: "0", nullable: false }],
-                },
-              ],
+              "schema",
+              {
+                type: ["str", { initial: "add", nullable: false }],
+                path: ["str", { initial: "", nullable: false }],
+                value: ["str", { initial: "0", nullable: false }],
+              },
             ],
           },
         ],

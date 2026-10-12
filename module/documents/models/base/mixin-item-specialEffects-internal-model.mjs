@@ -37,7 +37,7 @@ const ItemSpecialEffectsInternalMixinModel = (superclass) =>
     }
 
     #prepareItmEffects() {
-      const effects = this.effects.list;
+      const effects = this.listEffect;
       const dataToFind = ["devasterAnatheme", "bourreauTenebres", "equilibrerBalance"];
 
       for (let f of dataToFind) {
@@ -45,7 +45,16 @@ const ItemSpecialEffectsInternalMixinModel = (superclass) =>
           (e) => e.path === f && e.type === "override" && e.value === "true",
         );
 
-        if (data) foundry.utils.setProperty(this, `other.${f}`, true);
+        if (data) foundry.utils.setProperty(this.other, f);
+      }
+
+      const allItem = effects.filter((e) => e.path.startsWith("item."));
+
+      for (const e of allItem) {
+        const p = e.path.replace(/^item\.system\./, "");
+        const itm = foundry.utils.getProperty(this, p) ?? [];
+        itm.push(e.value);
+        foundry.utils.setProperty(this, p, itm);
       }
     }
 

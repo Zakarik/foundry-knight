@@ -1189,7 +1189,20 @@ export const RegisterHandlebars = function () {
 
   Handlebars.registerHelper("merge", function (obj1, obj2) {
     const cfg = foundry.utils.mergeObject(obj1, obj2);
+
     return cfg;
+  });
+
+  Handlebars.registerHelper("mergeEffects", function (str1, str2) {
+    const cfg1 = str1.split(".").reduce((obj, key) => {
+      return obj && obj[key] !== undefined ? obj[key] : undefined;
+    }, CONFIG.KNIGHT);
+
+    const cfg2 = str2.split(".").reduce((obj, key) => {
+      return obj && obj[key] !== undefined ? obj[key] : undefined;
+    }, CONFIG.KNIGHT);
+
+    return { ...cfg1, ...cfg2 };
   });
 
   Handlebars.registerHelper("addValue", function (value1, value2) {
