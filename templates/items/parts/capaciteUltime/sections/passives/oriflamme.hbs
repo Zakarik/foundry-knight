@@ -1,0 +1,60 @@
+<div class="data {{ifThen systemData.passives.capacites.oriflamme.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.oriflamme.actif
+        path="system.passives.capacites.oriflamme.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.ORIFLAMME.Label"
+    }}
+
+    <label class="selectWithLabel" style="{{ifThen systemData.passives.capacites.oriflamme.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.passives.capacites.oriflamme.update.activation">
+            {{selectOptions (getList 'activationsimple') selected=systemData.passives.capacites.oriflamme.update.activation localize=true}}
+        </select>
+    </label>
+
+    <label class="selectWithLabel" style="{{ifThen systemData.passives.capacites.oriflamme.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.passives.capacites.oriflamme.update.portee">
+            {{selectOptions (getList 'portee') selected=systemData.passives.capacites.oriflamme.update.portee localize=true}}
+        </select>
+    </label>
+
+    <div class="diceWithLabel" style="{{ifThen systemData.passives.capacites.oriflamme.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number" name="system.passives.capacites.oriflamme.update.degats.dice" value="{{systemData.passives.capacites.oriflamme.update.degats.dice}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number" name="system.passives.capacites.oriflamme.update.degats.fixe" value="{{systemData.passives.capacites.oriflamme.update.degats.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="diceWithLabel" style="{{ifThen systemData.passives.capacites.oriflamme.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number" name="system.passives.capacites.oriflamme.update.violence.dice" value="{{systemData.passives.capacites.oriflamme.update.violence.dice}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number" name="system.passives.capacites.oriflamme.update.violence.fixe" value="{{systemData.passives.capacites.oriflamme.update.violence.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.oriflamme.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Energie"}}</span>
+        <input type="number" name="system.passives.capacites.oriflamme.update.energie" value="{{systemData.passives.capacites.oriflamme.update.energie}}" min="0"/>
+    </label>
+
+    <div class="textareaWithLabel" style="{{ifThen systemData.passives.capacites.oriflamme.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.passives.capacites.capacites.oriflamme.update.duree"
+            data-toupdate="passives.capacites.capacites.oriflamme.update.textarea"
+            data-min="20"
+            style="height:{{systemData.passives.capacites.oriflamme.update.textarea}}px;"
+            >{{systemData.passives.capacites.oriflamme.update.duree}}</textarea>
+    </div>
+    <div class="blockEffets" style="{{ifThen systemData.passives.capacites.oriflamme.actif '' 'display:none;'}}">
+        {{~> knight.wpn.effects.onlyEffects
+        effectsList=systemData.passives.capacites.oriflamme.update.effets.liste
+        effectType='base'
+        limitedEffects='true'
+        wpnPath='passives.capacites.oriflamme.update.'}}
+    </div>
+</div>

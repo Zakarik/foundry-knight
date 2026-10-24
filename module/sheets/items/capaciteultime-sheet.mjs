@@ -1,30 +1,75 @@
 import { listEffects, getAllEffects } from "../../helpers/common.mjs";
 import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
 import SpecialEffectsMixin from "../bases/items/mixin-item-specialEffects.mjs";
-/**
- * @extends {ItemSheet}
- */
-export class CapaciteUltimeSheet extends SpecialEffectsMixin(BaseItemSheet) {
-  /** @inheritdoc */
+import EffectsMixin from "../bases/items/mixin-item-effects.mjs";
+
+export class CapaciteUltimeSheet extends SpecialEffectsMixin(EffectsMixin(BaseItemSheet)) {
   static DEFAULT_OPTIONS = {
     classes: ["capaciteUltime"],
     position: { width: 900, height: 600 },
     scrollY: [".attributes"],
-    actions: {},
     dragDrop: [{ dragSelector: null, dropSelector: null }],
+    actions: {
+      addToList: CapaciteUltimeSheet.#onAddToList,
+      deleteToList: CapaciteUltimeSheet.#onDeleteToList,
+    },
   };
 
   static PARTS = {
     img: {
-      template: "systems/knight/templates/items/parts/common/sections/img.hbs",
+      template: "systems/knight/templates/items/parts/capaciteUltime/sections/img.hbs",
     },
     header: {
       template: "systems/knight/templates/items/parts/capaciteUltime/sections/header.hbs",
     },
+    nav: { template: "templates/generic/tab-navigation.hbs" },
+    effects: {
+      template: "systems/knight/templates/items/parts/capaciteUltime/tabs/effects.hbs",
+      classes: ["tab", "effects"],
+    },
+    passive: {
+      template: "systems/knight/templates/items/parts/capaciteUltime/tabs/passive.hbs",
+      classes: ["tab", "passive"],
+    },
+    active: {
+      template: "systems/knight/templates/items/parts/capaciteUltime/tabs/active.hbs",
+      classes: ["tab", "actives"],
+    },
+    /*body: {
+      template: "systems/knight/templates/items/capaciteUltime-sheet.html",
+    },*/
   };
+
+  static TABS = {
+    primary: {
+      tabs: [
+        { id: "active", label: "KNIGHT.CAPACITEULTIME.ACTIVE.Label" },
+        { id: "effects", label: "KNIGHT.LISTEFFECTS.Label" },
+        { id: "passive", label: "KNIGHT.CAPACITEULTIME.PASSIVE.Label" },
+      ],
+      initial: "active",
+    },
+  };
+
+  get specialEffectsPath() {
+    return "system.effects";
+  }
+
+  get effectsPath() {
+    return [
+      "system.passives.capacites.cea.update.rayon.effets",
+      "system.passives.capacites.cea.update.salve.effets",
+      "system.passives.capacites.cea.update.vague.effets",
+      "system.passives.capacites.morph.update.polymorphie.lame.effets",
+      "system.passives.capacites.morph.update.polymorphie.canon.effets",
+      "system.passives.capacites.morph.update.polymorphie.griffe.effets",
+      "system.passives.capacites.oriflamme.update.effets",
+    ];
+  }
 
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
+    context.tab = context.tabs[partId];
 
     switch (partId) {
       case "header":
@@ -33,7 +78,6 @@ export class CapaciteUltimeSheet extends SpecialEffectsMixin(BaseItemSheet) {
             context.document.system.description,
             { async: true },
           );
-
         context.enrichedCondition =
           await foundry.applications.ux.TextEditor.implementation.enrichHTML(
             context.document.system.condition,
@@ -42,233 +86,169 @@ export class CapaciteUltimeSheet extends SpecialEffectsMixin(BaseItemSheet) {
         break;
     }
 
-    return await super._preparePartContext(partId, context, options);
+    return context;
   }
 
-  /* -------------------------------------------- */
+  _prepareTabs(group) {
+    const tabs = super._prepareTabs(group);
 
-  /** @inheritdoc */
-  /*getData() {
-    const context = super.getData();
+    if (group === "primary") {
+      const data = this.item.system;
 
-    this._prepareEffets(context);
+      if (data.type === "active") delete tabs.passive;
+      else if (data.type === "passive") delete tabs.active;
 
-    context.settings = {
-      armorBase: game.settings.get("knight", "include-armorbase"),
-      armor2038: game.settings.get("knight", "include-capacite2038"),
-      armorSorcerer: game.settings.get("knight", "include-capacite2038sorcerer"),
-      armorCodex: game.settings.get("knight", "include-capacitecodex"),
-      armorAtlas: game.settings.get("knight", "include-capaciteatlas"),
-      armorAtlasSpe: game.settings.get("knight", "include-capaciteatlasspecial"),
-    };
+      const availableIds = Object.keys(tabs);
 
-    context.systemData = context.data.system;
-
-    return context;
-  }*/
-
-  /* -------------------------------------------- */
-
-  /** @inheritdoc */
-  /*activateListeners(html) {
-    super.activateListeners(html);
-
-    // Everything below here is only needed if the sheet is editable
-    if (!this.isEditable) return;
-
-    html.find("header.header button").click((ev) => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value");
-      const type = target.data("type");
-
-      this.item.update({ [`system.${type}`]: value });
-    });
-
-    html.find("div.passive button").click((ev) => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value") === true ? false : true;
-      const toupdate = target?.data("toupdate");
-
-      const update = { [`system.${toupdate}`]: value };
-
-      this.item.update(update);
-    });
-
-    html.find("div.active button.clickable").click((ev) => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value") === true ? false : true;
-      const toupdate = target?.data("toupdate");
-
-      const update = { [`system.${toupdate}`]: value };
-
-      this.item.update(update);
-    });
-
-    html.find("div.effets a.edit").click(async (ev) => {
-      const stringPath = $(ev.currentTarget).data("path");
-      let path = this.getData().data;
-
-      stringPath.split(".").forEach(function (key) {
-        path = path[key];
-      });
-
-      await new game.knight.applications.KnightEffetsDialog({
-        actor: this.actor?._id || null,
-        item: this.item._id,
-        raw: path.raw,
-        custom: path.custom,
-        activable: path.activable,
-        toUpdate: stringPath,
-        aspects: this.getData().data.system.overdrives,
-        title: `${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`,
-      }).render(true);
-    });
-
-    html.find("img.info").click((ev) => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo");
-      const width = $(ev.currentTarget).parents("div.main").width() / 2;
-      const isW50 = $(ev.currentTarget).parents("div.data").width();
-      let position = "";
-      let borderRadius = "border-top-right-radius";
-
-      if (isW50 <= width) {
-        if ($(ev.currentTarget).parents("div.data").position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
-      } else {
-        if ($(ev.currentTarget).parent().position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
+      // Si l'onglet actif n'existe plus (ou n'a jamais été défini), on bascule sur le premier dispo
+      if (!availableIds.includes(this.tabGroups.primary)) {
+        this.tabGroups.primary = availableIds[0] ?? null;
       }
 
-      span
-        .width($(html).width() / 2)
-        .css(position, "0px")
-        .css(borderRadius, "0px")
-        .toggle("display");
-      $(ev.currentTarget).toggleClass("clicked");
-    });
+      for (const t of availableIds) {
+        const isActive = t === this.tabGroups.primary;
+        tabs[t].active = isActive;
+        tabs[t].cssClass = isActive ? "active" : "";
+      }
+    }
 
-    html.find(".addCJet button.add").click((ev) => {
-      const target = $(ev.currentTarget);
-      const list = target.data("list").length === 0 ? [] : target.data("list").split(",");
-      const toadd = html.find(".addCJet select.list").val();
-      list.push(toadd);
+    return tabs;
+  }
 
-      this.item.update({ [`system.actives.jet.variable.caracteristiques`]: list });
-    });
+  static async #onAddToList(event, target) {
+    const data = target.dataset;
+    const path = data.list;
+    const list = foundry.utils.getProperty(this.item, path);
+    const selected = data.toadd;
 
-    html.find(".addDmg button.add").click((ev) => {
-      const target = $(ev.currentTarget);
-      const list = target.data("list").length === 0 ? [] : target.data("list").split(",");
-      const toupdate = target.data("toupdate");
-      const addClass = target.data("class");
-      const toaddD = html.find(`.${addClass} input.dice`).val();
-      const toaddF = html.find(`.${addClass} input.fixe`).val();
+    if (!list.includes(selected)) {
+      list.push(selected);
+      const update = {};
+      update[path] = list;
 
-      list.push(`${toaddD}${game.i18n.localize("KNIGHT.JETS.Des-short")}6+${toaddF}`);
-      list.sort((a, b) => {
-        const aSplit1 = parseInt(a.split("D")[0]);
-        const aSplit2 = parseInt(a.split("+")[1]);
-        const bSplit1 = parseInt(b.split("D")[0]);
-        const bSplit2 = parseInt(b.split("+")[1]);
-        const dice = aSplit1 - bSplit1;
-        const fixe = aSplit2 - bSplit2;
+      await this.item.update(update);
+    }
+  }
 
-        if (dice > 0) return 1;
-        else if (dice < 0) return -1;
-        else if (dice === 0) {
-          if (fixe > 0) return 1;
-          if (fixe <= 0) return -1;
+  static async #onDeleteToList(event, target) {
+    const data = target.dataset;
+    const path = data.path;
+    const list = foundry.utils.getProperty(this.item, path);
+
+    list.splice(Number(data.index), 1);
+    const update = {};
+    update[path] = list;
+
+    await this.item.update(update);
+  }
+
+  /*_onRender(context, options) {
+    super._onRender(context, options);
+
+    this._clickController?.abort();
+    this._clickController = new AbortController();
+    this.element.addEventListener(
+      "click",
+      async (event) => {
+        const target = event.target.closest("button, a, img");
+        if (!target) return;
+
+        if (target.matches("button[type='action']")) event.preventDefault();
+
+        if (target.matches(".blockLeft button[data-type]")) {
+          await this.item.update({ "system.type": target.dataset.value });
+          return;
         }
-      });
 
-      this.item.update({ [`system.${toupdate}`]: list });
-    });
+        if (
+          target.matches(".passive button:not([data-action='btnToggle']), .active button.clickable")
+        ) {
+          const path = target.dataset.toupdate;
+          if (!path) return;
+          const value = !foundry.utils.getProperty(this.item.system, path);
+          await this.item.update({ [`system.${path}`]: value });
+          return;
+        }
 
-    html.find(".addCJet img.delete").click((ev) => {
-      const target = $(ev.currentTarget);
-      const index = target.data("index");
-      const list = target.data("list").split(",");
+        if (target.matches(".addCJet button.add")) {
+          const list = target.dataset.list ? target.dataset.list.split(",") : [];
+          const value = target.closest(".addCJet").querySelector("select.list").value;
+          if (value) list.push(value);
+          await this.item.update({ "system.actives.jet.variable.caracteristiques": list });
+          return;
+        }
 
-      list.splice(index, 1);
+        if (target.matches(".addDmg button.add")) {
+          const list = target.dataset.list ? target.dataset.list.split(",") : [];
+          const group = target.closest(".addDmg");
+          const dice = group.querySelector("input.dice").value;
+          const fixe = group.querySelector("input.fixe").value;
+          list.push(`${dice}${game.i18n.localize("KNIGHT.JETS.Des-short")}6+${fixe}`);
+          list.sort((a, b) => {
+            const [aDice, aFixe] = a.split(/[D+]/).map(Number);
+            const [bDice, bFixe] = b.split(/[D+]/).map(Number);
+            return aDice - bDice || aFixe - bFixe;
+          });
+          await this.item.update({ [`system.${target.dataset.toupdate}`]: list });
+          return;
+        }
 
-      this.item.update({ [`system.actives.jet.variable.caracteristiques`]: list });
-    });
+        if (target.matches(".addCJet img.delete")) {
+          const list = target.dataset.list ? target.dataset.list.split(",") : [];
+          list.splice(Number(target.dataset.index), 1);
+          await this.item.update({ "system.actives.jet.variable.caracteristiques": list });
+          return;
+        }
 
-    html.find(".addDmg img.delete").click((ev) => {
-      const target = $(ev.currentTarget);
-      const index = target.data("index");
-      const toupdate = target.data("toupdate");
-      const list = target.data("list").split(",");
+        if (target.matches(".addDmg img.delete")) {
+          const list = target.dataset.list ? target.dataset.list.split(",") : [];
+          list.splice(Number(target.dataset.index), 1);
+          await this.item.update({ [`system.${target.dataset.toupdate}`]: list });
+          return;
+        }
 
-      list.splice(index, 1);
+        if (target.matches(".effets a.edit")) {
+          const path = target.dataset.path.replace(/^system\./, "");
+          const data = foundry.utils.getProperty(this.item.system, path);
+          if (!data) return;
+          await new game.knight.applications.KnightEffetsDialog(
+            {
+              uuid: this.item.uuid,
+              path,
+            },
+            data,
+          ).render(true);
+          return;
+        }
 
-      this.item.update({ [`system.${toupdate}`]: list });
-    });
-
-    html.find("textarea").blur(async (ev) => {
-      const textarea = $(ev.currentTarget);
-      const min = textarea.data("min");
-      const toupdate = textarea.data("toupdate");
-
-      textarea.height(min);
-      const height = ev.currentTarget.scrollHeight + 1;
-
-      textarea.height(Math.max(height, min));
-      this.item.update({ [`system.${toupdate}`]: Math.max(height, min) });
-    });
+        if (target.matches("img.info")) {
+          const info = target.nextElementSibling;
+          if (info?.classList.contains("hideInfo")) info.hidden = !info.hidden;
+        }
+      },
+      { signal: this._clickController.signal },
+    );
   }*/
 
   /*_prepareEffets(context) {
     const labels = getAllEffects();
+    const systemData = context.document.system;
+    const effectPaths = [
+      "passives.capacites.oriflamme.update.effets",
+      "passives.capacites.cea.update.vague.effets",
+      "passives.capacites.cea.update.salve.effets",
+      "passives.capacites.cea.update.rayon.effets",
+      "passives.capacites.morph.update.polymorphie.griffe.effets",
+      "passives.capacites.morph.update.polymorphie.lame.effets",
+      "passives.capacites.morph.update.polymorphie.canon.effets",
+      "actives.degats.effets",
+      "actives.violence.effets",
+      "actives.effets",
+    ];
 
-    const oriflamme = context.data.system.passives.capacites.oriflamme.update.effets;
-
-    oriflamme.liste = listEffects(oriflamme, labels);
-
-    const vague = context.data.system.passives.capacites.cea.update.vague.effets;
-
-    vague.liste = listEffects(vague, labels);
-
-    const salve = context.data.system.passives.capacites.cea.update.salve.effets;
-
-    salve.liste = listEffects(salve, labels);
-
-    const rayon = context.data.system.passives.capacites.cea.update.rayon.effets;
-
-    rayon.liste = listEffects(rayon, labels);
-
-    const griffe = context.data.system.passives.capacites.morph.update.polymorphie.griffe.effets;
-
-    griffe.liste = listEffects(griffe, labels);
-
-    const lame = context.data.system.passives.capacites.morph.update.polymorphie.lame.effets;
-
-    lame.liste = listEffects(lame, labels);
-
-    const canon = context.data.system.passives.capacites.morph.update.polymorphie.canon.effets;
-
-    canon.liste = listEffects(canon, labels);
-
-    const degats = context.data.system.actives.degats.effets;
-
-    degats.liste = listEffects(degats, labels);
-
-    const violence = context.data.system.actives.violence.effets;
-
-    violence.liste = listEffects(violence, labels);
-
-    const effets = context.data.system.actives.effets;
-
-    effets.liste = listEffects(effets, labels);
+    for (const path of effectPaths) {
+      const effects = foundry.utils.getProperty(systemData, path);
+      if (effects) effects.liste = listEffects(effects, labels);
+    }
   }*/
 }

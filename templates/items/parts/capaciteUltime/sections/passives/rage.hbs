@@ -1,0 +1,109 @@
+<div class="data {{ifThen systemData.passives.capacites.rage.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.rage.actif
+        path="system.passives.capacites.rage.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Label"
+    }}
+
+    <h3 class="subtitre" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Colere"}}</h3>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.MALUS.Reaction"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.colere.reaction"
+            value="{{systemData.passives.capacites.rage.update.colere.reaction}}" min="0"/>
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.MALUS.Defense"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.colere.defense"
+            value="{{systemData.passives.capacites.rage.update.colere.defense}}" min="0"/>
+    </label>
+
+    <div class="diceSpanWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Subis"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.rage.update.colere.subis"
+                value="{{systemData.passives.capacites.rage.update.colere.subis}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </div>
+    </div>
+
+    <div style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        {{~> knight.item.btnToggle
+            value=systemData.passives.capacites.rage.update.colere.combosInterdits.has
+            path="system.passives.capacites.rage.update.colere.combosInterdits.has"
+            localize="KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Activer"
+        }}
+    </div>
+
+    <h3 class="subtitre" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Rage"}}</h3>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.MALUS.Reaction"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.rage.reaction"
+            value="{{systemData.passives.capacites.rage.update.rage.reaction}}" min="0"/>
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.MALUS.Defense"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.rage.defense"
+            value="{{systemData.passives.capacites.rage.update.rage.defense}}" min="0"/>
+    </label>
+
+    <div class="diceSpanWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Subis"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.rage.update.rage.subis"
+                value="{{systemData.passives.capacites.rage.update.rage.subis}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </div>
+    </div>
+
+    <div style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        {{~> knight.item.btnToggle
+            value=systemData.passives.capacites.rage.update.rage.combosInterdits.has
+            path="system.passives.capacites.rage.update.rage.combosInterdits.has"
+            localize="KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Activer"
+        }}
+    </div>
+
+    <h3 class="subtitre" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Fureur"}}</h3>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.MALUS.Reaction"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.fureur.reaction"
+            value="{{systemData.passives.capacites.rage.update.fureur.reaction}}" min="0"/>
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.MALUS.Defense"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.fureur.defense"
+            value="{{systemData.passives.capacites.rage.update.fureur.defense}}" min="0"/>
+    </label>
+
+    <div class="diceSpanWithLabel" style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Subis"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.rage.update.fureur.subis"
+                value="{{systemData.passives.capacites.rage.update.fureur.subis}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </div>
+    </div>
+
+    <div style="{{ifThen systemData.passives.capacites.rage.actif '' 'display:none;'}}">
+        {{~> knight.item.btnToggle
+            value=systemData.passives.capacites.rage.update.fureur.combosInterdits.has
+            path="system.passives.capacites.rage.update.fureur.combosInterdits.has"
+            localize="KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Activer"
+        }}
+    </div>
+</div>

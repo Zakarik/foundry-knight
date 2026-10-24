@@ -136,6 +136,8 @@ export const RegisterHandlebars = function () {
   });
 
   Handlebars.registerHelper("getEffetsDescription", function (description) {
+    if (!description) return "";
+
     const result = description.includes("<p>")
       ? description
       : "<p>" +

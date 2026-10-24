@@ -1,7 +1,7 @@
 import BaseItemDataModel from "../base/base-item-data-model.mjs";
 import ItemSpecialEffectsPathMixinModel from "../base/mixin-item-specialEffects-path-model.mjs";
 import ItemSpecialEffectsInternalMixinModel from "../base/mixin-item-specialEffects-internal-model.mjs";
-import { capitalizeFirstLetter } from "../../../helpers/common.mjs";
+import { listEffects, getAllEffects, capitalizeFirstLetter } from "../../../helpers/common.mjs";
 import { combine } from "../../../utils/field-builder.mjs";
 
 export class CapaciteUltimeDataModel extends ItemSpecialEffectsPathMixinModel(
@@ -48,6 +48,7 @@ export class CapaciteUltimeDataModel extends ItemSpecialEffectsPathMixinModel(
                 "schema",
                 {
                   caracteristiques: ["arr", ["str", { initial: "" }]],
+                  select: ["str", { initial: "" }],
                 },
               ],
             },
@@ -68,6 +69,13 @@ export class CapaciteUltimeDataModel extends ItemSpecialEffectsPathMixinModel(
                 "schema",
                 {
                   energie: ["num", { initial: 0, nullable: false, integer: true }],
+                  select: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 0, nullable: false, integer: true }],
+                      fixe: ["num", { initial: 0, nullable: false, integer: true }],
+                    },
+                  ],
                   paliers: ["arr", ["str", { initial: "" }]],
                 },
               ],
@@ -97,6 +105,13 @@ export class CapaciteUltimeDataModel extends ItemSpecialEffectsPathMixinModel(
                 "schema",
                 {
                   energie: ["num", { initial: 0, nullable: false, integer: true }],
+                  select: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 0, nullable: false, integer: true }],
+                      fixe: ["num", { initial: 0, nullable: false, integer: true }],
+                    },
+                  ],
                   paliers: ["arr", ["str", { initial: "" }]],
                 },
               ],
@@ -650,368 +665,75 @@ export class CapaciteUltimeDataModel extends ItemSpecialEffectsPathMixinModel(
 
     return combine(base, specific);
   }
-  /*static defineSchema() {
-    const {
-      StringField,
-      HTMLField,
-      SchemaField,
-      BooleanField,
-      NumberField,
-      ArrayField,
-      ObjectField,
-    } = foundry.data.fields;
 
-    return {
-      active: new BooleanField({ initial: false }),
-      description: new HTMLField({ initial: "" }),
-      type: new StringField({ initial: "passive" }),
-      condition: new StringField({ initial: "" }),
-      actives: new SchemaField({
-        activation: new StringField({ initial: "" }),
-        duree: new StringField({ initial: "" }),
-        instant: new BooleanField({ initial: true }),
-        energie: new NumberField({ initial: 0, nullable: false, integer: true }),
-        heroisme: new NumberField({ initial: 0, nullable: false, integer: true }),
-        reaction: new NumberField({ initial: 0, nullable: false, integer: true }),
-        defense: new NumberField({ initial: 0, nullable: false, integer: true }),
-        recuperation: new SchemaField({
-          PA: new BooleanField({ initial: false }),
-          PS: new BooleanField({ initial: false }),
-          PE: new BooleanField({ initial: false }),
-        }),
-        jet: new SchemaField({
-          actif: new BooleanField({ initial: false }),
-          isfixe: new BooleanField({ initial: false }),
-          fixe: new SchemaField({
-            label: new StringField({ initial: "" }),
-            dice: new NumberField({ initial: 0, nullable: false, integer: true }),
-            fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-          }),
-          variable: new SchemaField({
-            caracteristiques: new ArrayField(new StringField()),
-          }),
-        }),
-        degats: new SchemaField({
-          actif: new BooleanField({ initial: false }),
-          isfixe: new BooleanField({ initial: true }),
-          fixe: new SchemaField({
-            dice: new NumberField({ initial: 0, nullable: false, integer: true }),
-            fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-          }),
-          variable: new SchemaField({
-            energie: new NumberField({ initial: 0, nullable: false, integer: true }),
-            paliers: new ArrayField(new StringField()),
-          }),
-          effets: new SchemaField({
-            raw: new ArrayField(new StringField()),
-            custom: new ArrayField(new ObjectField()),
-            liste: new ArrayField(new StringField()),
-          }),
-        }),
-        violence: new SchemaField({
-          actif: new BooleanField({ initial: false }),
-          isfixe: new BooleanField({ initial: true }),
-          fixe: new SchemaField({
-            dice: new NumberField({ initial: 0, nullable: false, integer: true }),
-            fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-          }),
-          variable: new SchemaField({
-            energie: new NumberField({ initial: 0, nullable: false, integer: true }),
-            paliers: new ArrayField(new StringField()),
-          }),
-          effets: new SchemaField({
-            raw: new ArrayField(new StringField()),
-            custom: new ArrayField(new ObjectField()),
-            liste: new ArrayField(new StringField()),
-          }),
-        }),
-        effets: new SchemaField({
-          actif: new BooleanField({ initial: false }),
-          raw: new ArrayField(new StringField()),
-          custom: new ArrayField(new ObjectField()),
-          liste: new ArrayField(new StringField()),
-        }),
-        textarea: new SchemaField({
-          activation: new NumberField({ initial: 20, nullable: false, integer: true }),
-          duree: new NumberField({ initial: 20, nullable: false, integer: true }),
-        }),
-      }),
-      passives: new SchemaField({
-        sante: new BooleanField({ initial: false }),
-        contact: new SchemaField({
-          actif: new BooleanField({ initial: false }),
-          value: new NumberField({ initial: 0, nullable: false, integer: true }),
-        }),
-        capacites: new SchemaField({
-          actif: new BooleanField({ initial: false }),
-          ascension: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              permanent: new BooleanField({ initial: false }),
-              prestige: new BooleanField({ initial: false }),
-            }),
-          }),
-          cea: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              vague: new SchemaField({
-                degats: new SchemaField({
-                  dice: new NumberField({ initial: 5, nullable: false, integer: true }),
-                  fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                }),
-                violence: new SchemaField({
-                  dice: new NumberField({ initial: 5, nullable: false, integer: true }),
-                  fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                }),
-                effets: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField(), { initial: ["parasitage 6"] }),
-                  custom: new ArrayField(new ObjectField()),
-                }),
-              }),
-              salve: new SchemaField({
-                degats: new SchemaField({
-                  dice: new NumberField({ initial: 5, nullable: false, integer: true }),
-                  fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                }),
-                violence: new SchemaField({
-                  dice: new NumberField({ initial: 5, nullable: false, integer: true }),
-                  fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                }),
-                effets: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField(), { initial: ["dispersion 12"] }),
-                  custom: new ArrayField(new ObjectField()),
-                }),
-              }),
-              rayon: new SchemaField({
-                degats: new SchemaField({
-                  dice: new NumberField({ initial: 5, nullable: false, integer: true }),
-                  fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                }),
-                violence: new SchemaField({
-                  dice: new NumberField({ initial: 5, nullable: false, integer: true }),
-                  fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                }),
-                effets: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField(), { initial: ["ignorechampdeforce"] }),
-                  custom: new ArrayField(new ObjectField()),
-                }),
-              }),
-            }),
-          }),
-          changeling: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              duree: new StringField({ initial: "" }),
-              energie: new SchemaField({
-                personnel: new NumberField({ initial: 0, nullable: false, integer: true }),
-              }),
-              odbonus: new NumberField({ initial: 1, nullable: false, integer: true }),
-              caracteristique: new NumberField({ initial: 2, nullable: false, integer: true }),
-              textarea: new NumberField({ initial: 20, nullable: false, integer: true }),
-            }),
-          }),
-          companions: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              deployables: new NumberField({ initial: 3, nullable: false, integer: true }),
-            }),
-          }),
-          ghost: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              desactivation: new BooleanField({ initial: false }),
-            }),
-          }),
-          goliath: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              taille: new SchemaField({
-                max: new NumberField({ initial: 10, nullable: false, integer: true }),
-              }),
-              malus: new SchemaField({
-                reaction: new SchemaField({
-                  value: new NumberField({ initial: 0, nullable: false, integer: true }),
-                }),
-                defense: new SchemaField({
-                  value: new NumberField({ initial: 0, nullable: false, integer: true }),
-                }),
-              }),
-            }),
-          }),
-          mechanic: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              bonus: new NumberField({ initial: 2, nullable: false, integer: true }),
-            }),
-          }),
-          morph: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              vol: new SchemaField({
-                description: new StringField({ initial: "" }),
-                textarea: new NumberField({ initial: 20, nullable: false, integer: true }),
-              }),
-              etirement: new SchemaField({
-                portee: new StringField({ initial: "" }),
-                textarea: new NumberField({ initial: 20, nullable: false, integer: true }),
-              }),
-              metal: new SchemaField({
-                bonus: new SchemaField({
-                  champDeForce: new NumberField({ initial: 8, nullable: false, integer: true }),
-                }),
-              }),
-              fluide: new SchemaField({
-                bonus: new SchemaField({
-                  reaction: new NumberField({ initial: 5, nullable: false, integer: true }),
-                  defense: new NumberField({ initial: 5, nullable: false, integer: true }),
-                }),
-              }),
-              polymorphie: new SchemaField({
-                description: new StringField({ initial: "" }),
-                griffe: new SchemaField({
-                  degats: new SchemaField({
-                    dice: new NumberField({ initial: 2, nullable: false, integer: true }),
-                    fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                  }),
-                  violence: new SchemaField({
-                    dice: new NumberField({ initial: 1, nullable: false, integer: true }),
-                    fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                  }),
-                  effets: new SchemaField({
-                    liste: new ArrayField(new StringField()),
-                    raw: new ArrayField(new StringField()),
-                    custom: new ArrayField(new ObjectField()),
-                  }),
-                }),
-                lame: new SchemaField({
-                  degats: new SchemaField({
-                    dice: new NumberField({ initial: 2, nullable: false, integer: true }),
-                    fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                  }),
-                  violence: new SchemaField({
-                    dice: new NumberField({ initial: 1, nullable: false, integer: true }),
-                    fixe: new NumberField({ initial: 0, nullable: false, integer: true }),
-                  }),
-                  effets: new SchemaField({
-                    liste: new ArrayField(new StringField()),
-                    raw: new ArrayField(new StringField()),
-                    custom: new ArrayField(new ObjectField()),
-                  }),
-                }),
-                canon: new SchemaField({
-                  degats: new SchemaField({
-                    dice: new NumberField({ initial: 3, nullable: false, integer: true }),
-                    fixe: new NumberField({ initial: 3, nullable: false, integer: true }),
-                  }),
-                  violence: new SchemaField({
-                    dice: new NumberField({ initial: 3, nullable: false, integer: true }),
-                    fixe: new NumberField({ initial: 3, nullable: false, integer: true }),
-                  }),
-                  effets: new SchemaField({
-                    liste: new ArrayField(new StringField()),
-                    raw: new ArrayField(new StringField()),
-                    custom: new ArrayField(new ObjectField()),
-                  }),
-                }),
-                textarea: new NumberField({ initial: 20, nullable: false, integer: true }),
-              }),
-            }),
-          }),
-          oriflamme: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              activation: new StringField({ initial: "deplacement" }),
-              duree: new StringField({ initial: "" }),
-              portee: new StringField({ initial: "longue" }),
-              energie: new NumberField({ initial: 6, nullable: false, integer: true }),
-              degats: new SchemaField({
-                dice: new NumberField({ initial: 8, nullable: false, integer: true }),
-                fixe: new NumberField({ initial: 12, nullable: false, integer: true }),
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({ initial: 12, nullable: false, integer: true }),
-                fixe: new NumberField({ initial: 12, nullable: false, integer: true }),
-              }),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField(), { initial: ["antianatheme", "lumiere 4"] }),
-                custom: new ArrayField(new ObjectField()),
-              }),
-            }),
-          }),
-          rage: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              colere: new SchemaField({
-                defense: new NumberField({ initial: 0, nullable: false, integer: true }),
-                reaction: new NumberField({ initial: 0, nullable: false, integer: true }),
-                subis: new NumberField({ initial: 0, nullable: false, integer: true }),
-                combosInterdits: new SchemaField({
-                  has: new BooleanField({ initial: false }),
-                }),
-              }),
-              rage: new SchemaField({
-                defense: new NumberField({ initial: 0, nullable: false, integer: true }),
-                reaction: new NumberField({ initial: 0, nullable: false, integer: true }),
-                subis: new NumberField({ initial: 0, nullable: false, integer: true }),
-                combosInterdits: new SchemaField({
-                  has: new BooleanField({ initial: false }),
-                }),
-              }),
-              fureur: new SchemaField({
-                defense: new NumberField({ initial: 0, nullable: false, integer: true }),
-                reaction: new NumberField({ initial: 0, nullable: false, integer: true }),
-                subis: new NumberField({ initial: 0, nullable: false, integer: true }),
-                combosInterdits: new SchemaField({
-                  has: new BooleanField({ initial: false }),
-                }),
-              }),
-            }),
-          }),
-          type: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-          }),
-          vision: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              duree: new StringField({ initial: "" }),
-              energie: new SchemaField({
-                changer: new NumberField({ initial: 0, nullable: false, integer: true }),
-              }),
-              textarea: new NumberField({ initial: 20, nullable: false, integer: true }),
-            }),
-          }),
-          warlord: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              activer: new BooleanField({ initial: false }),
-              prolonger: new BooleanField({ initial: false }),
-            }),
-          }),
-        }),
-        special: new SchemaField({
-          recolteflux: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-            update: new SchemaField({
-              conflit: new SchemaField({
-                base: new NumberField({ initial: 10, nullable: false, integer: true }),
-                tour: new NumberField({ initial: 5, nullable: false, integer: true }),
-              }),
-              horsconflit: new SchemaField({
-                base: new NumberField({ initial: 10, nullable: false, integer: true }),
-              }),
-            }),
-          }),
-          contrecoups: new SchemaField({
-            actif: new BooleanField({ initial: false }),
-          }),
-        }),
-      }),
-    };
-  }*/
+  static migrateData(source) {
+    if (!source?.effects) {
+      const list = [];
+      console.error("test1");
+
+      const type = source.type;
+      const isPassive = type === "passive" ? true : false;
+
+      console.error(isPassive);
+
+      if (isPassive) {
+        const contact = source?.passives?.contact?.actif;
+        const noDmgSante = source?.passives?.sante;
+
+        console.error(noDmgSante);
+
+        if (contact) {
+          list.push({
+            path: `system.contact`,
+            type: "add",
+            value: source?.passives?.contact?.value ?? 0,
+          });
+        }
+
+        if (noDmgSante) {
+          list.push({
+            path: `system.combat.noDmgSante`,
+            type: "override",
+            value: true,
+          });
+
+          list.push({
+            path: `system.sante.pourcentage.withArmor`,
+            type: "add",
+            value: 50,
+          });
+        }
+      } else {
+        const reaction = source?.actives?.reaction ?? 0;
+        const defense = source?.actives?.defense ?? 0;
+
+        if (reaction > 0) {
+          list.push({
+            path: `system.reaction.withArmor`,
+            type: "add",
+            value: reaction,
+          });
+        }
+
+        if (defense > 0) {
+          list.push({
+            path: `system.defense.withArmor`,
+            type: "add",
+            value: defense,
+          });
+        }
+      }
+
+      if (list.length > 0)
+        source.effects = {
+          list: list,
+        };
+    }
+
+    console.error("test3");
+
+    return super.migrateData(source);
+  }
 
   get listEffect() {
     return this.effects.list;
@@ -1026,6 +748,37 @@ export class CapaciteUltimeDataModel extends ItemSpecialEffectsPathMixinModel(
         writable: true,
         enumerable: true,
         configurable: true,
+      });
+    }
+  }
+
+  prepareDerivedData() {
+    super.prepareDerivedData();
+
+    this._prepareEffets();
+  }
+
+  _prepareEffets() {
+    const bEffets = [
+      "passives.capacites.cea.update.rayon.effets",
+      "passives.capacites.cea.update.salve.effets",
+      "passives.capacites.cea.update.vague.effets",
+      "passives.capacites.morph.update.polymorphie.lame.effets",
+      "passives.capacites.morph.update.polymorphie.canon.effets",
+      "passives.capacites.morph.update.polymorphie.griffe.effets",
+      "passives.capacites.oriflamme.update.effets",
+      "actives.degats.effets",
+      "actives.violence.effets",
+      "actives.effets",
+    ];
+
+    const labels = getAllEffects();
+
+    for (const e of bEffets) {
+      const data = foundry.utils.getProperty(this, e);
+
+      Object.defineProperty(data, "liste", {
+        value: listEffects(data, labels, data?.chargeur),
       });
     }
   }

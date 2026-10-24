@@ -11,128 +11,380 @@ import {
 
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
 import ArmureAPI from "../../../utils/armureAPI.mjs";
-import { SOCKET } from '../../../utils/socketHandler.mjs';
+import { SOCKET } from "../../../utils/socketHandler.mjs";
 
-import { ArmureCapaciteDataModel } from '../parts/armure-capacite-data-model.mjs';
-import { ArmureSpecialDataModel } from '../parts/armure-special-data-model.mjs';
+import { ArmureCapaciteDataModel } from "../parts/armure-capacite-data-model.mjs";
+import { ArmureSpecialDataModel } from "../parts/armure-special-data-model.mjs";
 
-export class ArmureDataModel extends foundry.abstract.TypeDataModel {
-  static defineSchema() {
-    const {StringField, NumberField, BooleanField, SchemaField, HTMLField, ObjectField, EmbeddedDataField} = foundry.data.fields;
+import ItemSpecialEffectsPathMixinModel from "../base/mixin-item-specialEffects-path-model.mjs";
+import ItemSpecialEffectsInternalMixinModel from "../base/mixin-item-specialEffects-internal-model.mjs";
+import BaseItemDataModel from "../base/base-item-data-model.mjs";
+import { combine } from "../../../utils/field-builder.mjs";
+
+export class ArmureDataModel extends ItemSpecialEffectsInternalMixinModel(BaseItemDataModel) {
+  static get baseDefinition() {
+    const base = super.baseDefinition;
+    const specific = {
+      generation: ["num", { initial: 1, nullable: false, integer: true }],
+      jauges: [
+        "schema",
+        {
+          armure: ["bool", { initial: true }],
+          champDeForce: ["bool", { initial: true }],
+          egide: ["bool", { initial: false }],
+          energie: ["bool", { initial: true }],
+          espoir: ["bool", { initial: true }],
+          flux: ["bool", { initial: false }],
+          sante: ["bool", { initial: true }],
+          heroisme: ["bool", { initial: true }],
+        },
+      ],
+      armure: [
+        "schema",
+        {
+          base: ["num", { initial: 0, nullable: false, integer: true }],
+        },
+      ],
+      champDeForce: [
+        "schema",
+        {
+          base: ["num", { initial: 0, nullable: false, integer: true }],
+        },
+      ],
+      egide: [
+        "schema",
+        {
+          value: ["num", { initial: 0, nullable: false, integer: true }],
+        },
+      ],
+      energie: [
+        "schema",
+        {
+          base: ["num", { initial: 0, nullable: false, integer: true }],
+        },
+      ],
+      espoir: [
+        "schema",
+        {
+          bonus: ["bool", { initial: false }],
+          value: ["num", { initial: 0, nullable: false, integer: true }],
+          remplaceEnergie: ["bool", { initial: false }],
+          cout: ["num", { initial: 2, nullable: false, integer: true }],
+        },
+      ],
+      flux: [
+        "schema",
+        {
+          value: ["num", { initial: 0, nullable: false, integer: true }],
+        },
+      ],
+      capacites: ["embedded", { ArmureCapaciteDataModel }],
+      special: ["embedded", { ArmureSpecialDataModel }],
+      slots: [
+        "schema",
+        {
+          tete: [
+            "schema",
+            {
+              value: ["num", { initial: 0, nullable: false, integer: true }],
+              bonus: ["obj", {}],
+              malus: ["obj", {}],
+            },
+          ],
+          torse: [
+            "schema",
+            {
+              value: ["num", { initial: 0, nullable: false, integer: true }],
+              bonus: ["obj", {}],
+              malus: ["obj", {}],
+            },
+          ],
+          brasGauche: [
+            "schema",
+            {
+              value: ["num", { initial: 0, nullable: false, integer: true }],
+              bonus: ["obj", {}],
+              malus: ["obj", {}],
+            },
+          ],
+          brasDroit: [
+            "schema",
+            {
+              value: ["num", { initial: 0, nullable: false, integer: true }],
+              bonus: ["obj", {}],
+              malus: ["obj", {}],
+            },
+          ],
+          jambeGauche: [
+            "schema",
+            {
+              value: ["num", { initial: 0, nullable: false, integer: true }],
+              bonus: ["obj", {}],
+              malus: ["obj", {}],
+            },
+          ],
+          jambeDroite: [
+            "schema",
+            {
+              value: ["num", { initial: 0, nullable: false, integer: true }],
+              bonus: ["obj", {}],
+              malus: ["obj", {}],
+            },
+          ],
+        },
+      ],
+      overdrives: [
+        "schema",
+        {
+          chair: [
+            "schema",
+            {
+              liste: [
+                "schema",
+                {
+                  deplacement: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  force: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  endurance: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                },
+              ],
+            },
+          ],
+          bete: [
+            "schema",
+            {
+              liste: [
+                "schema",
+                {
+                  hargne: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  combat: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  instinct: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                },
+              ],
+            },
+          ],
+          machine: [
+            "schema",
+            {
+              liste: [
+                "schema",
+                {
+                  tir: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  savoir: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  technique: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                },
+              ],
+            },
+          ],
+          dame: [
+            "schema",
+            {
+              liste: [
+                "schema",
+                {
+                  aura: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  parole: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  sangFroid: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                },
+              ],
+            },
+          ],
+          masque: [
+            "schema",
+            {
+              liste: [
+                "schema",
+                {
+                  discretion: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  dexterite: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                  perception: [
+                    "schema",
+                    { value: ["num", { initial: 0, nullable: false, integer: true }] },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      evolutions: [
+        "schema",
+        {
+          paliers: ["num", { initial: 0, nullable: false, integer: true }],
+          liste: ["obj", {}],
+          special: ["obj", {}],
+        },
+      ],
+      archivage: ["obj", {}],
+    };
+
+    return combine(base, specific);
+  }
+
+  /*static defineSchema() {
+    const {
+      StringField,
+      NumberField,
+      BooleanField,
+      SchemaField,
+      HTMLField,
+      ObjectField,
+      EmbeddedDataField,
+    } = foundry.data.fields;
 
     return {
-      description:new HTMLField({initial:''}),
-      generation: new NumberField({initial: 1}),
+      generation: new NumberField({ initial: 1 }),
       jauges: new SchemaField({
-        armure: new BooleanField({initial: true}),
-        champDeForce: new BooleanField({initial: true}),
-        egide: new BooleanField({initial: false}),
-        energie: new BooleanField({initial: true}),
-        espoir: new BooleanField({initial: true}),
-        flux: new BooleanField({initial: false}),
-        sante: new BooleanField({initial: true}),
-        heroisme: new BooleanField({initial: true})
+        armure: new BooleanField({ initial: true }),
+        champDeForce: new BooleanField({ initial: true }),
+        egide: new BooleanField({ initial: false }),
+        energie: new BooleanField({ initial: true }),
+        espoir: new BooleanField({ initial: true }),
+        flux: new BooleanField({ initial: false }),
+        sante: new BooleanField({ initial: true }),
+        heroisme: new BooleanField({ initial: true }),
       }),
       armure: new SchemaField({
-        base: new NumberField({initial: 0}),
+        base: new NumberField({ initial: 0 }),
       }),
       champDeForce: new SchemaField({
-        base: new NumberField({initial: 0}),
+        base: new NumberField({ initial: 0 }),
       }),
       egide: new SchemaField({
-        value: new NumberField({initial: 0})
+        value: new NumberField({ initial: 0 }),
       }),
       energie: new SchemaField({
-        base: new NumberField({initial: 0}),
+        base: new NumberField({ initial: 0 }),
       }),
       espoir: new SchemaField({
-        bonus: new BooleanField({initial: false}),
-        value: new NumberField({initial: 0}),
-        remplaceEnergie: new BooleanField({initial: false}),
-        cout: new NumberField({initial: 2})
+        bonus: new BooleanField({ initial: false }),
+        value: new NumberField({ initial: 0 }),
+        remplaceEnergie: new BooleanField({ initial: false }),
+        cout: new NumberField({ initial: 2 }),
       }),
       flux: new SchemaField({
-        value: new NumberField({initial: 0})
+        value: new NumberField({ initial: 0 }),
       }),
       capacites: new EmbeddedDataField(ArmureCapaciteDataModel),
       special: new EmbeddedDataField(ArmureSpecialDataModel),
       slots: new SchemaField({
         tete: new SchemaField({
-          value: new NumberField({initial: 0}),
+          value: new NumberField({ initial: 0 }),
           bonus: new ObjectField(),
-          malus: new ObjectField()
+          malus: new ObjectField(),
         }),
         torse: new SchemaField({
-          value: new NumberField({initial: 0}),
+          value: new NumberField({ initial: 0 }),
           bonus: new ObjectField(),
-          malus: new ObjectField()
+          malus: new ObjectField(),
         }),
         brasGauche: new SchemaField({
-          value: new NumberField({initial: 0}),
+          value: new NumberField({ initial: 0 }),
           bonus: new ObjectField(),
-          malus: new ObjectField()
+          malus: new ObjectField(),
         }),
         brasDroit: new SchemaField({
-          value: new NumberField({initial: 0}),
+          value: new NumberField({ initial: 0 }),
           bonus: new ObjectField(),
-          malus: new ObjectField()
+          malus: new ObjectField(),
         }),
         jambeGauche: new SchemaField({
-          value: new NumberField({initial: 0}),
+          value: new NumberField({ initial: 0 }),
           bonus: new ObjectField(),
-          malus: new ObjectField()
+          malus: new ObjectField(),
         }),
         jambeDroite: new SchemaField({
-          value: new NumberField({initial: 0}),
+          value: new NumberField({ initial: 0 }),
           bonus: new ObjectField(),
-          malus: new ObjectField()
-        })
+          malus: new ObjectField(),
+        }),
       }),
       overdrives: new SchemaField({
         chair: new SchemaField({
           liste: new SchemaField({
-            deplacement: new SchemaField({value: new NumberField({initial: 0})}),
-            force: new SchemaField({value: new NumberField({initial: 0})}),
-            endurance: new SchemaField({value: new NumberField({initial: 0})})
-          })
+            deplacement: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            force: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            endurance: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+          }),
         }),
         bete: new SchemaField({
           liste: new SchemaField({
-            hargne: new SchemaField({value: new NumberField({initial: 0})}),
-            combat: new SchemaField({value: new NumberField({initial: 0})}),
-            instinct: new SchemaField({value: new NumberField({initial: 0})})
-          })
+            hargne: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            combat: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            instinct: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+          }),
         }),
         machine: new SchemaField({
           liste: new SchemaField({
-            tir: new SchemaField({value: new NumberField({initial: 0})}),
-            savoir: new SchemaField({value: new NumberField({initial: 0})}),
-            technique: new SchemaField({value: new NumberField({initial: 0})})
-          })
+            tir: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            savoir: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            technique: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+          }),
         }),
         dame: new SchemaField({
           liste: new SchemaField({
-            aura: new SchemaField({value: new NumberField({initial: 0})}),
-            parole: new SchemaField({value: new NumberField({initial: 0})}),
-            sangFroid: new SchemaField({value: new NumberField({initial: 0})})
-          })
+            aura: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            parole: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            sangFroid: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+          }),
         }),
         masque: new SchemaField({
           liste: new SchemaField({
-            discretion: new SchemaField({value: new NumberField({initial: 0})}),
-            dexterite: new SchemaField({value: new NumberField({initial: 0})}),
-            perception: new SchemaField({value: new NumberField({initial: 0})})
-          })
-        })
+            discretion: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            dexterite: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+            perception: new SchemaField({ value: new NumberField({ initial: 0 }) }),
+          }),
+        }),
       }),
       evolutions: new SchemaField({
-        paliers: new NumberField({initial: 0}),
+        paliers: new NumberField({ initial: 0 }),
         liste: new ObjectField(),
-        special: new ObjectField()
+        special: new ObjectField(),
       }),
       archivage: new ObjectField(),
     };
-  }
+  }*/
 
   get actor() {
     return this.item?.actor;
@@ -146,59 +398,69 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const type = this.type;
     let result = true;
 
-    if(type === 'contact') {
-      if(this.options2mains.has) {
-        const actuel = this.options2mains?.actuel ?? '1main';
-        const effets = actuel === '1main' ? this.effets : this.effets2mains;
-        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+    if (type === "contact") {
+      if (this.options2mains.has) {
+        const actuel = this.options2mains?.actuel ?? "1main";
+        const effets = actuel === "1main" ? this.effets : this.effets2mains;
+        const findChargeur = effets.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeur) return;
+        if (!findChargeur) return;
 
-        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+        const chargeurMax = parseInt(findChargeur.split(" ")[1]);
 
-        let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+        let chargeur =
+          effets?.chargeur !== null && effets?.chargeur !== undefined
+            ? parseInt(effets.chargeur)
+            : chargeurMax;
 
-        if(chargeur === 0) result = false;
-
+        if (chargeur === 0) result = false;
       } else {
         const effets = this.effets;
-        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+        const findChargeur = effets.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeur) return;
+        if (!findChargeur) return;
 
-        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+        const chargeurMax = parseInt(findChargeur.split(" ")[1]);
 
-        let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+        let chargeur =
+          effets?.chargeur !== null && effets?.chargeur !== undefined
+            ? parseInt(effets.chargeur)
+            : chargeurMax;
 
-        if(chargeur === 0) result = false;
+        if (chargeur === 0) result = false;
       }
-    }
-    else if(type === 'distance') {
+    } else if (type === "distance") {
       const effets = this.effets;
-      const findChargeurBase = effets.raw.find(itm => itm.includes('chargeur'));
+      const findChargeurBase = effets.raw.find((itm) => itm.includes("chargeur"));
 
-      if(findChargeurBase) {
-        const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
-        const chargeurActuel = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+      if (findChargeurBase) {
+        const chargeurMax = parseInt(findChargeurBase.split(" ")[1]);
+        const chargeurActuel =
+          effets?.chargeur !== null && effets?.chargeur !== undefined
+            ? parseInt(effets.chargeur)
+            : chargeurMax;
 
-        if(chargeurActuel !== 0 && result) result = true;
+        if (chargeurActuel !== 0 && result) result = true;
         else result = false;
-      };
+      }
 
-      if(this.optionsmunitions.has) {
+      if (this.optionsmunitions.has) {
         const actuel = this.optionsmunitions.actuel;
         const munition = this.optionsmunitions?.liste?.[actuel];
 
-        if(munition) {
+        if (munition) {
           const effetsMunition = munition;
-          const findChargeurMunition = munition.raw.find(itm => itm.includes('chargeur'));
+          const findChargeurMunition = munition.raw.find((itm) => itm.includes("chargeur"));
 
-          if(findChargeurMunition) {
-            const chargeurMunitionMax = parseInt(findChargeurMunition.split(' ')[1]);
+          if (findChargeurMunition) {
+            const chargeurMunitionMax = parseInt(findChargeurMunition.split(" ")[1]);
 
-            let chargeurMunition = effetsMunition?.chargeur !== null && effetsMunition?.chargeur !== undefined ? parseInt(effetsMunition.chargeur) : chargeurMunitionMax;
+            let chargeurMunition =
+              effetsMunition?.chargeur !== null && effetsMunition?.chargeur !== undefined
+                ? parseInt(effetsMunition.chargeur)
+                : chargeurMunitionMax;
 
-            if(chargeurMunition !== 0 && result) result = true;
+            if (chargeurMunition !== 0 && result) result = true;
             else result = false;
           }
         }
@@ -211,7 +473,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
   get energieDisponiblePar10() {
     let total = 0;
 
-    if(this.actor) {
+    if (this.actor) {
       total = this.actor?.system?.energyValue ?? 0;
       total = Number(total) || 0; // sécurise en nombre
     }
@@ -221,7 +483,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
   }
 
   async toggleEffect(index, type) {
-    const split = type.split('_');
+    const split = type.split("_");
     const capacite = split[0];
     const subcapacite = split[1];
     const dataCapacite = this.getDataCapacite(capacite, subcapacite);
@@ -229,30 +491,29 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     let activable = undefined;
     let actuel = undefined;
     let name = dataCapacite.name;
-    let isTwo = dataCapacite.path.includes('chargeur2');
-
+    let isTwo = dataCapacite.path.includes("chargeur2");
 
     activable = data?.activable ?? undefined;
-    actuel = isTwo ? activable[index]?.active2 ?? false : activable[index]?.active ?? false;
+    actuel = isTwo ? (activable[index]?.active2 ?? false) : (activable[index]?.active ?? false);
 
-    if(!data) return;
+    if (!data) return;
     const armure = this.item;
 
-    if(!actuel) {
+    if (!actuel) {
       const depense = await this.usePEActivateEffets(armure, name, activable[index]);
 
-      if(!depense) return;
+      if (!depense) return;
     }
 
-    if(isTwo) activable[index].active2 = !actuel;
+    if (isTwo) activable[index].active2 = !actuel;
     else activable[index].active = !actuel;
 
-    let path = dataCapacite.path.split('.');
+    let path = dataCapacite.path.split(".");
     path.pop();
-    path.push('activable');
-    path = path.join('.');
+    path.push("activable");
+    path = path.join(".");
 
-    this.item.update({[path]:activable});
+    this.item.update({ [path]: activable });
 
     const allLabels = getAllEffects();
 
@@ -263,82 +524,99 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const subEffect = splitEffect[1];
     let complet = nameEffect;
 
-    if(otherEffect.length > 1) {
+    if (otherEffect.length > 1) {
       otherEffect.splice(0, 1);
       complet += ` ${otherEffect.join(" ").replace("<space>", " ")}`;
     }
 
-    if(subEffect != undefined) { complet += " "+subEffect; }
+    if (subEffect != undefined) {
+      complet += " " + subEffect;
+    }
 
-    const exec = new game.knight.RollKnight(this.actor,
-    {
-    name:name,
+    const exec = new game.knight.RollKnight(this.actor, {
+      name: name,
     }).sendMessage({
-        text:!actuel ? `${complet} : ${game.i18n.localize('KNIGHT.AUTRE.Activer')}` : `${complet} : ${game.i18n.localize('KNIGHT.AUTRE.Desactiver')}`,
-        classes:'important',
+      text: !actuel
+        ? `${complet} : ${game.i18n.localize("KNIGHT.AUTRE.Activer")}`
+        : `${complet} : ${game.i18n.localize("KNIGHT.AUTRE.Desactiver")}`,
+      classes: "important",
     });
   }
 
   qtyMunition(type, weapon) {
     const capacite = type
-    .replaceAll(/borealis[DC]/g, 'borealis')
-    .replaceAll(/cea(Vague|Salve|Rayon)(C|D)/g, '$1')
-    .replaceAll(/morph(Griffe|Lame|Canon)/g, '$1')
-    .toLowerCase();
+      .replaceAll(/borealis[DC]/g, "borealis")
+      .replaceAll(/cea(Vague|Salve|Rayon)(C|D)/g, "$1")
+      .replaceAll(/morph(Griffe|Lame|Canon)/g, "$1")
+      .toLowerCase();
 
     let result = 0;
 
-    switch(capacite) {
-      case 'borealis':
+    switch (capacite) {
+      case "borealis":
         const mainStd = this.getDataCapacite(capacite);
         const dataStd = mainStd.data;
-        const findChargeurStd = dataStd.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurStd = dataStd.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurStd) return;
+        if (!findChargeurStd) return;
 
-        const chargeurStdMax = parseInt(findChargeurStd.split(' ')[1]);
+        const chargeurStdMax = parseInt(findChargeurStd.split(" ")[1]);
 
-        let chargeurStd = dataStd?.chargeur !== null && dataStd?.chargeur !== undefined ? parseInt(dataStd.chargeur) : chargeurStdMax;
+        let chargeurStd =
+          dataStd?.chargeur !== null && dataStd?.chargeur !== undefined
+            ? parseInt(dataStd.chargeur)
+            : chargeurStdMax;
 
         result = chargeurStd;
         break;
 
-      case 'salve':
-      case 'vague':
-      case 'rayon':
-        const mainCea = this.getDataCapacite('cea', capacite);
+      case "salve":
+      case "vague":
+      case "rayon":
+        const mainCea = this.getDataCapacite("cea", capacite);
         const dataCea = mainCea.data;
-        const findChargeurCea = dataCea.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurCea = dataCea.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurCea) return;
+        if (!findChargeurCea) return;
 
-        const chargeurCeaMax = parseInt(findChargeurCea.split(' ')[1]);
+        const chargeurCeaMax = parseInt(findChargeurCea.split(" ")[1]);
 
-        let chargeurCea = dataCea?.chargeur !== null && dataCea?.chargeur !== undefined ? parseInt(dataCea.chargeur) : chargeurCeaMax;
+        let chargeurCea =
+          dataCea?.chargeur !== null && dataCea?.chargeur !== undefined
+            ? parseInt(dataCea.chargeur)
+            : chargeurCeaMax;
 
         result = chargeurCea;
         break;
 
-      case 'griffe':
-      case 'lame':
-      case 'canon':
-      case 'griffe2':
-      case 'lame2':
-      case 'canon2':
-        let isTwo = capacite.includes('2');
+      case "griffe":
+      case "lame":
+      case "canon":
+      case "griffe2":
+      case "lame2":
+      case "canon2":
+        let isTwo = capacite.includes("2");
 
-        const mainMorph = this.getDataCapacite('morph', capacite);
+        const mainMorph = this.getDataCapacite("morph", capacite);
         const dataMorph = mainMorph.data;
-        const findChargeurMorph = dataMorph.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurMorph = dataMorph.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurMorph) return;
+        if (!findChargeurMorph) return;
 
-        const chargeurMorphMax = parseInt(findChargeurMorph.split(' ')[1]);
+        const chargeurMorphMax = parseInt(findChargeurMorph.split(" ")[1]);
 
         let chargeurMorph = 0;
 
-        if(isTwo) chargeurMorph = dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined ? parseInt(dataMorph.chargeur2) : chargeurMorphMax;
-        else  chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+        if (isTwo)
+          chargeurMorph =
+            dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined
+              ? parseInt(dataMorph.chargeur2)
+              : chargeurMorphMax;
+        else
+          chargeurMorph =
+            dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined
+              ? parseInt(dataMorph.chargeur)
+              : chargeurMorphMax;
 
         result = chargeurMorph;
         break;
@@ -349,111 +627,143 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
   hasMunition(type, weapon) {
     const capacite = type
-    .replaceAll(/borealis[DC]/g, 'borealis')
-    .replaceAll(/cea(Vague|Salve|Rayon)(C|D)/g, '$1')
-    .replaceAll(/morph(Griffe|Lame|Canon)/g, '$1')
-    .toLowerCase();
+      .replaceAll(/borealis[DC]/g, "borealis")
+      .replaceAll(/cea(Vague|Salve|Rayon)(C|D)/g, "$1")
+      .replaceAll(/morph(Griffe|Lame|Canon)/g, "$1")
+      .toLowerCase();
     let result = true;
 
-    switch(capacite) {
-      case 'borealis':
+    switch (capacite) {
+      case "borealis":
         const mainStd = this.getDataCapacite(capacite);
         const dataStd = mainStd.data;
-        const findChargeurStd = dataStd.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurStd = dataStd.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurStd) return;
+        if (!findChargeurStd) return;
 
-        const chargeurStdMax = parseInt(findChargeurStd.split(' ')[1]);
+        const chargeurStdMax = parseInt(findChargeurStd.split(" ")[1]);
 
-        let chargeurStd = dataStd?.chargeur !== null && dataStd?.chargeur !== undefined ? parseInt(dataStd.chargeur) : chargeurStdMax;
+        let chargeurStd =
+          dataStd?.chargeur !== null && dataStd?.chargeur !== undefined
+            ? parseInt(dataStd.chargeur)
+            : chargeurStdMax;
 
-        if(chargeurStd === 0) result = false;
+        if (chargeurStd === 0) result = false;
         break;
 
-      case 'salve':
-      case 'vague':
-      case 'rayon':
-        const mainCea = this.getDataCapacite('cea', capacite);
+      case "salve":
+      case "vague":
+      case "rayon":
+        const mainCea = this.getDataCapacite("cea", capacite);
         const dataCea = mainCea.data;
-        const findChargeurCea = dataCea.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurCea = dataCea.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurCea) return;
+        if (!findChargeurCea) return;
 
-        const chargeurCeaMax = parseInt(findChargeurCea.split(' ')[1]);
+        const chargeurCeaMax = parseInt(findChargeurCea.split(" ")[1]);
 
-        let chargeurCea = dataCea?.chargeur !== null && dataCea?.chargeur !== undefined ? parseInt(dataCea.chargeur) : chargeurCeaMax;
+        let chargeurCea =
+          dataCea?.chargeur !== null && dataCea?.chargeur !== undefined
+            ? parseInt(dataCea.chargeur)
+            : chargeurCeaMax;
 
-        if(chargeurCea === 0) result = false;
+        if (chargeurCea === 0) result = false;
         break;
 
-      case 'griffe':
-      case 'lame':
-      case 'canon':
-      case 'griffe2':
-      case 'lame2':
-      case 'canon2':
-        let isTwo = capacite.includes('2');
+      case "griffe":
+      case "lame":
+      case "canon":
+      case "griffe2":
+      case "lame2":
+      case "canon2":
+        let isTwo = capacite.includes("2");
 
-        const mainMorph = this.getDataCapacite('morph', capacite);
+        const mainMorph = this.getDataCapacite("morph", capacite);
         const dataMorph = mainMorph.data;
-        const findChargeurMorph = dataMorph.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurMorph = dataMorph.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurMorph) return;
+        if (!findChargeurMorph) return;
 
-        const chargeurMorphMax = parseInt(findChargeurMorph.split(' ')[1]);
+        const chargeurMorphMax = parseInt(findChargeurMorph.split(" ")[1]);
 
         let chargeurMorph = 0;
 
-        if(isTwo) chargeurMorph = dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined ? parseInt(dataMorph.chargeur2) : chargeurMorphMax;
-        else  chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+        if (isTwo)
+          chargeurMorph =
+            dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined
+              ? parseInt(dataMorph.chargeur2)
+              : chargeurMorphMax;
+        else
+          chargeurMorph =
+            dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined
+              ? parseInt(dataMorph.chargeur)
+              : chargeurMorphMax;
 
-        if(chargeurMorph === 0) result = false;
+        if (chargeurMorph === 0) result = false;
         break;
 
-      case 'longbow':
-        const mainLBBase = this.getDataCapacite('longbow', 'base');
-        const mainLBListe1 = this.getDataCapacite('longbow', 'liste1');
-        const mainLBListe2 = this.getDataCapacite('longbow', 'liste2');
-        const mainLBListe3 = this.getDataCapacite('longbow', 'liste3');
+      case "longbow":
+        const mainLBBase = this.getDataCapacite("longbow", "base");
+        const mainLBListe1 = this.getDataCapacite("longbow", "liste1");
+        const mainLBListe2 = this.getDataCapacite("longbow", "liste2");
+        const mainLBListe3 = this.getDataCapacite("longbow", "liste3");
         const dataLongbowBase = mainLBBase.data;
         const dataLongbowListe1 = mainLBListe1.data;
         const dataLongbowListe2 = mainLBListe2.data;
         const dataLongbowListe3 = mainLBListe3.data;
-        const findChargeurLongbowBase = dataLongbowBase.raw.find(itm => itm.includes('chargeur'));
-        const findChargeurLongbowListe1 = weapon?.possibility?.liste1?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
-        const findChargeurLongbowListe2 = weapon?.possibility?.liste2?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
-        const findChargeurLongbowListe3 = weapon?.possibility?.liste3?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
+        const findChargeurLongbowBase = dataLongbowBase.raw.find((itm) => itm.includes("chargeur"));
+        const findChargeurLongbowListe1 =
+          weapon?.possibility?.liste1?.selected?.find((itm) => itm.includes("chargeur")) ??
+          undefined;
+        const findChargeurLongbowListe2 =
+          weapon?.possibility?.liste2?.selected?.find((itm) => itm.includes("chargeur")) ??
+          undefined;
+        const findChargeurLongbowListe3 =
+          weapon?.possibility?.liste3?.selected?.find((itm) => itm.includes("chargeur")) ??
+          undefined;
 
-        if(findChargeurLongbowBase) {
-          const chargeurLBMax = parseInt(findChargeurLongbowBase.split(' ')[1]);
+        if (findChargeurLongbowBase) {
+          const chargeurLBMax = parseInt(findChargeurLongbowBase.split(" ")[1]);
 
-          let chargeurLb = dataLongbowBase?.chargeur !== null && dataLongbowBase?.chargeur !== undefined ? parseInt(dataLongbowBase.chargeur) : chargeurLBMax;
+          let chargeurLb =
+            dataLongbowBase?.chargeur !== null && dataLongbowBase?.chargeur !== undefined
+              ? parseInt(dataLongbowBase.chargeur)
+              : chargeurLBMax;
 
-          if(chargeurLb === 0) result = false;
+          if (chargeurLb === 0) result = false;
         }
 
-        if(findChargeurLongbowListe1) {
-          const chargeurL1Max = parseInt(findChargeurLongbowListe1.split(' ')[1]);
+        if (findChargeurLongbowListe1) {
+          const chargeurL1Max = parseInt(findChargeurLongbowListe1.split(" ")[1]);
 
-          let chargeurL1 = dataLongbowListe1?.chargeur !== null && dataLongbowListe1?.chargeur !== undefined ? parseInt(dataLongbowListe1.chargeur) : chargeurL1Max;
+          let chargeurL1 =
+            dataLongbowListe1?.chargeur !== null && dataLongbowListe1?.chargeur !== undefined
+              ? parseInt(dataLongbowListe1.chargeur)
+              : chargeurL1Max;
 
-          if(chargeurL1 === 0) result = false;
+          if (chargeurL1 === 0) result = false;
         }
 
-        if(findChargeurLongbowListe2) {
-          const chargeurL2Max = parseInt(findChargeurLongbowListe2.split(' ')[1]);
+        if (findChargeurLongbowListe2) {
+          const chargeurL2Max = parseInt(findChargeurLongbowListe2.split(" ")[1]);
 
-          let chargeurL2 = dataLongbowListe2?.chargeur !== null && dataLongbowListe2?.chargeur !== undefined ? parseInt(dataLongbowListe2.chargeur) : chargeurL2Max;
+          let chargeurL2 =
+            dataLongbowListe2?.chargeur !== null && dataLongbowListe2?.chargeur !== undefined
+              ? parseInt(dataLongbowListe2.chargeur)
+              : chargeurL2Max;
 
-          if(chargeurL2 === 0) result = false;
+          if (chargeurL2 === 0) result = false;
         }
 
-        if(findChargeurLongbowListe3) {
-          const chargeurL3Max = parseInt(findChargeurLongbowListe3.split(' ')[1]);
+        if (findChargeurLongbowListe3) {
+          const chargeurL3Max = parseInt(findChargeurLongbowListe3.split(" ")[1]);
 
-          let chargeurL3 = dataLongbowListe3?.chargeur !== null && dataLongbowListe3?.chargeur !== undefined ? parseInt(dataLongbowListe3.chargeur) : chargeurL3Max;
+          let chargeurL3 =
+            dataLongbowListe3?.chargeur !== null && dataLongbowListe3?.chargeur !== undefined
+              ? parseInt(dataLongbowListe3.chargeur)
+              : chargeurL3Max;
 
-          if(chargeurL3 === 0) result = false;
+          if (chargeurL3 === 0) result = false;
         }
 
         break;
@@ -463,7 +773,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
   }
 
   addMunition(index, type) {
-    const split = type.split('_');
+    const split = type.split("_");
     const capacite = split[0];
     const subcapacite = split[1];
     const dataCapacite = this.getDataCapacite(capacite, subcapacite);
@@ -472,29 +782,36 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     let actuel = undefined;
     let name = dataCapacite.name;
 
-
     chargeur = data?.raw?.[index] ?? undefined;
 
-    if(!data || !chargeur) return;
-    if(!chargeur.includes('chargeur')) return;
+    if (!data || !chargeur) return;
+    if (!chargeur.includes("chargeur")) return;
 
-    if(dataCapacite.path.includes('chargeur2')) actuel = data?.chargeur2 === null || data?.chargeur2 === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur2;
-    else actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
+    if (dataCapacite.path.includes("chargeur2"))
+      actuel =
+        data?.chargeur2 === null || data?.chargeur2 === undefined
+          ? parseInt(chargeur.split(" ")[1])
+          : data.chargeur2;
+    else
+      actuel =
+        data?.chargeur === null || data?.chargeur === undefined
+          ? parseInt(chargeur.split(" ")[1])
+          : data.chargeur;
 
+    this.item.update({
+      [dataCapacite.path]: Math.min(actuel + 1, parseInt(chargeur.split(" ")[1])),
+    });
 
-    this.item.update({[dataCapacite.path]:Math.min(actuel+1, parseInt(chargeur.split(' ')[1]))})
-
-    const exec = new game.knight.RollKnight(this.actor,
-    {
-    name:name,
+    const exec = new game.knight.RollKnight(this.actor, {
+      name: name,
     }).sendMessage({
-        text:game.i18n.localize('KNIGHT.JETS.Remet1Charge'),
-        classes:'important',
+      text: game.i18n.localize("KNIGHT.JETS.Remet1Charge"),
+      classes: "important",
     });
   }
 
   removeMunition(index, type) {
-    const split = type.split('_');
+    const split = type.split("_");
     const capacite = split[0];
     const subcapacite = split[1];
     const dataCapacite = this.getDataCapacite(capacite, subcapacite);
@@ -503,133 +820,172 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     let actuel = undefined;
     let name = dataCapacite.name;
 
-    if(!data) return;
+    if (!data) return;
 
     chargeur = data?.raw?.[index] ?? undefined;
 
-    if(!data || !chargeur) return;
-    if(!chargeur.includes('chargeur')) return;
+    if (!data || !chargeur) return;
+    if (!chargeur.includes("chargeur")) return;
 
-    if(dataCapacite.path.includes('chargeur2')) actuel = data?.chargeur2 === null || data?.chargeur2 === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur2;
-    else actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
+    if (dataCapacite.path.includes("chargeur2"))
+      actuel =
+        data?.chargeur2 === null || data?.chargeur2 === undefined
+          ? parseInt(chargeur.split(" ")[1])
+          : data.chargeur2;
+    else
+      actuel =
+        data?.chargeur === null || data?.chargeur === undefined
+          ? parseInt(chargeur.split(" ")[1])
+          : data.chargeur;
 
-    this.item.update({[dataCapacite.path]:Math.max(actuel-1, 0)})
+    this.item.update({ [dataCapacite.path]: Math.max(actuel - 1, 0) });
 
-    const exec = new game.knight.RollKnight(this.actor,
-    {
-    name:name,
+    const exec = new game.knight.RollKnight(this.actor, {
+      name: name,
     }).sendMessage({
-        text:game.i18n.localize('KNIGHT.JETS.Retire1Charge'),
-        classes:'important',
+      text: game.i18n.localize("KNIGHT.JETS.Retire1Charge"),
+      classes: "important",
     });
   }
 
-  useMunition(type, weapon, updates={}) {
+  useMunition(type, weapon, updates = {}) {
     const capacite = type
-    .replaceAll(/borealis[DC]/g, 'borealis')
-    .replaceAll(/cea(Vague|Salve|Rayon)(C|D)/g, '$1')
-    .replaceAll(/morph(Griffe|Lame|Canon)/g, '$1')
-    .toLowerCase();
+      .replaceAll(/borealis[DC]/g, "borealis")
+      .replaceAll(/cea(Vague|Salve|Rayon)(C|D)/g, "$1")
+      .replaceAll(/morph(Griffe|Lame|Canon)/g, "$1")
+      .toLowerCase();
 
-    switch(capacite) {
-      case 'borealis':
+    switch (capacite) {
+      case "borealis":
         const mainStd = this.getDataCapacite(capacite);
         const dataStd = mainStd.data;
-        const findChargeurStd = dataStd.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurStd = dataStd.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurStd) return;
+        if (!findChargeurStd) return;
 
-        const chargeurStdMax = parseInt(findChargeurStd.split(' ')[1]);
+        const chargeurStdMax = parseInt(findChargeurStd.split(" ")[1]);
 
-        let chargeurStd = dataStd?.chargeur !== null && dataStd?.chargeur !== undefined ? parseInt(dataStd.chargeur) : chargeurStdMax;
+        let chargeurStd =
+          dataStd?.chargeur !== null && dataStd?.chargeur !== undefined
+            ? parseInt(dataStd.chargeur)
+            : chargeurStdMax;
 
-        updates[`armure.${mainStd.path}`] = Math.max(chargeurStd-1, 0);
+        updates[`armure.${mainStd.path}`] = Math.max(chargeurStd - 1, 0);
         break;
 
-      case 'salve':
-      case 'vague':
-      case 'rayon':
-        const mainCea = this.getDataCapacite('cea', capacite);
+      case "salve":
+      case "vague":
+      case "rayon":
+        const mainCea = this.getDataCapacite("cea", capacite);
         const dataCea = mainCea.data;
-        const findChargeurCea = dataCea.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurCea = dataCea.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurCea) return;
+        if (!findChargeurCea) return;
 
-        const chargeurCeaMax = parseInt(findChargeurCea.split(' ')[1]);
+        const chargeurCeaMax = parseInt(findChargeurCea.split(" ")[1]);
 
-        let chargeurCea = dataCea?.chargeur !== null && dataCea?.chargeur !== undefined ? parseInt(dataCea.chargeur) : chargeurCeaMax;
+        let chargeurCea =
+          dataCea?.chargeur !== null && dataCea?.chargeur !== undefined
+            ? parseInt(dataCea.chargeur)
+            : chargeurCeaMax;
 
-        updates[`armure.${mainCea.path}`] = Math.max(chargeurCea-1, 0);
+        updates[`armure.${mainCea.path}`] = Math.max(chargeurCea - 1, 0);
         break;
 
-      case 'griffe':
-      case 'lame':
-      case 'canon':
-      case 'griffe2':
-      case 'lame2':
-      case 'canon2':
-        let isTwo = capacite.includes('2');
+      case "griffe":
+      case "lame":
+      case "canon":
+      case "griffe2":
+      case "lame2":
+      case "canon2":
+        let isTwo = capacite.includes("2");
 
-        const mainMorph = this.getDataCapacite('morph', capacite);
+        const mainMorph = this.getDataCapacite("morph", capacite);
         const dataMorph = mainMorph.data;
-        const findChargeurMorph = dataMorph.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurMorph = dataMorph.raw.find((itm) => itm.includes("chargeur"));
 
-        if(!findChargeurMorph) return;
+        if (!findChargeurMorph) return;
 
-        const chargeurMorphMax = parseInt(findChargeurMorph.split(' ')[1]);
+        const chargeurMorphMax = parseInt(findChargeurMorph.split(" ")[1]);
 
         let chargeurMorph = 0;
 
-        if(isTwo) chargeurMorph = dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined ? parseInt(dataMorph.chargeur2) : chargeurMorphMax;
-        else chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+        if (isTwo)
+          chargeurMorph =
+            dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined
+              ? parseInt(dataMorph.chargeur2)
+              : chargeurMorphMax;
+        else
+          chargeurMorph =
+            dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined
+              ? parseInt(dataMorph.chargeur)
+              : chargeurMorphMax;
 
-        updates[`armure.${mainMorph.path}`] = Math.max(chargeurMorph-1, 0);
+        updates[`armure.${mainMorph.path}`] = Math.max(chargeurMorph - 1, 0);
         break;
 
-      case 'longbow':
-        const mainLBBase = this.getDataCapacite('longbow', 'base');
-        const mainLBListe1 = this.getDataCapacite('longbow', 'liste1');
-        const mainLBListe2 = this.getDataCapacite('longbow', 'liste2');
-        const mainLBListe3 = this.getDataCapacite('longbow', 'liste3');
+      case "longbow":
+        const mainLBBase = this.getDataCapacite("longbow", "base");
+        const mainLBListe1 = this.getDataCapacite("longbow", "liste1");
+        const mainLBListe2 = this.getDataCapacite("longbow", "liste2");
+        const mainLBListe3 = this.getDataCapacite("longbow", "liste3");
         const dataLongbowBase = mainLBBase.data;
         const dataLongbowListe1 = mainLBListe1.data;
         const dataLongbowListe2 = mainLBListe2.data;
         const dataLongbowListe3 = mainLBListe3.data;
-        const findChargeurLongbowBase = dataLongbowBase.raw.find(itm => itm.includes('chargeur'));
-        const findChargeurLongbowListe1 = weapon?.possibility?.liste1?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
-        const findChargeurLongbowListe2 = weapon?.possibility?.liste2?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
-        const findChargeurLongbowListe3 = weapon?.possibility?.liste3?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
+        const findChargeurLongbowBase = dataLongbowBase.raw.find((itm) => itm.includes("chargeur"));
+        const findChargeurLongbowListe1 =
+          weapon?.possibility?.liste1?.selected?.find((itm) => itm.includes("chargeur")) ??
+          undefined;
+        const findChargeurLongbowListe2 =
+          weapon?.possibility?.liste2?.selected?.find((itm) => itm.includes("chargeur")) ??
+          undefined;
+        const findChargeurLongbowListe3 =
+          weapon?.possibility?.liste3?.selected?.find((itm) => itm.includes("chargeur")) ??
+          undefined;
 
-        if(findChargeurLongbowBase) {
-          const chargeurLBMax = parseInt(findChargeurLongbowBase.split(' ')[1]);
+        if (findChargeurLongbowBase) {
+          const chargeurLBMax = parseInt(findChargeurLongbowBase.split(" ")[1]);
 
-          let chargeurLb = dataLongbowBase?.chargeur !== null && dataLongbowBase?.chargeur !== undefined ? parseInt(dataLongbowBase.chargeur) : chargeurLBMax;
+          let chargeurLb =
+            dataLongbowBase?.chargeur !== null && dataLongbowBase?.chargeur !== undefined
+              ? parseInt(dataLongbowBase.chargeur)
+              : chargeurLBMax;
 
-          updates[`armure.${mainLBBase.path}`] = Math.max(chargeurLb-1, 0);
+          updates[`armure.${mainLBBase.path}`] = Math.max(chargeurLb - 1, 0);
         }
 
-        if(findChargeurLongbowListe1) {
-          const chargeurL1Max = parseInt(findChargeurLongbowListe1.split(' ')[1]);
+        if (findChargeurLongbowListe1) {
+          const chargeurL1Max = parseInt(findChargeurLongbowListe1.split(" ")[1]);
 
-          let chargeurL1 = dataLongbowListe1?.chargeur !== null && dataLongbowListe1?.chargeur !== undefined ? parseInt(dataLongbowListe1.chargeur) : chargeurL1Max;
+          let chargeurL1 =
+            dataLongbowListe1?.chargeur !== null && dataLongbowListe1?.chargeur !== undefined
+              ? parseInt(dataLongbowListe1.chargeur)
+              : chargeurL1Max;
 
-          updates[`armure.${mainLBListe1.path}`] = Math.max(chargeurL1-1, 0);
+          updates[`armure.${mainLBListe1.path}`] = Math.max(chargeurL1 - 1, 0);
         }
 
-        if(findChargeurLongbowListe2) {
-          const chargeurL2Max = parseInt(findChargeurLongbowListe2.split(' ')[1]);
+        if (findChargeurLongbowListe2) {
+          const chargeurL2Max = parseInt(findChargeurLongbowListe2.split(" ")[1]);
 
-          let chargeurL2 = dataLongbowListe2?.chargeur !== null && dataLongbowListe2?.chargeur !== undefined ? parseInt(dataLongbowListe2.chargeur) : chargeurL2Max;
+          let chargeurL2 =
+            dataLongbowListe2?.chargeur !== null && dataLongbowListe2?.chargeur !== undefined
+              ? parseInt(dataLongbowListe2.chargeur)
+              : chargeurL2Max;
 
-          updates[`armure.${mainLBListe2.path}`] = Math.max(chargeurL2-1, 0);
+          updates[`armure.${mainLBListe2.path}`] = Math.max(chargeurL2 - 1, 0);
         }
 
-        if(findChargeurLongbowListe3) {
-          const chargeurL3Max = parseInt(findChargeurLongbowListe3.split(' ')[1]);
+        if (findChargeurLongbowListe3) {
+          const chargeurL3Max = parseInt(findChargeurLongbowListe3.split(" ")[1]);
 
-          let chargeurL3 = dataLongbowListe3?.chargeur !== null && dataLongbowListe3?.chargeur !== undefined ? parseInt(dataLongbowListe3.chargeur) : chargeurL3Max;
+          let chargeurL3 =
+            dataLongbowListe3?.chargeur !== null && dataLongbowListe3?.chargeur !== undefined
+              ? parseInt(dataLongbowListe3.chargeur)
+              : chargeurL3Max;
 
-          updates[`armure.${mainLBListe3.path}`] = Math.max(chargeurL3-1, 0);
+          updates[`armure.${mainLBListe3.path}`] = Math.max(chargeurL3 - 1, 0);
         }
 
         break;
@@ -732,165 +1088,168 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
   }
 
   resetMunition() {
-    const list = ['borealis', 'cea', 'changeling', 'illumination', 'longbow', 'morph', 'oriflamme'];
+    const list = ["borealis", "cea", "changeling", "illumination", "longbow", "morph", "oriflamme"];
     const capacites = this.capacites.selected;
     let updates = {};
 
-    for(const l of list) {
-      if(capacites?.[l] ?? undefined) {
-        switch(l) {
-          case 'borealis':
-          case 'changeling':
-          case 'illumination':
-          case 'oriflamme':
+    for (const l of list) {
+      if (capacites?.[l] ?? undefined) {
+        switch (l) {
+          case "borealis":
+          case "changeling":
+          case "illumination":
+          case "oriflamme":
             const std = this.getDataCapacite(l, undefined);
 
-            const findChargeurStd = std.data.raw.find(itm => itm.includes('chargeur'));
+            const findChargeurStd = std.data.raw.find((itm) => itm.includes("chargeur"));
 
-            if(findChargeurStd) {
-              updates[`${dataStd.path}`] = parseInt(findChargeurStd.split(' ')[1]);
+            if (findChargeurStd) {
+              updates[`${dataStd.path}`] = parseInt(findChargeurStd.split(" ")[1]);
             }
             break;
 
-          case 'cea':
-            const salve = this.getDataCapacite(l, 'salve');
-            const vague = this.getDataCapacite(l, 'vague');
-            const rayon = this.getDataCapacite(l, 'rayon');
+          case "cea":
+            const salve = this.getDataCapacite(l, "salve");
+            const vague = this.getDataCapacite(l, "vague");
+            const rayon = this.getDataCapacite(l, "rayon");
 
-            const findChargeurSalve = salve.data.raw.find(itm => itm.includes('chargeur'));
-            const findChargeurVague = vague.data.raw.find(itm => itm.includes('chargeur'));
-            const findChargeurRayon = rayon.data.raw.find(itm => itm.includes('chargeur'));
+            const findChargeurSalve = salve.data.raw.find((itm) => itm.includes("chargeur"));
+            const findChargeurVague = vague.data.raw.find((itm) => itm.includes("chargeur"));
+            const findChargeurRayon = rayon.data.raw.find((itm) => itm.includes("chargeur"));
 
-            if(findChargeurSalve) {
-              updates[`${salve.path}`] = parseInt(findChargeurSalve.split(' ')[1]);
+            if (findChargeurSalve) {
+              updates[`${salve.path}`] = parseInt(findChargeurSalve.split(" ")[1]);
             }
 
-            if(findChargeurVague) {
-              updates[`${vague.path}`] = parseInt(findChargeurVague.split(' ')[1]);
+            if (findChargeurVague) {
+              updates[`${vague.path}`] = parseInt(findChargeurVague.split(" ")[1]);
             }
 
-            if(findChargeurRayon) {
-              updates[`${rayon.path}`] = parseInt(findChargeurRayon.split(' ')[1]);
-            }
-            break;
-
-          case 'longbow':
-            const lbBase = this.getDataCapacite(l, 'base');
-            const lbListe1 = this.getDataCapacite(l, 'liste1');
-            const lbListe2 = this.getDataCapacite(l, 'liste2');
-            const lbListe3 = this.getDataCapacite(l, 'liste3');
-
-            const findChargeurLbBase = lbBase.data.raw.find(itm => itm.includes('chargeur'));
-            const findChargeurLbListe1 = lbListe1.data.raw.find(itm => itm.includes('chargeur'));
-            const findChargeurLbListe2 = lbListe2.data.raw.find(itm => itm.includes('chargeur'));
-            const findChargeurLbListe3 = lbListe3.data.raw.find(itm => itm.includes('chargeur'));
-
-            if(findChargeurLbBase) {
-              updates[`${lbBase.path}`] = parseInt(findChargeurLbBase.split(' ')[1]);
-            }
-
-            if(findChargeurLbListe1) {
-              updates[`${lbListe1.path}`] = parseInt(findChargeurLbListe1.split(' ')[1]);
-
-            }
-
-            if(findChargeurLbListe2) {
-              updates[`${lbListe2.path}`] = parseInt(findChargeurLbListe2.split(' ')[1]);
-            }
-
-            if(findChargeurLbListe3) {
-              updates[`${lbListe3.path}`] = parseInt(findChargeurLbListe3.split(' ')[1]);
+            if (findChargeurRayon) {
+              updates[`${rayon.path}`] = parseInt(findChargeurRayon.split(" ")[1]);
             }
             break;
 
-          case 'morph':
-            const griffe = this.getDataCapacite(l, 'griffe');
-            const lame = this.getDataCapacite(l, 'lame');
-            const canon = this.getDataCapacite(l, 'canon');
+          case "longbow":
+            const lbBase = this.getDataCapacite(l, "base");
+            const lbListe1 = this.getDataCapacite(l, "liste1");
+            const lbListe2 = this.getDataCapacite(l, "liste2");
+            const lbListe3 = this.getDataCapacite(l, "liste3");
 
-            const findChargeurGriffe = griffe.data.raw.find(itm => itm.includes('chargeur'));
-            const findChargeurLame = lame.data.raw.find(itm => itm.includes('chargeur'));
-            const findChargeurCanon = canon.data.raw.find(itm => itm.includes('chargeur'));
+            const findChargeurLbBase = lbBase.data.raw.find((itm) => itm.includes("chargeur"));
+            const findChargeurLbListe1 = lbListe1.data.raw.find((itm) => itm.includes("chargeur"));
+            const findChargeurLbListe2 = lbListe2.data.raw.find((itm) => itm.includes("chargeur"));
+            const findChargeurLbListe3 = lbListe3.data.raw.find((itm) => itm.includes("chargeur"));
 
-            if(findChargeurGriffe) {
-              updates[`${griffe.path}`] = parseInt(findChargeurGriffe.split(' ')[1]);
-              updates[`${griffe.path}2`] = parseInt(findChargeurGriffe.split(' ')[1]);
+            if (findChargeurLbBase) {
+              updates[`${lbBase.path}`] = parseInt(findChargeurLbBase.split(" ")[1]);
             }
 
-            if(findChargeurLame) {
-              updates[`${lame.path}`] = parseInt(findChargeurLame.split(' ')[1]);
-              updates[`${lame.path}2`] = parseInt(findChargeurLame.split(' ')[1]);
+            if (findChargeurLbListe1) {
+              updates[`${lbListe1.path}`] = parseInt(findChargeurLbListe1.split(" ")[1]);
             }
 
-            if(findChargeurCanon) {
-              updates[`${canon.path}`] = parseInt(findChargeurCanon.split(' ')[1]);
-              updates[`${canon.path}2`] = parseInt(findChargeurCanon.split(' ')[1]);
+            if (findChargeurLbListe2) {
+              updates[`${lbListe2.path}`] = parseInt(findChargeurLbListe2.split(" ")[1]);
+            }
+
+            if (findChargeurLbListe3) {
+              updates[`${lbListe3.path}`] = parseInt(findChargeurLbListe3.split(" ")[1]);
+            }
+            break;
+
+          case "morph":
+            const griffe = this.getDataCapacite(l, "griffe");
+            const lame = this.getDataCapacite(l, "lame");
+            const canon = this.getDataCapacite(l, "canon");
+
+            const findChargeurGriffe = griffe.data.raw.find((itm) => itm.includes("chargeur"));
+            const findChargeurLame = lame.data.raw.find((itm) => itm.includes("chargeur"));
+            const findChargeurCanon = canon.data.raw.find((itm) => itm.includes("chargeur"));
+
+            if (findChargeurGriffe) {
+              updates[`${griffe.path}`] = parseInt(findChargeurGriffe.split(" ")[1]);
+              updates[`${griffe.path}2`] = parseInt(findChargeurGriffe.split(" ")[1]);
+            }
+
+            if (findChargeurLame) {
+              updates[`${lame.path}`] = parseInt(findChargeurLame.split(" ")[1]);
+              updates[`${lame.path}2`] = parseInt(findChargeurLame.split(" ")[1]);
+            }
+
+            if (findChargeurCanon) {
+              updates[`${canon.path}`] = parseInt(findChargeurCanon.split(" ")[1]);
+              updates[`${canon.path}2`] = parseInt(findChargeurCanon.split(" ")[1]);
             }
             break;
         }
       }
     }
 
-    if(!foundry.utils.isEmpty(updates)) this.item.update(updates);
+    if (!foundry.utils.isEmpty(updates)) this.item.update(updates);
   }
 
   getDataCapacite(capacite, subcapacite) {
     const basePath = this.capacites.selected;
-    const baseStringPath = 'system.capacites.selected'
-    let name = this.item.name
+    const baseStringPath = "system.capacites.selected";
+    let name = this.item.name;
     let data = undefined;
-    let path = '';
+    let path = "";
 
-    switch(capacite) {
-      case 'borealis':
-        name = `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`
+    switch (capacite) {
+      case "borealis":
+        name = `${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label")} - ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label")}`;
         data = basePath.borealis.offensif.effets;
         path = `${baseStringPath}.borealis.offensif.effets.chargeur`;
         break;
 
-      case 'cea':
-        name = `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.${subcapacite.toUpperCase()}.Label`)}`
+      case "cea":
+        name = `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.${subcapacite.toUpperCase()}.Label`)}`;
         data = basePath.cea[subcapacite].effets;
         path = `${baseStringPath}.cea.${subcapacite}.effets.chargeur`;
         break;
 
-      case 'changeling':
-        name = `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.Label')}`
+      case "changeling":
+        name = `${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.Label")}`;
         data = basePath.changeling.desactivationexplosive.effets;
         path = `${baseStringPath}.changeling.desactivationexplosive.effets.chargeur`;
         break;
 
-      case 'illumination':
-        name = `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label')}`
+      case "illumination":
+        name = `${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label")}`;
         data = basePath.illumination.lantern.effets;
         path = `${baseStringPath}.illumination.lantern.effets.chargeur`;
         break;
 
-      case 'longbow':
-        name = basePath.longbow?.label ? basePath.longbow.label : `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label')}`;
+      case "longbow":
+        name = basePath.longbow?.label
+          ? basePath.longbow.label
+          : `${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label")}`;
         data = basePath.longbow.effets[subcapacite];
         path = `${baseStringPath}.longbow.effets.${subcapacite}.chargeur`;
         break;
 
-      case 'morph':
+      case "morph":
         let subMorph = subcapacite;
         let isTwo = false;
 
-        if(subMorph.includes('2')) {
-          subMorph = subcapacite.replaceAll('2', '');
+        if (subMorph.includes("2")) {
+          subMorph = subcapacite.replaceAll("2", "");
           isTwo = true;
         }
 
         name = `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.CAPACITES.POLYMORPHIE.${subMorph.charAt(0).toUpperCase() + subMorph.slice(1).toLowerCase()}`)}`;
 
-        if(isTwo) name += ` 2`;
+        if (isTwo) name += ` 2`;
 
         data = basePath.morph.polymorphie[subMorph].effets;
-        path = isTwo ? `${baseStringPath}.morph.polymorphie.${subMorph}.effets.chargeur2` : `${baseStringPath}.morph.polymorphie.${subMorph}.effets.chargeur`;
+        path = isTwo
+          ? `${baseStringPath}.morph.polymorphie.${subMorph}.effets.chargeur2`
+          : `${baseStringPath}.morph.polymorphie.${subMorph}.effets.chargeur`;
         break;
 
-      case 'oriflamme':
-        name = `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label')}`
+      case "oriflamme":
+        name = `${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label")}`;
         data = basePath.oriflamme.effets;
         path = `${baseStringPath}.oriflamme.effets.chargeur`;
         break;
@@ -899,18 +1258,18 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     return {
       name,
       data,
-      path
-    }
+      path,
+    };
   }
 
   prepareBaseData() {
-    if(this.generation === 4) {
-      Object.defineProperty(this.jauges, 'sante', {
+    if (this.generation === 4) {
+      Object.defineProperty(this.jauges, "sante", {
         value: false,
       });
     }
 
-    Object.defineProperty(this.jauges, 'egide', {
+    Object.defineProperty(this.jauges, "egide", {
       value: game.settings.get("knight", "acces-egide"),
     });
 
@@ -922,15 +1281,11 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const armure = this.item;
 
     // Déstructuration défensive + valeurs par défaut
-    const {
-      capacite = '',
-      special = '',
-      variant = '',
-    } = args;
+    const { capacite = "", special = "", variant = "" } = args;
 
     // Gardes minimales (évite les plantages)
     if (!capacite) {
-      console.warn('activateCapacity: capacite manquant');
+      console.warn("activateCapacity: capacite manquant");
       return;
     }
 
@@ -940,14 +1295,14 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       const a = game.actors?.get(actorId);
       if (!a) return;
       try {
-        await deleteTokens([a.id]);   // d’abord les tokens
+        await deleteTokens([a.id]); // d’abord les tokens
       } catch (e) {
-        console.warn('deleteTokens a échoué (continuation)', e);
+        console.warn("deleteTokens a échoué (continuation)", e);
       }
       try {
-        await a.delete();             // puis l’acteur
+        await a.delete(); // puis l’acteur
       } catch (e) {
-        console.warn('actor.delete a échoué (continuation)', e);
+        console.warn("actor.delete a échoué (continuation)", e);
       }
     };
 
@@ -955,17 +1310,17 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       const v = Number(ae) || 0;
       return {
         mineur: {
-          value:v > 4 ? 0 : v,
+          value: v > 4 ? 0 : v,
         },
         majeur: {
-          value:v < 5 ? 0 : v,
-        }
+          value: v < 5 ? 0 : v,
+        },
       };
     };
 
     const isFinite = (number, defaut = 0) => {
       return Number.isFinite(number) ? number : defaut;
-    }
+    };
 
     const getArmure = new ArmureAPI(armure);
     const getCapacite = getArmure.getCapacite(capacite);
@@ -977,8 +1332,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     // Gestion du coût et de la dépense, seulement si value === true
     if (value) {
       let strDepense = capacite;
-      if(special) strDepense += `/${special}`;
-      if(variant) strDepense += `/${variant}`;
+      if (special) strDepense += `/${special}`;
+      if (variant) strDepense += `/${variant}`;
 
       // Tente la dépense
       const depense = await this.usePEActivateCapacity(getArmure, strDepense);
@@ -991,13 +1346,13 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     let sendMsg = true;
     let dialog;
 
-    switch(capacite) {
-      case 'ascension': {
+    switch (capacite) {
+      case "ascension": {
         if (value) {
           // 1) Cloner proprement les données source via deepClone
           const clone = foundry.utils.deepClone(actor);
           // 2) Créer l’acteur d’ascension
-          const { id, uuid } = await SOCKET.executeAsGM('createSubActor', clone);
+          const { id, uuid } = await SOCKET.executeAsGM("createSubActor", clone);
           const src = await fromUuid(uuid);
 
           // 3) Editer nom et visuels
@@ -1007,13 +1362,14 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           // 4) Préparer l’état ascension sur l’acteur cloné
           await PatchBuilder.for(src)
             .merge({
-              name:newName,
-              img:armorImg,
-              'prototypeToken.texture.src':armorImg,
-              'prototypeToken.name':newName,
-              'system.energie.value':actor?.system?.equipements?.armure?.capacites?.ascension?.energie ?? 0,
-              'system.wear':'ascension',
-              'system.equipements.ascension':actor?.system?.equipements?.armure ?? {}
+              name: newName,
+              img: armorImg,
+              "prototypeToken.texture.src": armorImg,
+              "prototypeToken.name": newName,
+              "system.energie.value":
+                actor?.system?.equipements?.armure?.capacites?.ascension?.energie ?? 0,
+              "system.wear": "ascension",
+              "system.equipements.ascension": actor?.system?.equipements?.armure ?? {},
             })
             .apply();
 
@@ -1021,30 +1377,33 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           const filteredItems = [];
           for (const it of src.items ?? []) {
             // retirer les items de rareté prestige
-            if (it?.system?.niveau?.actuel?.rarete === 'prestige') filteredItems.push(it.id);
+            if (it?.system?.niveau?.actuel?.rarete === "prestige") filteredItems.push(it.id);
 
-            if (it.type === 'armure') {
+            if (it.type === "armure") {
               // couper les jauges sur les armures du clone
               await PatchBuilder.for(it)
-                .sys('jauges', {
-                  sante:false,
-                  espoir:false,
-                  heroisme:false,
+                .sys("jauges", {
+                  sante: false,
+                  espoir: false,
+                  heroisme: false,
                 })
-                .sys('energie.base', actor?.system?.equipements?.armure?.capacites?.ascension?.energie ?? 0)
+                .sys(
+                  "energie.base",
+                  actor?.system?.equipements?.armure?.capacites?.ascension?.energie ?? 0,
+                )
                 .apply();
             }
           }
 
-          SOCKET.executeAsGM('deleteItmInActor', {
-            actor:uuid,
-            items:filteredItems
+          SOCKET.executeAsGM("deleteItmInActor", {
+            actor: uuid,
+            items: filteredItems,
           });
           // 6) Marquer l’état côté armure d’origine (update unique agrégé)
           await PatchBuilder.for(armure)
             .sys(getPath, {
-              active:true,
-              depense:actor?.system?.equipements?.armure?.capacites?.ascension?.energie ?? 0,
+              active: true,
+              depense: actor?.system?.equipements?.armure?.capacites?.ascension?.energie ?? 0,
               ascensionId: src.id,
             })
             .apply();
@@ -1053,10 +1412,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           await spawnTokenRightOfActor({ actor: src, refActor: actor });
         } else {
           // Désactivation: suppression + reset de l’état
-          const ascensionId =
-            getCapacite?.ascensionId ??
-            getCapacite?.id ??
-            null;
+          const ascensionId = getCapacite?.ascensionId ?? getCapacite?.id ?? null;
           await deleteActorAndTokens(ascensionId);
           await PatchBuilder.for(armure)
             .sys(getPath, {
@@ -1078,37 +1434,49 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       case "ghost":
       case "discord":
       case "nanoc":
-        await PatchBuilder.for(armure)
-          .sys(getPath, value)
-          .apply();
+        await PatchBuilder.for(armure).sys(getPath, value).apply();
         break;
       case "illumination":
-        if(special === 'lantern' && variant === 'dgts') {
-          const blaLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label")
+        if (special === "lantern" && variant === "dgts") {
+          const blaLabel = game.i18n.localize(
+            "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label",
+          );
 
-          await this.rollDegats(blaLabel, [], [], {dice:getCapacite.lantern.degats});
+          await this.rollDegats(blaLabel, [], [], { dice: getCapacite.lantern.degats });
           sendMsg = false;
-        } else if(special === 'blaze' && variant === 'dgts') {
-          const blaLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label")
+        } else if (special === "blaze" && variant === "dgts") {
+          const blaLabel = game.i18n.localize(
+            "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label",
+          );
 
-          await this.rollDegats(blaLabel, [], [], {dice:getCapacite.blaze.degats});
-          await this.rollViolence(blaLabel, [], [], {dice:getCapacite.blaze.violence});
+          await this.rollDegats(blaLabel, [], [], { dice: getCapacite.blaze.degats });
+          await this.rollViolence(blaLabel, [], [], { dice: getCapacite.blaze.violence });
           sendMsg = false;
-        } else if(special !== 'candle') {
-          await PatchBuilder.for(armure)
-            .sys(getPath, value)
-            .apply();
+        } else if (special !== "candle") {
+          await PatchBuilder.for(armure).sys(getPath, value).apply();
         }
         break;
       case "oriflamme":
-        const oriLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label")
+        const oriLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label");
 
-        if(special.includes('degats')) this.rollDegats(oriLabel, getCapacite.effets.raw, getCapacite.effets.custom, getCapacite.degats);
-        if(special.includes('violence')) this.rollViolence(oriLabel, getCapacite.effets.raw, getCapacite.effets.custom, getCapacite.violence);
+        if (special.includes("degats"))
+          this.rollDegats(
+            oriLabel,
+            getCapacite.effets.raw,
+            getCapacite.effets.custom,
+            getCapacite.degats,
+          );
+        if (special.includes("violence"))
+          this.rollViolence(
+            oriLabel,
+            getCapacite.effets.raw,
+            getCapacite.effets.custom,
+            getCapacite.violence,
+          );
         break;
-      case 'changeling':
+      case "changeling":
         // Cas "explosive": on désactive plusieurs flags et on applique des dégâts/violence
-        if (special === 'explosive') {
+        if (special === "explosive") {
           const pbC = new PatchBuilder();
 
           for (const p of getPath) {
@@ -1117,141 +1485,158 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
           // Récupérer les effets depuis les capacités d'armure
           const effets = getCapacite?.desactivationexplosive?.effets ?? {};
-          this.rollDegats(getName, effets.raw, effets.custom, getCapacite?.degats ?? {dice:1, fixe:0});
-          this.rollViolence(getName, effets.raw, effets.custom, getCapacite?.violence ?? {dice:1, fixe:0});
+          this.rollDegats(
+            getName,
+            effets.raw,
+            effets.custom,
+            getCapacite?.degats ?? { dice: 1, fixe: 0 },
+          );
+          this.rollViolence(
+            getName,
+            effets.raw,
+            effets.custom,
+            getCapacite?.violence ?? { dice: 1, fixe: 0 },
+          );
 
           pbC.applyTo(armure);
         } else {
           // Cas simple: appliquer value sur le chemin fourni
-          await PatchBuilder.for(armure)
-            .sys(getPath, value)
-            .apply();
+          await PatchBuilder.for(armure).sys(getPath, value).apply();
         }
         break;
       case "companions":
         pb = new PatchBuilder();
         pb.sys(getPath, {
-          [special]:value,
-          base:value,
+          [special]: value,
+          base: value,
         });
 
-        if(value) {
-          switch(special) {
-            case 'lion':
+        if (value) {
+          switch (special) {
+            case "lion":
               const dataLion = getCapacite.lion;
               const dataLChair = dataLion.aspects.chair;
               const dataLBete = dataLion.aspects.bete;
               const dataLMachine = dataLion.aspects.machine;
               const dataLDame = dataLion.aspects.dame;
               const dataLMasque = dataLion.aspects.masque;
-              const modules = actor.items.filter(itm => itm.type === 'module' && (itm.system?.isLion ?? false));
+              const modules = actor.items.filter(
+                (itm) => itm.type === "module" && (itm.system?.isLion ?? false),
+              );
               newActor = await createSheet(
                 actor,
                 "pnj",
                 `${actor.name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label")}`,
                 {
-                  "aspects": {
-                    "chair":{
-                      "value":dataLChair.value,
-                      "ae":splitAE(dataLChair.ae),
+                  aspects: {
+                    chair: {
+                      value: dataLChair.value,
+                      ae: splitAE(dataLChair.ae),
                     },
-                    "bete":{
-                      "value":dataLBete.value,
-                      "ae":splitAE(dataLBete.ae),
+                    bete: {
+                      value: dataLBete.value,
+                      ae: splitAE(dataLBete.ae),
                     },
-                    "machine":{
-                      "value":dataLMachine.value,
-                      "ae":splitAE(dataLMachine.ae),
+                    machine: {
+                      value: dataLMachine.value,
+                      ae: splitAE(dataLMachine.ae),
                     },
-                    "dame":{
-                      "value":dataLDame.value,
-                      "ae":splitAE(dataLDame.ae),
+                    dame: {
+                      value: dataLDame.value,
+                      ae: splitAE(dataLDame.ae),
                     },
-                    "masque":{
-                      "value":dataLMasque.value,
-                      "ae":splitAE(dataLMasque.ae),
-                    }
+                    masque: {
+                      value: dataLMasque.value,
+                      ae: splitAE(dataLMasque.ae),
+                    },
                   },
-                  "energie":{
-                    "base":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
-                    "value":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
+                  energie: {
+                    base: isFinite(
+                      actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                      10,
+                    ),
+                    value: isFinite(
+                      actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                      10,
+                    ),
                   },
-                  "champDeForce":{
-                    "base":dataLion.champDeForce.base,
+                  champDeForce: {
+                    base: dataLion.champDeForce.base,
                   },
-                  "armure":{
-                    "value":dataLion.armure.base,
-                    "base":dataLion.armure.base
+                  armure: {
+                    value: dataLion.armure.base,
+                    base: dataLion.armure.base,
                   },
-                  "initiative":{
-                    "diceBase":dataLion.initiative.value
+                  initiative: {
+                    diceBase: dataLion.initiative.value,
                   },
-                  "defense":{
-                    "base":dataLion.defense.value
+                  defense: {
+                    base: dataLion.defense.value,
                   },
-                  "reaction":{
-                    "base":dataLion.reaction.value
+                  reaction: {
+                    base: dataLion.reaction.value,
                   },
-                  "options":{
-                    "resilience":false,
-                    "sante":false,
-                    "espoir":false,
-                    "bouclier":false,
-                    "noCapacites":true,
-                    "modules":true,
-                    "phase2":false
+                  options: {
+                    resilience: false,
+                    sante: false,
+                    espoir: false,
+                    bouclier: false,
+                    noCapacites: true,
+                    modules: true,
+                    phase2: false,
                   },
-                  "lion":true,
+                  lion: true,
                 },
                 [],
                 dataLion.img,
                 dataLion?.token ?? dataLion.img,
-                1
+                1,
               );
 
               await PatchBuilder.for(newActor)
-                .sys('initiative.bonus.user', dataLion.initiative.fixe)
+                .sys("initiative.bonus.user", dataLion.initiative.fixe)
                 .apply();
 
-              const nLItems = modules.map(itm => {
+              const nLItems = modules.map((itm) => {
                 const obj = itm.toObject();
                 obj.system.isLion = false;
                 return obj;
               });
 
               const nLItem = {
-                name:dataLion.armes.contact.coups.label,
-                type:'arme',
-                system:{
-                  type:'contact',
-                  portee:dataLion.armes.contact.coups.portee,
-                  degats:{
-                    dice:dataLion.armes.contact.coups.degats.dice,
-                    fixe:dataLion.armes.contact.coups.degats.fixe
+                name: dataLion.armes.contact.coups.label,
+                type: "arme",
+                system: {
+                  type: "contact",
+                  portee: dataLion.armes.contact.coups.portee,
+                  degats: {
+                    dice: dataLion.armes.contact.coups.degats.dice,
+                    fixe: dataLion.armes.contact.coups.degats.fixe,
                   },
-                  violence:{
-                    dice:dataLion.armes.contact.coups.violence.dice,
-                    fixe:dataLion.armes.contact.coups.violence.fixe
+                  violence: {
+                    dice: dataLion.armes.contact.coups.violence.dice,
+                    fixe: dataLion.armes.contact.coups.violence.fixe,
                   },
-                  effets:{
-                    raw:dataLion.armes.contact.coups.effets.raw,
-                    custom:dataLion.armes.contact.coups.effets.custom
-                  }
-              }};
+                  effets: {
+                    raw: dataLion.armes.contact.coups.effets.raw,
+                    custom: dataLion.armes.contact.coups.effets.custom,
+                  },
+                },
+              };
 
               nLItems.push(nLItem);
 
-              SOCKET.executeAsGM('giveItmToActor', {
-                actor:newActor.uuid,
-                items:nLItems
+              SOCKET.executeAsGM("giveItmToActor", {
+                actor: newActor.uuid,
+                items: nLItems,
               });
 
-              pb.sys('capacites.selected.companions.lion.id', newActor.id);
+              pb.sys("capacites.selected.companions.lion.id", newActor.id);
 
-              await spawnTokenRightOfActor({actor:newActor, refActor:actor});
+              await spawnTokenRightOfActor({ actor: newActor, refActor: actor });
               break;
 
-            case 'wolf':
+            case "wolf":
               const dataWolf = getCapacite.wolf;
 
               const dataWChair = dataWolf.aspects.chair;
@@ -1261,57 +1646,63 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
               const dataWMasque = dataWolf.aspects.masque;
               const createdActors = [];
               const dataActor = {
-                "aspects": {
-                  "chair":{
-                    "value":dataWChair.value
+                aspects: {
+                  chair: {
+                    value: dataWChair.value,
                   },
-                  "bete":{
-                    "value":dataWBete.value
+                  bete: {
+                    value: dataWBete.value,
                   },
-                  "machine":{
-                    "value":dataWMachine.value
+                  machine: {
+                    value: dataWMachine.value,
                   },
-                  "dame":{
-                    "value":dataWDame.value
+                  dame: {
+                    value: dataWDame.value,
                   },
-                  "masque":{
-                    "value":dataWMasque.value
-                  }
+                  masque: {
+                    value: dataWMasque.value,
+                  },
                 },
-                "energie":{
-                  "base":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
-                  "value":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
+                energie: {
+                  base: isFinite(
+                    actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                    10,
+                  ),
+                  value: isFinite(
+                    actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                    10,
+                  ),
                 },
-                "champDeForce":{
-                  "base":dataWolf.champDeForce.base,
+                champDeForce: {
+                  base: dataWolf.champDeForce.base,
                 },
-                "armure":{
-                  "value":dataWolf.armure.base,
-                  "base":dataWolf.armure.base
+                armure: {
+                  value: dataWolf.armure.base,
+                  base: dataWolf.armure.base,
                 },
-                "initiative":{
-                  "diceBase":dataWolf.initiative.value
+                initiative: {
+                  diceBase: dataWolf.initiative.value,
                 },
-                "defense":{
-                  "base":dataWolf.defense.base
+                defense: {
+                  base: dataWolf.defense.base,
                 },
-                "reaction":{
-                  "base":dataWolf.reaction.base
+                reaction: {
+                  base: dataWolf.reaction.base,
                 },
-                "wolf":dataWolf.configurations,
-                "configurationActive":'',
-                "options":{
-                  "resilience":false,
-                  "sante":false,
-                  "espoir":false,
-                  "bouclier":false,
-                  "modules":false,
-                  "noCapacites":true,
-                  "wolfConfiguration":true
-                }
+                wolf: dataWolf.configurations,
+                configurationActive: "",
+                options: {
+                  resilience: false,
+                  sante: false,
+                  espoir: false,
+                  bouclier: false,
+                  modules: false,
+                  noCapacites: true,
+                  wolfConfiguration: true,
+                },
               };
 
-              for(let i = 1;i < 4;i++) {
+              for (let i = 1; i < 4; i++) {
                 newActor = await createSheet(
                   actor,
                   "pnj",
@@ -1320,38 +1711,39 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                   [],
                   dataWolf.img,
                   dataWolf?.token ?? dataWolf.img,
-                  1
+                  1,
                 );
 
                 await PatchBuilder.for(newActor)
-                  .sys('initiative.bonus.user', dataWolf.initiative.fixe)
+                  .sys("initiative.bonus.user", dataWolf.initiative.fixe)
                   .apply();
                 const nWItems = [];
                 const nWItem = {
-                  name:dataWolf.armes.contact.coups.label,
-                  type:'arme',
-                  system:{
-                    type:'contact',
-                    portee:dataWolf.armes.contact.coups.portee,
-                    degats:{
-                      dice:dataWolf.armes.contact.coups.degats.dice,
-                      fixe:dataWolf.armes.contact.coups.degats.fixe
+                  name: dataWolf.armes.contact.coups.label,
+                  type: "arme",
+                  system: {
+                    type: "contact",
+                    portee: dataWolf.armes.contact.coups.portee,
+                    degats: {
+                      dice: dataWolf.armes.contact.coups.degats.dice,
+                      fixe: dataWolf.armes.contact.coups.degats.fixe,
                     },
-                    violence:{
-                      dice:dataWolf.armes.contact.coups.violence.dice,
-                      fixe:dataWolf.armes.contact.coups.violence.fixe
+                    violence: {
+                      dice: dataWolf.armes.contact.coups.violence.dice,
+                      fixe: dataWolf.armes.contact.coups.violence.fixe,
                     },
-                    effets:{
-                      raw:dataWolf.armes.contact.coups.effets.raw,
-                      custom:dataWolf.armes.contact.coups.effets.custom
-                    }
-                }};
+                    effets: {
+                      raw: dataWolf.armes.contact.coups.effets.raw,
+                      custom: dataWolf.armes.contact.coups.effets.custom,
+                    },
+                  },
+                };
 
                 nWItems.push(nWItem);
 
-                SOCKET.executeAsGM('giveItmToActor', {
-                  actor:newActor.uuid,
-                  items:nWItems
+                SOCKET.executeAsGM("giveItmToActor", {
+                  actor: newActor.uuid,
+                  items: nWItems,
                 });
 
                 pb.sys(`capacites.selected.companions.wolf.id.id${i}`, newActor.id);
@@ -1361,7 +1753,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
               await spawnTokensRightOfActor(createdActors, actor);
               break;
 
-            case 'crow':
+            case "crow":
               const dataCrow = getCapacite.crow;
 
               const dataCChair = dataCrow.aspects.chair;
@@ -1375,76 +1767,82 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                 "bande",
                 `${actor.name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label")}`,
                 {
-                  "aspects": {
-                    "chair":{
-                      "value":dataCChair.value
+                  aspects: {
+                    chair: {
+                      value: dataCChair.value,
                     },
-                    "bete":{
-                      "value":dataCBete.value
+                    bete: {
+                      value: dataCBete.value,
                     },
-                    "machine":{
-                      "value":dataCMachine.value
+                    machine: {
+                      value: dataCMachine.value,
                     },
-                    "dame":{
-                      "value":dataCDame.value
+                    dame: {
+                      value: dataCDame.value,
                     },
-                    "masque":{
-                      "value":dataCMasque.value
-                    }
+                    masque: {
+                      value: dataCMasque.value,
+                    },
                   },
-                  "energie":{
-                    "value":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
-                    "max":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
+                  energie: {
+                    value: isFinite(
+                      actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                      10,
+                    ),
+                    max: isFinite(
+                      actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                      10,
+                    ),
                   },
-                  "champDeForce":{
-                    "base":dataCrow.champDeForce.base,
+                  champDeForce: {
+                    base: dataCrow.champDeForce.base,
                   },
-                  "sante":{
-                    "value":dataCrow.cohesion.base,
-                    "base":dataCrow.cohesion.base
+                  sante: {
+                    value: dataCrow.cohesion.base,
+                    base: dataCrow.cohesion.base,
                   },
-                  "initiative":{
-                    "diceBase":dataCrow.initiative.value
+                  initiative: {
+                    diceBase: dataCrow.initiative.value,
                   },
-                  "defense":{
-                    "base":dataCrow.defense.value
+                  defense: {
+                    base: dataCrow.defense.value,
                   },
-                  "reaction":{
-                    "base":dataCrow.reaction.value
+                  reaction: {
+                    base: dataCrow.reaction.value,
                   },
-                  "debordement":{
-                    "value":dataCrow.debordement.base
+                  debordement: {
+                    value: dataCrow.debordement.base,
                   },
-                  "options":{
-                    "resilience":false,
-                    "sante":false,
-                    "espoir":false,
-                    "bouclier":false,
-                    "noCapacites":true,
-                    "energie":true,
-                    "modules":false
-                  }
+                  options: {
+                    resilience: false,
+                    sante: false,
+                    espoir: false,
+                    bouclier: false,
+                    noCapacites: true,
+                    energie: true,
+                    modules: false,
+                  },
                 },
                 [],
                 dataCrow.img,
                 dataCrow?.token ?? dataCrow.img,
-                1
+                1,
               );
               await PatchBuilder.for(newActor)
-                .sys('initiative.bonus.user', dataCrow.initiative.fixe)
+                .sys("initiative.bonus.user", dataCrow.initiative.fixe)
                 .apply();
 
               pb.sys(`capacites.selected.companions.crow.id`, newActor.id);
 
-              await spawnTokenRightOfActor({actor:newActor, refActor:actor});
+              await spawnTokenRightOfActor({ actor: newActor, refActor: actor });
               break;
           }
 
           const msgCompanions = {
-            flavor:`${getName}`,
-            main:{
-              total:`${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Invocation", {type:game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`)})}`
-            }
+            flavor: `${getName}`,
+            main: {
+              total: `${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Invocation", { type: game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`) })}`,
+            },
           };
 
           const msgActiveCompanions = {
@@ -1455,16 +1853,16 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
               alias: actor?.name || null,
             },
             style: CONST.CHAT_MESSAGE_STYLES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
-            sounds:CONFIG.sounds.notification,
+            content: await renderTemplate("systems/knight/templates/dices/wpn.html", msgCompanions),
+            sounds: CONFIG.sounds.notification,
           };
 
           await ChatMessage.create(msgActiveCompanions);
         } else {
           let recupValue = 0;
 
-          switch(special) {
-            case 'lion':
+          switch (special) {
+            case "lion":
               const idLion = getCapacite.lion.id;
               const actorLion = game.actors?.get(idLion) || {};
               recupValue = actorLion?.system?.energie?.value || 0;
@@ -1473,10 +1871,11 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
               await deleteTokens([actorLion.id]);
 
-              if(Object.keys(actorLion).length != 0) await SOCKET.executeAsGM('deleteActorOrToken', {actors:[actorLion.uuid]});
+              if (Object.keys(actorLion).length != 0)
+                await SOCKET.executeAsGM("deleteActorOrToken", { actors: [actorLion.uuid] });
               break;
 
-            case 'wolf':
+            case "wolf":
               const id1Wolf = getCapacite.wolf.id.id1;
               const id2Wolf = getCapacite.wolf.id.id2;
               const id3Wolf = getCapacite.wolf.id.id3;
@@ -1492,14 +1891,15 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
               let toDel = [];
 
-              if(Object.keys(actor1Wolf).length != 0) toDel.push(actor1Wolf.uuid);
-              if(Object.keys(actor2Wolf).length != 0) toDel.push(actor2Wolf.uuid);
-              if(Object.keys(actor3Wolf).length != 0) toDel.push(actor3Wolf.uuid);
+              if (Object.keys(actor1Wolf).length != 0) toDel.push(actor1Wolf.uuid);
+              if (Object.keys(actor2Wolf).length != 0) toDel.push(actor2Wolf.uuid);
+              if (Object.keys(actor3Wolf).length != 0) toDel.push(actor3Wolf.uuid);
 
-              if(toDel.length > 0) await SOCKET.executeAsGM('deleteActorOrToken', {actors:toDel});
+              if (toDel.length > 0)
+                await SOCKET.executeAsGM("deleteActorOrToken", { actors: toDel });
               break;
 
-            case 'crow':
+            case "crow":
               const idCrow = getCapacite.crow.id;
               const actorCrow = game.actors?.get(idCrow) || {};
 
@@ -1509,15 +1909,16 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
               await deleteTokens([actorCrow.id]);
 
-              if(Object.keys(actorCrow).length != 0) await SOCKET.executeAsGM('deleteActorOrToken', {actors:[actorCrow.uuid]});
+              if (Object.keys(actorCrow).length != 0)
+                await SOCKET.executeAsGM("deleteActorOrToken", { actors: [actorCrow.uuid] });
               break;
           }
 
           const msgCompanions = {
-            flavor:`${getName}`,
-            main:{
-              total:`${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Revocation", {type:game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`)})}`
-            }
+            flavor: `${getName}`,
+            main: {
+              total: `${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Revocation", { type: game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`) })}`,
+            },
           };
 
           const msgActiveCompanions = {
@@ -1528,8 +1929,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
               alias: actor?.name || null,
             },
             style: CONST.CHAT_MESSAGE_STYLES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
-            sounds:CONFIG.sounds.notification,
+            content: await renderTemplate("systems/knight/templates/dices/wpn.html", msgCompanions),
+            sounds: CONFIG.sounds.notification,
           };
 
           await ChatMessage.create(msgActiveCompanions);
@@ -1540,45 +1941,45 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       case "shrine":
         await PatchBuilder.for(armure)
           .sys(getPath, {
-            base:value,
-            [special]:value,
+            base: value,
+            [special]: value,
           })
           .apply();
         break;
       case "morph":
         pb = new PatchBuilder();
 
-        if(!special) {
-          pb.sys(getPath.split('.').slice(0, -1).join('.'), {
-              'morph':value,
-              'polymorphieLame':false,
-              'polymorphieGriffe':false,
-              'polymorphieCanon':false,
-            })
-          pb.sys(`${getPath.split('.').slice(0, -2).join('.')}.choisi`, {
-              'vol':false,
-              'phase':false,
-              'etirement':false,
-              'metal':false,
-              'fluide':false,
-              'polymorphie':false,
-              'polymorphieLame':false,
-              'polymorphieGriffe':false,
-              'polymorphieCanon':false,
-            })
-        }
-        else if(special !== 'polymorphieReset' && (special !== 'phase' || special !== 'phaseN2')) pb.sys(getPath, value);
-        else if(special === 'polymorphieReset') {
+        if (!special) {
+          pb.sys(getPath.split(".").slice(0, -1).join("."), {
+            morph: value,
+            polymorphieLame: false,
+            polymorphieGriffe: false,
+            polymorphieCanon: false,
+          });
+          pb.sys(`${getPath.split(".").slice(0, -2).join(".")}.choisi`, {
+            vol: false,
+            phase: false,
+            etirement: false,
+            metal: false,
+            fluide: false,
+            polymorphie: false,
+            polymorphieLame: false,
+            polymorphieGriffe: false,
+            polymorphieCanon: false,
+          });
+        } else if (special !== "polymorphieReset" && (special !== "phase" || special !== "phaseN2"))
+          pb.sys(getPath, value);
+        else if (special === "polymorphieReset") {
           sendMsg = false;
 
           pb.sys(getPath, {
-              'polymorphieLame':false,
-              'polymorphieGriffe':false,
-              'polymorphieCanon':false,
-            })
+            polymorphieLame: false,
+            polymorphieGriffe: false,
+            polymorphieCanon: false,
+          });
         }
 
-        if(variant === 'choix') sendMsg = false;
+        if (variant === "choix") sendMsg = false;
 
         await pb.applyTo(armure);
         break;
@@ -1586,99 +1987,97 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         const rageInterdit = [];
         const rageBonus = [];
 
-        if(!special) {
+        if (!special) {
           pb = new PatchBuilder();
 
           pb.sys(getPath[0], value);
 
-          if(value) {
+          if (value) {
             pb.sys(getPath[1], {
-              colere:true,
+              colere: true,
             });
 
-            if(getCapacite.colere.combosInterdits.has) {
-              for (let [key, combo] of Object.entries(getCapacite.colere.combosInterdits.liste)){
-                if(combo != "") {
+            if (getCapacite.colere.combosInterdits.has) {
+              for (let [key, combo] of Object.entries(getCapacite.colere.combosInterdits.liste)) {
+                if (combo != "") {
                   rageInterdit.push(combo);
                 }
               }
             }
 
-            if(getCapacite.colere.combosBonus.has) {
-              for (let [key, combo] of Object.entries(getCapacite.colere.combosBonus.liste)){
-                if(combo != "") {
+            if (getCapacite.colere.combosBonus.has) {
+              for (let [key, combo] of Object.entries(getCapacite.colere.combosBonus.liste)) {
+                if (combo != "") {
                   rageBonus.push(combo);
                 }
               }
             }
-          }
-          else {
+          } else {
             pb.sys(getPath[1], {
-              colere:false,
-              rage:false,
-              fureur:false,
+              colere: false,
+              rage: false,
+              fureur: false,
             });
           }
 
           await pb.applyTo(armure);
           await PatchBuilder.for(actor)
-            .sys('combos.interdits.caracteristiques.rage', value ? rageInterdit : [])
-            .sys('combos.bonus.caracteristiques.rage', value ? rageBonus : [])
+            .sys("combos.interdits.caracteristiques.rage", value ? rageInterdit : [])
+            .sys("combos.bonus.caracteristiques.rage", value ? rageBonus : [])
             .apply();
-        } else if(special === 'niveau') {
+        } else if (special === "niveau") {
           sendMsg = false;
           pb = new PatchBuilder();
           const nActuel = getCapacite?.niveau || false;
 
-          if(variant === 'ennemi') {
-            new game.knight.RollKnight(actor,
-            {
-              name:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label")}`,
+          if (variant === "ennemi") {
+            new game.knight.RollKnight(actor, {
+              name: `${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label")}`,
             }).sendMessage({
-                text: game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Ennemi"),
-                sounds:CONFIG.sounds.notification,
+              text: game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Ennemi"),
+              sounds: CONFIG.sounds.notification,
             });
           }
 
-          if(nActuel.colere) {
+          if (nActuel.colere) {
             pb.sys(getPath, {
-              colere:false,
-              rage:true,
+              colere: false,
+              rage: true,
             });
 
-            if(getCapacite.rage.combosInterdits.has) {
-              for (let [key, combo] of Object.entries(getCapacite.rage.combosInterdits.liste)){
-                if(combo != "") {
+            if (getCapacite.rage.combosInterdits.has) {
+              for (let [key, combo] of Object.entries(getCapacite.rage.combosInterdits.liste)) {
+                if (combo != "") {
                   rageInterdit.push(combo);
                 }
               }
             }
 
-            if(getCapacite.rage.combosBonus.has) {
-              for (let [key, combo] of Object.entries(getCapacite.rage.combosBonus.liste)){
-                if(combo != "") {
+            if (getCapacite.rage.combosBonus.has) {
+              for (let [key, combo] of Object.entries(getCapacite.rage.combosBonus.liste)) {
+                if (combo != "") {
                   rageBonus.push(combo);
                 }
               }
             }
-          } else if(nActuel.rage) {
+          } else if (nActuel.rage) {
             pb.sys(getPath, {
-              colere:false,
-              rage:false,
-              fureur:true,
+              colere: false,
+              rage: false,
+              fureur: true,
             });
 
-            if(getCapacite.fureur.combosInterdits.has) {
-              for (let [key, combo] of Object.entries(getCapacite.fureur.combosInterdits.liste)){
-                if(combo != "") {
+            if (getCapacite.fureur.combosInterdits.has) {
+              for (let [key, combo] of Object.entries(getCapacite.fureur.combosInterdits.liste)) {
+                if (combo != "") {
                   rageInterdit.push(combo);
                 }
               }
             }
 
-            if(getCapacite.fureur.combosBonus.has) {
-              for (let [key, combo] of Object.entries(getCapacite.fureur.combosBonus.liste)){
-                if(combo != "") {
+            if (getCapacite.fureur.combosBonus.has) {
+              for (let [key, combo] of Object.entries(getCapacite.fureur.combosBonus.liste)) {
+                if (combo != "") {
                   rageBonus.push(combo);
                 }
               }
@@ -1687,54 +2086,69 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
           await pb.applyTo(armure);
           await PatchBuilder.for(this)
-            .sys('combos.interdits.caracteristiques.rage', rageInterdit)
-            .sys('combos.bonus.caracteristiques.rage', rageBonus)
+            .sys("combos.interdits.caracteristiques.rage", rageInterdit)
+            .sys("combos.bonus.caracteristiques.rage", rageBonus)
             .apply();
 
-          const exec = new game.knight.RollKnight(this,
-            {
-            name:game.i18n.localize(`KNIGHT.ACTIVATION.Label`),
-            }).sendMessage({
-                text:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label")} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label")}`,
-                sounds:CONFIG.sounds.notification,
-            });
-        } else if(special === 'degats') {
+          const exec = new game.knight.RollKnight(this, {
+            name: game.i18n.localize(`KNIGHT.ACTIVATION.Label`),
+          }).sendMessage({
+            text: `${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label")} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label")}`,
+            sounds: CONFIG.sounds.notification,
+          });
+        } else if (special === "degats") {
           sendMsg = false;
-          const niveauActuel = Object.keys(getCapacite?.niveau ?? {}).find(k => getCapacite.niveau[k] === true) ?? null;
+          const niveauActuel =
+            Object.keys(getCapacite?.niveau ?? {}).find((k) => getCapacite.niveau[k] === true) ??
+            null;
           const degatsRage = getCapacite[niveauActuel].subis;
           const degatsLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats");
           const sante = this.actor.system.sante.value;
 
-          const rDegats = new game.knight.RollKnight(this, {
-            name:`${getName} : ${degatsLabel}`,
-            dices:`${degatsRage}D6`,
-          }, false);
+          const rDegats = new game.knight.RollKnight(
+            this,
+            {
+              name: `${getName} : ${degatsLabel}`,
+              dices: `${degatsRage}D6`,
+            },
+            false,
+          );
 
-          await rDegats.doRoll({['system.sante.value']:`@{max, 0} ${sante}-@{rollTotal}`});
-        } else if(special === 'recuperation') {
+          await rDegats.doRoll({ ["system.sante.value"]: `@{max, 0} ${sante}-@{rollTotal}` });
+        } else if (special === "recuperation") {
           sendMsg = false;
-          const recuperationRage = variant.split('/');
-          const labelRecuperationRage = recuperationRage[0] === 'proche' ? game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche") : `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.${capitalizeFirstLetter(recuperationRage[0])}`)} : ${game.i18n.localize(`KNIGHT.TYPE.${capitalizeFirstLetter(recuperationRage[1])}`)}`;
-          const getRecuperationRageDices = recuperationRage[0] === 'proche' ? {dice:0, face:6, fixe:1}: getCapacite.nourri[recuperationRage[0]][recuperationRage[1]];
+          const recuperationRage = variant.split("/");
+          const labelRecuperationRage =
+            recuperationRage[0] === "proche"
+              ? game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche")
+              : `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.${capitalizeFirstLetter(recuperationRage[0])}`)} : ${game.i18n.localize(`KNIGHT.TYPE.${capitalizeFirstLetter(recuperationRage[1])}`)}`;
+          const getRecuperationRageDices =
+            recuperationRage[0] === "proche"
+              ? { dice: 0, face: 6, fixe: 1 }
+              : getCapacite.nourri[recuperationRage[0]][recuperationRage[1]];
 
-          const rRecuperation = new game.knight.RollKnight(this, {
-            name:game.i18n.localize("KNIGHT.GAINS.Espoir") + ` (${labelRecuperationRage})`,
-            dices:`${getRecuperationRageDices.dice}D${getRecuperationRageDices.face}+${getRecuperationRageDices.fixe}`,
-          }, false);
+          const rRecuperation = new game.knight.RollKnight(
+            this,
+            {
+              name: game.i18n.localize("KNIGHT.GAINS.Espoir") + ` (${labelRecuperationRage})`,
+              dices: `${getRecuperationRageDices.dice}D${getRecuperationRageDices.face}+${getRecuperationRageDices.fixe}`,
+            },
+            false,
+          );
 
           this.givePE(await rRecuperation.doRoll(), getArmure, true);
-        } else if(special === 'blaze') {
-          const blaLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label")
+        } else if (special === "blaze") {
+          const blaLabel = game.i18n.localize(
+            "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label",
+          );
 
-          await this.rollDegats(blaLabel, [], [], {dice:getCapacite.blaze.degats});
-          await this.rollViolence(blaLabel, [], [], {dice:getCapacite.blaze.violence});
+          await this.rollDegats(blaLabel, [], [], { dice: getCapacite.blaze.degats });
+          await this.rollViolence(blaLabel, [], [], { dice: getCapacite.blaze.violence });
         }
         break;
       case "warlord":
-        if(special !== 'energie') {
-          await PatchBuilder.for(armure)
-            .sys(getPath, value)
-            .apply();
+        if (special !== "energie") {
+          await PatchBuilder.for(armure).sys(getPath, value).apply();
         }
         break;
       case "zen":
@@ -1753,31 +2167,33 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           return out;
         }
 
-        const listC = collectTrueNames(getCapacite.aspects)
+        const listC = collectTrueNames(getCapacite.aspects);
 
         const autre = [].concat(listC);
         autre.shift();
 
         dialog = new game.knight.applications.KnightRollDialog(actor.system.actorUuid, {
-          label:getName,
-          base:listC[0],
-          whatRoll:autre,
-          difficulte:5,
+          label: getName,
+          base: listC[0],
+          whatRoll: autre,
+          difficulte: 5,
         });
 
         dialog.open();
         break;
       case "type":
-        await PatchBuilder.for(armure)
-          .sys(getPath, value)
-          .apply();
+        await PatchBuilder.for(armure).sys(getPath, value).apply();
         break;
       case "mechanic":
         const mechanic = getCapacite.reparation[special];
-        const roll = new game.knight.RollKnight(this, {
-          name:`${getName}`,
-          dices:`${mechanic.dice}D6+${mechanic.fixe}`,
-        }, false);
+        const roll = new game.knight.RollKnight(
+          this,
+          {
+            name: `${getName}`,
+            dices: `${mechanic.dice}D6+${mechanic.fixe}`,
+          },
+          false,
+        );
 
         await roll.doRoll();
         sendMsg = false;
@@ -1788,14 +2204,15 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         break;
     }
 
-    if(sendMsg) {
-      const exec = new game.knight.RollKnight(actor,
-        {
-        name:value ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
-        }).sendMessage({
-            text:getName,
-            sounds:CONFIG.sounds.notification,
-        });
+    if (sendMsg) {
+      const exec = new game.knight.RollKnight(actor, {
+        name: value
+          ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`)
+          : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
+      }).sendMessage({
+        text: getName,
+        sounds: CONFIG.sounds.notification,
+      });
     }
   }
 
@@ -1804,15 +2221,11 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const armure = this.item;
 
     // Déstructuration défensive + valeurs par défaut
-    const {
-      capacite = '',
-      special = '',
-      variant = '',
-    } = args;
+    const { capacite = "", special = "", variant = "" } = args;
 
     // Gardes minimales (évite les plantages)
     if (!capacite) {
-      console.warn('activateSpecial: special manquant');
+      console.warn("activateSpecial: special manquant");
       return;
     }
 
@@ -1822,70 +2235,74 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
     let dialog;
 
-    switch(capacite) {
-      case 'contrecoups':
+    switch (capacite) {
+      case "contrecoups":
         dialog = new game.knight.applications.KnightRollDialog(actor.system.actorUuid, {
-          label:getName,
-          base:getSpecial.jet[special],
-          difficulte:actor?.system?.equipements?.armure?.special?.[capacite],
-          btn:{
-            nood:true,
-          }
+          label: getName,
+          base: getSpecial.jet[special],
+          difficulte: actor?.system?.equipements?.armure?.special?.[capacite],
+          btn: {
+            nood: true,
+          },
         });
 
         dialog.open();
         break;
 
-      case 'impregnation':
+      case "impregnation":
         dialog = new game.knight.applications.KnightRollDialog(actor.system.actorUuid, {
-          label:getName,
-          base:getSpecial.jets[`c1${special}`],
-          whatRoll:[getSpecial.jets[`c2${special}`]],
+          label: getName,
+          base: getSpecial.jets[`c1${special}`],
+          whatRoll: [getSpecial.jets[`c2${special}`]],
         });
 
         dialog.open();
         break;
 
-      case 'energiedeficiente':
-        const roll = new game.knight.RollKnight(actor, {
-          name:getName,
-          dices:`${special}D6`,
-        }, false);
+      case "energiedeficiente":
+        const roll = new game.knight.RollKnight(
+          actor,
+          {
+            name: getName,
+            dices: `${special}D6`,
+          },
+          false,
+        );
 
         const rTotal = await roll.doRoll();
 
-        this.givePE(rTotal, getArmure)
+        this.givePE(rTotal, getArmure);
         break;
 
-      case 'recolteflux':
+      case "recolteflux":
         let flux = actor?.system?.flux?.value ?? 0;
         let bonus = 0;
 
-        if(special === 'horsconflit') {
+        if (special === "horsconflit") {
           const limiteFlux = getSpecial?.horsconflit?.limite ?? 0;
 
-          bonus += (actor?.system?.equipements?.armure?.special?.flux ?? 0)*(getSpecial?.horsconflit?.base ?? 0);
+          bonus +=
+            (actor?.system?.equipements?.armure?.special?.flux ?? 0) *
+            (getSpecial?.horsconflit?.base ?? 0);
 
-          if((flux+bonus) > limiteFlux) bonus = limiteFlux - flux;;
-        } else if(special === 'conflit') {
-          if(variant === 'debut') bonus += getSpecial?.conflit?.base ?? 0;
-          else if(variant === 'tour') bonus += getSpecial?.conflit?.tour ?? 0;
-          else if(variant === 'hostile') bonus += getSpecial?.conflit?.hostile ?? 0;
-          else if(variant === 'salopard') bonus += getSpecial?.conflit?.salopard ?? 0;
-          else if(variant === 'patron') bonus += getSpecial?.conflit?.patron ?? 0;
+          if (flux + bonus > limiteFlux) bonus = limiteFlux - flux;
+        } else if (special === "conflit") {
+          if (variant === "debut") bonus += getSpecial?.conflit?.base ?? 0;
+          else if (variant === "tour") bonus += getSpecial?.conflit?.tour ?? 0;
+          else if (variant === "hostile") bonus += getSpecial?.conflit?.hostile ?? 0;
+          else if (variant === "salopard") bonus += getSpecial?.conflit?.salopard ?? 0;
+          else if (variant === "patron") bonus += getSpecial?.conflit?.patron ?? 0;
         }
 
         flux += bonus;
 
-        await PatchBuilder.for(this.actor)
-          .sys("flux.value", flux)
-          .apply();
+        await PatchBuilder.for(this.actor).sys("flux.value", flux).apply();
 
         const dataMsg = {
-          flavor:getName,
-          main:{
-            total:bonus
-          }
+          flavor: getName,
+          main: {
+            total: bonus,
+          },
         };
 
         const msg = {
@@ -1896,14 +2313,14 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
             alias: actor?.name || null,
           },
           style: CONST.CHAT_MESSAGE_STYLES.OTHER,
-          content: await renderTemplate('systems/knight/templates/dices/wpn.html', dataMsg)
+          content: await renderTemplate("systems/knight/templates/dices/wpn.html", dataMsg),
         };
 
         const rMode = game.settings.get("core", "rollMode");
         const msgFData = ChatMessage.applyRollMode(msg, rMode);
 
         await ChatMessage.create(msgFData, {
-          rollMode:rMode
+          rollMode: rMode,
         });
         break;
     }
@@ -1913,45 +2330,44 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const actor = this.actor;
     const armure = this.item;
     // Déstructuration défensive + valeurs par défaut
-    const {
-      capacite = '',
-      special = '',
-      variant = '',
-      forceEspoir = false,
-    } = args;
+    const { capacite = "", special = "", variant = "", forceEspoir = false } = args;
 
     // Gardes minimales (évite les plantages)
     if (!capacite) {
-      console.warn('prolongateCapacity: capacite manquant');
+      console.warn("prolongateCapacity: capacite manquant");
       return;
     }
 
     const getArmure = new ArmureAPI(armure);
     const getName = getArmure.getCapaciteActiveName(capacite, special, variant);
 
-    const ask = await this.usePEProlongateCapacity({armure:getArmure, capacite, special, variant});
-    if(!ask) return;
+    const ask = await this.usePEProlongateCapacity({
+      armure: getArmure,
+      capacite,
+      special,
+      variant,
+    });
+    if (!ask) return;
 
     let label = game.i18n.localize("KNIGHT.AUTRE.Prolonger");
 
-    const exec = new game.knight.RollKnight(actor,
-      {
-      name:label,
-      }).sendMessage({
-          text:getName,
-          sounds:CONFIG.sounds.notification,
-      });
+    const exec = new game.knight.RollKnight(actor, {
+      name: label,
+    }).sendMessage({
+      text: getName,
+      sounds: CONFIG.sounds.notification,
+    });
   }
 
   async usePEActivateCapacity(armure, capacite, forceEspoir = false) {
     const actor = this.actor;
-    const split = capacite.split('/');
+    const split = capacite.split("/");
     const mainLabel = game.i18n.localize(CONFIG.KNIGHT.capacites[split[0]]);
-    const subLabel = split[1] ? ` ${game.i18n.localize(CONFIG.KNIGHT[split[1]])}` : '';
+    const subLabel = split[1] ? ` ${game.i18n.localize(CONFIG.KNIGHT[split[1]])}` : "";
     const label = subLabel ? `${mainLabel} : ${subLabel}` : mainLabel;
 
     const remplaceEnergie = armure.espoirRemplaceEnergie;
-    const getType = remplaceEnergie || forceEspoir ? 'espoir' : 'energie';
+    const getType = remplaceEnergie || forceEspoir ? "espoir" : "energie";
     const getCapacite = armure.getCapacite(split[0]);
     const hasFlux = armure.hasFlux;
 
@@ -1962,7 +2378,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const sendLackMsg = async (i18nKey) => {
       const payload = {
         flavor: `${label}`,
-        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` },
       };
       const data = {
         user: game.user.id,
@@ -1972,8 +2388,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           alias: actor?.name ?? null,
         },
         style: CONST.CHAT_MESSAGE_STYLES.OTHER,
-        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
-        sound: CONFIG.sounds.dice
+        content: await renderTemplate("systems/knight/templates/dices/wpn.html", payload),
+        sound: CONFIG.sounds.dice,
       };
       const rMode = game.settings.get("core", "rollMode");
       const msgData = ChatMessage.applyRollMode(data, rMode);
@@ -1982,7 +2398,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
     const isFinite = (number, defaut = 0) => {
       return Number.isFinite(number) ? number : defaut;
-    }
+    };
 
     let depenseEnergie = 0;
     let depenseFlux = 0;
@@ -1991,108 +2407,139 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     let substractEspoir = 0;
     let substractFlux = 0;
 
-    switch(split[0]) {
-      case 'ascension':
+    switch (split[0]) {
+      case "ascension":
         depenseEnergie = actor?.system?.equipements?.armure?.capacites?.ascension?.energie ?? 0;
         break;
 
-      case 'borealis':
-        depenseEnergie = split[1] === 'support' ?
-          getCapacite[split[1]].energie.base + (getCapacite[split[1]].energie.allie * actor?.system?.equipements?.armure?.capacites?.borealis?.allie ?? 0) :
-          getCapacite[split[1]].energie;
+      case "borealis":
+        depenseEnergie =
+          split[1] === "support"
+            ? getCapacite[split[1]].energie.base +
+              (getCapacite[split[1]].energie.allie *
+                actor?.system?.equipements?.armure?.capacites?.borealis?.allie ?? 0)
+            : getCapacite[split[1]].energie;
         break;
 
-      case 'changeling':
-        if(split[1] !== 'explosive') {
-          depenseEnergie = split[1] === 'fauxEtre' ?
-            getCapacite.energie[split[1]].value * actor?.system?.equipements?.armure?.capacites?.changeling?.fauxetres ?? 0 :
-            getCapacite.energie[split[1]];
+      case "changeling":
+        if (split[1] !== "explosive") {
+          depenseEnergie =
+            split[1] === "fauxEtre"
+              ? (getCapacite.energie[split[1]].value *
+                  actor?.system?.equipements?.armure?.capacites?.changeling?.fauxetres ?? 0)
+              : getCapacite.energie[split[1]];
         }
         break;
 
-      case 'companions':
-        depenseEnergie = getCapacite.energie.base + isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10);
+      case "companions":
+        depenseEnergie =
+          getCapacite.energie.base +
+          isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10);
         break;
 
-      case 'discord':
+      case "discord":
         depenseEnergie = getCapacite[split[1]].energie;
         depenseFlux = getCapacite[split[1]].flux;
         break;
 
-      case 'windtalker':
+      case "windtalker":
         depenseEnergie = getCapacite.energie;
         depenseFlux = getCapacite.flux;
         break;
 
-      case 'falcon':
-      case 'forward':
-      case 'record':
-      case 'rewind':
-      case 'oriflamme':
-      case 'watchtower':
+      case "falcon":
+      case "forward":
+      case "record":
+      case "rewind":
+      case "oriflamme":
+      case "watchtower":
         depenseEnergie = getCapacite.energie;
         break;
 
-      case 'goliath':
-        depenseEnergie = getCapacite.energie * actor?.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+      case "goliath":
+        depenseEnergie =
+          getCapacite.energie * actor?.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
         break;
 
-      case 'nanoc':
-      case 'mechanic':
+      case "nanoc":
+      case "mechanic":
         depenseEnergie = getCapacite.energie[split[1]];
         break;
 
-      case 'shrine':
-        if(split[1] === 'distance' || split[1] === 'personnel') depenseEnergie = getCapacite.energie[split[1]];
-        else if(split[1] === 'distance6' || split[1] === 'personnel6') depenseEnergie = getCapacite.energie[`${split[1]}tours`];
+      case "shrine":
+        if (split[1] === "distance" || split[1] === "personnel")
+          depenseEnergie = getCapacite.energie[split[1]];
+        else if (split[1] === "distance6" || split[1] === "personnel6")
+          depenseEnergie = getCapacite.energie[`${split[1]}tours`];
         break;
 
-      case 'ghost':
-        depenseEnergie = getCapacite.energie[split[1] === 'conflit' ? 'tour' : 'minute'];
+      case "ghost":
+        depenseEnergie = getCapacite.energie[split[1] === "conflit" ? "tour" : "minute"];
         break;
 
-      case 'type':
-        depenseEnergie = getCapacite.energie[split[2] === 'conflit' ? 'tour' : 'scene'];
+      case "type":
+        depenseEnergie = getCapacite.energie[split[2] === "conflit" ? "tour" : "scene"];
         break;
 
-      case 'totem':
-        depenseEnergie = getCapacite.energie.base * actor?.system?.equipements?.armure?.capacites?.totem?.nombre ?? 0;
+      case "totem":
+        depenseEnergie =
+          getCapacite.energie.base * actor?.system?.equipements?.armure?.capacites?.totem?.nombre ??
+          0;
         break;
 
-      case 'puppet':
-        depenseEnergie = getCapacite.energie.ordre + (actor?.system?.equipements?.armure?.capacites?.puppet?.cible ?? 0 * getCapacite.energie.supplementaire);
-        if(getCapacite?.flux?.has) depenseFlux = getCapacite.flux.ordre + (actor?.system?.equipements?.armure?.capacites?.puppet?.cible ?? 0 * getCapacite.flux.supplementaire);
+      case "puppet":
+        depenseEnergie =
+          getCapacite.energie.ordre +
+          (actor?.system?.equipements?.armure?.capacites?.puppet?.cible ??
+            0 * getCapacite.energie.supplementaire);
+        if (getCapacite?.flux?.has)
+          depenseFlux =
+            getCapacite.flux.ordre +
+            (actor?.system?.equipements?.armure?.capacites?.puppet?.cible ??
+              0 * getCapacite.flux.supplementaire);
         break;
 
-      case 'illumination':
-        if(split[1] === 'candle') {
-          const roll = new game.knight.RollKnight(actor, {
-            name:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.SacrificeGainEspoir"),
-            dices:`${getCapacite.candle.espoir.dice}D${getCapacite.candle.espoir.face}`,
-          }, false);
+      case "illumination":
+        if (split[1] === "candle") {
+          const roll = new game.knight.RollKnight(
+            actor,
+            {
+              name: game.i18n.localize(
+                "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.SacrificeGainEspoir",
+              ),
+              dices: `${getCapacite.candle.espoir.dice}D${getCapacite.candle.espoir.face}`,
+            },
+            false,
+          );
 
           const total = await roll.doRoll();
           depenseEnergie = total;
         } else depenseEnergie = getCapacite[split[1]].espoir.base;
         break;
 
-      case 'morph':
-        if(split[1] === 'phase' && split[2] !== 'choix') depenseEnergie = getCapacite.phase.energie;
-        else if(split[1] === 'phaseN2' && split[2] !== 'choix') depenseEnergie = getCapacite.phase.niveau2.energie;
-        else if(split[1]) return true;
+      case "morph":
+        if (split[1] === "phase" && split[2] !== "choix")
+          depenseEnergie = getCapacite.phase.energie;
+        else if (split[1] === "phaseN2" && split[2] !== "choix")
+          depenseEnergie = getCapacite.phase.niveau2.energie;
+        else if (split[1]) return true;
         else {
           depenseEnergie = getCapacite.energie;
           depenseEspoir = getCapacite.espoir;
         }
         break;
 
-      case 'rage':
-        if(split[1] === 'active') depenseEnergie = getCapacite.espoir;
-        else if(split[1] === 'niveau' && split[2] === 'espoir') {
-          const roll = new game.knight.RollKnight(actor, {
-            name:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label")} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir")}`,
-            dices:'1D6',
-          }, false);
+      case "rage":
+        if (split[1] === "active") depenseEnergie = getCapacite.espoir;
+        else if (split[1] === "niveau" && split[2] === "espoir") {
+          const roll = new game.knight.RollKnight(
+            actor,
+            {
+              name: `${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label")} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir")}`,
+              dices: "1D6",
+            },
+            false,
+          );
 
           const total = await roll.doRoll();
 
@@ -2100,59 +2547,64 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         }
         break;
 
-      case 'vision':
+      case "vision":
         depenseEnergie = actor?.system?.equipements?.armure?.capacites?.vision?.energie ?? 0;
         break;
 
-      case 'warlord':
-        if(split[2] === 'porteur') {
+      case "warlord":
+        if (split[2] === "porteur") {
           depenseEnergie = getCapacite.impulsions[split[1]].energie[split[2]];
         } else {
-          switch(split[1]) {
-            case 'energie':
-              depenseEnergie = actor?.system?.equipements?.armure?.capacites?.warlord?.energie?.nbre ?? 0;
+          switch (split[1]) {
+            case "energie":
+              depenseEnergie =
+                actor?.system?.equipements?.armure?.capacites?.warlord?.energie?.nbre ?? 0;
               break;
 
-            case 'action':
+            case "action":
               depenseEnergie = getCapacite.impulsions[split[1]].energie[split[2]];
               break;
 
-            case 'esquive':
-            case 'guerre':
-            case 'force':
-              depenseEnergie = actor?.system?.equipements?.armure?.capacites?.warlord?.[split[1]]?.nbre ?? 0 * getCapacite.impulsions[split[1]].energie[split[2]];
+            case "esquive":
+            case "guerre":
+            case "force":
+              depenseEnergie =
+                actor?.system?.equipements?.armure?.capacites?.warlord?.[split[1]]?.nbre ??
+                0 * getCapacite.impulsions[split[1]].energie[split[2]];
               break;
           }
         }
         break;
     }
 
-    if(remplaceEnergie) depenseEnergie += depenseEspoir;
+    if (remplaceEnergie) depenseEnergie += depenseEspoir;
 
     substractEnergie = value - depenseEnergie;
     substractEspoir = espoir - depenseEspoir;
     substractFlux = flux - depenseFlux;
-    if(substractEnergie < 0) {
-      await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
+    if (substractEnergie < 0) {
+      await sendLackMsg(`${remplaceEnergie || forceEspoir ? "Notespoir" : "Notenergie"}`);
 
       return false;
-    } else if(substractEspoir < 0 && !remplaceEnergie) {
+    } else if (substractEspoir < 0 && !remplaceEnergie) {
       await sendLackMsg(`Notespoir`);
 
       return false;
-    } else if(substractFlux < 0 && hasFlux) {
+    } else if (substractFlux < 0 && hasFlux) {
       await sendLackMsg(`Notflux`);
 
       return false;
     } else {
       let pbE = new PatchBuilder();
 
-      if(!remplaceEnergie) pbE.sys(`equipements.${actor.system.wear}.${getType}.value`, substractEnergie);
-      else if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
+      if (!remplaceEnergie)
+        pbE.sys(`equipements.${actor.system.wear}.${getType}.value`, substractEnergie);
+      else if (remplaceEnergie && !actor.system.espoir.perte.saufAgonie)
+        pbE.sys("espoir.value", substractEnergie);
 
-      if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
+      if (!remplaceEnergie && depenseEspoir) pbE.sys("espoir.value", substractEspoir);
 
-      if(depenseFlux && hasFlux) pbE.sys('flux.value', substractFlux);
+      if (depenseFlux && hasFlux) pbE.sys("flux.value", substractFlux);
 
       await pbE.applyTo(actor);
 
@@ -2172,17 +2624,17 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
     // Gardes minimales (évite les plantages)
     if (!capacite) {
-      console.warn('_depenseProlongate: capacite manquante');
+      console.warn("_depenseProlongate: capacite manquante");
       return;
     }
 
     const actor = this.actor;
     const remplaceEnergie = armure.espoirRemplaceEnergie;
     const hasFlux = armure.hasFlux;
-    const getType = remplaceEnergie || forceEspoir ? 'espoir' : 'energie';
+    const getType = remplaceEnergie || forceEspoir ? "espoir" : "energie";
     const getCapacite = armure.getCapacite(capacite);
 
-    const flux = hasFlux ? actor?.system?.flux?.value ?? 0 : 0;
+    const flux = hasFlux ? (actor?.system?.flux?.value ?? 0) : 0;
     const energie = actor?.system?.[getType]?.value ?? 0;
     const espoir = actor?.system?.espoir?.value ?? 0;
 
@@ -2197,88 +2649,105 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     let tmp = 0;
     let tmp2 = 0;
 
-    switch(capacite) {
-      case 'type':
-        if(variant === 'conflit') depenseEnergie += getCapacite?.energie?.tour ?? 0;
+    switch (capacite) {
+      case "type":
+        if (variant === "conflit") depenseEnergie += getCapacite?.energie?.tour ?? 0;
         else depenseEnergie += getCapacite?.energie?.scene ?? 0;
         break;
 
-      case 'shrine':
-        if(special === 'distance6' || special === 'personnel6') depenseEnergie += getCapacite?.energie?.[`${special}tours`] ?? 0;
+      case "shrine":
+        if (special === "distance6" || special === "personnel6")
+          depenseEnergie += getCapacite?.energie?.[`${special}tours`] ?? 0;
         else depenseEnergie += getCapacite?.energie?.[special] ?? 0;
         break;
 
-      case 'nanoc':
+      case "nanoc":
         depenseEnergie += getCapacite.energie.prolonger;
         break;
 
-      case 'changeling':
-        if(getCapacite.active.fauxEtre) {
+      case "changeling":
+        if (getCapacite.active.fauxEtre) {
           tmp = getCapacite?.energie?.fauxEtre?.value ?? 0;
           tmp *= actor?.system?.equipements?.armure?.capacites?.changeling?.fauxetres ?? 0;
 
           depenseEnergie += tmp;
         }
-        if(getCapacite.active.personnel) depenseEnergie += getCapacite.energie.personnel;
-        if(getCapacite.active.etendue) depenseEnergie += getCapacite.energie.etendue;
+        if (getCapacite.active.personnel) depenseEnergie += getCapacite.energie.personnel;
+        if (getCapacite.active.etendue) depenseEnergie += getCapacite.energie.etendue;
         break;
 
-      case 'companions':
+      case "companions":
         depenseEnergie += getCapacite.energie.prolonger;
         break;
 
-      case 'discord':
-        if(special === 'tour') {
+      case "discord":
+        if (special === "tour") {
           depenseEnergie += getCapacite.tour.energie;
           depenseFlux += getCapacite.tour.flux;
-        } else if(special === 'scene') {
+        } else if (special === "scene") {
           depenseEnergie += getCapacite.scene.energie;
           depenseFlux += getCapacite.scene.flux;
         }
         break;
 
-      case 'ghost':
-        if(special === 'conflit') depenseEnergie += getCapacite.energie.tour;
-        else if(special === 'horsconflit') depenseEnergie += getCapacite.energie.minute;
+      case "ghost":
+        if (special === "conflit") depenseEnergie += getCapacite.energie.tour;
+        else if (special === "horsconflit") depenseEnergie += getCapacite.energie.minute;
         break;
 
-      case 'illumination':
-        if(special === 'beacon') depenseEspoir += getCapacite.beacon.espoir.prolonger;
-        else if(special === 'blaze') depenseEspoir += getCapacite.blaze.espoir.prolonger;
-        else if(special === 'lantern') depenseEspoir += getCapacite.lantern.espoir.prolonger;
-        else if(special === 'lighthouse') depenseEspoir += getCapacite.lighthouse.espoir.prolonger;
-        else if(special === 'projector') depenseEspoir += getCapacite.projector.espoir.prolonger;
-        else if(special === 'torch') depenseEspoir += getCapacite.torch.espoir.prolonger;
+      case "illumination":
+        if (special === "beacon") depenseEspoir += getCapacite.beacon.espoir.prolonger;
+        else if (special === "blaze") depenseEspoir += getCapacite.blaze.espoir.prolonger;
+        else if (special === "lantern") depenseEspoir += getCapacite.lantern.espoir.prolonger;
+        else if (special === "lighthouse") depenseEspoir += getCapacite.lighthouse.espoir.prolonger;
+        else if (special === "projector") depenseEspoir += getCapacite.projector.espoir.prolonger;
+        else if (special === "torch") depenseEspoir += getCapacite.torch.espoir.prolonger;
         break;
 
-      case 'warlord':
-        if(special === 'force') {
+      case "warlord":
+        if (special === "force") {
           tmp = getCapacite.active.force.allie ? getCapacite.impulsions.force.energie.prolonger : 0;
-          tmp *= getCapacite.active.force.allie ? actor?.system?.equipements?.armure?.capacites?.warlord?.force?.nbre ?? 0 : 0;
-          tmp += getCapacite.active.force.porteur ? getCapacite.impulsions.force.energie.porteur : 0;
+          tmp *= getCapacite.active.force.allie
+            ? (actor?.system?.equipements?.armure?.capacites?.warlord?.force?.nbre ?? 0)
+            : 0;
+          tmp += getCapacite.active.force.porteur
+            ? getCapacite.impulsions.force.energie.porteur
+            : 0;
           depenseEnergie += tmp;
-        } else if(special === 'esquive') {
-          tmp = getCapacite.active.esquive.allie ? getCapacite.impulsions.esquive.energie.prolonger : 0;
-          tmp *= getCapacite.active.esquive.allie ? actor?.system?.equipements?.armure?.capacites?.warlord?.esquive?.nbre ?? 0 : 0;
-          tmp += getCapacite.active.esquive.porteur ? getCapacite.impulsions.esquive.energie.porteur : 0;
+        } else if (special === "esquive") {
+          tmp = getCapacite.active.esquive.allie
+            ? getCapacite.impulsions.esquive.energie.prolonger
+            : 0;
+          tmp *= getCapacite.active.esquive.allie
+            ? (actor?.system?.equipements?.armure?.capacites?.warlord?.esquive?.nbre ?? 0)
+            : 0;
+          tmp += getCapacite.active.esquive.porteur
+            ? getCapacite.impulsions.esquive.energie.porteur
+            : 0;
           depenseEnergie += tmp;
-        } else if(special === 'guerre') {
-          tmp = getCapacite.active.guerre.allie ? getCapacite.impulsions.guerre.energie.prolonger : 0;
-          tmp *= getCapacite.active.guerre.allie ? actor?.system?.equipements?.armure?.capacites?.warlord?.guerre?.nbre ?? 0 : 0;
-          tmp += getCapacite.active.guerre.porteur ? getCapacite.impulsions.guerre.energie.porteur : 0;
+        } else if (special === "guerre") {
+          tmp = getCapacite.active.guerre.allie
+            ? getCapacite.impulsions.guerre.energie.prolonger
+            : 0;
+          tmp *= getCapacite.active.guerre.allie
+            ? (actor?.system?.equipements?.armure?.capacites?.warlord?.guerre?.nbre ?? 0)
+            : 0;
+          tmp += getCapacite.active.guerre.porteur
+            ? getCapacite.impulsions.guerre.energie.porteur
+            : 0;
           depenseEnergie += tmp;
         }
         break;
 
-      case 'totem':
+      case "totem":
         tmp = getCapacite.energie.prolonger;
         tmp *= actor?.system?.equipements?.armure?.capacites?.totem?.nombre ?? 0;
         depenseEnergie += tmp;
 
-        depenseFlux
+        depenseFlux;
         break;
 
-      case 'puppet':
+      case "puppet":
         tmp = getCapacite.energie.prolonger;
         tmp *= actor?.system?.equipements?.armure?.capacites?.puppet?.cible ?? 0;
         depenseEnergie += tmp;
@@ -2289,11 +2758,11 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         break;
     }
 
-    if(!depenseEnergie) depenseEnergie = 0;
-    if(!depenseEspoir) depenseEspoir = 0;
-    if(!depenseFlux) depenseFlux = 0;
+    if (!depenseEnergie) depenseEnergie = 0;
+    if (!depenseEspoir) depenseEspoir = 0;
+    if (!depenseFlux) depenseFlux = 0;
 
-    if(remplaceEnergie) depenseEnergie += depenseEspoir;
+    if (remplaceEnergie) depenseEnergie += depenseEspoir;
 
     substractEnergie = energie - depenseEnergie;
     substractEspoir = espoir - depenseEspoir;
@@ -2304,7 +2773,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const sendLackMsg = async (i18nKey) => {
       const payload = {
         flavor: `${label}`,
-        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` },
       };
       const data = {
         user: game.user.id,
@@ -2314,35 +2783,37 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           alias: actor?.name ?? null,
         },
         style: CONST.CHAT_MESSAGE_STYLES.OTHER,
-        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
-        sound: CONFIG.sounds.dice
+        content: await renderTemplate("systems/knight/templates/dices/wpn.html", payload),
+        sound: CONFIG.sounds.dice,
       };
       const rMode = game.settings.get("core", "rollMode");
       const msgData = ChatMessage.applyRollMode(data, rMode);
       await ChatMessage.create(msgData, { rollMode: rMode });
     };
 
-    if(substractEnergie < 0) {
-      await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
+    if (substractEnergie < 0) {
+      await sendLackMsg(`${remplaceEnergie || forceEspoir ? "Notespoir" : "Notenergie"}`);
 
       return false;
-    } else if(substractEspoir < 0 && !remplaceEnergie) {
+    } else if (substractEspoir < 0 && !remplaceEnergie) {
       await sendLackMsg(`Notespoir`);
 
       return false;
-    } else if(substractFlux < 0 && hasFlux) {
+    } else if (substractFlux < 0 && hasFlux) {
       await sendLackMsg(`Notflux`);
 
       return false;
     } else {
       let pbE = new PatchBuilder();
 
-      if(!remplaceEnergie) pbE.sys(`equipements.${actor.system.wear}.${getType}.value`, substractEnergie);
-      else if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
+      if (!remplaceEnergie)
+        pbE.sys(`equipements.${actor.system.wear}.${getType}.value`, substractEnergie);
+      else if (remplaceEnergie && !actor.system.espoir.perte.saufAgonie)
+        pbE.sys("espoir.value", substractEnergie);
 
-      if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
+      if (!remplaceEnergie && depenseEspoir) pbE.sys("espoir.value", substractEspoir);
 
-      if(depenseFlux && hasFlux) pbE.sys('flux.value', substractFlux);
+      if (depenseFlux && hasFlux) pbE.sys("flux.value", substractFlux);
 
       await pbE.applyTo(actor);
 
@@ -2354,7 +2825,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const actor = this.actor;
 
     const remplaceEnergie = armure.espoirRemplaceEnergie;
-    const getType = remplaceEnergie || forceEspoir ? 'espoir' : 'energie';
+    const getType = remplaceEnergie || forceEspoir ? "espoir" : "energie";
 
     const value = actor?.system?.[getType]?.value ?? 0;
     const espoir = actor?.system?.espoir?.value ?? 0;
@@ -2362,7 +2833,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const sendLackMsg = async (i18nKey) => {
       const payload = {
         flavor: `${label}`,
-        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` },
       };
       const data = {
         user: game.user.id,
@@ -2372,8 +2843,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           alias: actor?.name ?? null,
         },
         style: CONST.CHAT_MESSAGE_STYLES.OTHER,
-        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
-        sound: CONFIG.sounds.dice
+        content: await renderTemplate("systems/knight/templates/dices/wpn.html", payload),
+        sound: CONFIG.sounds.dice,
       };
       const rMode = game.settings.get("core", "rollMode");
       const msgData = ChatMessage.applyRollMode(data, rMode);
@@ -2385,26 +2856,30 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     let substractEnergie = 0;
     let substractEspoir = 0;
 
-    if(remplaceEnergie) depenseEnergie += depenseEspoir;
+    if (remplaceEnergie) depenseEnergie += depenseEspoir;
 
     substractEnergie = value - depenseEnergie;
     substractEspoir = espoir - depenseEspoir;
-    if(substractEnergie < 0) {
-      await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
+    if (substractEnergie < 0) {
+      await sendLackMsg(`${remplaceEnergie || forceEspoir ? "Notespoir" : "Notenergie"}`);
 
       return false;
-    } else if(substractEspoir < 0 && !remplaceEnergie) {
+    } else if (substractEspoir < 0 && !remplaceEnergie) {
       await sendLackMsg(`Notespoir`);
 
       return false;
     } else {
       let pbE = new PatchBuilder();
-      const pathEnergie = actor.type === 'knight' ? `equipements.${actor.system.wear}.${getType}.value` : `${getType}.value`;
+      const pathEnergie =
+        actor.type === "knight"
+          ? `equipements.${actor.system.wear}.${getType}.value`
+          : `${getType}.value`;
 
-      if(!remplaceEnergie) pbE.sys(pathEnergie, substractEnergie);
-      else if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
+      if (!remplaceEnergie) pbE.sys(pathEnergie, substractEnergie);
+      else if (remplaceEnergie && !actor.system.espoir.perte.saufAgonie)
+        pbE.sys("espoir.value", substractEnergie);
 
-      if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
+      if (!remplaceEnergie && depenseEspoir) pbE.sys("espoir.value", substractEspoir);
 
       await pbE.applyTo(actor);
 
@@ -2412,22 +2887,26 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     }
   }
 
-  async givePE(gain, armure, forceEspoir=false) {
+  async givePE(gain, armure, forceEspoir = false) {
     const data = this.actor;
     const remplaceEnergie = armure.espoirRemplaceEnergie;
 
-    const type = remplaceEnergie === true || forceEspoir ? 'espoir' : 'energie';
-    const actuel = remplaceEnergie === true || forceEspoir ? +data.system.espoir.value : +data.system.energie.value;
-    const total = remplaceEnergie === true || forceEspoir ? +data.system.espoir.max : +data.system.energie.max;
-    let add = actuel+gain;
+    const type = remplaceEnergie === true || forceEspoir ? "espoir" : "energie";
+    const actuel =
+      remplaceEnergie === true || forceEspoir
+        ? +data.system.espoir.value
+        : +data.system.energie.value;
+    const total =
+      remplaceEnergie === true || forceEspoir ? +data.system.espoir.max : +data.system.energie.max;
+    let add = actuel + gain;
 
-    if(add > total) {
+    if (add > total) {
       add = total;
     }
 
     let pbE = new PatchBuilder();
 
-    if(type === 'espoir') pbE.sys('espoir.value', add);
+    if (type === "espoir") pbE.sys("espoir.value", add);
     else pbE.sys(`equipements.${data.system.wear}.${type}.value`, add);
 
     await pbE.applyTo(data);
@@ -2435,105 +2914,123 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     return true;
   }
 
-  async rollDegats(label, raw=[], custom=[], dices={dice:0, fixe:0}) {
+  async rollDegats(label, raw = [], custom = [], dices = { dice: 0, fixe: 0 }) {
     const actor = this.actor;
     const listtargets = game.user.targets;
     const allTargets = [];
     let activeTenebricide = true;
 
-    if(listtargets && listtargets.size > 0) {
-      for(let t of listtargets) {
+    if (listtargets && listtargets.size > 0) {
+      for (let t of listtargets) {
         const actor = t.actor;
 
         allTargets.push({
-            id:t.id,
-            name:actor.name,
-            aspects:actor.system.aspects,
-            type:actor.type,
-            effets:[],
+          id: t.id,
+          name: actor.name,
+          aspects: actor.system.aspects,
+          type: actor.type,
+          effets: [],
         });
       }
-   }
+    }
 
-    const roll = new game.knight.RollKnight(actor, {
-      name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
-    }, false);
+    const roll = new game.knight.RollKnight(
+      actor,
+      {
+        name: `${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
+      },
+      false,
+    );
     const weapon = roll.prepareWpnDistance({
-      name:`${label}`,
-      system:{
-        degats:{dice:dices.dice, fixe:dices.fixe},
-        violence:{dice:0, fixe:0},
-        effets:{raw:raw, custom:custom},
-      }
+      name: `${label}`,
+      system: {
+        degats: { dice: dices.dice, fixe: dices.fixe },
+        violence: { dice: 0, fixe: 0 },
+        effets: { raw: raw, custom: custom },
+      },
     });
 
-    if(weapon.effets.raw.includes('tenebricide') && !await confirmationDialog("active", "Activation", {effect:game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label")})) activeTenebricide = false;
+    if (
+      weapon.effets.raw.includes("tenebricide") &&
+      !(await confirmationDialog("active", "Activation", {
+        effect: game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label"),
+      }))
+    )
+      activeTenebricide = false;
     const options = weapon.options;
 
-    for(let o of options) {
-
-      if(o.value === 'tenebricide') o.active = activeTenebricide;
+    for (let o of options) {
+      if (o.value === "tenebricide") o.active = activeTenebricide;
       else o.active = true;
     }
 
-    const flags = roll.getRollData(weapon, {targets:allTargets});
+    const flags = roll.getRollData(weapon, { targets: allTargets });
     roll.setWeapon(weapon);
     await roll.doRollDamage(flags);
   }
 
-  async rollViolence(label, raw=[], custom=[], dices={dice:0, fixe:0}) {
+  async rollViolence(label, raw = [], custom = [], dices = { dice: 0, fixe: 0 }) {
     const actor = this.actor;
     const listtargets = game.user.targets;
     const allTargets = [];
     let activeTenebricide = true;
 
-    if(listtargets && listtargets.size > 0) {
-      for(let t of listtargets) {
+    if (listtargets && listtargets.size > 0) {
+      for (let t of listtargets) {
         const actor = t.actor;
 
         allTargets.push({
-            id:t.id,
-            name:actor.name,
-            aspects:actor.system.aspects,
-            type:actor.type,
-            effets:[],
+          id: t.id,
+          name: actor.name,
+          aspects: actor.system.aspects,
+          type: actor.type,
+          effets: [],
         });
       }
-   }
+    }
 
-    const roll = new game.knight.RollKnight(actor, {
-      name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
-    }, false);
+    const roll = new game.knight.RollKnight(
+      actor,
+      {
+        name: `${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
+      },
+      false,
+    );
     const weapon = roll.prepareWpnDistance({
-      name:`${label}`,
-      system:{
-        degats:{dice:0, fixe:0},
-        violence:dices,
-        effets:{raw:raw, custom:custom},
-      }
+      name: `${label}`,
+      system: {
+        degats: { dice: 0, fixe: 0 },
+        violence: dices,
+        effets: { raw: raw, custom: custom },
+      },
     });
 
-    if(weapon.effets.raw.includes('tenebricide') && !await confirmationDialog("active", "Activation", {effect:game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label")})) activeTenebricide = false;
+    if (
+      weapon.effets.raw.includes("tenebricide") &&
+      !(await confirmationDialog("active", "Activation", {
+        effect: game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label"),
+      }))
+    )
+      activeTenebricide = false;
     const options = weapon.options;
 
-    for(let o of options) {
-
-      if(o.value === 'tenebricide') o.active = activeTenebricide;
+    for (let o of options) {
+      if (o.value === "tenebricide") o.active = activeTenebricide;
       else o.active = true;
     }
 
-    const flags = roll.getRollData(weapon, {targets:allTargets});
+    const flags = roll.getRollData(weapon, { targets: allTargets });
     roll.setWeapon(weapon);
     await roll.doRollViolence(flags);
   }
 
   async importLongbow(json) {
     const getArmure = new ArmureAPI(this.item);
-    const getCapacity = getArmure.hasCapacite('longbow');
+    const getCapacity = getArmure.hasCapacite("longbow");
     const pathLongbow = `capacites.selected.longbow`;
     const pb = await PatchBuilder.for(this.item);
 
-    if(getCapacity) {
+    if (getCapacity) {
       pb.sys(`${pathLongbow}.label`, json.weapon_name);
       pb.sys(`${pathLongbow}.description`, json.weapon_description);
       pb.sys(`${pathLongbow}.degats.min`, json.damage_dice);
@@ -2542,19 +3039,19 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       pb.sys(`${pathLongbow}.violence.adlfixe`, json.violence_flat);
       pb.sys(`${pathLongbow}.effets.base.raw`, await this.listEffects(json.effects));
 
-      const mineur = json.selectable_effects.find(e => e.name === 'mineur1');
-      const interm = json.selectable_effects.find(e => e.name === 'interm1');
-      const majeur = json.selectable_effects.find(e => e.name === 'majeur1');
+      const mineur = json.selectable_effects.find((e) => e.name === "mineur1");
+      const interm = json.selectable_effects.find((e) => e.name === "interm1");
+      const majeur = json.selectable_effects.find((e) => e.name === "majeur1");
 
-      if(mineur) {
+      if (mineur) {
         pb.sys(`${pathLongbow}.effets.liste1.raw`, await this.listEffects(mineur.effects));
         pb.sys(`${pathLongbow}.effets.liste1.energie`, mineur.energy);
       }
-      if(interm) {
+      if (interm) {
         pb.sys(`${pathLongbow}.effets.liste2.raw`, await this.listEffects(interm.effects));
         pb.sys(`${pathLongbow}.effets.liste2.energie`, interm.energy);
       }
-      if(majeur) {
+      if (majeur) {
         pb.sys(`${pathLongbow}.effets.liste3.raw`, await this.listEffects(majeur.effects));
         pb.sys(`${pathLongbow}.effets.liste3.energie`, majeur.energy);
         pb.sys(`${pathLongbow}.effets.liste3.acces`, true);
@@ -2562,7 +3059,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
       pb.sys(`evolutions.special.-=longbow`, null);
     } else {
-      let longbow = getArmure.getSys('capacites.base.longbow');
+      let longbow = getArmure.getSys("capacites.base.longbow");
       longbow.label = json.weapon_name;
       longbow.description = json.weapon_description;
       longbow.degats.min = json.damage_dice;
@@ -2570,23 +3067,23 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       longbow.violence.min = json.violence_dice;
       longbow.violence.adlfixe = json.violence_flat;
       longbow.effets.base.raw = await this.listEffects(json.effects);
-      longbow.key = 'longbow';
+      longbow.key = "longbow";
 
-      const mineur = json.selectable_effects.find(e => e.name === 'mineur1');
-      const interm = json.selectable_effects.find(e => e.name === 'interm1');
-      const majeur = json.selectable_effects.find(e => e.name === 'majeur1');
+      const mineur = json.selectable_effects.find((e) => e.name === "mineur1");
+      const interm = json.selectable_effects.find((e) => e.name === "interm1");
+      const majeur = json.selectable_effects.find((e) => e.name === "majeur1");
 
-      if(mineur) {
+      if (mineur) {
         longbow.effets.liste1.raw = await this.listEffects(mineur.effects);
         longbow.effets.liste1.energie = mineur.energy;
       }
 
-      if(interm) {
+      if (interm) {
         longbow.effets.liste2.raw = await this.listEffects(interm.effects);
         longbow.effets.liste2.energie = interm.energy;
       }
 
-      if(majeur) {
+      if (majeur) {
         longbow.effets.liste3.raw = await this.listEffects(majeur.effects);
         longbow.effets.liste3.energie = majeur.energy;
         longbow.effets.liste3.acces = true;
@@ -2601,9 +3098,9 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
   async listEffects(effects) {
     const resultEffects = [];
 
-    for(let e of effects ?? []) {
+    for (let e of effects ?? []) {
       const convert = convertJsonEffects(e);
-      if(convert) resultEffects.push(convert);
+      if (convert) resultEffects.push(convert);
     }
 
     return resultEffects;

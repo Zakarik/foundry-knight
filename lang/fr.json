@@ -2902,6 +2902,7 @@
       "Condition": "Conditions",
       "Description": "Description",
       "PASSIVE": {
+        "Label": "Capacités passives",
         "Sante": "Augmente la santé de 50% et aucune perte de 1 PS / 5 PA.",
         "NotSante": "N'Augmente pas la santé de 50% et conserve la perte de 1 PS / 5 PA.",
         "Contact": "Points de contact bonus",
@@ -3008,6 +3009,7 @@
         }
       },
       "ACTIVE": {
+        "Label": "Capacités actives",
         "NotInstantanee": "N'est pas instantané",
         "RECUPERATION": {
           "Pa": "Récupère toute l'armure",
@@ -3218,7 +3220,8 @@
       "ArmureMachineMultiplie": "Spécial : Aspect Machine multiplié par la valeur (Bonus d'armure)",
       "ArmureDameMultiplie": "Spécial : Aspect Dame multiplié par la valeur (Bonus d'armure)",
       "ArmureMasqueMultiplie": "Spécial : Aspect Masque multiplié par la valeur (Bonus d'armure)",
-      "AddAspectLie": "Spécial : Ajoute un aspect aux capacités liées à un aspect"
+      "AddAspectLie": "Spécial : Ajoute un aspect aux capacités liées à un aspect",
+      "Contact": "Modificateur : Points de contact"
     },
     "ERROR": {
       "NoArmor": "Aucune armure trouvée."

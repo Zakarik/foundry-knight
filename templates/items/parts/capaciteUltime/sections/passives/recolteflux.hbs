@@ -1,0 +1,22 @@
+<div class="data {{ifThen systemData.passives.special.recolteflux.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.special.recolteflux.actif
+        path="system.passives.special.recolteflux.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.RECOLTEFLUX.Label"
+    }}
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.special.recolteflux.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RECOLTEFLUX.Conflitbase"}}</span>
+        <input type="number" name="system.passives.special.recolteflux.update.conflit.base" value="{{systemData.passives.special.recolteflux.update.conflit.base}}" min="0"/>
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.special.recolteflux.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RECOLTEFLUX.Conflittour"}}</span>
+        <input type="number" name="system.passives.special.recolteflux.update.conflit.tour" value="{{systemData.passives.special.recolteflux.update.conflit.tour}}" min="0"/>
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.special.recolteflux.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RECOLTEFLUX.Horsconflitbase"}}</span>
+        <input type="number" name="system.passives.special.recolteflux.update.horsconflit.base" value="{{systemData.passives.special.recolteflux.update.horsconflit.base}}" min="0"/>
+    </label>
+</div>

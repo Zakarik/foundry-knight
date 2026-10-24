@@ -1,0 +1,92 @@
+<div class="data {{ifThen systemData.passives.capacites.cea.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.cea.actif
+        path="system.passives.capacites.cea.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.CEA.Label"
+    }}
+
+    <h3 class="subtitre" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.CEA.Vague"}}</h3>
+
+    <div class="diceWithLabel" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number" name="system.passives.capacites.cea.update.vague.degats.dice" value="{{systemData.passives.capacites.cea.update.vague.degats.dice}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number" name="system.passives.capacites.cea.update.vague.degats.fixe" value="{{systemData.passives.capacites.cea.update.vague.degats.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="diceWithLabel" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.vague.violence.dice" value="{{systemData.passives.capacites.cea.update.vague.violence.dice}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.vague.violence.fixe" value="{{systemData.passives.capacites.cea.update.vague.violence.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="blockEffets" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+        {{~> knight.wpn.effects.onlyEffects
+        effectsList=systemData.passives.capacites.cea.update.vague.effets.liste
+        effectType='base'
+        limitedEffects='true'
+        wpnPath='passives.capacites.cea.update.vague.'}}
+    </div>
+
+    <h3 class="subtitre" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.CEA.Salve"}}</h3>
+
+    <div class="diceWithLabel" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.salve.degats.dice" value="{{systemData.passives.capacites.cea.update.salve.degats.dice}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.salve.degats.fixe" value="{{systemData.passives.capacites.cea.update.salve.degats.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="diceWithLabel" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.salve.violence.dice" value="{{systemData.passives.capacites.cea.update.salve.violence.dice}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.salve.violence.fixe" value="{{systemData.passives.capacites.cea.update.salve.violence.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="blockEffets" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+
+        {{~> knight.wpn.effects.onlyEffects
+        effectsList=systemData.passives.capacites.cea.update.salve.effets.liste
+        effectType='base'
+        limitedEffects='true'
+        wpnPath='passives.capacites.cea.update.salve.'}}
+    </div>
+
+    <h3 class="subtitre" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.CEA.Rayon"}}</h3>
+
+    <div class="diceWithLabel" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.rayon.degats.dice" value="{{systemData.passives.capacites.cea.update.rayon.degats.dice}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.rayon.degats.fixe" value="{{systemData.passives.capacites.cea.update.rayon.degats.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="diceWithLabel" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.rayon.violence.dice" value="{{systemData.passives.capacites.cea.update.rayon.violence.dice}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"  data-dtype="Number"name="system.passives.capacites.cea.update.rayon.violence.fixe" value="{{systemData.passives.capacites.cea.update.rayon.violence.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="blockEffets" style="{{ifThen systemData.passives.capacites.cea.actif '' 'display:none;'}}">
+        {{~> knight.wpn.effects.onlyEffects
+        effectsList=systemData.passives.capacites.cea.update.rayon.effets.liste
+        effectType='base'
+        limitedEffects='true'
+        wpnPath='passives.capacites.cea.update.rayon.'}}
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="data {{ifThen systemData.passives.capacites.warlord.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.warlord.actif
+        path="system.passives.capacites.warlord.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.Label"
+    }}
+
+    <div style="{{ifThen systemData.passives.capacites.warlord.actif '' 'display:none;'}}">
+        {{~> knight.item.btnToggle
+            value=systemData.passives.capacites.warlord.update.activer
+            path="system.passives.capacites.warlord.update.activer"
+            localize="KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.Activer"
+        }}
+    </div>
+
+    <div style="{{ifThen systemData.passives.capacites.warlord.actif '' 'display:none;'}}">
+        {{~> knight.item.btnToggle
+            value=systemData.passives.capacites.warlord.update.prolonger
+            path="system.passives.capacites.warlord.update.prolonger"
+            localize="KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.Prolonger"
+        }}
+    </div>
+</div>

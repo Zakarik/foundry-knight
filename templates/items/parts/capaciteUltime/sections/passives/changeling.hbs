@@ -1,0 +1,31 @@
+<div class="data {{ifThen systemData.passives.capacites.changeling.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.changeling.actif
+        path="system.passives.capacites.changeling.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.CHANGELING.Label"
+    }}
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.changeling.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.CHANGELING.Energie"}}</span>
+        <input type="number" name="system.passives.capacites.changeling.update.energie.personnel" value="{{systemData.passives.capacites.changeling.update.energie.personnel}}" min="0"/>
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.changeling.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.CHANGELING.Odbonus"}}</span>
+        <input type="number" name="system.passives.capacites.changeling.update.odbonus" value="{{systemData.passives.capacites.changeling.update.odbonus}}" min="0"/>
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.changeling.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.CHANGELING.Caracteristique"}}</span>
+        <input type="number" name="system.passives.capacites.changeling.update.caracteristique" value="{{systemData.passives.capacites.changeling.update.caracteristique}}" min="0"/>
+    </label>
+
+    <div class="textareaWithLabel" style="{{ifThen systemData.passives.capacites.changeling.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.passives.capacites.changeling.update.duree"
+            data-toupdate="passives.capacites.changeling.update.textarea"
+            data-min="20"
+            style="height:{{systemData.passives.capacites.changeling.update.textarea}}px;"
+            >{{systemData.passives.capacites.changeling.update.duree}}</textarea>
+    </div>
+</div>

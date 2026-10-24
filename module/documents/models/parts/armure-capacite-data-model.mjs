@@ -1,2656 +1,4727 @@
-
-import {
-  listEffects,
-  getAllEffects,
-} from "../../../helpers/common.mjs";
+import { listEffects, getAllEffects } from "../../../helpers/common.mjs";
 
 export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
-  static defineSchema() {
-    const {StringField, NumberField, BooleanField, SchemaField, ArrayField, ObjectField} = foundry.data.fields;
-
+  static get baseDefinition() {
     return {
-      actuel: new StringField({initial: "personnalise"}),
-      liste: new ObjectField({}),
-      selected: new ObjectField({}),
-      base: new SchemaField({
-        borealis: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          support: new SchemaField({
-            description: new StringField(),
-            energie: new SchemaField({
-              base: new NumberField({initial: 6}),
-              allie: new NumberField({initial: 2})
-            }),
-            activation: new StringField({initial: "tour"}),
-            duree: new StringField()
-          }),
-          offensif: new SchemaField({
-            description: new StringField(),
-            energie: new NumberField({initial: 2}),
-            activation: new StringField({initial: "combat"}),
-            duree: new StringField(),
-            degats: new SchemaField({
-              dice: new NumberField({initial: 4}),
-              fixe: new NumberField({initial: 4})
-            }),
-            violence: new SchemaField({
-              dice: new NumberField({initial: 4}),
-              fixe: new NumberField({initial: 0})
-            }),
-            portee: new StringField({initial: "courte"}),
-            effets: new SchemaField({
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["antianatheme", "degatscontinus 3"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            })
-          }),
-          utilitaire: new SchemaField({
-            description: new StringField(),
-            energie: new NumberField({initial: 6}),
-            activation: new StringField({initial: "tour"}),
-            duree: new StringField()
-          }),
-          evolutions: new SchemaField({
-            support: new SchemaField({
-              description: new StringField(),
-              energie: new SchemaField({
-                base: new NumberField({initial: 6}),
-                allie: new NumberField({initial: 2})
-              }),
-              activation: new StringField({initial: "tour"}),
-              duree: new StringField()
-            }),
-            offensif: new SchemaField({
-              description: new StringField(),
-              energie: new NumberField({initial: 2}),
-              activation: new StringField({initial: "combat"}),
-              duree: new StringField(),
-              degats: new SchemaField({
-                dice: new NumberField({initial: 4}),
-                fixe: new NumberField({initial: 0})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 4}),
-                fixe: new NumberField({initial: 0})
-              }),
-              portee: new StringField({initial: "courte"}),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField(), {initial: ["antianatheme", "degatscontinus 3"]}),
-                custom: new ArrayField(new ObjectField()),
-                chargeur: new NumberField({initial: null})
-              })
-            }),
-            utilitaire: new SchemaField({
-              description: new StringField(),
-              energie: new NumberField({initial: 6}),
-              activation: new StringField({initial: "tour"}),
-              duree: new StringField()
-            }),
-            textarea: new SchemaField({
-              descriptionESupport: new NumberField({initial: 120}),
-              descriptionEUtilitaire: new NumberField({initial: 140}),
-              descriptionEOffensif: new NumberField({initial: 85}),
-              dureeESupport: new NumberField({initial: 50}),
-              dureeEUtilitaire: new NumberField({initial: 50}),
-              dureeEOffensif: new NumberField({initial: 50})
-            })
-          }),
-          textarea: new SchemaField({
-            descriptionSupport: new NumberField({initial: 120}),
-            descriptionUtilitaire: new NumberField({initial: 140}),
-            descriptionOffensif: new NumberField({initial: 85}),
-            descriptionESupport: new NumberField({initial: 120}),
-            descriptionEUtilitaire: new NumberField({initial: 140}),
-            descriptionEOffensif: new NumberField({initial: 85}),
-            dureeSupport: new NumberField({initial: 50}),
-            dureeUtilitaire: new NumberField({initial: 50}),
-            dureeOffensif: new NumberField({initial: 50}),
-            dureeESupport: new NumberField({initial: 50}),
-            dureeEUtilitaire: new NumberField({initial: 50}),
-            dureeEOffensif: new NumberField({initial: 50})
-          })
-        }),
-        changeling: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "tour6Sec"}),
-          duree: new StringField(),
-          portee: new StringField(),
-          energie: new SchemaField({
-            personnel: new NumberField({initial: 6}),
-            etendue: new NumberField({initial: 8}),
-            fauxEtre: new SchemaField({
-              value: new NumberField({initial: 3}),
-              max: new NumberField({initial: 4})
-            })
-          }),
-          desactivationexplosive: new SchemaField({
-            label: new StringField(),
-            acces: new BooleanField({initial: false}),
-            portee: new StringField({initial: "courte"}),
-            degats: new SchemaField({
-              dice: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 6})
-            }),
-            violence: new SchemaField({
-              dice: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 6})
-            }),
-            effets: new SchemaField({
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["ignorearmure", "ignorechampdeforce", "dispersion 6", "choc 1"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            })
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "tour6Sec"}),
-            duree: new StringField(),
-            portee: new StringField(),
-            energie: new SchemaField({
-              personnel: new NumberField({initial: 6}),
-              etendue: new NumberField({initial: 8}),
-              fauxEtre: new SchemaField({
-                value: new NumberField({initial: 3}),
-                max: new NumberField({initial: 4})
-              })
-            }),
-            desactivationexplosive: new SchemaField({
-              label: new StringField(),
-              acces: new BooleanField({initial: false}),
-              portee: new StringField({initial: "courte"}),
-              degats: new SchemaField({
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 6})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 6})
-              }),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField(), {initial: ["ignorearmure", "ignorechampdeforce", "dispersion 6", "choc 1"]}),
-                custom: new ArrayField(new ObjectField())
-              })
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50}),
-              portee: new NumberField({initial: 50})
-            })
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50}),
-            portee: new NumberField({initial: 50})
-          })
-        }),
-        falcon: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          energie: new NumberField({initial: 6}),
-          activation: new StringField({initial: "deplacement"}),
-          duree: new StringField(),
-          informations: new StringField(),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            energie: new NumberField({initial: 6}),
-            activation: new StringField({initial: "deplacement"}),
-            duree: new StringField(),
-            informations: new StringField(),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        goliath: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          energie: new NumberField({initial: 2}),
-          activation: new StringField({initial: "deplacement"}),
-          duree: new StringField(),
-          taille: new SchemaField({
-            value: new NumberField({initial: 0}),
-            max: new NumberField({initial: 4})
-          }),
-          armesRack: new SchemaField({
-            label: new StringField(),
-            active: new BooleanField({initial: true}),
-            value: new NumberField({initial: 4})
-          }),
-          bonus: new SchemaField({
-            cdf: new SchemaField({
-              value: new NumberField({initial: 1})
-            }),
-            force: new SchemaField({
-              value: new NumberField({initial: 1})
-            }),
-            endurance: new SchemaField({
-              value: new NumberField({initial: 1})
-            }),
-            degats: new SchemaField({
-              dice: new NumberField({initial: 1})
-            }),
-            violence: new SchemaField({
-              dice: new NumberField({initial: 1})
-            })
-          }),
-          malus: new SchemaField({
-            reaction: new SchemaField({
-              value: new NumberField({initial: 2})
-            }),
-            defense: new SchemaField({
-              value: new NumberField({initial: 1})
-            })
-          }),
-          evolutions: new SchemaField({
-            energie: new NumberField({initial: 2}),
-            activation: new StringField({initial: "deplacement"}),
-            duree: new StringField(),
-            taille: new SchemaField({
-              value: new NumberField({initial: 0}),
-              max: new NumberField({initial: 4})
-            }),
-            armesRack: new SchemaField({
-              label: new StringField(),
-              active: new BooleanField({initial: true}),
-              value: new NumberField({initial: 4})
-            }),
-            bonus: new SchemaField({
-              cdf: new SchemaField({
-                value: new NumberField({initial: 1})
-              }),
-              force: new SchemaField({
-                value: new NumberField({initial: 1})
-              }),
-              endurance: new SchemaField({
-                value: new NumberField({initial: 1})
-              }),
-              degats: new SchemaField({
-                dice: new NumberField({initial: 1})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 1})
-              })
-            }),
-            malus: new SchemaField({
-              reaction: new SchemaField({
-                value: new NumberField({initial: 2})
-              }),
-              defense: new SchemaField({
-                value: new NumberField({initial: 1})
-              })
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          })
-        }),
-        ghost: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          interruption: new SchemaField({
-            actif: new BooleanField({initial: true}),
-            label: new StringField()
-          }),
-          activation: new StringField({initial: "aucune"}),
-          duree: new StringField(),
-          energie: new SchemaField({
-            tour: new NumberField({initial: 2}),
-            minute: new NumberField({initial: 6})
-          }),
-          bonus: new SchemaField({
-            aspects: new SchemaField({}),
-            reussites: new NumberField({initial: 3}),
-            attaque: new StringField({initial: "discretion"}),
-            degats: new SchemaField({
-              caracteristique: new StringField({initial: "discretion"}),
-              inclus: new SchemaField({
-                od: new StringField(),
-                dice: new StringField(),
-                fixe: new StringField()
-              }),
-              od: new BooleanField({initial: true}),
-              dice: new BooleanField({initial: false}),
-              fixe: new BooleanField({initial: true})
-            })
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            interruption: new SchemaField({
-              actif: new BooleanField({initial: true}),
-              label: new StringField()
-            }),
-            activation: new StringField({initial: "aucune"}),
-            duree: new StringField(),
-            energie: new SchemaField({
-              tour: new NumberField({initial: 2}),
-              minute: new NumberField({initial: 6})
-            }),
-            bonus: new SchemaField({
-              aspects: new SchemaField({}),
-              reussites: new NumberField({initial: 3}),
-              attaque: new StringField({initial: "discretion"}),
-              degats: new SchemaField({
-                caracteristique: new StringField({initial: "discretion"}),
-                inclus: new SchemaField({
-                  od: new StringField(),
-                  dice: new StringField(),
-                  fixe: new StringField()
-                }),
-                od: new BooleanField({initial: true}),
-                dice: new BooleanField({initial: false}),
-                fixe: new BooleanField({initial: true})
-              })
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        longbow: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          degats: new SchemaField({
-            energie: new NumberField({initial: 1}),
-            min: new NumberField({initial: 3}),
-            max: new NumberField({initial: 9}),
-            adlfixe: new NumberField({initial: 0}),
-          }),
-          violence: new SchemaField({
-            energie: new NumberField({initial: 1}),
-            min: new NumberField({initial: 1}),
-            max: new NumberField({initial: 7}),
-            adlfixe: new NumberField({initial: 0}),
-          }),
-          portee: new SchemaField({
-            energie: new NumberField({initial: 1}),
-            min: new StringField({initial: "moyenne"}),
-            max: new StringField({initial: "lointaine"})
-          }),
-          effets: new SchemaField({
-            base: new SchemaField({
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["assistanceattaque", "deuxmains", "lourd"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            }),
-            liste1: new SchemaField({
-              energie: new NumberField({initial: 2}),
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["choc 1", "degatscontinus 3", "designation", "percearmure 40", "silencieux", "ultraviolence"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            }),
-            liste2: new SchemaField({
-              energie: new NumberField({initial: 3}),
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["antivehicule", "artillerie", "dispersion 3", "lumiere 4", "penetrant 6", "percearmure 60"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            }),
-            liste3: new SchemaField({
-              label: new StringField(),
-              acces: new BooleanField({initial: false}),
-              energie: new NumberField({initial: 6}),
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["antianatheme", "demoralisant", "enchaine", "fureur", "ignorearmure", "penetrant 10"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            })
-          }),
-          distance: new SchemaField({
-            raw: new ArrayField(new StringField()),
-            custom: new ArrayField(new ObjectField())
-          }),
-          specialEvolutions: new SchemaField({
-            1: new SchemaField({
-              value: new NumberField({initial: 50}),
-              description: new StringField(),
-              effets: new SchemaField({
-                liste1: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField(), {initial: ["choc 1", "degatscontinus 3", "designation", "percearmure 40", "silencieux", "ultraviolence"]}),
-                  custom: new ArrayField(new ObjectField())
-                }),
-                liste2: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField(), {initial: ["antivehicule", "artillerie", "dispersion 3", "lumiere 4", "penetrant 6", "percearmure 60"]}),
-                  custom: new ArrayField(new ObjectField())
-                }),
-                liste3: new SchemaField({
-                  label: new StringField(),
-                  acces: new BooleanField({initial: true}),
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField(), {initial: ["antianatheme", "demoralisant", "enchaine", "fureur", "ignorearmure", "penetrant 10"]}),
-                  custom: new ArrayField(new ObjectField())
-                })
-              })
-            }),
-            2: new SchemaField({
-              value: new NumberField({initial: 50}),
-              description: new StringField(),
-              degats: new SchemaField({
-                min: new NumberField({initial: 5}),
-                max: new NumberField({initial: 14})
-              }),
-              violence: new SchemaField({
-                min: new NumberField({initial: 3}),
-                max: new NumberField({initial: 12})
-              })
-            }),
-            3: new SchemaField({
-              value: new NumberField({initial: 50}),
-              description: new StringField(),
-              effets: new SchemaField({
-                base: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField(), {initial: ["assistanceattaque", "deuxmains"]}),
-                  custom: new ArrayField(new ObjectField())
-                })
-              })
-            }),
-            4: new SchemaField({
-              value: new NumberField({initial: 100}),
-              description: new StringField(),
-              effets: new SchemaField({
-                liste1: new SchemaField({
-                  energie: new NumberField({initial: 1})
-                }),
-                liste2: new SchemaField({
-                  energie: new NumberField({initial: 1})
-                }),
-                liste3: new SchemaField({
-                  energie: new NumberField({initial: 4})
-                })
-              })
-            })
-          })
-        }),
-        mechanic: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new SchemaField({
-            contact: new StringField({initial: "deplacement"}),
-            distance: new StringField({initial: "deplacement"})
-          }),
-          portee: new StringField(),
-          reparation: new SchemaField({
-            contact: new SchemaField({
-              duree: new StringField(),
-              dice: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 6})
-            }),
-            distance: new SchemaField({
-              duree: new StringField(),
-              dice: new NumberField({initial: 2}),
-              fixe: new NumberField({initial: 6})
-            })
-          }),
-          energie: new SchemaField({
-            contact: new NumberField({initial: 4}),
-            distance: new NumberField({initial: 6})
-          }),
-          textarea: new SchemaField({
-            dureeContact: new NumberField({initial: 50}),
-            dureeDistance: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "deplacement"}),
-            portee: new StringField(),
-            reparation: new SchemaField({
-              contact: new SchemaField({
-                duree: new StringField(),
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 6})
-              }),
-              distance: new SchemaField({
-                duree: new StringField(),
-                dice: new NumberField({initial: 2}),
-                fixe: new NumberField({initial: 6})
-              })
-            }),
-            energie: new SchemaField({
-              contact: new NumberField({initial: 4}),
-              distance: new NumberField({initial: 6})
-            }),
-            textarea: new SchemaField({
-              dureeContact: new NumberField({initial: 50}),
-              dureeDistance: new NumberField({initial: 50})
-            })
-          })
-        }),
-        nanoc: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "toutes"}),
-          duree: new StringField(),
-          energie: new SchemaField({
-            base: new NumberField({initial: 3}),
-            detaille: new NumberField({initial: 6}),
-            mecanique: new NumberField({initial: 9}),
-            prolonger: new NumberField({initial: 2})
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "toutes"}),
-            duree: new StringField(),
-            energie: new SchemaField({
-              base: new NumberField({initial: 3}),
-              detaille: new NumberField({initial: 6}),
-              mecanique: new NumberField({initial: 9}),
-              prolonger: new NumberField({initial: 2})
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        oriflamme: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "deplacement"}),
-          duree: new StringField(),
-          portee: new StringField({initial: "courte"}),
-          energie: new NumberField({initial: 12}),
-          degats: new SchemaField({
-            dice: new NumberField({initial: 6}),
-            fixe: new NumberField({initial: 6})
-          }),
-          violence: new SchemaField({
-            dice: new NumberField({initial: 6}),
-            fixe: new NumberField({initial: 12})
-          }),
-          effets: new SchemaField({
-            liste: new ArrayField(new StringField()),
-            raw: new ArrayField(new StringField(), {initial: ["antianatheme", "lumiere 2"]}),
-            custom: new ArrayField(new ObjectField()),
-            chargeur: new NumberField({initial: null})
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "deplacement"}),
-            duree: new StringField(),
-            portee: new StringField({initial: "courte"}),
-            energie: new NumberField({initial: 12}),
-            degats: new SchemaField({
-              dice: new NumberField({initial: 6}),
-              fixe: new NumberField({initial: 6})
-            }),
-            violence: new SchemaField({
-              dice: new NumberField({initial: 6}),
-              fixe: new NumberField({initial: 12})
-            }),
-            effets: new SchemaField({
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["antianatheme", "lumiere 2"]}),
-              custom: new ArrayField(new ObjectField())
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        shrine: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "aucune"}),
-          duree: new StringField(),
-          portee: new StringField(),
-          energie: new SchemaField({
-            personnel: new NumberField({initial: 1}),
-            distance: new NumberField({initial: 2}),
-            acces6tours: new BooleanField({initial: false}),
-            personnel6tours: new NumberField({initial: 5}),
-            distance6tours: new NumberField({initial: 10})
-          }),
-          champdeforce: new NumberField({initial: 6}),
-          requis: new SchemaField({
-            force: new NumberField({initial: 5}),
-            chair: new NumberField({initial: 10})
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50}),
-            portee: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "aucun"}),
-            duree: new StringField(),
-            portee: new StringField(),
-            energie: new SchemaField({
-              personnel: new NumberField({initial: 1}),
-              distance: new NumberField({initial: 2}),
-              acces6tours: new BooleanField({initial: false}),
-              personnel6tours: new NumberField({initial: 5}),
-              distance6tours: new NumberField({initial: 10})
-            }),
-            champdeforce: new NumberField({initial: 6}),
-            requis: new SchemaField({
-              force: new NumberField({initial: 5}),
-              chair: new NumberField({initial: 10})
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50}),
-              portee: new NumberField({initial: 50})
-            })
-          })
-        }),
-        type: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "deplacement"}),
-          duree: new StringField(),
-          nbreType: new NumberField({initial: 3}),
-          energie: new SchemaField({
-            tour: new NumberField({initial: 1}),
-            scene: new NumberField({initial: 6})
-          }),
-          type: new SchemaField({
-            soldier: new SchemaField({
-              aspect: new StringField({initial: "chair"}),
-              liste: new SchemaField({
-                deplacement: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                force: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                endurance: new SchemaField({
-                  value: new NumberField({initial: 1})
-                })
-              })
-            }),
-            hunter: new SchemaField({
-              aspect: new StringField({initial: "bete"}),
-              liste: new SchemaField({
-                hargne: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                combat: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                instinct: new SchemaField({
-                  value: new NumberField({initial: 1})
-                })
-              })
-            }),
-            scholar: new SchemaField({
-              aspect: new StringField({initial: "machine"}),
-              liste: new SchemaField({
-                tir: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                savoir: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                technique: new SchemaField({
-                  value: new NumberField({initial: 1})
-                })
-              })
-            }),
-            herald: new SchemaField({
-              aspect: new StringField({initial: "dame"}),
-              liste: new SchemaField({
-                aura: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                parole: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                sangFroid: new SchemaField({
-                  value: new NumberField({initial: 1})
-                })
-              })
-            }),
-            scout: new SchemaField({
-              aspect: new StringField({initial: "masque"}),
-              liste: new SchemaField({
-                discretion: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                dexterite: new SchemaField({
-                  value: new NumberField({initial: 1})
-                }),
-                perception: new SchemaField({
-                  value: new NumberField({initial: 1})
-                })
-              })
-            })
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "deplacement"}),
-            duree: new StringField(),
-            nbreType: new NumberField({initial: 3}),
-            energie: new SchemaField({
-              tour: new NumberField({initial: 1}),
-              scene: new NumberField({initial: 6})
-            }),
-            type: new SchemaField({
-              soldier: new SchemaField({
-                aspect: new StringField({initial: "chair"}),
-                liste: new SchemaField({
-                  deplacement: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  force: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  endurance: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  })
-                })
-              }),
-              hunter: new SchemaField({
-                aspect: new StringField({initial: "bete"}),
-                liste: new SchemaField({
-                  hargne: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  combat: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  instinct: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  })
-                })
-              }),
-              scholar: new SchemaField({
-                aspect: new StringField({initial: "machine"}),
-                liste: new SchemaField({
-                  tir: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  savoir: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  technique: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  })
-                })
-              }),
-              herald: new SchemaField({
-                aspect: new StringField({initial: "dame"}),
-                liste: new SchemaField({
-                  aura: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  parole: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  sangFroid: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  })
-                })
-              }),
-              scout: new SchemaField({
-                aspect: new StringField({initial: "masque"}),
-                liste: new SchemaField({
-                  discretion: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  dexterite: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  }),
-                  perception: new SchemaField({
-                    value: new NumberField({initial: 1})
-                  })
-                })
-              })
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        vision: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "deplacement6Sec"}),
-          duree: new StringField(),
-          energie: new SchemaField({
-            min: new NumberField({initial: 5}),
-            max: new NumberField({initial: 10})
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "deplacement6Sec"}),
-            duree: new StringField(),
-            energie: new SchemaField({
-              min: new NumberField({initial: 5}),
-              max: new NumberField({initial: 10})
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        warlord: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          impulsions: new SchemaField({
-            selection: new NumberField({initial: 3}),
-            action: new SchemaField({
-              activation: new StringField({initial: "deplacement"}),
-              duree: new StringField(),
-              bonus: new SchemaField({
-                description: new StringField()
-              }),
-              energie: new SchemaField({
-                allie: new NumberField({initial: 4}),
-                porteur: new NumberField({initial: 10})
-              })
-            }),
-            esquive: new SchemaField({
-              activation: new StringField({initial: "deplacement"}),
-              duree: new StringField(),
-              bonus: new SchemaField({
-                reaction: new NumberField({initial: 2}),
-                defense: new NumberField({initial: 2})
-              }),
-              energie: new SchemaField({
-                allie: new NumberField({initial: 3}),
-                porteur: new NumberField({initial: 2}),
-                prolonger: new NumberField({initial: 2})
-              })
-            }),
-            force: new SchemaField({
-              activation: new StringField({initial: "deplacement"}),
-              duree: new StringField(),
-              bonus: new SchemaField({
-                champDeForce: new NumberField({initial: 2})
-              }),
-              energie: new SchemaField({
-                allie: new NumberField({initial: 2}),
-                porteur: new NumberField({initial: 1}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            guerre: new SchemaField({
-              activation: new StringField({initial: "deplacement"}),
-              duree: new StringField(),
-              bonus: new SchemaField({
-                degats: new NumberField({initial: 1}),
-                violence: new NumberField({initial: 1})
-              }),
-              energie: new SchemaField({
-                allie: new NumberField({initial: 1}),
-                porteur: new NumberField({initial: 1}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            energie: new SchemaField({
-              activation: new StringField({initial: "deplacement"}),
-              duree: new StringField(),
-              bonus: new SchemaField({
-                description: new StringField()
-              }),
-              energie: new SchemaField({
-                min: new NumberField({initial: 1}),
-                max: new NumberField({initial: 5})
-              })
-            })
-          }),
-          textarea: new SchemaField({
-            dureeAction: new NumberField({initial: 50}),
-            dureeForce: new NumberField({initial: 50}),
-            dureeEnergie: new NumberField({initial: 50}),
-            dureeEsquive: new NumberField({initial: 50}),
-            dureeGuerre: new NumberField({initial: 50}),
-            bonusAction: new NumberField({initial: 85}),
-            bonusEnergie: new NumberField({initial: 110})
-          }),
-          evolutions: new SchemaField({
-            impulsions: new SchemaField({
-              selection: new NumberField({initial: 3}),
-              action: new SchemaField({
-                activation: new StringField({initial: "deplacement"}),
-                duree: new StringField(),
-                bonus: new SchemaField({
-                  description: new StringField()
-                }),
-                energie: new SchemaField({
-                  allie: new NumberField({initial: 4}),
-                  porteur: new NumberField({initial: 10})
-                })
-              }),
-              esquive: new SchemaField({
-                activation: new StringField({initial: "deplacement"}),
-                duree: new StringField(),
-                bonus: new SchemaField({
-                  reaction: new NumberField({initial: 2}),
-                  defense: new NumberField({initial: 2})
-                }),
-                energie: new SchemaField({
-                  allie: new NumberField({initial: 3}),
-                  porteur: new NumberField({initial: 2}),
-                  prolonger: new NumberField({initial: 2})
-                })
-              }),
-              force: new SchemaField({
-                activation: new StringField({initial: "deplacement"}),
-                duree: new StringField(),
-                bonus: new SchemaField({
-                  champDeForce: new NumberField({initial: 2})
-                }),
-                energie: new SchemaField({
-                  allie: new NumberField({initial: 2}),
-                  porteur: new NumberField({initial: 1}),
-                  prolonger: new NumberField({initial: 1})
-                })
-              }),
-              guerre: new SchemaField({
-                activation: new StringField({initial: "deplacement"}),
-                duree: new StringField(),
-                bonus: new SchemaField({
-                  degats: new NumberField({initial: 1}),
-                  violence: new NumberField({initial: 1})
-                }),
-                energie: new SchemaField({
-                  allie: new NumberField({initial: 1}),
-                  porteur: new NumberField({initial: 1}),
-                  prolonger: new NumberField({initial: 1})
-                })
-              }),
-              energie: new SchemaField({
-                activation: new StringField({initial: "deplacement"}),
-                duree: new StringField(),
-                bonus: new SchemaField({
-                  description: new StringField()
-                }),
-                energie: new SchemaField({
-                  min: new NumberField({initial: 1}),
-                  max: new NumberField({initial: 5})
-                })
-              })
-            }),
-            textarea: new SchemaField({
-              dureeAction: new NumberField({initial: 50}),
-              dureeForce: new NumberField({initial: 50}),
-              dureeEnergie: new NumberField({initial: 50}),
-              dureeEsquive: new NumberField({initial: 50}),
-              dureeGuerre: new NumberField({initial: 50}),
-              bonusAction: new NumberField({initial: 85}),
-              bonusEnergie: new NumberField({initial: 110})
-            })
-          })
-        }),
-        watchtower: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "deplacement3Sec"}),
-          duree: new StringField(),
-          energie: new NumberField({initial: 2}),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "deplacement3Sec"}),
-            duree: new StringField(),
-            energie: new NumberField({initial: 2}),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        personnalise: new SchemaField({
-          label: new StringField(),
-          description: new StringField()
-        })
-      }),
-      c2038: new SchemaField({
-        cea: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          energie: new NumberField({initial: 3}),
-          activation: new StringField({initial: "combat"}),
-          duree: new StringField(),
-          espoir: new NumberField({initial: 1}),
-          vague: new SchemaField({
-            degats: new SchemaField({
-              dice: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 0})
-            }),
-            violence: new SchemaField({
-              dice: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 0})
-            }),
-            portee: new StringField(),
-            effets: new SchemaField({
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["parasitage 2", "dispersion 3", "destructeur", "choc 2"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            })
-          }),
-          salve: new SchemaField({
-            degats: new SchemaField({
-              dice: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 0})
-            }),
-            violence: new SchemaField({
-              dice: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 0})
-            }),
-            portee: new StringField(),
-            effets: new SchemaField({
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["ultraviolence", "meurtrier 3", "dispersion 3", "parasitage 1"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            })
-          }),
-          rayon: new SchemaField({
-            degats: new SchemaField({
-              dice: new NumberField({initial: 4}),
-              fixe: new NumberField({initial: 0})
-            }),
-            violence: new SchemaField({
-              dice: new NumberField({initial: 2}),
-              fixe: new NumberField({initial: 0})
-            }),
-            portee: new StringField(),
-            effets: new SchemaField({
-              liste: new ArrayField(new StringField()),
-              raw: new ArrayField(new StringField(), {initial: ["parasitage 1", "percearmure 40"]}),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            })
-          }),
-          textarea: new SchemaField({
-            descriptionVague: new NumberField({initial: 70}),
-            descriptionSalve: new NumberField({initial: 75}),
-            descriptionRayon: new NumberField({initial: 150}),
-            porteeVague: new NumberField({initial: 50}),
-            porteeSalve: new NumberField({initial: 50}),
-            porteeRayon: new NumberField({initial: 50}),
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            energie: new NumberField({initial: 3}),
-            activation: new StringField({initial: "combat"}),
-            duree: new StringField(),
-            espoir: new NumberField({initial: 1}),
-            vague: new SchemaField({
-              degats: new SchemaField({
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 0})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 0})
-              }),
-              portee: new StringField(),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField(), {initial: ["parasitage 2", "dispersion 3", "destructeur", "choc 2"]}),
-                custom: new ArrayField(new ObjectField())
-              })
-            }),
-            salve: new SchemaField({
-              degats: new SchemaField({
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 0})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 0})
-              }),
-              portee: new StringField(),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField(), {initial: ["ultraviolence", "meurtrier 3", "dispersion 3", "parasitage 1"]}),
-                custom: new ArrayField(new ObjectField())
-              })
-            }),
-            rayon: new SchemaField({
-              degats: new SchemaField({
-                dice: new NumberField({initial: 4}),
-                fixe: new NumberField({initial: 0})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 2}),
-                fixe: new NumberField({initial: 0})
-              }),
-              portee: new StringField(),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField(), {initial: ["parasitage 1", "percearmure 40"]}),
-                custom: new ArrayField(new ObjectField())
-              })
-            }),
-            textarea: new SchemaField({
-              descriptionVague: new NumberField({initial: 70}),
-              descriptionSalve: new NumberField({initial: 75}),
-              descriptionRayon: new NumberField({initial: 150}),
-              porteeVague: new NumberField({initial: 50}),
-              porteeSalve: new NumberField({initial: 50}),
-              porteeRayon: new NumberField({initial: 50}),
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        discord: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          special: new SchemaField({
-            c2038: new StringField({initial: "recolteflux"})
-          }),
-          malus: new SchemaField({
-            reaction: new NumberField({initial: 2}),
-            defense: new NumberField({initial: 2}),
-            actions: new NumberField({initial: 2})
-          }),
-          tour: new SchemaField({
-            flux: new NumberField({initial: 1}),
-            energie: new NumberField({initial: 2}),
-            activation: new StringField({initial: "deplacement"}),
-            duree: new StringField()
-          }),
-          scene: new SchemaField({
-            flux: new NumberField({initial: 3}),
-            energie: new NumberField({initial: 6}),
-            activation: new StringField({initial: "deplacement"}),
-            duree: new StringField()
-          }),
-          textarea: new SchemaField({
-            dureeTour: new NumberField({initial: 50}),
-            dureeScene: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            malus: new SchemaField({
-              reaction: new NumberField({initial: 2}),
-              defense: new NumberField({initial: 2}),
-              actions: new NumberField({initial: 2})
-            }),
-            tour: new SchemaField({
-              flux: new NumberField({initial: 1}),
-              energie: new NumberField({initial: 2}),
-              activation: new StringField({initial: "deplacement"}),
-              duree: new StringField()
-            }),
-            scene: new SchemaField({
-              flux: new NumberField({initial: 3}),
-              energie: new NumberField({initial: 6}),
-              activation: new StringField({initial: "deplacement"}),
-              duree: new StringField()
-            }),
-            textarea: new SchemaField({
-              dureeTour: new NumberField({initial: 50}),
-              dureeScene: new NumberField({initial: 50})
-            })
-          })
-        }),
-        puppet: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          special: new SchemaField({
-            c2038: new StringField({initial: "recolteflux"})
-          }),
-          duree: new StringField(),
-          activation: new StringField({initial: "deplacement"}),
-          creatures: new NumberField({initial: 3}),
-          energie: new SchemaField({
-            ordre: new NumberField({initial: 2}),
-            supplementaire: new NumberField({initial: 3}),
-            prolonger: new NumberField({initial: 1})
-          }),
-          flux: new SchemaField({
-            has: new BooleanField({initial: true}),
-            ordre: new NumberField({initial: 1}),
-            supplementaire: new NumberField({initial: 1}),
-            prolonger: new NumberField({initial: 1})
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            duree: new StringField(),
-            activation: new StringField({initial: "deplacement"}),
-            creatures: new NumberField({initial: 3}),
-            energie: new SchemaField({
-              ordre: new NumberField({initial: 2}),
-              supplementaire: new NumberField({initial: 3}),
-              prolonger: new NumberField({initial: 1})
-            }),
-            flux: new SchemaField({
-              has: new BooleanField({initial: true}),
-              ordre: new NumberField({initial: 1}),
-              supplementaire: new NumberField({initial: 1}),
-              prolonger: new NumberField({initial: 1})
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        windtalker: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          special: new SchemaField({
-            c2038: new StringField({initial: "recolteflux"})
-          }),
-          flux: new NumberField({initial: 2}),
-          energie: new NumberField({initial: 4}),
-          activation: new StringField({initial: "deplacement"}),
-          duree: new StringField(),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            flux: new NumberField({initial: 2}),
-            energie: new NumberField({initial: 4}),
-            activation: new StringField({initial: "deplacement"}),
-            duree: new StringField(),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        zen: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          espoir: new NumberField({initial: 0}),
-          difficulte: new NumberField({initial: 5}),
-          aspects: new SchemaField({
-            chair: new SchemaField({
-              caracteristiques: new SchemaField({
-                deplacement: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                force: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                endurance: new SchemaField({
-                  value: new BooleanField({initial: false})
-                })
-              })
-            }),
-            bete: new SchemaField({
-              caracteristiques: new SchemaField({
-                hargne: new SchemaField({
-                  value: new BooleanField({initial: true})
-                }),
-                combat: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                instinct: new SchemaField({
-                  value: new BooleanField({initial: false})
-                })
-              })
-            }),
-            machine: new SchemaField({
-              caracteristiques: new SchemaField({
-                tir: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                savoir: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                technique: new SchemaField({
-                  value: new BooleanField({initial: false})
-                })
-              })
-            }),
-            dame: new SchemaField({
-              caracteristiques: new SchemaField({
-                aura: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                parole: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                sangFroid: new SchemaField({
-                  value: new BooleanField({initial: true})
-                })
-              })
-            }),
-            masque: new SchemaField({
-              caracteristiques: new SchemaField({
-                discretion: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                dexterite: new SchemaField({
-                  value: new BooleanField({initial: false})
-                }),
-                perception: new SchemaField({
-                  value: new BooleanField({initial: false})
-                })
-              })
-            })
-          }),
-          evolutions: new SchemaField({
-            espoir: new NumberField({initial: 0}),
-            difficulte: new NumberField({initial: 5}),
-            aspects: new SchemaField({
-              chair: new SchemaField({
-                caracteristiques: new SchemaField({
-                  deplacement: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  force: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  endurance: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  })
-                })
-              }),
-              bete: new SchemaField({
-                caracteristiques: new SchemaField({
-                  hargne: new SchemaField({
-                    value: new BooleanField({initial: true})
-                  }),
-                  combat: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  instinct: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  })
-                })
-              }),
-              machine: new SchemaField({
-                caracteristiques: new SchemaField({
-                  tir: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  savoir: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  technique: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  })
-                })
-              }),
-              dame: new SchemaField({
-                caracteristiques: new SchemaField({
-                  aura: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  parole: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  sangFroid: new SchemaField({
-                    value: new BooleanField({initial: true})
-                  })
-                })
-              }),
-              masque: new SchemaField({
-                caracteristiques: new SchemaField({
-                  discretion: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  dexterite: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  }),
-                  perception: new SchemaField({
-                    value: new BooleanField({initial: false})
-                  })
-                })
-              })
-            })
-          })
-        }),
-      }),
-      c2038Necromancer: new SchemaField({
-        sarcophage: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          bonus: new SchemaField({
-            paliers: new NumberField({initial: 7}),
-            liste: new SchemaField({
-              b0: new SchemaField({
-                pg: new SchemaField({
-                  min: new NumberField({initial: 0}),
-                  max: new NumberField({initial: 49})
-                }),
-                offert: new StringField()
-              }),
-              b1: new SchemaField({
-                pg: new SchemaField({
-                  min: new NumberField({initial: 50}),
-                  max: new NumberField({initial: 99})
-                }),
-                offert: new StringField()
-              }),
-              b2: new SchemaField({
-                pg: new SchemaField({
-                  min: new NumberField({initial: 100}),
-                  max: new NumberField({initial: 149})
-                }),
-                offert: new StringField()
-              }),
-              b3: new SchemaField({
-                pg: new SchemaField({
-                  min: new NumberField({initial: 150}),
-                  max: new NumberField({initial: 199})
-                }),
-                offert: new StringField()
-              }),
-              b4: new SchemaField({
-                pg: new SchemaField({
-                  min: new NumberField({initial: 200}),
-                  max: new NumberField({initial: 249})
-                }),
-                offert: new StringField()
-              }),
-              b5: new SchemaField({
-                pg: new SchemaField({
-                  min: new NumberField({initial: 250}),
-                  max: new NumberField({initial: 299})
-                }),
-                offert: new StringField()
-              }),
-              b6: new SchemaField({
-                pg: new SchemaField({
-                  min: new NumberField({initial: 300})
-                }),
-                offert: new StringField()
-              })
-            })
-          }),
-          textarea: new SchemaField({
-            b0: new NumberField({initial: 50}),
-            b1: new NumberField({initial: 50}),
-            b2: new NumberField({initial: 50}),
-            b3: new NumberField({initial: 50}),
-            b4: new NumberField({initial: 50}),
-            b5: new NumberField({initial: 50}),
-            b6: new NumberField({initial: 50})
-          })
-        })
-      }),
-      c2038Sorcerer: new SchemaField({
-        morph: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          energie: new NumberField({initial: 10}),
-          activation: new StringField({initial: "aucune"}),
-          duree: new StringField(),
-          espoir: new NumberField({initial: 1}),
-          capacites: new NumberField({initial: 3}),
-          vol: new SchemaField({
-            description: new StringField()
-          }),
-          phase: new SchemaField({
-            description: new StringField(),
-            activation: new StringField({initial: "deplacement"}),
-            energie: new NumberField({initial: 5}),
-            duree: new StringField(),
-            niveau2: new SchemaField({
-              acces: new BooleanField({initial: false}),
-              activation: new StringField({initial: "aucune"}),
-              energie: new NumberField({initial: 8}),
-              duree: new StringField()
-            })
-          }),
-          etirement: new SchemaField({
-            description: new StringField(),
-            portee: new StringField(),
-            bonus: new NumberField({initial: 3})
-          }),
-          metal: new SchemaField({
-            bonus: new SchemaField({
-              champDeForce: new NumberField({initial: 2})
-            })
-          }),
-          fluide: new SchemaField({
-            bonus: new SchemaField({
-              reaction: new NumberField({initial: 2}),
-              defense: new NumberField({initial: 2})
-            })
-          }),
-          polymorphie: new SchemaField({
-            description: new StringField(),
-            griffe: new SchemaField({
-              portee: new StringField({initial: "contact"}),
-              type: new StringField({initial: "contact"}),
-              degats: new SchemaField({
-                dice: new NumberField({initial: 2}),
-                fixe: new NumberField({initial: 0})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 1}),
-                fixe: new NumberField({initial: 0})
-              }),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField()),
-                custom: new ArrayField(new ObjectField()),
-                chargeur: new NumberField({initial: null}),
-                chargeur2: new NumberField({initial: null}),
-              })
-            }),
-            lame: new SchemaField({
-              portee: new StringField({initial: "contact"}),
-              type: new StringField({initial: "contact"}),
-              degats: new SchemaField({
-                dice: new NumberField({initial: 2}),
-                fixe: new NumberField({initial: 0})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 1}),
-                fixe: new NumberField({initial: 0})
-              }),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField()),
-                custom: new ArrayField(new ObjectField()),
-                chargeur: new NumberField({initial: null}),
-                chargeur2: new NumberField({initial: null}),
-              })
-            }),
-            canon: new SchemaField({
-              portee: new StringField({initial: "moyenne"}),
-              type: new StringField({initial: "distance"}),
-              energie: new NumberField({initial: 1}),
-              degats: new SchemaField({
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 3})
-              }),
-              violence: new SchemaField({
-                dice: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 3})
-              }),
-              effets: new SchemaField({
-                liste: new ArrayField(new StringField()),
-                raw: new ArrayField(new StringField(), {initial: ["destructeur", "meurtrier", "ultraviolence"]}),
-                custom: new ArrayField(new ObjectField()),
-                chargeur: new NumberField({initial: null}),
-                chargeur2: new NumberField({initial: null}),
-              })
-            })
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50}),
-            vol: new NumberField({initial: 130}),
-            phase: new NumberField({initial: 115}),
-            phaseDuree: new NumberField({initial: 50}),
-            phaseDuree2: new NumberField({initial: 50}),
-            etirement: new NumberField({initial: 130}),
-            etirementPortee: new NumberField({initial: 50}),
-            polymorphie: new NumberField({initial: 205})
-          }),
-          evolutions: new SchemaField({
-            energie: new NumberField({initial: 10}),
-            activation: new StringField({initial: "aucune"}),
-            duree: new StringField(),
-            espoir: new NumberField({initial: 1}),
-            capacites: new NumberField({initial: 3}),
-            vol: new SchemaField({
-              description: new StringField()
-            }),
-            phase: new SchemaField({
-              description: new StringField(),
-              activation: new StringField({initial: "deplacement"}),
-              energie: new NumberField({initial: 5}),
-              duree: new StringField(),
-              niveau2: new SchemaField({
-                acces: new BooleanField({initial: false}),
-                activation: new StringField({initial: "aucune"}),
-                energie: new NumberField({initial: 8}),
-                duree: new StringField()
-              })
-            }),
-            etirement: new SchemaField({
-              description: new StringField(),
-              portee: new StringField(),
-              bonus: new NumberField({initial: 3})
-            }),
-            metal: new SchemaField({
-              bonus: new SchemaField({
-                champDeForce: new NumberField({initial: 2})
-              })
-            }),
-            fluide: new SchemaField({
-              bonus: new SchemaField({
-                reaction: new NumberField({initial: 2}),
-                defense: new NumberField({initial: 2})
-              })
-            }),
-            polymorphie: new SchemaField({
-              description: new StringField(),
-              griffe: new SchemaField({
-                portee: new StringField({initial: "contact"}),
-                type: new StringField({initial: "contact"}),
-                degats: new SchemaField({
-                  dice: new NumberField({initial: 2}),
-                  fixe: new NumberField({initial: 0})
-                }),
-                violence: new SchemaField({
-                  dice: new NumberField({initial: 1}),
-                  fixe: new NumberField({initial: 0})
-                }),
-                effets: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField()),
-                  custom: new ArrayField(new ObjectField())
-                })
-              }),
-              lame: new SchemaField({
-                portee: new StringField({initial: "contact"}),
-                type: new StringField({initial: "contact"}),
-                degats: new SchemaField({
-                  dice: new NumberField({initial: 2}),
-                  fixe: new NumberField({initial: 0})
-                }),
-                violence: new SchemaField({
-                  dice: new NumberField({initial: 1}),
-                  fixe: new NumberField({initial: 0})
-                }),
-                effets: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField()),
-                  custom: new ArrayField(new ObjectField())
-                })
-              }),
-              canon: new SchemaField({
-                portee: new StringField({initial: "moyenne"}),
-                type: new StringField({initial: "distance"}),
-                energie: new NumberField({initial: 1}),
-                degats: new SchemaField({
-                  dice: new NumberField({initial: 3}),
-                  fixe: new NumberField({initial: 3})
-                }),
-                violence: new SchemaField({
-                  dice: new NumberField({initial: 3}),
-                  fixe: new NumberField({initial: 3})
-                }),
-                effets: new SchemaField({
-                  liste: new ArrayField(new StringField()),
-                  raw: new ArrayField(new StringField(), {initial: ["destructeur", "meurtrier", "ultraviolence"]}),
-                  custom: new ArrayField(new ObjectField())
-                })
-              })
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50}),
-              vol: new NumberField({initial: 130}),
-              phase: new NumberField({initial: 115}),
-              phaseDuree: new NumberField({initial: 50}),
-              phaseDuree2: new NumberField({initial: 50}),
-              etirement: new NumberField({initial: 130}),
-              etirementPortee: new NumberField({initial: 50}),
-              polymorphie: new NumberField({initial: 205})
-            })
-          })
-        })
-      }),
-      codex: new SchemaField({
-        companions: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "tour6Sec"}),
-          duree: new StringField(),
-          energie: new SchemaField({
-            base: new NumberField({initial: 16}),
-            prolonger: new NumberField({initial: 8})
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50}),
-            labor: new NumberField({initial: 85}),
-            medic: new NumberField({initial: 85}),
-            tech: new NumberField({initial: 85}),
-            fighter: new NumberField({initial: 85}),
-            recon: new NumberField({initial: 85}),
-            crow: new NumberField({initial: 52})
-          }),
-          lion: new SchemaField({
-            img: new StringField({initial: "systems/knight/assets/lion.jpg"}),
-            token: new StringField({initial: "systems/knight/assets/lion.jpg"}),
-            PG: new NumberField({initial: 60}),
-            aspects: new SchemaField({
-              chair: new SchemaField({
-                value: new NumberField({initial: 7}),
-                ae: new NumberField({initial: 1})
-              }),
-              bete: new SchemaField({
-                value: new NumberField({initial: 6}),
-                ae: new NumberField({initial: 1})
-              }),
-              machine: new SchemaField({
-                value: new NumberField({initial: 7}),
-                ae: new NumberField({initial: 1})
-              }),
-              dame: new SchemaField({
-                value: new NumberField({initial: 4}),
-                ae: new NumberField({initial: 0})
-              }),
-              masque: new SchemaField({
-                value: new NumberField({initial: 4}),
-                ae: new NumberField({initial: 0})
-              })
-            }),
-            champDeForce: new SchemaField({
-              base: new NumberField({initial: 10}),
-              bonus: new ArrayField(new NumberField()),
-              malus: new ArrayField(new NumberField())
-            }),
-            defense: new SchemaField({
-              base: new NumberField({initial: 4}),
-              bonus: new ArrayField(new NumberField()),
-              malus: new ArrayField(new NumberField())
-            }),
-            reaction: new SchemaField({
-              base: new NumberField({initial: 4}),
-              bonus: new ArrayField(new NumberField()),
-              malus: new ArrayField(new NumberField())
-            }),
-            armure: new SchemaField({
-              base: new NumberField({initial: 60}),
-              bonus: new ArrayField(new NumberField()),
-              malus: new ArrayField(new NumberField())
-            }),
-            energie: new SchemaField({
-              base: new NumberField({initial: 0}),
-              bonus: new ArrayField(new NumberField()),
-              malus: new ArrayField(new NumberField())
-            }),
-            initiative: new SchemaField({
-              value: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 2})
-            }),
-            armes: new SchemaField({
-              contact: new SchemaField({
-                coups: new SchemaField({
-                  label: new StringField(),
-                  portee: new StringField({initial: "contact"}),
-                  degats: new SchemaField({
-                    dice: new NumberField({initial: 1}),
-                    fixe: new NumberField({initial: 0})
-                  }),
-                  violence: new SchemaField({
-                    dice: new NumberField({initial: 1}),
-                    fixe: new NumberField({initial: 0})
-                  }),
-                  effets: new SchemaField({
-                    liste: new ArrayField(new StringField()),
-                    raw: new ArrayField(new StringField()),
-                    custom: new ArrayField(new ObjectField())
-                  })
-                })
-              }),
-              distance: new ArrayField(new ObjectField())
-            }),
-            slots: new SchemaField({
-              tete:new SchemaField({
-                value:new NumberField({initial:8}),
-              }),
-              torse:new SchemaField({
-                value:new NumberField({initial:10}),
-              }),
-              brasGauche:new SchemaField({
-                value:new NumberField({initial:8}),
-              }),
-              brasDroit:new SchemaField({
-                value:new NumberField({initial:8}),
-              }),
-              jambeGauche:new SchemaField({
-                value:new NumberField({initial:8}),
-              }),
-              jambeDroite:new SchemaField({
-                value:new NumberField({initial:8}),
-              })
-            })
-          }),
-          wolf: new SchemaField({
-            img: new StringField({initial: "systems/knight/assets/wolf.jpg"}),
-            token: new StringField({initial: "systems/knight/assets/wolf.jpg"}),
-            aspects: new SchemaField({
-              chair: new SchemaField({
-                value: new NumberField({initial: 2}),
-                ae: new NumberField({initial: 0})
-              }),
-              bete: new SchemaField({
-                value: new NumberField({initial: 4}),
-                ae: new NumberField({initial: 0})
-              }),
-              machine: new SchemaField({
-                value: new NumberField({initial: 4}),
-                ae: new NumberField({initial: 0})
-              }),
-              dame: new SchemaField({
-                value: new NumberField({initial: 2}),
-                ae: new NumberField({initial: 0})
-              }),
-              masque: new SchemaField({
-                value: new NumberField({initial: 4}),
-                ae: new NumberField({initial: 0})
-              })
-            }),
-            champDeForce: new SchemaField({
-              base: new NumberField({initial: 4})
-            }),
-            defense: new SchemaField({
-              base: new NumberField({initial: 4})
-            }),
-            reaction: new SchemaField({
-              base: new NumberField({initial: 4})
-            }),
-            armure: new SchemaField({
-              base: new NumberField({initial: 20})
-            }),
-            energie: new SchemaField({
-              base: new NumberField({initial: 0})
-            }),
-            initiative: new SchemaField({
-              value: new NumberField({initial: 3}),
-              fixe: new NumberField({initial: 2})
-            }),
-            armes: new SchemaField({
-              contact: new SchemaField({
-                coups: new SchemaField({
-                  label: new StringField(),
-                  portee: new StringField({initial: "contact"}),
-                  degats: new SchemaField({
-                    dice: new NumberField({initial: 1}),
-                    fixe: new NumberField({initial: 0})
-                  }),
-                  violence: new SchemaField({
-                    dice: new NumberField({initial: 1}),
-                    fixe: new NumberField({initial: 0})
-                  }),
-                  effets: new SchemaField({
-                    liste: new ArrayField(new StringField()),
-                    raw: new ArrayField(new StringField()),
-                    custom: new ArrayField(new ObjectField())
-                  })
-                })
-              })
-            }),
-            configurations: new SchemaField({
-              labor: new SchemaField({
-                niveau: new NumberField({initial: 1}),
-                description: new StringField(),
-                energie: new NumberField({initial: 1}),
-                bonus: new SchemaField({
-                  roll: new NumberField({initial: 1})
-                })
-              }),
-              medic: new SchemaField({
-                niveau: new NumberField({initial: 1}),
-                description: new StringField(),
-                energie: new NumberField({initial: 1}),
-                bonus: new SchemaField({
-                  roll: new NumberField({initial: 1}),
-                  soins: new NumberField({initial: 2})
-                })
-              }),
-              tech: new SchemaField({
-                niveau: new NumberField({initial: 1}),
-                description: new StringField(),
-                energie: new NumberField({initial: 2}),
-                bonus: new SchemaField({
-                  roll: new NumberField({initial: 1}),
-                  reparation: new NumberField({initial: 3})
-                })
-              }),
-              fighter: new SchemaField({
-                niveau: new NumberField({initial: 1}),
-                description: new StringField(),
-                energie: new NumberField({initial: 2}),
-                degats: new NumberField({initial: 1}),
-                violence: new NumberField({initial: 1}),
-                bonus: new SchemaField({
-                  roll: new NumberField({initial: 1}),
-                  effets: new SchemaField({
-                    raw: new ArrayField(new StringField(), {initial: ["barrage 1"]}),
-                    liste: new ArrayField(new StringField()),
-                    custom: new ArrayField(new ObjectField())
-                  })
-                })
-              }),
-              recon: new SchemaField({
-                niveau: new NumberField({initial: 1}),
-                description: new StringField(),
-                energie: new NumberField({initial: 1}),
-                bonus: new SchemaField({
-                  roll: new NumberField({initial: 1})
-                })
-              })
-            })
-          }),
-          crow: new SchemaField({
-            img: new StringField({initial: "systems/knight/assets/crow.jpg"}),
-            token: new StringField({initial: "systems/knight/assets/crow.jpg"}),
-            capacites: new StringField(),
-            aspects: new SchemaField({
-              chair: new SchemaField({
-                value: new NumberField({initial: 6})
-              }),
-              bete: new SchemaField({
-                value: new NumberField({initial: 4})
-              }),
-              machine: new SchemaField({
-                value: new NumberField({initial: 4})
-              }),
-              dame: new SchemaField({
-                value: new NumberField({initial: 0})
-              }),
-              masque: new SchemaField({
-                value: new NumberField({initial: 6})
-              })
-            }),
-            champDeForce: new SchemaField({
-              base: new NumberField({initial: 2})
-            }),
-            defense: new SchemaField({
-              base: new NumberField({initial: 2})
-            }),
-            reaction: new SchemaField({
-              base: new NumberField({initial: 2})
-            }),
-            cohesion: new SchemaField({
-              base: new NumberField({initial: 50})
-            }),
-            debordement: new SchemaField({
-              base: new NumberField({initial: 2})
-            }),
-            energie: new SchemaField({
-              base: new NumberField({initial: 0})
-            }),
-            initiative: new SchemaField({
-              value: new NumberField({initial: 0}),
-              fixe: new NumberField({initial: 1})
-            })
-          }),
-          specialEvolutions: new SchemaField({
-            activation: new StringField({initial: "tour6Sec"}),
-            duree: new StringField(),
-            adistribuer: new NumberField({initial: 1}),
-            description: new StringField(),
-            energie: new SchemaField({
-              base: new NumberField({initial: 16}),
-              prolonger: new NumberField({initial: 8})
-            }),
-            lion: new SchemaField({
-              label: new StringField(),
-              aspects: new SchemaField({
-                value: new NumberField({initial: 5}),
-                max: new NumberField({initial: 2})
-              }),
-              ae: new NumberField({initial: 2}),
-              pg: new NumberField({initial: 60})
-            }),
-            wolf: new SchemaField({
-              label: new StringField(),
-              aspects: new SchemaField({
-                value: new NumberField({initial: 3}),
-                max: new NumberField({initial: 2})
-              }),
-              ae: new NumberField({initial: 1}),
-              bonus: new NumberField({initial: 2})
-            }),
-            crow: new SchemaField({
-              label: new StringField(),
-              aspects: new SchemaField({
-                value: new NumberField({initial: 2}),
-                max: new NumberField({initial: 2})
-              }),
-              cohesion: new NumberField({initial: 50}),
-              debordement: new NumberField({initial: 2}),
-              cdf: new NumberField({initial: 2})
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        })
-      }),
-      atlas: new SchemaField({
-        ascension: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          duree: new StringField(),
-          activation: new StringField({initial: "tour6Sec"}),
-          portee: new StringField({initial: "contact"}),
-          impregnation: new NumberField({initial: 3}),
-          sansarmure: new SchemaField({
-            acces: new BooleanField({initial: false})
-          }),
-          special: new SchemaField({
-            atlas: new StringField({initial: "impregnation"})
-          }),
-          energie: new SchemaField({
-            min: new NumberField({initial: 10}),
-            max: new NumberField({initial: 50}),
-            limite: new NumberField({initial: 0})
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 75})
-          }),
-          evolutions: new SchemaField({
-            duree: new StringField(),
-            activation: new StringField({initial: "Tour6Sec"}),
-            portee: new StringField({initial: "contact"}),
-            impregnation: new NumberField({initial: 3}),
-            sansarmure: new SchemaField({
-              acces: new BooleanField({initial: false}),
-              label: new StringField()
-            }),
-            special: new SchemaField({
-              atlas: new StringField({initial: "impregnation"})
-            }),
-            energie: new SchemaField({
-              min: new NumberField({initial: 10}),
-              max: new NumberField({initial: 50}),
-              limite: new NumberField({initial: 0})
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 75})
-            })
-          })
-        }),
-        forward: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          duree: new StringField(),
-          activation: new StringField({initial: "aucune"}),
-          special: new SchemaField({
-            atlas: new StringField({initial: "contrecoups"})
-          }),
-          energie: new NumberField({initial: 3}),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            duree: new StringField(),
-            activation: new StringField({initial: "aucune"}),
-            special: new SchemaField({
-              atlas: new StringField({initial: "contrecoups"})
-            }),
-            energie: new NumberField({initial: 3}),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        record: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          duree: new StringField(),
-          activation: new StringField({initial: "aucune"}),
-          special: new SchemaField({
-            atlas: new StringField({initial: "contrecoups"})
-          }),
-          energie: new NumberField({initial: 12}),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            duree: new StringField(),
-            activation: new StringField({initial: "aucune"}),
-            special: new SchemaField({
-              atlas: new StringField({initial: "contrecoups"})
-            }),
-            energie: new NumberField({initial: 12}),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        rewind: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          duree: new StringField(),
-          activation: new StringField({initial: "aucune"}),
-          special: new SchemaField({
-            atlas: new StringField({initial: "contrecoups"})
-          }),
-          energie: new NumberField({initial: 15}),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            duree: new StringField(),
-            activation: new StringField({initial: "aucune"}),
-            special: new SchemaField({
-              atlas: new StringField({initial: "contrecoups"})
-            }),
-            energie: new NumberField({initial: 15}),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        }),
-        totem: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "aucune"}),
-          duree: new StringField(),
-          portee: new StringField({initial: "courte"}),
-          nombre: new NumberField({initial: 2}),
-          impregnation: new NumberField({initial: 1}),
-          special: new SchemaField({
-            atlas: new StringField({initial: "impregnation"})
-          }),
-          energie: new SchemaField({
-            base: new NumberField({initial: 3}),
-            prolonger: new NumberField({initial: 1})
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "aucune"}),
-            duree: new StringField(),
-            portee: new StringField({initial: "courte"}),
-            nombre: new NumberField({initial: 2}),
-            impregnation: new NumberField({initial: 1}),
-            energie: new SchemaField({
-              base: new NumberField({initial: 3}),
-              prolonger: new NumberField({initial: 1})
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50})
-            })
-          })
-        })
-      }),
-      atlasSpecial: new SchemaField({
-        illumination: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "deplacement"}),
-          duree: new StringField(),
-          nbreCapacitesSelected: new NumberField({initial: 3}),
-          nbreCapacitesTotale: new NumberField({initial: 7}),
-          blaze: new SchemaField({
-            description: new StringField(),
-            degats: new NumberField({initial: 2}),
-            violence: new NumberField({initial: 2}),
-            portee: new StringField({initial: "contact"}),
-            espoir: new SchemaField({
-              base: new NumberField({initial: 2}),
-              prolonger: new NumberField({initial: 1})
-            })
-          }),
-          candle: new SchemaField({
-            description: new StringField(),
-            portee: new StringField({initial: "contact"}),
-            espoir: new SchemaField({
-              dice: new NumberField({initial: 1}),
-              face: new NumberField({initial: 3})
-            })
-          }),
-          beacon: new SchemaField({
-            description: new StringField(),
-            bonus: new NumberField({initial: 2}),
-            portee: new StringField({initial: "courte"}),
-            espoir: new SchemaField({
-              base: new NumberField({initial: 2}),
-              prolonger: new NumberField({initial: 1})
-            })
-          }),
-          torch: new SchemaField({
-            description: new StringField(),
-            bonus: new NumberField({initial: 2}),
-            portee: new StringField({initial: "courte"}),
-            espoir: new SchemaField({
-              base: new NumberField({initial: 3}),
-              prolonger: new NumberField({initial: 1})
-            })
-          }),
-          projector: new SchemaField({
-            description: new StringField(),
-            portee: new StringField({initial: "courte"}),
-            espoir: new SchemaField({
-              base: new NumberField({initial: 3}),
-              prolonger: new NumberField({initial: 1})
-            })
-          }),
-          lighthouse: new SchemaField({
-            description: new StringField(),
-            portee: new StringField({initial: "courte"}),
-            espoir: new SchemaField({
-              base: new NumberField({initial: 4}),
-              prolonger: new NumberField({initial: 1})
-            })
-          }),
-          lantern: new SchemaField({
-            description: new StringField(),
-            portee: new StringField({initial: "courte"}),
-            degats: new NumberField({initial: 1}),
-            effets: new SchemaField({
-              raw: new ArrayField(new StringField(), {initial: ["esperance"]}),
-              liste: new ArrayField(new StringField()),
-              custom: new ArrayField(new ObjectField()),
-              chargeur: new NumberField({initial: null})
-            }),
-            espoir: new SchemaField({
-              base: new NumberField({initial: 4}),
-              prolonger: new NumberField({initial: 1})
-            })
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 50}),
-            blaze: new NumberField({initial: 175}),
-            candle: new NumberField({initial: 125}),
-            beacon: new NumberField({initial: 110}),
-            torch: new NumberField({initial: 175}),
-            projector: new NumberField({initial: 190}),
-            lighthouse: new NumberField({initial: 140}),
-            lantern: new NumberField({initial: 120})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "deplacement"}),
-            duree: new StringField(),
-            nbreCapacitesSelected: new NumberField({initial: 3}),
-            nbreCapacitesTotale: new NumberField({initial: 7}),
-            blaze: new SchemaField({
-              description: new StringField(),
-              degats: new NumberField({initial: 2}),
-              violence: new NumberField({initial: 2}),
-              portee: new StringField({initial: "contact"}),
-              espoir: new SchemaField({
-                base: new NumberField({initial: 2}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            candle: new SchemaField({
-              description: new StringField(),
-              portee: new StringField({initial: "contact"}),
-              espoir: new NumberField({initial: 1})
-            }),
-            beacon: new SchemaField({
-              description: new StringField(),
-              bonus: new NumberField({initial: 2}),
-              portee: new StringField({initial: "courte"}),
-              espoir: new SchemaField({
-                base: new NumberField({initial: 2}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            torch: new SchemaField({
-              description: new StringField(),
-              bonus: new NumberField({initial: 2}),
-              portee: new StringField({initial: "courte"}),
-              espoir: new SchemaField({
-                base: new NumberField({initial: 3}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            projector: new SchemaField({
-              description: new StringField(),
-              portee: new StringField({initial: "courte"}),
-              espoir: new SchemaField({
-                base: new NumberField({initial: 3}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            lighthouse: new SchemaField({
-              description: new StringField(),
-              portee: new StringField({initial: "courte"}),
-              espoir: new SchemaField({
-                base: new NumberField({initial: 4}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            lantern: new SchemaField({
-              description: new StringField(),
-              portee: new StringField({initial: "courte"}),
-              degats: new NumberField({initial: 1}),
-              effets: new SchemaField({
-                raw: new ArrayField(new StringField(), {initial: ["esperance"]}),
-                liste: new ArrayField(new StringField()),
-                custom: new ArrayField(new ObjectField())
-              }),
-              espoir: new SchemaField({
-                base: new NumberField({initial: 4}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 50}),
-              blaze: new NumberField({initial: 175}),
-              candle: new NumberField({initial: 125}),
-              beacon: new NumberField({initial: 110}),
-              torch: new NumberField({initial: 175}),
-              projector: new NumberField({initial: 190}),
-              lighthouse: new NumberField({initial: 140}),
-              lantern: new NumberField({initial: 120})
-            })
-          })
-        }),
-        rage: new SchemaField({
-          label: new StringField(),
-          description: new StringField(),
-          activation: new StringField({initial: "aucune"}),
-          duree: new StringField(),
-          espoir: new NumberField({initial: 0}),
-          aspects: new SchemaField({}),
-          nourri: new SchemaField({
-            label: new StringField(),
-            description: new StringField(),
-            humain: new SchemaField({
-              hostile: new SchemaField({
-                dice: new NumberField({initial: 0}),
-                face: new NumberField({initial: 0}),
-                fixe: new NumberField({initial: 1})
-              }),
-              salopard: new SchemaField({
-                dice: new NumberField({initial: 1}),
-                face: new NumberField({initial: 3}),
-                fixe: new NumberField({initial: 0})
-              }),
-              patron: new SchemaField({
-                dice: new NumberField({initial: 1}),
-                face: new NumberField({initial: 6}),
-                fixe: new NumberField({initial: 3})
-              }),
-              bande: new SchemaField({
-                dice: new NumberField({initial: 1}),
-                face: new NumberField({initial: 6}),
-                fixe: new NumberField({initial: 0})
-              })
-            }),
-            anatheme: new SchemaField({
-              hostile: new SchemaField({
-                dice: new NumberField({initial: 1}),
-                face: new NumberField({initial: 6}),
-                fixe: new NumberField({initial: 0})
-              }),
-              salopard: new SchemaField({
-                dice: new NumberField({initial: 1}),
-                face: new NumberField({initial: 6}),
-                fixe: new NumberField({initial: 3})
-              }),
-              patron: new SchemaField({
-                dice: new NumberField({initial: 1}),
-                face: new NumberField({initial: 6}),
-                fixe: new NumberField({initial: 6})
-              }),
-              bande: new SchemaField({
-                dice: new NumberField({initial: 2}),
-                face: new NumberField({initial: 6}),
-                fixe: new NumberField({initial: 0})
-              })
-            })
-          }),
-          colere: new SchemaField({
-            label: new StringField(),
-            description: new StringField(),
-            degats: new StringField({initial: "bete"}),
-            violence: new StringField({initial: "bete"}),
-            egide: new NumberField({initial: 3}),
-            defense: new NumberField({initial: 3}),
-            reaction: new NumberField({initial: 3}),
-            subis: new NumberField({initial: 0}),
-            combosBonus: new SchemaField({
-              has: new BooleanField({initial: false}),
-              liste: new SchemaField({
-                c1: new StringField(),
-                c2: new StringField(),
-                c3: new StringField()
-              })
-            }),
-            combosInterdits: new SchemaField({
-              has: new BooleanField({initial: false}),
-              liste: new SchemaField({
-                c1: new StringField(),
-                c2: new StringField(),
-                c3: new StringField(),
-                c4: new StringField(),
-                c5: new StringField(),
-                c6: new StringField()
-              })
-            })
-          }),
-          rage: new SchemaField({
-            label: new StringField(),
-            description: new StringField(),
-            degats: new StringField({initial: "bete"}),
-            violence: new StringField({initial: "bete"}),
-            egide: new NumberField({initial: 3}),
-            defense: new NumberField({initial: 9}),
-            reaction: new NumberField({initial: 9}),
-            subis: new NumberField({initial: 0}),
-            combosBonus: new SchemaField({
-              has: new BooleanField({initial: false}),
-              liste: new SchemaField({
-                c1: new StringField(),
-                c2: new StringField(),
-                c3: new StringField()
-              })
-            }),
-            combosInterdits: new SchemaField({
-              has: new BooleanField({initial: true}),
-              liste: new SchemaField({
-                c1: new StringField({initial: "sangFroid"}),
-                c2: new StringField({initial: "parole"}),
-                c3: new StringField({initial: "savoir"}),
-                c4: new StringField({initial: "technique"}),
-                c5: new StringField({initial: "discretion"}),
-                c6: new StringField()
-              })
-            })
-          }),
-          fureur: new SchemaField({
-            label: new StringField(),
-            description: new StringField(),
-            degats: new StringField({initial: "bete"}),
-            violence: new StringField({initial: "bete"}),
-            egide: new NumberField({initial: 6}),
-            defense: new NumberField({initial: 9}),
-            reaction: new NumberField({initial: 9}),
-            subis: new NumberField({initial: 1}),
-            combosBonus: new SchemaField({
-              has: new BooleanField({initial: true}),
-              liste: new SchemaField({
-                c1: new StringField({initial: "hargne"}),
-                c2: new StringField(),
-                c3: new StringField()
-              })
-            }),
-            combosInterdits: new SchemaField({
-              has: new BooleanField({initial: true}),
-              liste: new SchemaField({
-                c1: new StringField({initial: "sangFroid"}),
-                c2: new StringField({initial: "parole"}),
-                c3: new StringField({initial: "savoir"}),
-                c4: new StringField({initial: "technique"}),
-                c5: new StringField({initial: "discretion"}),
-                c6: new StringField()
-              })
-            })
-          }),
-          blaze: new SchemaField({
-            label: new StringField(),
-            description: new StringField(),
-            degats: new NumberField({initial: 2}),
-            violence: new NumberField({initial: 2}),
-            portee: new StringField({initial: "contact"}),
-            espoir: new SchemaField({
-              base: new NumberField({initial: 2}),
-              prolonger: new NumberField({initial: 1})
-            })
-          }),
-          textarea: new SchemaField({
-            duree: new NumberField({initial: 55}),
-            nourri: new NumberField({initial: 55}),
-            rage: new NumberField({initial: 210}),
-            fureur: new NumberField({initial: 325}),
-            blaze: new NumberField({initial: 180})
-          }),
-          evolutions: new SchemaField({
-            activation: new StringField({initial: "aucune"}),
-            duree: new StringField(),
-            espoir: new NumberField({initial: 0}),
-            aspects: new SchemaField({}),
-            nourri: new SchemaField({
-              label: new StringField(),
-              description: new StringField(),
-              humain: new SchemaField({
-                hostile: new SchemaField({
-                  dice: new NumberField({initial: 0}),
-                  face: new NumberField({initial: 0}),
-                  fixe: new NumberField({initial: 1})
-                }),
-                salopard: new SchemaField({
-                  dice: new NumberField({initial: 1}),
-                  face: new NumberField({initial: 3}),
-                  fixe: new NumberField({initial: 0})
-                }),
-                patron: new SchemaField({
-                  dice: new NumberField({initial: 1}),
-                  face: new NumberField({initial: 6}),
-                  fixe: new NumberField({initial: 3})
-                }),
-                bande: new SchemaField({
-                  dice: new NumberField({initial: 1}),
-                  face: new NumberField({initial: 6}),
-                  fixe: new NumberField({initial: 0})
-                })
-              }),
-              anatheme: new SchemaField({
-                hostile: new SchemaField({
-                  dice: new NumberField({initial: 1}),
-                  face: new NumberField({initial: 6}),
-                  fixe: new NumberField({initial: 0})
-                }),
-                salopard: new SchemaField({
-                  dice: new NumberField({initial: 1}),
-                  face: new NumberField({initial: 6}),
-                  fixe: new NumberField({initial: 3})
-                }),
-                patron: new SchemaField({
-                  dice: new NumberField({initial: 1}),
-                  face: new NumberField({initial: 6}),
-                  fixe: new NumberField({initial: 6})
-                }),
-                bande: new SchemaField({
-                  dice: new NumberField({initial: 2}),
-                  face: new NumberField({initial: 6}),
-                  fixe: new NumberField({initial: 0})
-                })
-              })
-            }),
-            colere: new SchemaField({
-              label: new StringField(),
-              description: new StringField(),
-              degats: new StringField({initial: "bete"}),
-              violence: new StringField({initial: "bete"}),
-              egide: new NumberField({initial: 3}),
-              defense: new NumberField({initial: 3}),
-              reaction: new NumberField({initial: 3}),
-              subis: new NumberField({initial: 0}),
-              combosBonus: new SchemaField({
-                has: new BooleanField({initial: false}),
-                liste: new SchemaField({
-                  c1: new StringField(),
-                  c2: new StringField(),
-                  c3: new StringField()
-                })
-              }),
-              combosInterdits: new SchemaField({
-                has: new BooleanField({initial: false}),
-                liste: new SchemaField({
-                  c1: new StringField(),
-                  c2: new StringField(),
-                  c3: new StringField(),
-                  c4: new StringField(),
-                  c5: new StringField(),
-                  c6: new StringField()
-                })
-              })
-            }),
-            rage: new SchemaField({
-              label: new StringField(),
-              description: new StringField(),
-              degats: new StringField({initial: "bete"}),
-              violence: new StringField({initial: "bete"}),
-              egide: new NumberField({initial: 3}),
-              defense: new NumberField({initial: 9}),
-              reaction: new NumberField({initial: 9}),
-              subis: new NumberField({initial: 0}),
-              combosBonus: new SchemaField({
-                has: new BooleanField({initial: false}),
-                liste: new SchemaField({
-                  c1: new StringField(),
-                  c2: new StringField(),
-                  c3: new StringField()
-                })
-              }),
-              combosInterdits: new SchemaField({
-                has: new BooleanField({initial: true}),
-                liste: new SchemaField({
-                  c1: new StringField({initial: "sangFroid"}),
-                  c2: new StringField({initial: "parole"}),
-                  c3: new StringField({initial: "savoir"}),
-                  c4: new StringField({initial: "technique"}),
-                  c5: new StringField({initial: "discretion"}),
-                  c6: new StringField()
-                })
-              })
-            }),
-            fureur: new SchemaField({
-              label: new StringField(),
-              description: new StringField(),
-              degats: new StringField({initial: "bete"}),
-              violence: new StringField({initial: "bete"}),
-              egide: new NumberField({initial: 6}),
-              defense: new NumberField({initial: 9}),
-              reaction: new NumberField({initial: 9}),
-              subis: new NumberField({initial: 1}),
-              combosBonus: new SchemaField({
-                has: new BooleanField({initial: true}),
-                liste: new SchemaField({
-                  c1: new StringField({initial: "hargne"}),
-                  c2: new StringField(),
-                  c3: new StringField()
-                })
-              }),
-              combosInterdits: new SchemaField({
-                has: new BooleanField({initial: true}),
-                liste: new SchemaField({
-                  c1: new StringField({initial: "sangFroid"}),
-                  c2: new StringField({initial: "parole"}),
-                  c3: new StringField({initial: "savoir"}),
-                  c4: new StringField({initial: "technique"}),
-                  c5: new StringField({initial: "discretion"}),
-                  c6: new StringField()
-                })
-              })
-            }),
-            blaze: new SchemaField({
-              label: new StringField(),
-              description: new StringField(),
-              degats: new NumberField({initial: 2}),
-              violence: new NumberField({initial: 2}),
-              portee: new StringField({initial: "contact"}),
-              espoir: new SchemaField({
-                base: new NumberField({initial: 2}),
-                prolonger: new NumberField({initial: 1})
-              })
-            }),
-            textarea: new SchemaField({
-              duree: new NumberField({initial: 55}),
-              nourri: new NumberField({initial: 55}),
-              rage: new NumberField({initial: 10}),
-              colere: new NumberField({initial: 210}),
-              fureur: new NumberField({initial: 325}),
-              blaze: new NumberField({initial: 180})
-            })
-          })
-        })
-      })
+      actuel: ["str", { initial: "personnalise" }],
+      liste: ["obj", {}],
+      base: [
+        "schema",
+        {
+          borealis: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              support: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  energie: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 6 }],
+                      allie: ["num", { initial: 2 }],
+                    },
+                  ],
+                  activation: ["str", { initial: "tour" }],
+                  duree: ["str", { initial: "" }],
+                },
+              ],
+              offensif: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  energie: ["num", { initial: 2 }],
+                  activation: ["str", { initial: "combat" }],
+                  duree: ["str", { initial: "" }],
+                  degats: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 4 }],
+                      fixe: ["num", { initial: 4 }],
+                    },
+                  ],
+                  violence: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 4 }],
+                      fixe: ["num", { initial: 0 }],
+                    },
+                  ],
+                  portee: ["str", { initial: "courte" }],
+                  effets: [
+                    "schema",
+                    {
+                      liste: ["arr", ["str", { initial: "" }]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        {
+                          initial: ["antianatheme", "degatscontinus 3"],
+                        },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                },
+              ],
+              utilitaire: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  energie: ["num", { initial: 6 }],
+                  activation: ["str", { initial: "tour" }],
+                  duree: ["str", { initial: "" }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  support: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      energie: [
+                        "schema",
+                        {
+                          base: ["num", { initial: 6 }],
+                          allie: ["num", { initial: 2 }],
+                        },
+                      ],
+                      activation: ["str", { initial: "tour" }],
+                      duree: ["str", { initial: "" }],
+                    },
+                  ],
+                  offensif: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      energie: ["num", { initial: 2 }],
+                      activation: ["str", { initial: "combat" }],
+                      duree: ["str", { initial: "" }],
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 4 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 4 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      portee: ["str", { initial: "courte" }],
+                      effets: [
+                        "schema",
+                        {
+                          liste: ["arr", ["str", {}]],
+                          raw: [
+                            "arr",
+                            ["str", {}],
+                            { initial: ["antianatheme", "degatscontinus 3"] },
+                          ],
+                          custom: ["arr", ["obj", {}]],
+                          chargeur: ["num", { initial: null }],
+                        },
+                      ],
+                    },
+                  ],
+                  utilitaire: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      energie: ["num", { initial: 6 }],
+                      activation: ["str", { initial: "tour" }],
+                      duree: ["str", { initial: "" }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      descriptionESupport: ["num", { initial: 120 }],
+                      descriptionEUtilitaire: ["num", { initial: 140 }],
+                      descriptionEOffensif: ["num", { initial: 85 }],
+                      dureeESupport: ["num", { initial: 50 }],
+                      dureeEUtilitaire: ["num", { initial: 50 }],
+                      dureeEOffensif: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  descriptionSupport: ["num", { initial: 120 }],
+                  descriptionUtilitaire: ["num", { initial: 140 }],
+                  descriptionOffensif: ["num", { initial: 85 }],
+                  descriptionESupport: ["num", { initial: 120 }],
+                  descriptionEUtilitaire: ["num", { initial: 140 }],
+                  descriptionEOffensif: ["num", { initial: 85 }],
+                  dureeSupport: ["num", { initial: 50 }],
+                  dureeUtilitaire: ["num", { initial: 50 }],
+                  dureeOffensif: ["num", { initial: 50 }],
+                  dureeESupport: ["num", { initial: 50 }],
+                  dureeEUtilitaire: ["num", { initial: 50 }],
+                  dureeEOffensif: ["num", { initial: 50 }],
+                },
+              ],
+            },
+          ],
+          changeling: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "tour6Sec" }],
+              duree: ["str", { initial: "" }],
+              portee: ["str", { initial: "" }],
+              energie: [
+                "schema",
+                {
+                  personnel: ["num", { initial: 6 }],
+                  etendue: ["num", { initial: 8 }],
+                  fauxEtre: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 3 }],
+                      max: ["num", { initial: 4 }],
+                    },
+                  ],
+                },
+              ],
+              desactivationexplosive: [
+                "schema",
+                {
+                  label: ["str", { initial: "" }],
+                  acces: ["bool", { initial: false }],
+                  portee: ["str", { initial: "courte" }],
+                  degats: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 6 }],
+                    },
+                  ],
+                  violence: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 6 }],
+                    },
+                  ],
+                  effets: [
+                    "schema",
+                    {
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", {}],
+                        {
+                          initial: ["ignorearmure", "ignorechampdeforce", "dispersion 6", "choc 1"],
+                        },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "tour6Sec" }],
+                  duree: ["str", { initial: "" }],
+                  portee: ["str", { initial: "" }],
+                  energie: [
+                    "schema",
+                    {
+                      personnel: ["num", { initial: 6 }],
+                      etendue: ["num", { initial: 8 }],
+                      fauxEtre: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 3 }],
+                          max: ["num", { initial: 4 }],
+                        },
+                      ],
+                    },
+                  ],
+                  desactivationexplosive: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      acces: ["bool", { initial: false }],
+                      portee: ["str", { initial: "courte" }],
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 6 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 6 }],
+                        },
+                      ],
+                      effets: [
+                        "schema",
+                        {
+                          liste: ["arr", ["str", {}]],
+                          raw: [
+                            "arr",
+                            ["str", { initial: "" }],
+                            {
+                              initial: [
+                                "ignorearmure",
+                                "ignorechampdeforce",
+                                "dispersion 6",
+                                "choc 1",
+                              ],
+                            },
+                          ],
+                          custom: ["arr", ["obj", {}]],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                      portee: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                  portee: ["num", { initial: 50 }],
+                },
+              ],
+            },
+          ],
+          falcon: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              energie: ["num", { initial: 6 }],
+              activation: ["str", { initial: "deplacement" }],
+              duree: ["str", { initial: "" }],
+              informations: ["str", { initial: "" }],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  energie: ["num", { initial: 6 }],
+                  activation: ["str", { initial: "deplacement" }],
+                  duree: ["str", { initial: "" }],
+                  informations: ["str", { initial: "" }],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          goliath: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              energie: ["num", { initial: 2 }],
+              activation: ["str", { initial: "deplacement" }],
+              duree: ["str", { initial: "" }],
+              taille: [
+                "schema",
+                {
+                  value: ["num", { initial: 0 }],
+                  max: ["num", { initial: 4 }],
+                },
+              ],
+              armesRack: [
+                "schema",
+                {
+                  label: ["str", { initial: "" }],
+                  active: ["bool", { initial: true }],
+                  value: ["num", { initial: 4 }],
+                },
+              ],
+              bonus: [
+                "schema",
+                {
+                  cdf: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 1 }],
+                    },
+                  ],
+                  force: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 1 }],
+                    },
+                  ],
+                  endurance: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 1 }],
+                    },
+                  ],
+                  degats: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 1 }],
+                    },
+                  ],
+                  violence: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              malus: [
+                "schema",
+                {
+                  reaction: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 2 }],
+                    },
+                  ],
+                  defense: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  energie: ["num", { initial: 2 }],
+                  activation: ["str", { initial: "deplacement" }],
+                  duree: ["str", { initial: "" }],
+                  taille: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 0 }],
+                      max: ["num", { initial: 4 }],
+                    },
+                  ],
+                  armesRack: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      active: ["bool", { initial: true }],
+                      value: ["num", { initial: 4 }],
+                    },
+                  ],
+                  bonus: [
+                    "schema",
+                    {
+                      cdf: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 1 }],
+                        },
+                      ],
+                      force: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 1 }],
+                        },
+                      ],
+                      endurance: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 1 }],
+                        },
+                      ],
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  malus: [
+                    "schema",
+                    {
+                      reaction: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 2 }],
+                        },
+                      ],
+                      defense: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+            },
+          ],
+          ghost: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              interruption: [
+                "schema",
+                {
+                  actif: ["bool", { initial: true }],
+                  label: ["str", { initial: "" }],
+                },
+              ],
+              activation: ["str", { initial: "aucune" }],
+              duree: ["str", { initial: "" }],
+              energie: [
+                "schema",
+                {
+                  tour: ["num", { initial: 2 }],
+                  minute: ["num", { initial: 6 }],
+                },
+              ],
+              bonus: [
+                "schema",
+                {
+                  aspects: ["schema", {}],
+                  reussites: ["num", { initial: 3 }],
+                  attaque: ["str", { initial: "discretion" }],
+                  degats: [
+                    "schema",
+                    {
+                      caracteristique: ["str", { initial: "discretion" }],
+                      inclus: [
+                        "schema",
+                        {
+                          od: ["str", { initial: "" }],
+                          dice: ["str", { initial: "" }],
+                          fixe: ["str", { initial: "" }],
+                        },
+                      ],
+                      od: ["bool", { initial: true }],
+                      dice: ["bool", { initial: false }],
+                      fixe: ["bool", { initial: true }],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  interruption: [
+                    "schema",
+                    {
+                      actif: ["bool", { initial: true }],
+                      label: ["str", { initial: "" }],
+                    },
+                  ],
+                  activation: ["str", { initial: "aucune" }],
+                  duree: ["str", { initial: "" }],
+                  energie: [
+                    "schema",
+                    {
+                      tour: ["num", { initial: 2 }],
+                      minute: ["num", { initial: 6 }],
+                    },
+                  ],
+                  bonus: [
+                    "schema",
+                    {
+                      aspects: ["schema", {}],
+                      reussites: ["num", { initial: 3 }],
+                      attaque: ["str", { initial: "discretion" }],
+                      degats: [
+                        "schema",
+                        {
+                          caracteristique: ["str", { initial: "discretion" }],
+                          inclus: [
+                            "schema",
+                            {
+                              od: ["str", { initial: "" }],
+                              dice: ["str", { initial: "" }],
+                              fixe: ["str", { initial: "" }],
+                            },
+                          ],
+                          od: ["bool", { initial: true }],
+                          dice: ["bool", { initial: false }],
+                          fixe: ["bool", { initial: true }],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          longbow: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              degats: [
+                "schema",
+                {
+                  energie: ["num", { initial: 1 }],
+                  min: ["num", { initial: 3 }],
+                  max: ["num", { initial: 9 }],
+                  adlfixe: ["num", { initial: 0 }],
+                },
+              ],
+              violence: [
+                "schema",
+                {
+                  energie: ["num", { initial: 1 }],
+                  min: ["num", { initial: 1 }],
+                  max: ["num", { initial: 7 }],
+                  adlfixe: ["num", { initial: 0 }],
+                },
+              ],
+              portee: [
+                "schema",
+                {
+                  energie: ["num", { initial: 1 }],
+                  min: ["str", { initial: "moyenne" }],
+                  max: ["str", { initial: "lointaine" }],
+                },
+              ],
+              effets: [
+                "schema",
+                {
+                  base: [
+                    "schema",
+                    {
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        { initial: ["assistanceattaque", "deuxmains", "lourd"] },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                  liste1: [
+                    "schema",
+                    {
+                      energie: ["num", { initial: 2 }],
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        {
+                          initial: [
+                            "choc 1",
+                            "degatscontinus 3",
+                            "designation",
+                            "percearmure 40",
+                            "silencieux",
+                            "ultraviolence",
+                          ],
+                        },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                  liste2: [
+                    "schema",
+                    {
+                      energie: ["num", { initial: 3 }],
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        {
+                          initial: [
+                            "antivehicule",
+                            "artillerie",
+                            "dispersion 3",
+                            "lumiere 4",
+                            "penetrant 6",
+                            "percearmure 60",
+                          ],
+                        },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                  liste3: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      acces: ["bool", { initial: false }],
+                      energie: ["num", { initial: 6 }],
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        {
+                          initial: [
+                            "antianatheme",
+                            "demoralisant",
+                            "enchaine",
+                            "fureur",
+                            "ignorearmure",
+                            "penetrant 10",
+                          ],
+                        },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                },
+              ],
+              distance: [
+                "schema",
+                {
+                  raw: ["str", {}],
+                  custom: ["arr", ["obj", {}]],
+                },
+              ],
+              specialEvolutions: [
+                "schema",
+                {
+                  1: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 50 }],
+                      description: ["str", { initial: "" }],
+                      effets: [
+                        "schema",
+                        {
+                          liste1: [
+                            "schema",
+                            {
+                              liste: ["arr", ["str", {}]],
+                              raw: [
+                                "arr",
+                                ["str", { initial: "" }],
+                                {
+                                  initial: [
+                                    "choc 1",
+                                    "degatscontinus 3",
+                                    "designation",
+                                    "percearmure 40",
+                                    "silencieux",
+                                    "ultraviolence",
+                                  ],
+                                },
+                              ],
+                              custom: ["arr", ["obj", {}]],
+                            },
+                          ],
+                          liste2: [
+                            "schema",
+                            {
+                              liste: ["arr", ["str", {}]],
+                              raw: [
+                                "arr",
+                                ["str", { initial: "" }],
+                                {
+                                  initial: [
+                                    "antivehicule",
+                                    "artillerie",
+                                    "dispersion 3",
+                                    "lumiere 4",
+                                    "penetrant 6",
+                                    "percearmure 60",
+                                  ],
+                                },
+                              ],
+                              custom: ["arr", ["obj", {}]],
+                            },
+                          ],
+                          liste3: [
+                            "schema",
+                            {
+                              label: ["str", { initial: "" }],
+                              acces: ["bool", { initial: true }],
+                              liste: ["arr", ["str", {}]],
+                              raw: [
+                                "arr",
+                                ["str", { initial: "" }],
+                                {
+                                  initial: [
+                                    "antianatheme",
+                                    "demoralisant",
+                                    "enchaine",
+                                    "fureur",
+                                    "ignorearmure",
+                                    "penetrant 10",
+                                  ],
+                                },
+                              ],
+                              custom: ["arr", ["obj", {}]],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  2: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 50 }],
+                      description: ["str", { initial: "" }],
+                      degats: [
+                        "schema",
+                        {
+                          min: ["num", { initial: 5 }],
+                          max: ["num", { initial: 14 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          min: ["num", { initial: 3 }],
+                          max: ["num", { initial: 12 }],
+                        },
+                      ],
+                    },
+                  ],
+                  3: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 50 }],
+                      description: ["str", { initial: "" }],
+                      effets: [
+                        "schema",
+                        {
+                          base: [
+                            "schema",
+                            {
+                              liste: ["arr", ["str", {}]],
+                              raw: [
+                                "arr",
+                                ["str", { initial: "" }],
+                                { initial: ["assistanceattaque", "deuxmains"] },
+                              ],
+                              custom: ["arr", ["obj", {}]],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  4: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 100 }],
+                      description: ["str", { initial: "" }],
+                      effets: [
+                        "schema",
+                        {
+                          liste1: [
+                            "schema",
+                            {
+                              energie: ["num", { initial: 1 }],
+                            },
+                          ],
+                          liste2: [
+                            "schema",
+                            {
+                              energie: ["num", { initial: 1 }],
+                            },
+                          ],
+                          liste3: [
+                            "schema",
+                            {
+                              energie: ["num", { initial: 4 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          mechanic: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: [
+                "schema",
+                {
+                  contact: ["str", { initial: "deplacement" }],
+                  distance: ["str", { initial: "deplacement" }],
+                },
+              ],
+              portee: ["str", { initial: "" }],
+              reparation: [
+                "schema",
+                {
+                  contact: [
+                    "schema",
+                    {
+                      duree: ["str", { initial: "" }],
+                      dice: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 6 }],
+                    },
+                  ],
+                  distance: [
+                    "schema",
+                    {
+                      duree: ["str", { initial: "" }],
+                      dice: ["num", { initial: 2 }],
+                      fixe: ["num", { initial: 6 }],
+                    },
+                  ],
+                },
+              ],
+              energie: [
+                "schema",
+                {
+                  contact: ["num", { initial: 4 }],
+                  distance: ["num", { initial: 6 }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  dureeContact: ["num", { initial: 50 }],
+                  dureeDistance: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "deplacement" }],
+                  portee: ["str", { initial: "" }],
+                  reparation: [
+                    "schema",
+                    {
+                      contact: [
+                        "schema",
+                        {
+                          duree: ["str", { initial: "" }],
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 6 }],
+                        },
+                      ],
+                      distance: [
+                        "schema",
+                        {
+                          duree: ["str", { initial: "" }],
+                          dice: ["num", { initial: 2 }],
+                          fixe: ["num", { initial: 6 }],
+                        },
+                      ],
+                    },
+                  ],
+                  energie: [
+                    "schema",
+                    {
+                      contact: ["num", { initial: 4 }],
+                      distance: ["num", { initial: 6 }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      dureeContact: ["num", { initial: 50 }],
+                      dureeDistance: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          nanoc: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "toutes" }],
+              duree: ["str", { initial: "" }],
+              energie: [
+                "schema",
+                {
+                  base: ["num", { initial: 3 }],
+                  detaille: ["num", { initial: 6 }],
+                  mecanique: ["num", { initial: 9 }],
+                  prolonger: ["num", { initial: 2 }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "toutes" }],
+                  duree: ["str", { initial: "" }],
+                  energie: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 3 }],
+                      detaille: ["num", { initial: 6 }],
+                      mecanique: ["num", { initial: 9 }],
+                      prolonger: ["num", { initial: 2 }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          oriflamme: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "deplacement" }],
+              duree: ["str", { initial: "" }],
+              portee: ["str", { initial: "courte" }],
+              energie: ["num", { initial: 12 }],
+              degats: [
+                "schema",
+                {
+                  dice: ["num", { initial: 6 }],
+                  fixe: ["num", { initial: 6 }],
+                },
+              ],
+              violence: [
+                "schema",
+                {
+                  dice: ["num", { initial: 6 }],
+                  fixe: ["num", { initial: 12 }],
+                },
+              ],
+              effets: [
+                "schema",
+                {
+                  liste: ["arr", ["str", {}]],
+                  raw: [
+                    "arr",
+                    ["str", { initial: "" }],
+                    { initial: ["antianatheme", "lumiere 2"] },
+                  ],
+                  custom: ["arr", ["obj", {}]],
+                  chargeur: ["num", { initial: null }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "deplacement" }],
+                  duree: ["str", { initial: "" }],
+                  portee: ["str", { initial: "courte" }],
+                  energie: ["num", { initial: 12 }],
+                  degats: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 6 }],
+                      fixe: ["num", { initial: 6 }],
+                    },
+                  ],
+                  violence: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 6 }],
+                      fixe: ["num", { initial: 12 }],
+                    },
+                  ],
+                  effets: [
+                    "schema",
+                    {
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        { initial: ["antianatheme", "lumiere 2"] },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          shrine: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "aucune" }],
+              duree: ["str", { initial: "" }],
+              portee: ["str", { initial: "" }],
+              energie: [
+                "schema",
+                {
+                  personnel: ["num", { initial: 1 }],
+                  distance: ["num", { initial: 2 }],
+                  acces6tours: ["bool", { initial: false }],
+                  personnel6tours: ["num", { initial: 5 }],
+                  distance6tours: ["num", { initial: 10 }],
+                },
+              ],
+              champdeforce: ["num", { initial: 6 }],
+              requis: [
+                "schema",
+                {
+                  force: ["num", { initial: 5 }],
+                  chair: ["num", { initial: 10 }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                  portee: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "aucun" }],
+                  duree: ["str", { initial: "" }],
+                  portee: ["str", { initial: "" }],
+                  energie: [
+                    "schema",
+                    {
+                      personnel: ["num", { initial: 1 }],
+                      distance: ["num", { initial: 2 }],
+                      acces6tours: ["bool", { initial: false }],
+                      personnel6tours: ["num", { initial: 5 }],
+                      distance6tours: ["num", { initial: 10 }],
+                    },
+                  ],
+                  champdeforce: ["num", { initial: 6 }],
+                  requis: [
+                    "schema",
+                    {
+                      force: ["num", { initial: 5 }],
+                      chair: ["num", { initial: 10 }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                      portee: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          type: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "deplacement" }],
+              duree: ["str", { initial: "" }],
+              nbreType: ["num", { initial: 3 }],
+              energie: [
+                "schema",
+                {
+                  tour: ["num", { initial: 1 }],
+                  scene: ["num", { initial: 6 }],
+                },
+              ],
+              type: [
+                "schema",
+                {
+                  soldier: [
+                    "schema",
+                    {
+                      aspect: ["str", { initial: "chair" }],
+                      liste: [
+                        "schema",
+                        {
+                          deplacement: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          force: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          endurance: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  hunter: [
+                    "schema",
+                    {
+                      aspect: ["str", { initial: "bete" }],
+                      liste: [
+                        "schema",
+                        {
+                          hargne: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          combat: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          instinct: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  scholar: [
+                    "schema",
+                    {
+                      aspect: ["str", { initial: "machine" }],
+                      liste: [
+                        "schema",
+                        {
+                          tir: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          savoir: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          technique: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  herald: [
+                    "schema",
+                    {
+                      aspect: ["str", { initial: "dame" }],
+                      liste: [
+                        "schema",
+                        {
+                          aura: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          parole: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          sangFroid: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  scout: [
+                    "schema",
+                    {
+                      aspect: ["str", { initial: "masque" }],
+                      liste: [
+                        "schema",
+                        {
+                          discretion: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          dexterite: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                          perception: [
+                            "schema",
+                            {
+                              value: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "deplacement" }],
+                  duree: ["str", { initial: "" }],
+                  nbreType: ["num", { initial: 3 }],
+                  energie: [
+                    "schema",
+                    {
+                      tour: ["num", { initial: 1 }],
+                      scene: ["num", { initial: 6 }],
+                    },
+                  ],
+                  type: [
+                    "schema",
+                    {
+                      soldier: [
+                        "schema",
+                        {
+                          aspect: ["str", { initial: "chair" }],
+                          liste: [
+                            "schema",
+                            {
+                              deplacement: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              force: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              endurance: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      hunter: [
+                        "schema",
+                        {
+                          aspect: ["str", { initial: "bete" }],
+                          liste: [
+                            "schema",
+                            {
+                              hargne: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              combat: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              instinct: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      scholar: [
+                        "schema",
+                        {
+                          aspect: ["str", { initial: "machine" }],
+                          liste: [
+                            "schema",
+                            {
+                              tir: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              savoir: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              technique: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      herald: [
+                        "schema",
+                        {
+                          aspect: ["str", { initial: "dame" }],
+                          liste: [
+                            "schema",
+                            {
+                              aura: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              parole: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              sangFroid: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      scout: [
+                        "schema",
+                        {
+                          aspect: ["str", { initial: "masque" }],
+                          liste: [
+                            "schema",
+                            {
+                              discretion: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              dexterite: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                              perception: [
+                                "schema",
+                                {
+                                  value: ["num", { initial: 1 }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          vision: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "deplacement6Sec" }],
+              duree: ["str", { initial: "" }],
+              energie: [
+                "schema",
+                {
+                  min: ["num", { initial: 5 }],
+                  max: ["num", { initial: 10 }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "deplacement6Sec" }],
+                  duree: ["str", { initial: "" }],
+                  energie: [
+                    "schema",
+                    {
+                      min: ["num", { initial: 5 }],
+                      max: ["num", { initial: 10 }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          warlord: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              impulsions: [
+                "schema",
+                {
+                  selection: ["num", { initial: 3 }],
+                  action: [
+                    "schema",
+                    {
+                      activation: ["str", { initial: "deplacement" }],
+                      duree: ["str", { initial: "" }],
+                      bonus: [
+                        "schema",
+                        {
+                          description: ["str", { initial: "" }],
+                        },
+                      ],
+                      energie: [
+                        "schema",
+                        {
+                          allie: ["num", { initial: 4 }],
+                          porteur: ["num", { initial: 10 }],
+                        },
+                      ],
+                    },
+                  ],
+                  esquive: [
+                    "schema",
+                    {
+                      activation: ["str", { initial: "deplacement" }],
+                      duree: ["str", { initial: "" }],
+                      bonus: [
+                        "schema",
+                        {
+                          reaction: ["num", { initial: 2 }],
+                          defense: ["num", { initial: 2 }],
+                        },
+                      ],
+                      energie: [
+                        "schema",
+                        {
+                          allie: ["num", { initial: 3 }],
+                          porteur: ["num", { initial: 2 }],
+                          prolonger: ["num", { initial: 2 }],
+                        },
+                      ],
+                    },
+                  ],
+                  force: [
+                    "schema",
+                    {
+                      activation: ["str", { initial: "deplacement" }],
+                      duree: ["str", { initial: "" }],
+                      bonus: [
+                        "schema",
+                        {
+                          champDeForce: ["num", { initial: 2 }],
+                        },
+                      ],
+                      energie: [
+                        "schema",
+                        {
+                          allie: ["num", { initial: 2 }],
+                          porteur: ["num", { initial: 1 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  guerre: [
+                    "schema",
+                    {
+                      activation: ["str", { initial: "deplacement" }],
+                      duree: ["str", { initial: "" }],
+                      bonus: [
+                        "schema",
+                        {
+                          degats: ["num", { initial: 1 }],
+                          violence: ["num", { initial: 1 }],
+                        },
+                      ],
+                      energie: [
+                        "schema",
+                        {
+                          allie: ["num", { initial: 1 }],
+                          porteur: ["num", { initial: 1 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  energie: [
+                    "schema",
+                    {
+                      activation: ["str", { initial: "deplacement" }],
+                      duree: ["str", { initial: "" }],
+                      bonus: [
+                        "schema",
+                        {
+                          description: ["str", { initial: "" }],
+                        },
+                      ],
+                      energie: [
+                        "schema",
+                        {
+                          min: ["num", { initial: 1 }],
+                          max: ["num", { initial: 5 }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  dureeAction: ["num", { initial: 50 }],
+                  dureeForce: ["num", { initial: 50 }],
+                  dureeEnergie: ["num", { initial: 50 }],
+                  dureeEsquive: ["num", { initial: 50 }],
+                  dureeGuerre: ["num", { initial: 50 }],
+                  bonusAction: ["num", { initial: 85 }],
+                  bonusEnergie: ["num", { initial: 110 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  impulsions: [
+                    "schema",
+                    {
+                      selection: ["num", { initial: 3 }],
+                      action: [
+                        "schema",
+                        {
+                          activation: ["str", { initial: "deplacement" }],
+                          duree: ["str", { initial: "" }],
+                          bonus: [
+                            "schema",
+                            {
+                              description: ["str", { initial: "" }],
+                            },
+                          ],
+                          energie: [
+                            "schema",
+                            {
+                              allie: ["num", { initial: 4 }],
+                              porteur: ["num", { initial: 10 }],
+                            },
+                          ],
+                        },
+                      ],
+                      esquive: [
+                        "schema",
+                        {
+                          activation: ["str", { initial: "deplacement" }],
+                          duree: ["str", { initial: "" }],
+                          bonus: [
+                            "schema",
+                            {
+                              reaction: ["num", { initial: 2 }],
+                              defense: ["num", { initial: 2 }],
+                            },
+                          ],
+                          energie: [
+                            "schema",
+                            {
+                              allie: ["num", { initial: 3 }],
+                              porteur: ["num", { initial: 2 }],
+                              prolonger: ["num", { initial: 2 }],
+                            },
+                          ],
+                        },
+                      ],
+                      force: [
+                        "schema",
+                        {
+                          activation: ["str", { initial: "deplacement" }],
+                          duree: ["str", { initial: "" }],
+                          bonus: [
+                            "schema",
+                            {
+                              champDeForce: ["num", { initial: 2 }],
+                            },
+                          ],
+                          energie: [
+                            "schema",
+                            {
+                              allie: ["num", { initial: 2 }],
+                              porteur: ["num", { initial: 1 }],
+                              prolonger: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                      guerre: [
+                        "schema",
+                        {
+                          activation: ["str", { initial: "deplacement" }],
+                          duree: ["str", { initial: "" }],
+                          bonus: [
+                            "schema",
+                            {
+                              degats: ["num", { initial: 1 }],
+                              violence: ["num", { initial: 1 }],
+                            },
+                          ],
+                          energie: [
+                            "schema",
+                            {
+                              allie: ["num", { initial: 1 }],
+                              porteur: ["num", { initial: 1 }],
+                              prolonger: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                      energie: [
+                        "schema",
+                        {
+                          activation: ["str", { initial: "deplacement" }],
+                          duree: ["str", { initial: "" }],
+                          bonus: [
+                            "schema",
+                            {
+                              description: ["str", { initial: "" }],
+                            },
+                          ],
+                          energie: [
+                            "schema",
+                            {
+                              min: ["num", { initial: 1 }],
+                              max: ["num", { initial: 5 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      dureeAction: ["num", { initial: 50 }],
+                      dureeForce: ["num", { initial: 50 }],
+                      dureeEnergie: ["num", { initial: 50 }],
+                      dureeEsquive: ["num", { initial: 50 }],
+                      dureeGuerre: ["num", { initial: 50 }],
+                      bonusAction: ["num", { initial: 85 }],
+                      bonusEnergie: ["num", { initial: 110 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          watchtower: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "deplacement3Sec" }],
+              duree: ["str", { initial: "" }],
+              energie: ["num", { initial: 2 }],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "deplacement3Sec" }],
+                  duree: ["str", { initial: "" }],
+                  energie: ["num", { initial: 2 }],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          personnalise: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+            },
+          ],
+        },
+      ],
+      c2038: [
+        "schema",
+        {
+          cea: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              energie: ["num", { initial: 3 }],
+              activation: ["str", { initial: "combat" }],
+              duree: ["str", { initial: "" }],
+              espoir: ["num", { initial: 1 }],
+              vague: [
+                "schema",
+                {
+                  degats: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 0 }],
+                    },
+                  ],
+                  violence: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 0 }],
+                    },
+                  ],
+                  portee: ["str", { initial: "" }],
+                  effets: [
+                    "schema",
+                    {
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        { initial: ["parasitage 2", "dispersion 3", "destructeur", "choc 2"] },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                },
+              ],
+              salve: [
+                "schema",
+                {
+                  degats: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 0 }],
+                    },
+                  ],
+                  violence: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 0 }],
+                    },
+                  ],
+                  portee: ["str", { initial: "" }],
+                  effets: [
+                    "schema",
+                    {
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        {
+                          initial: ["ultraviolence", "meurtrier 3", "dispersion 3", "parasitage 1"],
+                        },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                },
+              ],
+              rayon: [
+                "schema",
+                {
+                  degats: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 4 }],
+                      fixe: ["num", { initial: 0 }],
+                    },
+                  ],
+                  violence: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 2 }],
+                      fixe: ["num", { initial: 0 }],
+                    },
+                  ],
+                  portee: ["str", { initial: "" }],
+                  effets: [
+                    "schema",
+                    {
+                      liste: ["arr", ["str", {}]],
+                      raw: [
+                        "arr",
+                        ["str", { initial: "" }],
+                        { initial: ["parasitage 1", "percearmure 40"] },
+                      ],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  descriptionVague: ["num", { initial: 70 }],
+                  descriptionSalve: ["num", { initial: 75 }],
+                  descriptionRayon: ["num", { initial: 150 }],
+                  porteeVague: ["num", { initial: 50 }],
+                  porteeSalve: ["num", { initial: 50 }],
+                  porteeRayon: ["num", { initial: 50 }],
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  energie: ["num", { initial: 3 }],
+                  activation: ["str", { initial: "combat" }],
+                  duree: ["str", { initial: "" }],
+                  espoir: ["num", { initial: 1 }],
+                  vague: [
+                    "schema",
+                    {
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      portee: ["str", { initial: "" }],
+                      effets: [
+                        "schema",
+                        {
+                          liste: ["arr", ["str", {}]],
+                          raw: [
+                            "arr",
+                            ["str", { initial: "" }],
+                            { initial: ["parasitage 2", "dispersion 3", "destructeur", "choc 2"] },
+                          ],
+                          custom: ["arr", ["obj", {}]],
+                        },
+                      ],
+                    },
+                  ],
+                  salve: [
+                    "schema",
+                    {
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      portee: ["str", { initial: "" }],
+                      effets: [
+                        "schema",
+                        {
+                          liste: ["arr", ["str", {}]],
+                          raw: [
+                            "arr",
+                            ["str", { initial: "" }],
+                            {
+                              initial: [
+                                "ultraviolence",
+                                "meurtrier 3",
+                                "dispersion 3",
+                                "parasitage 1",
+                              ],
+                            },
+                          ],
+                          custom: ["arr", ["obj", {}]],
+                        },
+                      ],
+                    },
+                  ],
+                  rayon: [
+                    "schema",
+                    {
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 4 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 2 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      portee: ["str", { initial: "" }],
+                      effets: [
+                        "schema",
+                        {
+                          liste: ["arr", ["str", {}]],
+                          raw: [
+                            "arr",
+                            ["str", { initial: "" }],
+                            { initial: ["parasitage 1", "percearmure 40"] },
+                          ],
+                          custom: ["arr", ["obj", {}]],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      descriptionVague: ["num", { initial: 70 }],
+                      descriptionSalve: ["num", { initial: 75 }],
+                      descriptionRayon: ["num", { initial: 150 }],
+                      porteeVague: ["num", { initial: 50 }],
+                      porteeSalve: ["num", { initial: 50 }],
+                      porteeRayon: ["num", { initial: 50 }],
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          discord: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              special: [
+                "schema",
+                {
+                  c2038: ["str", { initial: "recolteflux" }],
+                },
+              ],
+              malus: [
+                "schema",
+                {
+                  reaction: ["num", { initial: 2 }],
+                  defense: ["num", { initial: 2 }],
+                  actions: ["num", { initial: 2 }],
+                },
+              ],
+              tour: [
+                "schema",
+                {
+                  flux: ["num", { initial: 1 }],
+                  energie: ["num", { initial: 2 }],
+                  activation: ["str", { initial: "deplacement" }],
+                  duree: ["str", { initial: "" }],
+                },
+              ],
+              scene: [
+                "schema",
+                {
+                  flux: ["num", { initial: 3 }],
+                  energie: ["num", { initial: 6 }],
+                  activation: ["str", { initial: "deplacement" }],
+                  duree: ["str", { initial: "" }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  dureeTour: ["num", { initial: 50 }],
+                  dureeScene: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  malus: [
+                    "schema",
+                    {
+                      reaction: ["num", { initial: 2 }],
+                      defense: ["num", { initial: 2 }],
+                      actions: ["num", { initial: 2 }],
+                    },
+                  ],
+                  tour: [
+                    "schema",
+                    {
+                      flux: ["num", { initial: 1 }],
+                      energie: ["num", { initial: 2 }],
+                      activation: ["str", { initial: "deplacement" }],
+                      duree: ["str", { initial: "" }],
+                    },
+                  ],
+                  scene: [
+                    "schema",
+                    {
+                      flux: ["num", { initial: 3 }],
+                      energie: ["num", { initial: 6 }],
+                      activation: ["str", { initial: "deplacement" }],
+                      duree: ["str", { initial: "" }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      dureeTour: ["num", { initial: 50 }],
+                      dureeScene: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          puppet: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              special: [
+                "schema",
+                {
+                  c2038: ["str", { initial: "recolteflux" }],
+                },
+              ],
+              duree: ["str", { initial: "" }],
+              activation: ["str", { initial: "deplacement" }],
+              creatures: ["num", { initial: 3 }],
+              energie: [
+                "schema",
+                {
+                  ordre: ["num", { initial: 2 }],
+                  supplementaire: ["num", { initial: 3 }],
+                  prolonger: ["num", { initial: 1 }],
+                },
+              ],
+              flux: [
+                "schema",
+                {
+                  has: ["bool", { initial: true }],
+                  ordre: ["num", { initial: 1 }],
+                  supplementaire: ["num", { initial: 1 }],
+                  prolonger: ["num", { initial: 1 }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  duree: ["str", { initial: "" }],
+                  activation: ["str", { initial: "deplacement" }],
+                  creatures: ["num", { initial: 3 }],
+                  energie: [
+                    "schema",
+                    {
+                      ordre: ["num", { initial: 2 }],
+                      supplementaire: ["num", { initial: 3 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                  flux: [
+                    "schema",
+                    {
+                      has: ["bool", { initial: true }],
+                      ordre: ["num", { initial: 1 }],
+                      supplementaire: ["num", { initial: 1 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          windtalker: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              special: [
+                "schema",
+                {
+                  c2038: ["str", { initial: "recolteflux" }],
+                },
+              ],
+              flux: ["num", { initial: 2 }],
+              energie: ["num", { initial: 4 }],
+              activation: ["str", { initial: "deplacement" }],
+              duree: ["str", { initial: "" }],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  flux: ["num", { initial: 2 }],
+                  energie: ["num", { initial: 4 }],
+                  activation: ["str", { initial: "deplacement" }],
+                  duree: ["str", { initial: "" }],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          zen: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              espoir: ["num", { initial: 0 }],
+              difficulte: ["num", { initial: 5 }],
+              aspects: [
+                "schema",
+                {
+                  chair: [
+                    "schema",
+                    {
+                      caracteristiques: [
+                        "schema",
+                        {
+                          deplacement: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          force: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          endurance: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  bete: [
+                    "schema",
+                    {
+                      caracteristiques: [
+                        "schema",
+                        {
+                          hargne: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: true }],
+                            },
+                          ],
+                          combat: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          instinct: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  machine: [
+                    "schema",
+                    {
+                      caracteristiques: [
+                        "schema",
+                        {
+                          tir: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          savoir: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          technique: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  dame: [
+                    "schema",
+                    {
+                      caracteristiques: [
+                        "schema",
+                        {
+                          aura: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          parole: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          sangFroid: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: true }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  masque: [
+                    "schema",
+                    {
+                      caracteristiques: [
+                        "schema",
+                        {
+                          discretion: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          dexterite: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                          perception: [
+                            "schema",
+                            {
+                              value: ["bool", { initial: false }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  espoir: ["num", { initial: 0 }],
+                  difficulte: ["num", { initial: 5 }],
+                  aspects: [
+                    "schema",
+                    {
+                      chair: [
+                        "schema",
+                        {
+                          caracteristiques: [
+                            "schema",
+                            {
+                              deplacement: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              force: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              endurance: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      bete: [
+                        "schema",
+                        {
+                          caracteristiques: [
+                            "schema",
+                            {
+                              hargne: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: true }],
+                                },
+                              ],
+                              combat: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              instinct: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      machine: [
+                        "schema",
+                        {
+                          caracteristiques: [
+                            "schema",
+                            {
+                              tir: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              savoir: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              technique: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      dame: [
+                        "schema",
+                        {
+                          caracteristiques: [
+                            "schema",
+                            {
+                              aura: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              parole: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              sangFroid: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: true }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      masque: [
+                        "schema",
+                        {
+                          caracteristiques: [
+                            "schema",
+                            {
+                              discretion: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              dexterite: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                              perception: [
+                                "schema",
+                                {
+                                  value: ["bool", { initial: false }],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      c2038Necromancer: [
+        "schema",
+        {
+          sarcophage: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              bonus: [
+                "schema",
+                {
+                  paliers: ["num", { initial: 7 }],
+                  liste: [
+                    "schema",
+                    {
+                      b0: [
+                        "schema",
+                        {
+                          pg: [
+                            "schema",
+                            {
+                              min: ["num", { initial: 0 }],
+                              max: ["num", { initial: 49 }],
+                            },
+                          ],
+                          offert: ["str", { initial: "" }],
+                        },
+                      ],
+                      b1: [
+                        "schema",
+                        {
+                          pg: [
+                            "schema",
+                            {
+                              min: ["num", { initial: 50 }],
+                              max: ["num", { initial: 99 }],
+                            },
+                          ],
+                          offert: ["str", { initial: "" }],
+                        },
+                      ],
+                      b2: [
+                        "schema",
+                        {
+                          pg: [
+                            "schema",
+                            {
+                              min: ["num", { initial: 100 }],
+                              max: ["num", { initial: 149 }],
+                            },
+                          ],
+                          offert: ["str", { initial: "" }],
+                        },
+                      ],
+                      b3: [
+                        "schema",
+                        {
+                          pg: [
+                            "schema",
+                            {
+                              min: ["num", { initial: 150 }],
+                              max: ["num", { initial: 199 }],
+                            },
+                          ],
+                          offert: ["str", { initial: "" }],
+                        },
+                      ],
+                      b4: [
+                        "schema",
+                        {
+                          pg: [
+                            "schema",
+                            {
+                              min: ["num", { initial: 200 }],
+                              max: ["num", { initial: 249 }],
+                            },
+                          ],
+                          offert: ["str", { initial: "" }],
+                        },
+                      ],
+                      b5: [
+                        "schema",
+                        {
+                          pg: [
+                            "schema",
+                            {
+                              min: ["num", { initial: 250 }],
+                              max: ["num", { initial: 299 }],
+                            },
+                          ],
+                          offert: ["str", { initial: "" }],
+                        },
+                      ],
+                      b6: [
+                        "schema",
+                        {
+                          pg: [
+                            "schema",
+                            {
+                              min: ["num", { initial: 300 }],
+                            },
+                          ],
+                          offert: ["str", { initial: "" }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  b0: ["num", { initial: 50 }],
+                  b1: ["num", { initial: 50 }],
+                  b2: ["num", { initial: 50 }],
+                  b3: ["num", { initial: 50 }],
+                  b4: ["num", { initial: 50 }],
+                  b5: ["num", { initial: 50 }],
+                  b6: ["num", { initial: 50 }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      c2038Sorcerer: [
+        "schema",
+        {
+          morph: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              energie: ["num", { initial: 10 }],
+              activation: ["str", { initial: "aucune" }],
+              duree: ["str", { initial: "" }],
+              espoir: ["num", { initial: 1 }],
+              capacites: ["num", { initial: 3 }],
+              vol: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                },
+              ],
+              phase: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  activation: ["str", { initial: "deplacement" }],
+                  energie: ["num", { initial: 5 }],
+                  duree: ["str", { initial: "" }],
+                  niveau2: [
+                    "schema",
+                    {
+                      acces: ["bool", { initial: false }],
+                      activation: ["str", { initial: "aucune" }],
+                      energie: ["num", { initial: 8 }],
+                      duree: ["str", { initial: "" }],
+                    },
+                  ],
+                },
+              ],
+              etirement: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  portee: ["str", { initial: "" }],
+                  bonus: ["num", { initial: 3 }],
+                },
+              ],
+              metal: [
+                "schema",
+                {
+                  bonus: [
+                    "schema",
+                    {
+                      champDeForce: ["num", { initial: 2 }],
+                    },
+                  ],
+                },
+              ],
+              fluide: [
+                "schema",
+                {
+                  bonus: [
+                    "schema",
+                    {
+                      reaction: ["num", { initial: 2 }],
+                      defense: ["num", { initial: 2 }],
+                    },
+                  ],
+                },
+              ],
+              polymorphie: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  griffe: [
+                    "schema",
+                    {
+                      portee: ["str", { initial: "contact" }],
+                      type: ["str", { initial: "contact" }],
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 2 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      effets: [
+                        "schema",
+                        {
+                          liste: ["arr", ["str", {}]],
+                          raw: ["arr", ["str", {}]],
+                          custom: ["arr", ["obj", {}]],
+                          chargeur: ["num", { initial: null }],
+                          chargeur2: ["num", { initial: null }],
+                        },
+                      ],
+                    },
+                  ],
+                  lame: [
+                    "schema",
+                    {
+                      portee: ["str", { initial: "contact" }],
+                      type: ["str", { initial: "contact" }],
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 2 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      effets: [
+                        "schema",
+                        {
+                          liste: ["arr", ["str", {}]],
+                          raw: ["arr", ["str", {}]],
+                          custom: ["arr", ["obj", {}]],
+                          chargeur: ["num", { initial: null }],
+                          chargeur2: ["num", { initial: null }],
+                        },
+                      ],
+                    },
+                  ],
+                  canon: [
+                    "schema",
+                    {
+                      portee: ["str", { initial: "moyenne" }],
+                      type: ["str", { initial: "distance" }],
+                      energie: ["num", { initial: 1 }],
+                      degats: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 3 }],
+                        },
+                      ],
+                      violence: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 3 }],
+                        },
+                      ],
+                      effets: [
+                        "schema",
+                        {
+                          liste: ["arr", ["str", {}]],
+                          raw: [
+                            "arr",
+                            ["str", { initial: "" }],
+                            { initial: ["destructeur", "meurtrier", "ultraviolence"] },
+                          ],
+                          custom: ["arr", ["obj", {}]],
+                          chargeur: ["num", { initial: null }],
+                          chargeur2: ["num", { initial: null }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                  vol: ["num", { initial: 130 }],
+                  phase: ["num", { initial: 115 }],
+                  phaseDuree: ["num", { initial: 50 }],
+                  phaseDuree2: ["num", { initial: 50 }],
+                  etirement: ["num", { initial: 130 }],
+                  etirementPortee: ["num", { initial: 50 }],
+                  polymorphie: ["num", { initial: 205 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  energie: ["num", { initial: 10 }],
+                  activation: ["str", { initial: "aucune" }],
+                  duree: ["str", { initial: "" }],
+                  espoir: ["num", { initial: 1 }],
+                  capacites: ["num", { initial: 3 }],
+                  vol: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                    },
+                  ],
+                  phase: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      activation: ["str", { initial: "deplacement" }],
+                      energie: ["num", { initial: 5 }],
+                      duree: ["str", { initial: "" }],
+                      niveau2: [
+                        "schema",
+                        {
+                          acces: ["bool", { initial: false }],
+                          activation: ["str", { initial: "aucune" }],
+                          energie: ["num", { initial: 8 }],
+                          duree: ["str", { initial: "" }],
+                        },
+                      ],
+                    },
+                  ],
+                  etirement: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      portee: ["str", { initial: "" }],
+                      bonus: ["num", { initial: 3 }],
+                    },
+                  ],
+                  metal: [
+                    "schema",
+                    {
+                      bonus: [
+                        "schema",
+                        {
+                          champDeForce: ["num", { initial: 2 }],
+                        },
+                      ],
+                    },
+                  ],
+                  fluide: [
+                    "schema",
+                    {
+                      bonus: [
+                        "schema",
+                        {
+                          reaction: ["num", { initial: 2 }],
+                          defense: ["num", { initial: 2 }],
+                        },
+                      ],
+                    },
+                  ],
+                  polymorphie: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      griffe: [
+                        "schema",
+                        {
+                          portee: ["str", { initial: "contact" }],
+                          type: ["str", { initial: "contact" }],
+                          degats: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 2 }],
+                              fixe: ["num", { initial: 0 }],
+                            },
+                          ],
+                          violence: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 1 }],
+                              fixe: ["num", { initial: 0 }],
+                            },
+                          ],
+                          effets: [
+                            "schema",
+                            {
+                              liste: ["arr", ["str", {}]],
+                              raw: ["arr", ["str", {}]],
+                              custom: ["arr", ["obj", {}]],
+                            },
+                          ],
+                        },
+                      ],
+                      lame: [
+                        "schema",
+                        {
+                          portee: ["str", { initial: "contact" }],
+                          type: ["str", { initial: "contact" }],
+                          degats: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 2 }],
+                              fixe: ["num", { initial: 0 }],
+                            },
+                          ],
+                          violence: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 1 }],
+                              fixe: ["num", { initial: 0 }],
+                            },
+                          ],
+                          effets: [
+                            "schema",
+                            {
+                              liste: ["arr", ["str", {}]],
+                              raw: ["arr", ["str", {}]],
+                              custom: ["arr", ["obj", {}]],
+                            },
+                          ],
+                        },
+                      ],
+                      canon: [
+                        "schema",
+                        {
+                          portee: ["str", { initial: "moyenne" }],
+                          type: ["str", { initial: "distance" }],
+                          energie: ["num", { initial: 1 }],
+                          degats: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 3 }],
+                              fixe: ["num", { initial: 3 }],
+                            },
+                          ],
+                          violence: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 3 }],
+                              fixe: ["num", { initial: 3 }],
+                            },
+                          ],
+                          effets: [
+                            "schema",
+                            {
+                              liste: ["arr", ["str", {}]],
+                              raw: [
+                                "arr",
+                                ["str", { initial: "" }],
+                                { initial: ["destructeur", "meurtrier", "ultraviolence"] },
+                              ],
+                              custom: ["arr", ["obj", {}]],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                      vol: ["num", { initial: 130 }],
+                      phase: ["num", { initial: 115 }],
+                      phaseDuree: ["num", { initial: 50 }],
+                      phaseDuree2: ["num", { initial: 50 }],
+                      etirement: ["num", { initial: 130 }],
+                      etirementPortee: ["num", { initial: 50 }],
+                      polymorphie: ["num", { initial: 205 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      codex: [
+        "schema",
+        {
+          companions: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "tour6Sec" }],
+              duree: ["str", { initial: "" }],
+              energie: [
+                "schema",
+                {
+                  base: ["num", { initial: 16 }],
+                  prolonger: ["num", { initial: 8 }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                  labor: ["num", { initial: 85 }],
+                  medic: ["num", { initial: 85 }],
+                  tech: ["num", { initial: 85 }],
+                  fighter: ["num", { initial: 85 }],
+                  recon: ["num", { initial: 85 }],
+                  crow: ["num", { initial: 52 }],
+                },
+              ],
+              lion: [
+                "schema",
+                {
+                  img: ["str", { initial: "systems/knight/assets/lion.jpg" }],
+                  token: ["str", { initial: "systems/knight/assets/lion.jpg" }],
+                  PG: ["num", { initial: 60 }],
+                  aspects: [
+                    "schema",
+                    {
+                      chair: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 7 }],
+                          ae: ["num", { initial: 1 }],
+                        },
+                      ],
+                      bete: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 6 }],
+                          ae: ["num", { initial: 1 }],
+                        },
+                      ],
+                      machine: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 7 }],
+                          ae: ["num", { initial: 1 }],
+                        },
+                      ],
+                      dame: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 4 }],
+                          ae: ["num", { initial: 0 }],
+                        },
+                      ],
+                      masque: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 4 }],
+                          ae: ["num", { initial: 0 }],
+                        },
+                      ],
+                    },
+                  ],
+                  champDeForce: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 10 }],
+                      bonus: ["arr", ["num", {}]],
+                      malus: ["arr", ["num", {}]],
+                    },
+                  ],
+                  defense: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 4 }],
+                      bonus: ["arr", ["num", {}]],
+                      malus: ["arr", ["num", {}]],
+                    },
+                  ],
+                  reaction: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 4 }],
+                      bonus: ["arr", ["num", {}]],
+                      malus: ["arr", ["num", {}]],
+                    },
+                  ],
+                  armure: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 60 }],
+                      bonus: ["arr", ["num", {}]],
+                      malus: ["arr", ["num", {}]],
+                    },
+                  ],
+                  energie: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 0 }],
+                      bonus: ["arr", ["num", {}]],
+                      malus: ["arr", ["num", {}]],
+                    },
+                  ],
+                  initiative: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 2 }],
+                    },
+                  ],
+                  armes: [
+                    "schema",
+                    {
+                      contact: [
+                        "schema",
+                        {
+                          coups: [
+                            "schema",
+                            {
+                              label: ["str", { initial: "" }],
+                              portee: ["str", { initial: "contact" }],
+                              degats: [
+                                "schema",
+                                {
+                                  dice: ["num", { initial: 1 }],
+                                  fixe: ["num", { initial: 0 }],
+                                },
+                              ],
+                              violence: [
+                                "schema",
+                                {
+                                  dice: ["num", { initial: 1 }],
+                                  fixe: ["num", { initial: 0 }],
+                                },
+                              ],
+                              effets: [
+                                "schema",
+                                {
+                                  liste: ["arr", ["str", {}]],
+                                  raw: ["arr", ["str", {}]],
+                                  custom: ["arr", ["obj", {}]],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      distance: ["arr", ["obj", {}]],
+                    },
+                  ],
+                  slots: [
+                    "schema",
+                    {
+                      tete: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 8 }],
+                        },
+                      ],
+                      torse: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 10 }],
+                        },
+                      ],
+                      brasGauche: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 8 }],
+                        },
+                      ],
+                      brasDroit: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 8 }],
+                        },
+                      ],
+                      jambeGauche: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 8 }],
+                        },
+                      ],
+                      jambeDroite: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 8 }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              wolf: [
+                "schema",
+                {
+                  img: ["str", { initial: "systems/knight/assets/wolf.jpg" }],
+                  token: ["str", { initial: "systems/knight/assets/wolf.jpg" }],
+                  aspects: [
+                    "schema",
+                    {
+                      chair: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 2 }],
+                          ae: ["num", { initial: 0 }],
+                        },
+                      ],
+                      bete: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 4 }],
+                          ae: ["num", { initial: 0 }],
+                        },
+                      ],
+                      machine: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 4 }],
+                          ae: ["num", { initial: 0 }],
+                        },
+                      ],
+                      dame: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 2 }],
+                          ae: ["num", { initial: 0 }],
+                        },
+                      ],
+                      masque: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 4 }],
+                          ae: ["num", { initial: 0 }],
+                        },
+                      ],
+                    },
+                  ],
+                  champDeForce: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 4 }],
+                    },
+                  ],
+                  defense: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 4 }],
+                    },
+                  ],
+                  reaction: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 4 }],
+                    },
+                  ],
+                  armure: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 20 }],
+                    },
+                  ],
+                  energie: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 0 }],
+                    },
+                  ],
+                  initiative: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 3 }],
+                      fixe: ["num", { initial: 2 }],
+                    },
+                  ],
+                  armes: [
+                    "schema",
+                    {
+                      contact: [
+                        "schema",
+                        {
+                          coups: [
+                            "schema",
+                            {
+                              label: ["str", { initial: "" }],
+                              portee: ["str", { initial: "contact" }],
+                              degats: [
+                                "schema",
+                                {
+                                  dice: ["num", { initial: 1 }],
+                                  fixe: ["num", { initial: 0 }],
+                                },
+                              ],
+                              violence: [
+                                "schema",
+                                {
+                                  dice: ["num", { initial: 1 }],
+                                  fixe: ["num", { initial: 0 }],
+                                },
+                              ],
+                              effets: [
+                                "schema",
+                                {
+                                  liste: ["arr", ["str", {}]],
+                                  raw: ["arr", ["str", {}]],
+                                  custom: ["arr", ["obj", {}]],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  configurations: [
+                    "schema",
+                    {
+                      labor: [
+                        "schema",
+                        {
+                          niveau: ["num", { initial: 1 }],
+                          description: ["str", { initial: "" }],
+                          energie: ["num", { initial: 1 }],
+                          bonus: [
+                            "schema",
+                            {
+                              roll: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                      medic: [
+                        "schema",
+                        {
+                          niveau: ["num", { initial: 1 }],
+                          description: ["str", { initial: "" }],
+                          energie: ["num", { initial: 1 }],
+                          bonus: [
+                            "schema",
+                            {
+                              roll: ["num", { initial: 1 }],
+                              soins: ["num", { initial: 2 }],
+                            },
+                          ],
+                        },
+                      ],
+                      tech: [
+                        "schema",
+                        {
+                          niveau: ["num", { initial: 1 }],
+                          description: ["str", { initial: "" }],
+                          energie: ["num", { initial: 2 }],
+                          bonus: [
+                            "schema",
+                            {
+                              roll: ["num", { initial: 1 }],
+                              reparation: ["num", { initial: 3 }],
+                            },
+                          ],
+                        },
+                      ],
+                      fighter: [
+                        "schema",
+                        {
+                          niveau: ["num", { initial: 1 }],
+                          description: ["str", { initial: "" }],
+                          energie: ["num", { initial: 2 }],
+                          degats: ["num", { initial: 1 }],
+                          violence: ["num", { initial: 1 }],
+                          bonus: [
+                            "schema",
+                            {
+                              roll: ["num", { initial: 1 }],
+                              effets: [
+                                "schema",
+                                {
+                                  raw: [
+                                    "arr",
+                                    ["str", { initial: "" }],
+                                    { initial: ["barrage 1"] },
+                                  ],
+                                  liste: ["arr", ["str", {}]],
+                                  custom: ["arr", ["obj", {}]],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                      recon: [
+                        "schema",
+                        {
+                          niveau: ["num", { initial: 1 }],
+                          description: ["str", { initial: "" }],
+                          energie: ["num", { initial: 1 }],
+                          bonus: [
+                            "schema",
+                            {
+                              roll: ["num", { initial: 1 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              crow: [
+                "schema",
+                {
+                  img: ["str", { initial: "systems/knight/assets/crow.jpg" }],
+                  token: ["str", { initial: "systems/knight/assets/crow.jpg" }],
+                  capacites: ["str", { initial: "" }],
+                  aspects: [
+                    "schema",
+                    {
+                      chair: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 6 }],
+                        },
+                      ],
+                      bete: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 4 }],
+                        },
+                      ],
+                      machine: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 4 }],
+                        },
+                      ],
+                      dame: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 0 }],
+                        },
+                      ],
+                      masque: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 6 }],
+                        },
+                      ],
+                    },
+                  ],
+                  champDeForce: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 2 }],
+                    },
+                  ],
+                  defense: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 2 }],
+                    },
+                  ],
+                  reaction: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 2 }],
+                    },
+                  ],
+                  cohesion: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 50 }],
+                    },
+                  ],
+                  debordement: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 2 }],
+                    },
+                  ],
+                  energie: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 0 }],
+                    },
+                  ],
+                  initiative: [
+                    "schema",
+                    {
+                      value: ["num", { initial: 0 }],
+                      fixe: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              specialEvolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "tour6Sec" }],
+                  duree: ["str", { initial: "" }],
+                  adistribuer: ["num", { initial: 1 }],
+                  description: ["str", { initial: "" }],
+                  energie: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 16 }],
+                      prolonger: ["num", { initial: 8 }],
+                    },
+                  ],
+                  lion: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      aspects: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 5 }],
+                          max: ["num", { initial: 2 }],
+                        },
+                      ],
+                      ae: ["num", { initial: 2 }],
+                      pg: ["num", { initial: 60 }],
+                    },
+                  ],
+                  wolf: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      aspects: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 3 }],
+                          max: ["num", { initial: 2 }],
+                        },
+                      ],
+                      ae: ["num", { initial: 1 }],
+                      bonus: ["num", { initial: 2 }],
+                    },
+                  ],
+                  crow: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      aspects: [
+                        "schema",
+                        {
+                          value: ["num", { initial: 2 }],
+                          max: ["num", { initial: 2 }],
+                        },
+                      ],
+                      cohesion: ["num", { initial: 50 }],
+                      debordement: ["num", { initial: 2 }],
+                      cdf: ["num", { initial: 2 }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      atlas: [
+        "schema",
+        {
+          ascension: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              duree: ["str", { initial: "" }],
+              activation: ["str", { initial: "tour6Sec" }],
+              portee: ["str", { initial: "contact" }],
+              impregnation: ["num", { initial: 3 }],
+              sansarmure: [
+                "schema",
+                {
+                  acces: ["bool", { initial: false }],
+                },
+              ],
+              special: [
+                "schema",
+                {
+                  atlas: ["str", { initial: "impregnation" }],
+                },
+              ],
+              energie: [
+                "schema",
+                {
+                  min: ["num", { initial: 10 }],
+                  max: ["num", { initial: 50 }],
+                  limite: ["num", { initial: 0 }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 75 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  duree: ["str", { initial: "" }],
+                  activation: ["str", { initial: "Tour6Sec" }],
+                  portee: ["str", { initial: "contact" }],
+                  impregnation: ["num", { initial: 3 }],
+                  sansarmure: [
+                    "schema",
+                    {
+                      acces: ["bool", { initial: false }],
+                      label: ["str", { initial: "" }],
+                    },
+                  ],
+                  special: [
+                    "schema",
+                    {
+                      atlas: ["str", { initial: "impregnation" }],
+                    },
+                  ],
+                  energie: [
+                    "schema",
+                    {
+                      min: ["num", { initial: 10 }],
+                      max: ["num", { initial: 50 }],
+                      limite: ["num", { initial: 0 }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 75 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          forward: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              duree: ["str", { initial: "" }],
+              activation: ["str", { initial: "aucune" }],
+              special: [
+                "schema",
+                {
+                  atlas: ["str", { initial: "contrecoups" }],
+                },
+              ],
+              energie: ["num", { initial: 3 }],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  duree: ["str", { initial: "" }],
+                  activation: ["str", { initial: "aucune" }],
+                  special: [
+                    "schema",
+                    {
+                      atlas: ["str", { initial: "contrecoups" }],
+                    },
+                  ],
+                  energie: ["num", { initial: 3 }],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          record: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              duree: ["str", { initial: "" }],
+              activation: ["str", { initial: "aucune" }],
+              special: [
+                "schema",
+                {
+                  atlas: ["str", { initial: "contrecoups" }],
+                },
+              ],
+              energie: ["num", { initial: 12 }],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  duree: ["str", { initial: "" }],
+                  activation: ["str", { initial: "aucune" }],
+                  special: [
+                    "schema",
+                    {
+                      atlas: ["str", { initial: "contrecoups" }],
+                    },
+                  ],
+                  energie: ["num", { initial: 12 }],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          rewind: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              duree: ["str", { initial: "" }],
+              activation: ["str", { initial: "aucune" }],
+              special: [
+                "schema",
+                {
+                  atlas: ["str", { initial: "contrecoups" }],
+                },
+              ],
+              energie: ["num", { initial: 15 }],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  duree: ["str", { initial: "" }],
+                  activation: ["str", { initial: "aucune" }],
+                  special: [
+                    "schema",
+                    {
+                      atlas: ["str", { initial: "contrecoups" }],
+                    },
+                  ],
+                  energie: ["num", { initial: 15 }],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          totem: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "aucune" }],
+              duree: ["str", { initial: "" }],
+              portee: ["str", { initial: "courte" }],
+              nombre: ["num", { initial: 2 }],
+              impregnation: ["num", { initial: 1 }],
+              special: [
+                "schema",
+                {
+                  atlas: ["str", { initial: "impregnation" }],
+                },
+              ],
+              energie: [
+                "schema",
+                {
+                  base: ["num", { initial: 3 }],
+                  prolonger: ["num", { initial: 1 }],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "aucune" }],
+                  duree: ["str", { initial: "" }],
+                  portee: ["str", { initial: "courte" }],
+                  nombre: ["num", { initial: 2 }],
+                  impregnation: ["num", { initial: 1 }],
+                  energie: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 3 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      atlasSpecial: [
+        "schema",
+        {
+          illumination: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "deplacement" }],
+              duree: ["str", { initial: "" }],
+              nbreCapacitesSelected: ["num", { initial: 3 }],
+              nbreCapacitesTotale: ["num", { initial: 7 }],
+              blaze: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  degats: ["num", { initial: 2 }],
+                  violence: ["num", { initial: 2 }],
+                  portee: ["str", { initial: "contact" }],
+                  espoir: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 2 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              candle: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  portee: ["str", { initial: "contact" }],
+                  espoir: [
+                    "schema",
+                    {
+                      dice: ["num", { initial: 1 }],
+                      face: ["num", { initial: 3 }],
+                    },
+                  ],
+                },
+              ],
+              beacon: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  bonus: ["num", { initial: 2 }],
+                  portee: ["str", { initial: "courte" }],
+                  espoir: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 2 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              torch: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  bonus: ["num", { initial: 2 }],
+                  portee: ["str", { initial: "courte" }],
+                  espoir: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 3 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              projector: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  portee: ["str", { initial: "courte" }],
+                  espoir: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 3 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              lighthouse: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  portee: ["str", { initial: "courte" }],
+                  espoir: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 4 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              lantern: [
+                "schema",
+                {
+                  description: ["str", { initial: "" }],
+                  portee: ["str", { initial: "courte" }],
+                  degats: ["num", { initial: 1 }],
+                  effets: [
+                    "schema",
+                    {
+                      raw: ["arr", ["str", { initial: "" }], { initial: ["esperance"] }],
+                      liste: ["arr", ["str", {}]],
+                      custom: ["arr", ["obj", {}]],
+                      chargeur: ["num", { initial: null }],
+                    },
+                  ],
+                  espoir: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 4 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 50 }],
+                  blaze: ["num", { initial: 175 }],
+                  candle: ["num", { initial: 125 }],
+                  beacon: ["num", { initial: 110 }],
+                  torch: ["num", { initial: 175 }],
+                  projector: ["num", { initial: 190 }],
+                  lighthouse: ["num", { initial: 140 }],
+                  lantern: ["num", { initial: 120 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "deplacement" }],
+                  duree: ["str", { initial: "" }],
+                  nbreCapacitesSelected: ["num", { initial: 3 }],
+                  nbreCapacitesTotale: ["num", { initial: 7 }],
+                  blaze: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      degats: ["num", { initial: 2 }],
+                      violence: ["num", { initial: 2 }],
+                      portee: ["str", { initial: "contact" }],
+                      espoir: [
+                        "schema",
+                        {
+                          base: ["num", { initial: 2 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  candle: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      portee: ["str", { initial: "contact" }],
+                      espoir: ["num", { initial: 1 }],
+                    },
+                  ],
+                  beacon: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      bonus: ["num", { initial: 2 }],
+                      portee: ["str", { initial: "courte" }],
+                      espoir: [
+                        "schema",
+                        {
+                          base: ["num", { initial: 2 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  torch: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      bonus: ["num", { initial: 2 }],
+                      portee: ["str", { initial: "courte" }],
+                      espoir: [
+                        "schema",
+                        {
+                          base: ["num", { initial: 3 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  projector: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      portee: ["str", { initial: "courte" }],
+                      espoir: [
+                        "schema",
+                        {
+                          base: ["num", { initial: 3 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  lighthouse: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      portee: ["str", { initial: "courte" }],
+                      espoir: [
+                        "schema",
+                        {
+                          base: ["num", { initial: 4 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  lantern: [
+                    "schema",
+                    {
+                      description: ["str", { initial: "" }],
+                      portee: ["str", { initial: "courte" }],
+                      degats: ["num", { initial: 1 }],
+                      effets: [
+                        "schema",
+                        {
+                          raw: ["arr", ["str", { initial: "" }], { initial: ["esperance"] }],
+                          liste: ["arr", ["str", {}]],
+                          custom: ["arr", ["obj", {}]],
+                        },
+                      ],
+                      espoir: [
+                        "schema",
+                        {
+                          base: ["num", { initial: 4 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 50 }],
+                      blaze: ["num", { initial: 175 }],
+                      candle: ["num", { initial: 125 }],
+                      beacon: ["num", { initial: 110 }],
+                      torch: ["num", { initial: 175 }],
+                      projector: ["num", { initial: 190 }],
+                      lighthouse: ["num", { initial: 140 }],
+                      lantern: ["num", { initial: 120 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          rage: [
+            "schema",
+            {
+              label: ["str", { initial: "" }],
+              description: ["str", { initial: "" }],
+              activation: ["str", { initial: "aucune" }],
+              duree: ["str", { initial: "" }],
+              espoir: ["num", { initial: 0 }],
+              aspects: ["schema", {}],
+              nourri: [
+                "schema",
+                {
+                  label: ["str", { initial: "" }],
+                  description: ["str", { initial: "" }],
+                  humain: [
+                    "schema",
+                    {
+                      hostile: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 0 }],
+                          face: ["num", { initial: 0 }],
+                          fixe: ["num", { initial: 1 }],
+                        },
+                      ],
+                      salopard: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                          face: ["num", { initial: 3 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      patron: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                          face: ["num", { initial: 6 }],
+                          fixe: ["num", { initial: 3 }],
+                        },
+                      ],
+                      bande: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                          face: ["num", { initial: 6 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                    },
+                  ],
+                  anatheme: [
+                    "schema",
+                    {
+                      hostile: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                          face: ["num", { initial: 6 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                      salopard: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                          face: ["num", { initial: 6 }],
+                          fixe: ["num", { initial: 3 }],
+                        },
+                      ],
+                      patron: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 1 }],
+                          face: ["num", { initial: 6 }],
+                          fixe: ["num", { initial: 6 }],
+                        },
+                      ],
+                      bande: [
+                        "schema",
+                        {
+                          dice: ["num", { initial: 2 }],
+                          face: ["num", { initial: 6 }],
+                          fixe: ["num", { initial: 0 }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              colere: [
+                "schema",
+                {
+                  label: ["str", { initial: "" }],
+                  description: ["str", { initial: "" }],
+                  degats: ["str", { initial: "bete" }],
+                  violence: ["str", { initial: "bete" }],
+                  egide: ["num", { initial: 3 }],
+                  defense: ["num", { initial: 3 }],
+                  reaction: ["num", { initial: 3 }],
+                  subis: ["num", { initial: 0 }],
+                  combosBonus: [
+                    "schema",
+                    {
+                      has: ["bool", { initial: false }],
+                      liste: [
+                        "schema",
+                        {
+                          c1: ["str", { initial: "" }],
+                          c2: ["str", { initial: "" }],
+                          c3: ["str", { initial: "" }],
+                        },
+                      ],
+                    },
+                  ],
+                  combosInterdits: [
+                    "schema",
+                    {
+                      has: ["bool", { initial: false }],
+                      liste: [
+                        "schema",
+                        {
+                          c1: ["str", { initial: "" }],
+                          c2: ["str", { initial: "" }],
+                          c3: ["str", { initial: "" }],
+                          c4: ["str", { initial: "" }],
+                          c5: ["str", { initial: "" }],
+                          c6: ["str", { initial: "" }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              rage: [
+                "schema",
+                {
+                  label: ["str", { initial: "" }],
+                  description: ["str", { initial: "" }],
+                  degats: ["str", { initial: "bete" }],
+                  violence: ["str", { initial: "bete" }],
+                  egide: ["num", { initial: 3 }],
+                  defense: ["num", { initial: 9 }],
+                  reaction: ["num", { initial: 9 }],
+                  subis: ["num", { initial: 0 }],
+                  combosBonus: [
+                    "schema",
+                    {
+                      has: ["bool", { initial: false }],
+                      liste: [
+                        "schema",
+                        {
+                          c1: ["str", { initial: "" }],
+                          c2: ["str", { initial: "" }],
+                          c3: ["str", { initial: "" }],
+                        },
+                      ],
+                    },
+                  ],
+                  combosInterdits: [
+                    "schema",
+                    {
+                      has: ["bool", { initial: true }],
+                      liste: [
+                        "schema",
+                        {
+                          c1: ["str", { initial: "sangFroid" }],
+                          c2: ["str", { initial: "parole" }],
+                          c3: ["str", { initial: "savoir" }],
+                          c4: ["str", { initial: "technique" }],
+                          c5: ["str", { initial: "discretion" }],
+                          c6: ["str", { initial: "" }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              fureur: [
+                "schema",
+                {
+                  label: ["str", { initial: "" }],
+                  description: ["str", { initial: "" }],
+                  degats: ["str", { initial: "bete" }],
+                  violence: ["str", { initial: "bete" }],
+                  egide: ["num", { initial: 6 }],
+                  defense: ["num", { initial: 9 }],
+                  reaction: ["num", { initial: 9 }],
+                  subis: ["num", { initial: 1 }],
+                  combosBonus: [
+                    "schema",
+                    {
+                      has: ["bool", { initial: true }],
+                      liste: [
+                        "schema",
+                        {
+                          c1: ["str", { initial: "hargne" }],
+                          c2: ["str", { initial: "" }],
+                          c3: ["str", { initial: "" }],
+                        },
+                      ],
+                    },
+                  ],
+                  combosInterdits: [
+                    "schema",
+                    {
+                      has: ["bool", { initial: true }],
+                      liste: [
+                        "schema",
+                        {
+                          c1: ["str", { initial: "sangFroid" }],
+                          c2: ["str", { initial: "parole" }],
+                          c3: ["str", { initial: "savoir" }],
+                          c4: ["str", { initial: "technique" }],
+                          c5: ["str", { initial: "discretion" }],
+                          c6: ["str", { initial: "" }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+              blaze: [
+                "schema",
+                {
+                  label: ["str", { initial: "" }],
+                  description: ["str", { initial: "" }],
+                  degats: ["num", { initial: 2 }],
+                  violence: ["num", { initial: 2 }],
+                  portee: ["str", { initial: "contact" }],
+                  espoir: [
+                    "schema",
+                    {
+                      base: ["num", { initial: 2 }],
+                      prolonger: ["num", { initial: 1 }],
+                    },
+                  ],
+                },
+              ],
+              textarea: [
+                "schema",
+                {
+                  duree: ["num", { initial: 55 }],
+                  nourri: ["num", { initial: 55 }],
+                  rage: ["num", { initial: 210 }],
+                  fureur: ["num", { initial: 325 }],
+                  blaze: ["num", { initial: 180 }],
+                },
+              ],
+              evolutions: [
+                "schema",
+                {
+                  activation: ["str", { initial: "aucune" }],
+                  duree: ["str", { initial: "" }],
+                  espoir: ["num", { initial: 0 }],
+                  aspects: ["schema", {}],
+                  nourri: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      description: ["str", { initial: "" }],
+                      humain: [
+                        "schema",
+                        {
+                          hostile: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 0 }],
+                              face: ["num", { initial: 0 }],
+                              fixe: ["num", { initial: 1 }],
+                            },
+                          ],
+                          salopard: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 1 }],
+                              face: ["num", { initial: 3 }],
+                              fixe: ["num", { initial: 0 }],
+                            },
+                          ],
+                          patron: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 1 }],
+                              face: ["num", { initial: 6 }],
+                              fixe: ["num", { initial: 3 }],
+                            },
+                          ],
+                          bande: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 1 }],
+                              face: ["num", { initial: 6 }],
+                              fixe: ["num", { initial: 0 }],
+                            },
+                          ],
+                        },
+                      ],
+                      anatheme: [
+                        "schema",
+                        {
+                          hostile: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 1 }],
+                              face: ["num", { initial: 6 }],
+                              fixe: ["num", { initial: 0 }],
+                            },
+                          ],
+                          salopard: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 1 }],
+                              face: ["num", { initial: 6 }],
+                              fixe: ["num", { initial: 3 }],
+                            },
+                          ],
+                          patron: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 1 }],
+                              face: ["num", { initial: 6 }],
+                              fixe: ["num", { initial: 6 }],
+                            },
+                          ],
+                          bande: [
+                            "schema",
+                            {
+                              dice: ["num", { initial: 2 }],
+                              face: ["num", { initial: 6 }],
+                              fixe: ["num", { initial: 0 }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  colere: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      description: ["str", { initial: "" }],
+                      degats: ["str", { initial: "bete" }],
+                      violence: ["str", { initial: "bete" }],
+                      egide: ["num", { initial: 3 }],
+                      defense: ["num", { initial: 3 }],
+                      reaction: ["num", { initial: 3 }],
+                      subis: ["num", { initial: 0 }],
+                      combosBonus: [
+                        "schema",
+                        {
+                          has: ["bool", { initial: false }],
+                          liste: [
+                            "schema",
+                            {
+                              c1: ["str", { initial: "" }],
+                              c2: ["str", { initial: "" }],
+                              c3: ["str", { initial: "" }],
+                            },
+                          ],
+                        },
+                      ],
+                      combosInterdits: [
+                        "schema",
+                        {
+                          has: ["bool", { initial: false }],
+                          liste: [
+                            "schema",
+                            {
+                              c1: ["str", { initial: "" }],
+                              c2: ["str", { initial: "" }],
+                              c3: ["str", { initial: "" }],
+                              c4: ["str", { initial: "" }],
+                              c5: ["str", { initial: "" }],
+                              c6: ["str", { initial: "" }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  rage: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      description: ["str", { initial: "" }],
+                      degats: ["str", { initial: "bete" }],
+                      violence: ["str", { initial: "bete" }],
+                      egide: ["num", { initial: 3 }],
+                      defense: ["num", { initial: 9 }],
+                      reaction: ["num", { initial: 9 }],
+                      subis: ["num", { initial: 0 }],
+                      combosBonus: [
+                        "schema",
+                        {
+                          has: ["bool", { initial: false }],
+                          liste: [
+                            "schema",
+                            {
+                              c1: ["str", { initial: "" }],
+                              c2: ["str", { initial: "" }],
+                              c3: ["str", { initial: "" }],
+                            },
+                          ],
+                        },
+                      ],
+                      combosInterdits: [
+                        "schema",
+                        {
+                          has: ["bool", { initial: true }],
+                          liste: [
+                            "schema",
+                            {
+                              c1: ["str", { initial: "sangFroid" }],
+                              c2: ["str", { initial: "parole" }],
+                              c3: ["str", { initial: "savoir" }],
+                              c4: ["str", { initial: "technique" }],
+                              c5: ["str", { initial: "discretion" }],
+                              c6: ["str", { initial: "" }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  fureur: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      description: ["str", { initial: "" }],
+                      degats: ["str", { initial: "bete" }],
+                      violence: ["str", { initial: "bete" }],
+                      egide: ["num", { initial: 6 }],
+                      defense: ["num", { initial: 9 }],
+                      reaction: ["num", { initial: 9 }],
+                      subis: ["num", { initial: 1 }],
+                      combosBonus: [
+                        "schema",
+                        {
+                          has: ["bool", { initial: true }],
+                          liste: [
+                            "schema",
+                            {
+                              c1: ["str", { initial: "hargne" }],
+                              c2: ["str", { initial: "" }],
+                              c3: ["str", { initial: "" }],
+                            },
+                          ],
+                        },
+                      ],
+                      combosInterdits: [
+                        "schema",
+                        {
+                          has: ["bool", { initial: true }],
+                          liste: [
+                            "schema",
+                            {
+                              c1: ["str", { initial: "sangFroid" }],
+                              c2: ["str", { initial: "parole" }],
+                              c3: ["str", { initial: "savoir" }],
+                              c4: ["str", { initial: "technique" }],
+                              c5: ["str", { initial: "discretion" }],
+                              c6: ["str", { initial: "" }],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                  blaze: [
+                    "schema",
+                    {
+                      label: ["str", { initial: "" }],
+                      description: ["str", { initial: "" }],
+                      degats: ["num", { initial: 2 }],
+                      violence: ["num", { initial: 2 }],
+                      portee: ["str", { initial: "contact" }],
+                      espoir: [
+                        "schema",
+                        {
+                          base: ["num", { initial: 2 }],
+                          prolonger: ["num", { initial: 1 }],
+                        },
+                      ],
+                    },
+                  ],
+                  textarea: [
+                    "schema",
+                    {
+                      duree: ["num", { initial: 55 }],
+                      nourri: ["num", { initial: 55 }],
+                      rage: ["num", { initial: 10 }],
+                      colere: ["num", { initial: 210 }],
+                      fureur: ["num", { initial: 325 }],
+                      blaze: ["num", { initial: 180 }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
+  }
+
+  static defineSchema() {
+    return fields(this.baseDefinition);
   }
 
   get actor() {
@@ -2672,10 +4743,10 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
   get capaciteUltime() {
     let result = undefined;
 
-    if(this.actor) {
-      const ultime = this.actor.items.find(itm => itm.type === 'capaciteultime');
+    if (this.actor) {
+      const ultime = this.actor.items.find((itm) => itm.type === "capaciteultime");
 
-      if(ultime) result = ultime;
+      if (ultime) result = ultime;
     }
 
     return result;
@@ -2686,75 +4757,96 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     const allLabels = getAllEffects();
     const ghost = capacites?.ghost ?? undefined;
 
-    if(capacites.companions) {
+    if (capacites.companions) {
       const lionWpn = capacites.companions.lion.armes.contact.coups;
 
-      Object.defineProperty(lionWpn.effets, 'liste', {
+      Object.defineProperty(lionWpn.effets, "liste", {
         value: listEffects(lionWpn.effets, allLabels),
-        writable:true,
-        enumerable:true,
-        configurable:true
+        writable: true,
+        enumerable: true,
+        configurable: true,
       });
-
     }
 
-    if(ghost) {
-      let interruption = '';
+    if (ghost) {
+      let interruption = "";
 
-      if(ghost.interruption.actif) interruption = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Interruption');
-      else interruption = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.NoInterruption');
+      if (ghost.interruption.actif)
+        interruption = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Interruption");
+      else interruption = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.NoInterruption");
 
-      Object.defineProperty(ghost.interruption, 'label', {
+      Object.defineProperty(ghost.interruption, "label", {
         value: interruption,
-        writable:true,
-        enumerable:true,
-        configurable:true
+        writable: true,
+        enumerable: true,
+        configurable: true,
       });
     }
   }
 
   prepareData() {
-    if(this.morph) {
+    if (this.morph) {
       const choisi = this?.morph?.choisi ?? {};
       const active = this?.morph?.active ?? {};
 
-      const nbreChoisi = Object.keys(choisi).filter(key => (key !== 'polymorphieLame' && key !== 'polymorphieGriffe' && key !== 'polymorphieCanon' && key !== 'polymorphieLame2' && key !== 'polymorphieGriffe2' && key !== 'polymorphieCanon2' && key !== 'fait') && this.morph.choisi[key]).length;
-      const nbrePolymorphieGuerre = Object.keys(active).filter(key => (key === 'polymorphieLame' || key === 'polymorphieGriffe' || key === 'polymorphieCanon' || key === 'polymorphieLame2' || key === 'polymorphieGriffe2' || key === 'polymorphieCanon2') && this.morph.active[key]).length;
+      const nbreChoisi = Object.keys(choisi).filter(
+        (key) =>
+          key !== "polymorphieLame" &&
+          key !== "polymorphieGriffe" &&
+          key !== "polymorphieCanon" &&
+          key !== "polymorphieLame2" &&
+          key !== "polymorphieGriffe2" &&
+          key !== "polymorphieCanon2" &&
+          key !== "fait" &&
+          this.morph.choisi[key],
+      ).length;
+      const nbrePolymorphieGuerre = Object.keys(active).filter(
+        (key) =>
+          (key === "polymorphieLame" ||
+            key === "polymorphieGriffe" ||
+            key === "polymorphieCanon" ||
+            key === "polymorphieLame2" ||
+            key === "polymorphieGriffe2" ||
+            key === "polymorphieCanon2") &&
+          this.morph.active[key],
+      ).length;
 
-      Object.defineProperty(this.selected.morph.polymorphie, 'max', {
+      Object.defineProperty(this.selected.morph.polymorphie, "max", {
         value: nbrePolymorphieGuerre === 2 ? true : false,
-        writable:true,
-        enumerable:true,
-        configurable:true
+        writable: true,
+        enumerable: true,
+        configurable: true,
       });
 
-      if(this.selected.morph.choisi) {
-        Object.defineProperty(this.selected.morph.choisi, 'fait', {
+      if (this.selected.morph.choisi) {
+        Object.defineProperty(this.selected.morph.choisi, "fait", {
           value: nbreChoisi === this.morph.capacites ? true : false,
-          writable:true,
-          enumerable:true,
-          configurable:true
+          writable: true,
+          enumerable: true,
+          configurable: true,
         });
       }
     }
 
-    if(this.type && this.actor && this.capaciteUltime) {
+    if (this.type && this.actor && this.capaciteUltime) {
       const ultime = this.capaciteUltime;
       const hasPassive = ultime.system?.passives?.capacites?.actif ?? false;
-      const hasUltimeType = hasPassive ? ultime.system?.passives?.capacites?.type?.actif ?? false : false;
+      const hasUltimeType = hasPassive
+        ? (ultime.system?.passives?.capacites?.type?.actif ?? false)
+        : false;
 
-      if(hasUltimeType) {
-        Object.defineProperty(this.selected.type, 'legend', {
+      if (hasUltimeType) {
+        Object.defineProperty(this.selected.type, "legend", {
           value: true,
-          writable:true,
-          enumerable:true,
-          configurable:true
+          writable: true,
+          enumerable: true,
+          configurable: true,
         });
       }
     }
 
-    for(let c in this.selected) {
-      this.#prepareCapacity(c, this.selected[c])
+    for (let c in this.selected) {
+      this.#prepareCapacity(c, this.selected[c]);
     }
 
     this.#prepareLabels();
@@ -2762,20 +4854,20 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
 
   #prepareCapacity = (capacity, data) => {
     const handlers = this.#handleCapacity();
-    const handler = handlers[capacity]
+    const handler = handlers[capacity];
 
-    if(handler) handler.call(this, data);
-  }
+    if (handler) handler.call(this, data);
+  };
 
   #handleCapacity = () => {
     return {
-      'companions': (data) => this.companions(data),
-      'illumination': (data) => this.illumination(data),
-      'type': (data) => this.type(data),
-      'vision': (data) => this.vision(data),
-      'warlord': (data) => this.warlord(data),
+      companions: (data) => this.companions(data),
+      illumination: (data) => this.illumination(data),
+      type: (data) => this.type(data),
+      vision: (data) => this.vision(data),
+      warlord: (data) => this.warlord(data),
     };
-  }
+  };
 
   illumination(data) {
     const illumination = data;
@@ -2783,14 +4875,14 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     const selectionne = illumination?.selectionne ?? 0;
     let choixFaits = false;
 
-    if(selectionne >= max) choixFaits = true;
+    if (selectionne >= max) choixFaits = true;
     else choixFaits = false;
 
-    Object.defineProperty(illumination, 'choixFaits', {
+    Object.defineProperty(illumination, "choixFaits", {
       value: choixFaits,
-      writable:true,
-      enumerable:true,
-      configurable:true
+      writable: true,
+      enumerable: true,
+      configurable: true,
     });
   }
 
@@ -2799,15 +4891,15 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     const armure = this.armor;
     const companions = data;
 
-    if(!actor || !armure) return;
+    if (!actor || !armure) return;
 
     const energieDisponible = armure.energieDisponiblePar10;
 
-    Object.defineProperty(companions, 'energieDisponible', {
+    Object.defineProperty(companions, "energieDisponible", {
       value: energieDisponible,
-      writable:true,
-      enumerable:true,
-      configurable:true
+      writable: true,
+      enumerable: true,
+      configurable: true,
     });
   }
 
@@ -2817,39 +4909,39 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     const selectionne = type?.selectionne ?? 0;
     let choixFaits = false;
 
-    if(selectionne >= max) choixFaits = true;
+    if (selectionne >= max) choixFaits = true;
     else choixFaits = false;
 
-    Object.defineProperty(type, 'choixFaits', {
+    Object.defineProperty(type, "choixFaits", {
       value: choixFaits,
-      writable:true,
-      enumerable:true,
-      configurable:true
+      writable: true,
+      enumerable: true,
+      configurable: true,
     });
   }
 
   vision(data) {
     const actor = this.actor;
 
-    if(!actor) return;
+    if (!actor) return;
 
     const aPE = actor.system?.equipements?.armure?.capacites?.vision?.energie ?? 0;
     const cPEMin = data?.energie?.min ?? 0;
     const cPEMax = data?.energie?.max ?? 0;
 
-    if(aPE < cPEMin) {
-      Object.defineProperty(actor.system.equipements.armure.capacites.vision, 'energie', {
+    if (aPE < cPEMin) {
+      Object.defineProperty(actor.system.equipements.armure.capacites.vision, "energie", {
         value: cPEMin,
-        writable:true,
-        enumerable:true,
-        configurable:true
+        writable: true,
+        enumerable: true,
+        configurable: true,
       });
-    } else if(aPE > cPEMax) {
-      Object.defineProperty(actor.system.equipements.armure.capacites.vision, 'energie', {
+    } else if (aPE > cPEMax) {
+      Object.defineProperty(actor.system.equipements.armure.capacites.vision, "energie", {
         value: cPEMax,
-        writable:true,
-        enumerable:true,
-        configurable:true
+        writable: true,
+        enumerable: true,
+        configurable: true,
       });
     }
   }
@@ -2860,14 +4952,14 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     const selectionne = impulsions?.selectionne ?? 0;
     let choisi = false;
 
-    if(selectionne >= max) choisi = true;
+    if (selectionne >= max) choisi = true;
     else choisi = false;
 
-    Object.defineProperty(impulsions, 'choisi', {
+    Object.defineProperty(impulsions, "choisi", {
       value: choisi,
-      writable:true,
-      enumerable:true,
-      configurable:true
+      writable: true,
+      enumerable: true,
+      configurable: true,
     });
   }
 }

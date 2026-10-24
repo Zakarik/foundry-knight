@@ -37577,6 +37577,966 @@ form.item.capaciteUltime section.window-content header.sheet-header div.descript
   padding-left: 5px;
   padding-right: 5px;
 }
+form.item.capaciteUltime section.window-content nav {
+  width: 100%;
+  border-color: white;
+}
+form.item.capaciteUltime section.window-content nav a {
+  font-variant: small-caps;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+form.item.capaciteUltime section.window-content nav a.active {
+  background-color: RGB(87 110 178);
+}
+form.item.capaciteUltime section.window-content nav {
+  grid-column: 1/3;
+  justify-content: space-evenly;
+}
+form.item.capaciteUltime section.window-content div.effects {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+form.item.capaciteUltime section.window-content div.effects button.add {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  min-height: 32px;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  border-radius: 5px;
+}
+form.item.capaciteUltime section.window-content div.effects button.add.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.effects button.add.selected {
+  background: RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.effects button.add i.red {
+  color: #c50000;
+}
+form.item.capaciteUltime section.window-content div.effects button.add i.green {
+  color: #59d13e;
+}
+form.item.capaciteUltime section.window-content div.effects.active {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.effects span {
+  display: inline-block;
+  line-height: 27px;
+  text-align: center;
+  font-variant: small-caps;
+}
+form.item.capaciteUltime section.window-content div.effects span.header {
+  width: 100%;
+}
+form.item.capaciteUltime section.window-content div.effects div.eOther {
+  grid-column: 1/3;
+  border: 1px solid white;
+}
+form.item.capaciteUltime section.window-content div.effects div.eOther div.editor {
+  width: 100%;
+  height: 100%;
+  min-height: 130px;
+  background: RGB(76 74 90);
+  border-top: 1px solid white;
+}
+form.item.capaciteUltime section.window-content div.effects div.eOther div.editor div.editor-content {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+form.item.capaciteUltime section.window-content div.effects div.mod {
+  grid-column: 1/3;
+}
+form.item.capaciteUltime section.window-content div.effects div.mod div.list {
+  display: grid;
+  grid-template-columns: 1fr 150px 50px 20px;
+  align-items: center;
+  align-content: center;
+  grid-gap: 2px;
+  width: calc(100% + 1px);
+}
+form.item.capaciteUltime section.window-content div.effects div.mod div.list input,
+form.item.capaciteUltime section.window-content div.effects div.mod div.list select {
+  border-radius: 0px;
+  border-color: black;
+  background: RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.effects div.mod div.list input option,
+form.item.capaciteUltime section.window-content div.effects div.mod div.list select option {
+  background: RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.effects div.mod div.list input.path,
+form.item.capaciteUltime section.window-content div.effects div.mod div.list select.path {
+  border-left: 0px;
+}
+form.item.capaciteUltime section.window-content div.effects div.mod div.list input.type,
+form.item.capaciteUltime section.window-content div.effects div.mod div.list select.type {
+  text-align: center;
+}
+form.item.capaciteUltime section.window-content div.effects div.mod div.list input.value,
+form.item.capaciteUltime section.window-content div.effects div.mod div.list select.value {
+  border-right: 0px;
+  text-align: center;
+}
+form.item.capaciteUltime section.window-content div.effects div.mod div.list input {
+  padding: 0px;
+}
+form.item.capaciteUltime section.window-content div.effects div.mod div.list a {
+  text-align: center;
+}
+form.item.capaciteUltime section.window-content div.effects div.mod button {
+  width: calc(100% - 1px);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  background: RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.effects div.mod button:hover {
+  background: RGB(87 110 178);
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div div.blockEffets {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: 1/3;
+  width: 100%;
+  margin-top: 5px;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding-right: 5px;
+  padding-bottom: 19px;
+  padding-left: 5px;
+  border: 1px solid RGB(87 110 178);
+  flex: none;
+  align-items: flex-start;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div {
+  display: block;
+  position: relative;
+  width: max-content;
+  padding-left: 15px;
+  padding-right: 25px;
+  background: RGB(76 74 90);
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div span.label,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div span.label,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div span.label,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div span.label input,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div span.label input,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div span.label input,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div img.info,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div img.info,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div img.info,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div img.info {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  background: RGB(76 74 90);
+  top: 4px;
+  right: 2px;
+  cursor: pointer;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div img.info.clicked, form.item.capaciteUltime section.window-content div div.blockEffets div.effets div img.info:hover,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div img.info.clicked,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div img.info:hover,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div img.info.clicked,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div img.info:hover,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div img.info.clicked,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div img.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div span.hideInfo,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div span.hideInfo,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div span.hideInfo,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div span.hideInfo {
+  display: none;
+  position: absolute;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  padding: 5px;
+  z-index: 90;
+  margin-top: -2px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  right: 0;
+  top: 100%;
+  text-align: justify;
+  word-break: break-word;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div section.btnChargeur,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div section.btnChargeur,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div section.btnChargeur,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div section.btnChargeur a.btnEffChange,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div section.btnChargeur a.btnEffChange,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div section.btnChargeur a.btnEffChange,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div i.activable,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div i.activable,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div i.activable,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div i.activable {
+  cursor: pointer;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div i.activable.inactive,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div i.activable.inactive,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div i.activable.inactive,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div i.activable.inactive {
+  color: #c50000;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div i.activable.active,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div i.activable.active,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div i.activable.active,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div i.activable.active {
+  color: #59d13e;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div i.activable:hover,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div i.activable:hover,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div i.activable:hover,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div i.activable:hover {
+  color: white;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div i.red,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div i.red,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div i.red,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div i.red {
+  color: #c50000;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets div i.green,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance div i.green,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles div i.green,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales div i.green {
+  color: #59d13e;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets a.edit,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance a.edit,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles a.edit,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales a.edit {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  color: white;
+  font-variant: small-caps;
+}
+form.item.capaciteUltime section.window-content div div.blockEffets div.effets.hidden,
+form.item.capaciteUltime section.window-content div div.blockEffets div.distance.hidden,
+form.item.capaciteUltime section.window-content div div.blockEffets div.structurelles.hidden,
+form.item.capaciteUltime section.window-content div div.blockEffets div.ornementales.hidden {
+  display: none;
+}
+form.item.capaciteUltime section.window-content div div.allEffects {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  grid-column: 1/3;
+}
+form.item.capaciteUltime section.window-content div.blockImg {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+}
+form.item.capaciteUltime section.window-content div.blockImg select {
+  border: 1px solid RGB(87 110 178);
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-variant: small-caps;
+  background: transparent;
+  border-radius: 0px;
+}
+form.item.capaciteUltime section.window-content div.blockImg select option {
+  background: RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.blockImg select.wpnMainChange {
+  grid-column: 1/5;
+}
+form.item.capaciteUltime section.window-content div.tab {
+  grid-column: 1/3;
+}
+form.item.capaciteUltime section.window-content div.tab div.dice {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+  background: RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab div.dice span {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.tab div.dice span.dice {
+  width: 100%;
+  text-align: center;
+  line-height: 23px;
+  background: transparent;
+  text-transform: uppercase;
+  align-items: center;
+}
+form.item.capaciteUltime section.window-content div.tab div.dice input {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab div.dice input:first-of-type {
+  text-align: right;
+}
+form.item.capaciteUltime section.window-content div.tab div.dice input:last-of-type {
+  text-align: left;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithLabel span {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithLabel span.dice {
+  width: 100%;
+  text-align: center;
+  line-height: 23px;
+  background: transparent;
+  text-transform: uppercase;
+  align-items: center;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithLabel div {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+  background: RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithLabel div input {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithLabel div input:first-of-type {
+  text-align: right;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithLabel div input:last-of-type {
+  text-align: left;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceSpanWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceSpanWithLabel span {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceSpanWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceSpanWithLabel span.dice {
+  width: 100%;
+  text-align: left;
+  line-height: 23px;
+  background: transparent;
+  text-transform: uppercase;
+  align-items: center;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceSpanWithLabel div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab div.diceSpanWithLabel div input {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+  padding-top: 1px;
+  text-align: right;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithInputLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithInputLabel input.label {
+  display: grid;
+  padding-left: 5px;
+  font-variant: small-caps;
+  width: 100%;
+  align-items: center;
+  height: 25px;
+  background: RGB(43 42 51);
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithInputLabel span.dice {
+  width: 100%;
+  text-align: center;
+  line-height: 25px;
+  background: transparent;
+  text-transform: uppercase;
+  align-items: center;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithInputLabel div {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+  background: RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithInputLabel div input {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithInputLabel div input:first-of-type {
+  text-align: right;
+}
+form.item.capaciteUltime section.window-content div.tab div.diceWithInputLabel div input:last-of-type {
+  text-align: left;
+}
+form.item.capaciteUltime section.window-content div.tab label.inputWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.capaciteUltime section.window-content div.tab label.inputWithLabel span {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.tab label.inputWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.capaciteUltime section.window-content div.tab label.inputWithLabel input {
+  height: 100%;
+  width: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab label.selectWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.capaciteUltime section.window-content div.tab label.selectWithLabel span {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.tab label.selectWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  height: 100%;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.capaciteUltime section.window-content div.tab label.selectWithLabel select {
+  height: 100%;
+  width: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab label.selectWithLabel select option {
+  background: RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.tab div.textareaWithLabelAndButton {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+form.item.capaciteUltime section.window-content div.tab div.textareaWithLabelAndButton span {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.tab div.textareaWithLabelAndButton span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+form.item.capaciteUltime section.window-content div.tab div.textareaWithLabelAndButton textarea {
+  color: white;
+  width: 100%;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: "Signika";
+  height: 26px;
+  border-radius: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab div.textareaWithLabel {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+form.item.capaciteUltime section.window-content div.tab div.textareaWithLabel span {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.tab div.textareaWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+form.item.capaciteUltime section.window-content div.tab div.textareaWithLabel textarea {
+  color: white;
+  width: 100%;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: "Signika";
+  height: 26px;
+  border-radius: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.effects {
+  grid-template-columns: 1fr;
+  grid-column: 1/3;
+}
+form.item.capaciteUltime section.window-content div.tab.passive, form.item.capaciteUltime section.window-content div.tab.actives {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+}
+form.item.capaciteUltime section.window-content div.tab.passive button, form.item.capaciteUltime section.window-content div.tab.actives button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  min-height: 32px;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  border-radius: 5px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive button.unselected, form.item.capaciteUltime section.window-content div.tab.actives button.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.tab.passive button.selected, form.item.capaciteUltime section.window-content div.tab.actives button.selected {
+  background: RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.tab.passive button i.red, form.item.capaciteUltime section.window-content div.tab.actives button i.red {
+  color: #c50000;
+}
+form.item.capaciteUltime section.window-content div.tab.passive button i.green, form.item.capaciteUltime section.window-content div.tab.actives button i.green {
+  color: #59d13e;
+}
+form.item.capaciteUltime section.window-content div.tab.passive h3.subtitre, form.item.capaciteUltime section.window-content div.tab.actives h3.subtitre {
+  font-variant: small-caps;
+  font-size: 17px;
+  width: 100%;
+  background: RGB(76 74 90);
+  margin: 0px;
+  padding-left: 5px;
+  line-height: 26px;
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 0px;
+  color: white;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.diceWithLabel span.label, form.item.capaciteUltime section.window-content div.tab.passive div.inputWithLabel span.label, form.item.capaciteUltime section.window-content div.tab.passive div.selectWithLabel span.label, form.item.capaciteUltime section.window-content div.tab.passive div.textareaWithLabelAndButton span.label, form.item.capaciteUltime section.window-content div.tab.passive div.diceSpanWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.passive label.diceWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.passive label.inputWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.passive label.selectWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.passive label.textareaWithLabelAndButton span.label,
+form.item.capaciteUltime section.window-content div.tab.passive label.diceSpanWithLabel span.label, form.item.capaciteUltime section.window-content div.tab.actives div.diceWithLabel span.label, form.item.capaciteUltime section.window-content div.tab.actives div.inputWithLabel span.label, form.item.capaciteUltime section.window-content div.tab.actives div.selectWithLabel span.label, form.item.capaciteUltime section.window-content div.tab.actives div.textareaWithLabelAndButton span.label, form.item.capaciteUltime section.window-content div.tab.actives div.diceSpanWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.actives label.diceWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.actives label.inputWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.actives label.selectWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.actives label.textareaWithLabelAndButton span.label,
+form.item.capaciteUltime section.window-content div.tab.actives label.diceSpanWithLabel span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.diceWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.passive div.diceWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.passive div.diceWithLabel > select, form.item.capaciteUltime section.window-content div.tab.passive div.inputWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.passive div.inputWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.passive div.inputWithLabel > select, form.item.capaciteUltime section.window-content div.tab.passive div.selectWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.passive div.selectWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.passive div.selectWithLabel > select, form.item.capaciteUltime section.window-content div.tab.passive div.textareaWithLabelAndButton > div,
+form.item.capaciteUltime section.window-content div.tab.passive div.textareaWithLabelAndButton > input,
+form.item.capaciteUltime section.window-content div.tab.passive div.textareaWithLabelAndButton > select, form.item.capaciteUltime section.window-content div.tab.passive div.diceSpanWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.passive div.diceSpanWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.passive div.diceSpanWithLabel > select,
+form.item.capaciteUltime section.window-content div.tab.passive label.diceWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.passive label.diceWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.passive label.diceWithLabel > select,
+form.item.capaciteUltime section.window-content div.tab.passive label.inputWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.passive label.inputWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.passive label.inputWithLabel > select,
+form.item.capaciteUltime section.window-content div.tab.passive label.selectWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.passive label.selectWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.passive label.selectWithLabel > select,
+form.item.capaciteUltime section.window-content div.tab.passive label.textareaWithLabelAndButton > div,
+form.item.capaciteUltime section.window-content div.tab.passive label.textareaWithLabelAndButton > input,
+form.item.capaciteUltime section.window-content div.tab.passive label.textareaWithLabelAndButton > select,
+form.item.capaciteUltime section.window-content div.tab.passive label.diceSpanWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.passive label.diceSpanWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.passive label.diceSpanWithLabel > select, form.item.capaciteUltime section.window-content div.tab.actives div.diceWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.actives div.diceWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.actives div.diceWithLabel > select, form.item.capaciteUltime section.window-content div.tab.actives div.inputWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.actives div.inputWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.actives div.inputWithLabel > select, form.item.capaciteUltime section.window-content div.tab.actives div.selectWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.actives div.selectWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.actives div.selectWithLabel > select, form.item.capaciteUltime section.window-content div.tab.actives div.textareaWithLabelAndButton > div,
+form.item.capaciteUltime section.window-content div.tab.actives div.textareaWithLabelAndButton > input,
+form.item.capaciteUltime section.window-content div.tab.actives div.textareaWithLabelAndButton > select, form.item.capaciteUltime section.window-content div.tab.actives div.diceSpanWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.actives div.diceSpanWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.actives div.diceSpanWithLabel > select,
+form.item.capaciteUltime section.window-content div.tab.actives label.diceWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.actives label.diceWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.actives label.diceWithLabel > select,
+form.item.capaciteUltime section.window-content div.tab.actives label.inputWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.actives label.inputWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.actives label.inputWithLabel > select,
+form.item.capaciteUltime section.window-content div.tab.actives label.selectWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.actives label.selectWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.actives label.selectWithLabel > select,
+form.item.capaciteUltime section.window-content div.tab.actives label.textareaWithLabelAndButton > div,
+form.item.capaciteUltime section.window-content div.tab.actives label.textareaWithLabelAndButton > input,
+form.item.capaciteUltime section.window-content div.tab.actives label.textareaWithLabelAndButton > select,
+form.item.capaciteUltime section.window-content div.tab.actives label.diceSpanWithLabel > div,
+form.item.capaciteUltime section.window-content div.tab.actives label.diceSpanWithLabel > input,
+form.item.capaciteUltime section.window-content div.tab.actives label.diceSpanWithLabel > select {
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.textareaWithLabelAndButton span.label,
+form.item.capaciteUltime section.window-content div.tab.passive label.textareaWithLabelAndButton span.label, form.item.capaciteUltime section.window-content div.tab.actives div.textareaWithLabelAndButton span.label,
+form.item.capaciteUltime section.window-content div.tab.actives label.textareaWithLabelAndButton span.label {
+  border-bottom-color: RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.textareaWithLabelAndButton button,
+form.item.capaciteUltime section.window-content div.tab.passive label.textareaWithLabelAndButton button, form.item.capaciteUltime section.window-content div.tab.actives div.textareaWithLabelAndButton button,
+form.item.capaciteUltime section.window-content div.tab.actives label.textareaWithLabelAndButton button {
+  border-top: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.textareaWithLabelAndButton button.unselected,
+form.item.capaciteUltime section.window-content div.tab.passive label.textareaWithLabelAndButton button.unselected, form.item.capaciteUltime section.window-content div.tab.actives div.textareaWithLabelAndButton button.unselected,
+form.item.capaciteUltime section.window-content div.tab.actives label.textareaWithLabelAndButton button.unselected {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.textareaWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.passive label.textareaWithLabel span.label, form.item.capaciteUltime section.window-content div.tab.actives div.textareaWithLabel span.label,
+form.item.capaciteUltime section.window-content div.tab.actives label.textareaWithLabel span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.blockEffets,
+form.item.capaciteUltime section.window-content div.tab.passive label.blockEffets, form.item.capaciteUltime section.window-content div.tab.actives div.blockEffets,
+form.item.capaciteUltime section.window-content div.tab.actives label.blockEffets {
+  margin-top: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.blockEffets div.effets,
+form.item.capaciteUltime section.window-content div.tab.passive label.blockEffets div.effets, form.item.capaciteUltime section.window-content div.tab.actives div.blockEffets div.effets,
+form.item.capaciteUltime section.window-content div.tab.actives label.blockEffets div.effets {
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.jet.checked button,
+form.item.capaciteUltime section.window-content div.tab.passive label.jet.checked button, form.item.capaciteUltime section.window-content div.tab.actives div.jet.checked button,
+form.item.capaciteUltime section.window-content div.tab.actives label.jet.checked button {
+  border-radius: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.jet.checked button.selected,
+form.item.capaciteUltime section.window-content div.tab.passive label.jet.checked button.selected, form.item.capaciteUltime section.window-content div.tab.actives div.jet.checked button.selected,
+form.item.capaciteUltime section.window-content div.tab.actives label.jet.checked button.selected {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet span.label,
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet span.label, form.item.capaciteUltime section.window-content div.tab.actives div.addCJet span.label,
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet span.label {
+  display: grid;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  font-size: 15px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet button,
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet button, form.item.capaciteUltime section.window-content div.tab.actives div.addCJet button,
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet button {
+  border-radius: 0px;
+  border: 0px;
+  background: RGB(76 74 90);
+  border-left: 1px solid RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet div.menu,
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet div.menu, form.item.capaciteUltime section.window-content div.tab.actives div.addCJet div.menu,
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet div.menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet div.list,
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet div.list, form.item.capaciteUltime section.window-content div.tab.actives div.addCJet div.list,
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet div.list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: flex-start;
+  position: relative;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet div.list span,
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet div.list span, form.item.capaciteUltime section.window-content div.tab.actives div.addCJet div.list span,
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet div.list span {
+  display: grid;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  line-height: 23px;
+  background: RGB(76 74 90);
+  border-bottom: 1px solid RGB(43 42 51);
+  position: relative;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet div.list span:nth-of-type(even),
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet div.list span:nth-of-type(even), form.item.capaciteUltime section.window-content div.tab.actives div.addCJet div.list span:nth-of-type(even),
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet div.list span:nth-of-type(even) {
+  border-left: 1px solid RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet div.list a,
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet div.list a, form.item.capaciteUltime section.window-content div.tab.actives div.addCJet div.list a,
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet div.list a {
+  position: absolute;
+  left: 5px;
+  top: 4px;
+  height: 15px;
+  width: 15px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet select,
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet select, form.item.capaciteUltime section.window-content div.tab.actives div.addCJet select,
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet select {
+  background: RGB(43 42 51);
+  color: white;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.addCJet select option,
+form.item.capaciteUltime section.window-content div.tab.passive label.addCJet select option, form.item.capaciteUltime section.window-content div.tab.actives div.addCJet select option,
+form.item.capaciteUltime section.window-content div.tab.actives label.addCJet select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.listBtn button,
+form.item.capaciteUltime section.window-content div.tab.passive label.listBtn button, form.item.capaciteUltime section.window-content div.tab.actives div.listBtn button,
+form.item.capaciteUltime section.window-content div.tab.actives label.listBtn button {
+  border-radius: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.listBtn button.selected,
+form.item.capaciteUltime section.window-content div.tab.passive label.listBtn button.selected, form.item.capaciteUltime section.window-content div.tab.actives div.listBtn button.selected,
+form.item.capaciteUltime section.window-content div.tab.actives label.listBtn button.selected {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.listBtn button:first-of-type,
+form.item.capaciteUltime section.window-content div.tab.passive label.listBtn button:first-of-type, form.item.capaciteUltime section.window-content div.tab.actives div.listBtn button:first-of-type,
+form.item.capaciteUltime section.window-content div.tab.actives label.listBtn button:first-of-type {
+  border-top: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.listBtn button:first-of-type.selected,
+form.item.capaciteUltime section.window-content div.tab.passive label.listBtn button:first-of-type.selected, form.item.capaciteUltime section.window-content div.tab.actives div.listBtn button:first-of-type.selected,
+form.item.capaciteUltime section.window-content div.tab.actives label.listBtn button:first-of-type.selected {
+  border-top: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg > button:not(:first-of-type).unselected,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg > button:not(:first-of-type).unselected, form.item.capaciteUltime section.window-content div.tab.actives div.dmg > button:not(:first-of-type).unselected,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg > button:not(:first-of-type).unselected {
+  border: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg > button:not(:first-of-type).selected,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg > button:not(:first-of-type).selected, form.item.capaciteUltime section.window-content div.tab.actives div.dmg > button:not(:first-of-type).selected,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg > button:not(:first-of-type).selected {
+  border: 0px;
+  border-top: 1px solid RGB(43 42 51);
+  border-radius: 0px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg div.paliersdmg,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg div.paliersdmg, form.item.capaciteUltime section.window-content div.tab.actives div.dmg div.paliersdmg,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg div.paliersdmg {
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg div.paliersdmg span.header,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg div.paliersdmg span.header, form.item.capaciteUltime section.window-content div.tab.actives div.dmg div.paliersdmg span.header,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg div.paliersdmg span.header {
+  display: grid;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  line-height: 25px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg div.paliersdmg div.list,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg div.paliersdmg div.list, form.item.capaciteUltime section.window-content div.tab.actives div.dmg div.paliersdmg div.list,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg div.paliersdmg div.list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: flex-start;
+  position: relative;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg div.paliersdmg div.list span,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg div.paliersdmg div.list span, form.item.capaciteUltime section.window-content div.tab.actives div.dmg div.paliersdmg div.list span,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg div.paliersdmg div.list span {
+  display: grid;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  line-height: 23px;
+  background: RGB(76 74 90);
+  border-bottom: 1px solid RGB(43 42 51);
+  position: relative;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg div.paliersdmg div.list span:nth-of-type(even),
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg div.paliersdmg div.list span:nth-of-type(even), form.item.capaciteUltime section.window-content div.tab.actives div.dmg div.paliersdmg div.list span:nth-of-type(even),
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg div.paliersdmg div.list span:nth-of-type(even) {
+  border-left: 1px solid RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg div.paliersdmg div.list a,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg div.paliersdmg div.list a, form.item.capaciteUltime section.window-content div.tab.actives div.dmg div.paliersdmg div.list a,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg div.paliersdmg div.list a {
+  position: absolute;
+  left: 5px;
+  top: 4px;
+  height: 15px;
+  width: 15px;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg div.paliersdmg div.menu,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg div.paliersdmg div.menu, form.item.capaciteUltime section.window-content div.tab.actives div.dmg div.paliersdmg div.menu,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg div.paliersdmg div.menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+form.item.capaciteUltime section.window-content div.tab.passive div.dmg div.paliersdmg div.menu button,
+form.item.capaciteUltime section.window-content div.tab.passive label.dmg div.paliersdmg div.menu button, form.item.capaciteUltime section.window-content div.tab.actives div.dmg div.paliersdmg div.menu button,
+form.item.capaciteUltime section.window-content div.tab.actives label.dmg div.paliersdmg div.menu button {
+  border-radius: 0px;
+  border: 0px;
+  background: RGB(76 74 90);
+  border-left: 1px solid RGB(43 42 51);
+}
+form.item.capaciteUltime section.window-content div.tab.active {
+  display: grid;
+}
+form.item.capaciteUltime section.window-content div.checked {
+  border: 1px solid RGB(87 110 178);
+}
+form.item.capaciteUltime section.window-content div.checked button.selected {
+  border: 0px;
+  border-radius: 0px;
+}
+form.item.capaciteUltime section.window-content div.checked > div button.unselected {
+  border: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+form.item.capaciteUltime section.window-content div.checked > div button.selected {
+  border: 0px;
+  border-top: 1px solid RGB(43 42 51);
+  border-radius: 0px;
+}
+form.item.capaciteUltime section.window-content header.sheet-header div.conditions prose-mirror {
+  min-height: 77px;
+}
 
 .armure form.armureWindows {
   display: flex;

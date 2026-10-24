@@ -1,0 +1,23 @@
+<div class="data {{ifThen systemData.passives.capacites.ascension.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.ascension.actif
+        path="system.passives.capacites.ascension.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.Label"
+    }}
+
+    <div style="{{ifThen systemData.passives.capacites.ascension.actif '' 'display:none;'}}">
+        {{~> knight.item.btnToggle
+            value=systemData.passives.capacites.ascension.update.permanent
+            path="system.passives.capacites.ascension.update.permanent"
+            localize="KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.Permanent"
+        }}
+    </div>
+
+    <div style="{{ifThen systemData.passives.capacites.ascension.actif '' 'display:none;'}}">
+        {{~> knight.item.btnToggle
+            value=systemData.passives.capacites.ascension.update.prestige
+            path="system.passives.capacites.ascension.update.prestige"
+            localize="KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.Prestige"
+        }}
+    </div>
+</div>

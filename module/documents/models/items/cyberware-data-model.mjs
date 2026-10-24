@@ -298,6 +298,8 @@ export class CyberwareDataModel extends ItemSpecialEffectsPathMixinModel(
   }
 
   prepareDerivedData() {
+    super.prepareDerivedData();
+
     this._prepareEffets();
     this._prepareHealWound();
   }

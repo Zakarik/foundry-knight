@@ -10,4 +10,340 @@ form.item.capaciteUltime section.window-content {
 
   @import "../common/img";
   @import "../common/header";
+  @import "../../parts/nav";
+
+  nav {
+    grid-column: 1 / 3;
+    justify-content: space-evenly;
+  }
+
+  div {
+    @import "../common/specialEffects";
+    @import "../common/effets";
+
+    &.blockImg {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 5px;
+
+      select {
+        border: 1px solid $lightBlue;
+        width: 100%;
+        text-align: center;
+        color: $white;
+        font-variant: small-caps;
+        background: transparent;
+        border-radius: 0px;
+
+        option {
+          background: $black;
+        }
+
+        &.wpnMainChange {
+          grid-column: 1 / 5;
+        }
+      }
+    }
+
+    &.tab {
+      grid-column: 1 / 3;
+
+      @include dice;
+      @include diceWithLabel;
+      @include diceSpanWithLabel;
+      @include diceWithInputLabel;
+      @include inputWithLabel;
+      @include selectWithLabel;
+      @include textareaWithLabelAndButton;
+      @include textareaWithLabel;
+
+      &.effects {
+        grid-template-columns: 1fr;
+        grid-column: 1 / 3;
+      }
+
+      &.passive,
+      &.actives {
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 5px;
+        align-items: flex-start;
+
+        @include buttons;
+
+        h3.subtitre {
+          font-variant: small-caps;
+          font-size: 17px;
+          width: 100%;
+          background: $lightBlack;
+          margin: 0px;
+          padding-left: 5px;
+          line-height: 26px;
+          border-top: 1px solid $black;
+          border-bottom: 0px;
+          color: $white;
+        }
+
+        div,
+        label {
+          &.diceWithLabel,
+          &.inputWithLabel,
+          &.selectWithLabel,
+          &.textareaWithLabelAndButton,
+          &.diceSpanWithLabel {
+            span.label {
+              border-top: 1px solid $black;
+            }
+
+            > div,
+            > input,
+            > select {
+              border-top: 1px solid $lightBlack;
+            }
+          }
+
+          &.textareaWithLabelAndButton {
+            span.label {
+              border-bottom-color: $black;
+            }
+
+            button {
+              border-top: 0px;
+
+              &.unselected {
+                border-bottom: 1px solid $lightBlack;
+              }
+            }
+          }
+
+          &.textareaWithLabel {
+            span.label {
+              border-top: 1px solid $black;
+            }
+          }
+
+          &.blockEffets {
+            margin-top: 0px;
+
+            div.effets {
+              border-left: 0px;
+              border-right: 0px;
+              border-bottom: 0px;
+            }
+          }
+
+          &.jet.checked {
+            button {
+              border-radius: 0px;
+              border-left: 0px;
+              border-right: 0px;
+              border-top: 0px;
+
+              &.selected {
+                border-bottom: 1px solid $black;
+              }
+            }
+          }
+
+          &.addCJet {
+            span {
+              &.label {
+                display: grid;
+                width: 100%;
+                font-variant: small-caps;
+                text-align: center;
+                font-size: 15px;
+                padding-top: 2px;
+                padding-bottom: 2px;
+                border-bottom: 1px solid $lightBlack;
+              }
+            }
+
+            button {
+              border-radius: 0px;
+              border: 0px;
+              background: $lightBlack;
+              border-left: 1px solid $black;
+            }
+
+            div {
+              &.menu {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+              }
+
+              &.list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                align-items: flex-start;
+                position: relative;
+
+                span {
+                  display: grid;
+                  width: 100%;
+                  font-variant: small-caps;
+                  text-align: center;
+                  line-height: 23px;
+                  background: $lightBlack;
+                  border-bottom: 1px solid $black;
+                  position: relative;
+
+                  &:nth-of-type(even) {
+                    border-left: 1px solid $black;
+                  }
+                }
+
+                a {
+                  position: absolute;
+                  left: 5px;
+                  top: 4px;
+                  height: 15px;
+                  width: 15px;
+                }
+              }
+            }
+
+            select {
+              background: $black;
+              color: $white;
+
+              option {
+                background: $black;
+                color: $white;
+              }
+            }
+          }
+
+          &.listBtn {
+            button {
+              border-radius: 0px;
+              border-top: 1px solid $lightBlack;
+              border-bottom: 0px;
+              border-left: 0px;
+              border-right: 0px;
+
+              &.selected {
+                border-top: 1px solid $black;
+              }
+
+              &:first-of-type {
+                border-top: 0px;
+
+                &.selected {
+                  border-top: 0px;
+                }
+              }
+            }
+          }
+
+          &.dmg {
+            > button:not(:first-of-type) {
+              &.unselected {
+                border: 0px;
+                border-top: 1px solid $lightBlack;
+                border-radius: 0px;
+              }
+
+              &.selected {
+                border: 0px;
+                border-top: 1px solid $black;
+                border-radius: 0px;
+              }
+            }
+
+            div {
+              &.paliersdmg {
+                border-top: 1px solid $lightBlack;
+
+                span {
+                  &.header {
+                    display: grid;
+                    width: 100%;
+                    font-variant: small-caps;
+                    text-align: center;
+                    line-height: 25px;
+                    border-bottom: 1px solid $lightBlack;
+                  }
+                }
+
+                div {
+                  &.list {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    align-items: flex-start;
+                    position: relative;
+
+                    span {
+                      display: grid;
+                      width: 100%;
+                      font-variant: small-caps;
+                      text-align: center;
+                      line-height: 23px;
+                      background: $lightBlack;
+                      border-bottom: 1px solid $black;
+                      position: relative;
+
+                      &:nth-of-type(even) {
+                        border-left: 1px solid $black;
+                      }
+                    }
+
+                    a {
+                      position: absolute;
+                      left: 5px;
+                      top: 4px;
+                      height: 15px;
+                      width: 15px;
+                    }
+                  }
+
+                  &.menu {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+
+                    button {
+                      border-radius: 0px;
+                      border: 0px;
+                      background: $lightBlack;
+                      border-left: 1px solid $black;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.active {
+        display: grid;
+      }
+    }
+
+    &.checked {
+      button.selected {
+        border: 0px;
+        border-radius: 0px;
+      }
+
+      > div button {
+        &.unselected {
+          border: 0px;
+          border-top: 1px solid $lightBlack;
+          border-radius: 0px;
+        }
+
+        &.selected {
+          border: 0px;
+          border-top: 1px solid $black;
+          border-radius: 0px;
+        }
+      }
+
+      border: 1px solid $lightBlue;
+    }
+  }
+
+  header.sheet-header div.conditions prose-mirror {
+    min-height: 77px;
+  }
 }

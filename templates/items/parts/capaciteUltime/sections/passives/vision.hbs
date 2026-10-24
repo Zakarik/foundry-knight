@@ -1,0 +1,16 @@
+<div class="data {{ifThen systemData.passives.capacites.vision.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.vision.actif
+        path="system.passives.capacites.vision.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.VISION.Label"
+    }}
+
+    <div class="textareaWithLabel" style="{{ifThen systemData.passives.capacites.vision.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.passives.capacites.vision.update.duree"
+            data-toupdate="passives.capacites.vision.update.textarea"
+            data-min="20"
+            style="height:{{systemData.passives.capacites.vision.update.textarea}}px;"
+            >{{systemData.passives.capacites.vision.update.duree}}</textarea>
+    </div>
+</div>

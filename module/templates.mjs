@@ -138,22 +138,6 @@ export const PreloadTemplates = async function () {
     // `${path}/actors/mechaarmure/stationDefenseAutomatise.html`,
     // `${path}/actors/mechaarmure/modeSiegeTower.html`,
     // `${path}/actors/mechaarmure/nanoBrume.html`,
-    `${path}/items/capacitesUltimes/passives/base.html`,
-    `${path}/items/capacitesUltimes/passives/ascension.html`,
-    `${path}/items/capacitesUltimes/passives/cea.html`,
-    `${path}/items/capacitesUltimes/passives/changeling.html`,
-    `${path}/items/capacitesUltimes/passives/companions.html`,
-    `${path}/items/capacitesUltimes/passives/contrecoups.html`,
-    `${path}/items/capacitesUltimes/passives/ghost.html`,
-    `${path}/items/capacitesUltimes/passives/goliath.html`,
-    `${path}/items/capacitesUltimes/passives/mechanic.html`,
-    `${path}/items/capacitesUltimes/passives/morph.html`,
-    `${path}/items/capacitesUltimes/passives/oriflamme.html`,
-    `${path}/items/capacitesUltimes/passives/rage.html`,
-    `${path}/items/capacitesUltimes/passives/recolteflux.html`,
-    `${path}/items/capacitesUltimes/passives/type.html`,
-    `${path}/items/capacitesUltimes/passives/vision.html`,
-    `${path}/items/capacitesUltimes/passives/warlord.html`,
     `${path}/items/capacitesUltimes/actives/base.html`,
     `${path}/parts/damage/dice.hbs`,
     `${path}/parts/damage/header.hbs`,
@@ -172,6 +156,7 @@ export const PreloadTemplates = async function () {
     "knight.npc.aspectsExceptionnels": `${path}/actors/parts/npc/sections/aspectsExceptionnels.hbs`,
     "knight.item.btnToggleArray": `${path}/items/parts/common/sections/btnToggleArray.hbs`,
     "knight.item.btnToggle": `${path}/items/parts/common/sections/btnToggle.hbs`,
+    "knight.item.specialEffects": `${path}/items/parts/common/sections/specialEffects.hbs`,
   };
 
   const humanPartials = {
@@ -266,6 +251,7 @@ export const PreloadTemplates = async function () {
   const wpnPartials = {
     "knight.wpn.dmg": `${path}/items/parts/common/sections/simpleDmg.hbs`,
     "knight.wpn.optionsmunitions": `${path}/items/parts/common/sections/optionsmunitions.hbs`,
+    "knight.wpn.effects.onlyEffects": `${path}/items/parts/common/sections/effets/parts/onlyEffects.hbs`,
     "knight.wpn.effects.effets": `${path}/items/parts/common/sections/effets/effets.hbs`,
     "knight.wpn.effects.effets2mains": `${path}/items/parts/common/sections/effets/effets2mains.hbs`,
     "knight.wpn.effects.structurelles": `${path}/items/parts/common/sections/effets/structurelles.hbs`,
@@ -299,6 +285,25 @@ export const PreloadTemplates = async function () {
     "knight.module.body.wpnDamage": `${path}/items/parts/module/body/sections/wpnDamage.hbs`,
   };
 
+  const capaciteUltimePartials = {
+    "knight.cu.passive.base": `${path}/items/parts/capaciteUltime/sections/passives/base.hbs`,
+    "knight.cu.passive.ascension": `${path}/items/parts/capaciteUltime/sections/passives/ascension.hbs`,
+    "knight.cu.passive.cea": `${path}/items/parts/capaciteUltime/sections/passives/cea.hbs`,
+    "knight.cu.passive.changeling": `${path}/items/parts/capaciteUltime/sections/passives/changeling.hbs`,
+    "knight.cu.passive.companions": `${path}/items/parts/capaciteUltime/sections/passives/companions.hbs`,
+    "knight.cu.passive.contrecoups": `${path}/items/parts/capaciteUltime/sections/passives/contrecoups.hbs`,
+    "knight.cu.passive.ghost": `${path}/items/parts/capaciteUltime/sections/passives/ghost.hbs`,
+    "knight.cu.passive.goliath": `${path}/items/parts/capaciteUltime/sections/passives/goliath.hbs`,
+    "knight.cu.passive.mechanic": `${path}/items/parts/capaciteUltime/sections/passives/mechanic.hbs`,
+    "knight.cu.passive.morph": `${path}/items/parts/capaciteUltime/sections/passives/morph.hbs`,
+    "knight.cu.passive.oriflamme": `${path}/items/parts/capaciteUltime/sections/passives/oriflamme.hbs`,
+    "knight.cu.passive.rage": `${path}/items/parts/capaciteUltime/sections/passives/rage.hbs`,
+    "knight.cu.passive.recolteflux": `${path}/items/parts/capaciteUltime/sections/passives/recolteflux.hbs`,
+    "knight.cu.passive.type": `${path}/items/parts/capaciteUltime/sections/passives/type.hbs`,
+    "knight.cu.passive.vision": `${path}/items/parts/capaciteUltime/sections/passives/vision.hbs`,
+    "knight.cu.passive.warlord": `${path}/items/parts/capaciteUltime/sections/passives/warlord.hbs`,
+  };
+
   // Précharger
   return foundry.applications.handlebars.loadTemplates({
     ...commonPartials,
@@ -312,6 +317,7 @@ export const PreloadTemplates = async function () {
     ...wpnPartials,
     ...cyberwarePartials,
     ...modulePartials,
+    ...capaciteUltimePartials,
     ...dialogPartials,
   });
 };

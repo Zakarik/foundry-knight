@@ -1,0 +1,12 @@
+<div class="data {{ifThen systemData.passives.capacites.companions.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.companions.actif
+        path="system.passives.capacites.companions.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.COMPANIONS.Label"
+    }}
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.capacites.companions.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.COMPANIONS.Deployable"}}</span>
+        <input type="number" name="system.passives.capacites.companions.update.deployables" value="{{systemData.passives.capacites.companions.update.deployables}}" min="0" max="3"/>
+    </label>
+</div>

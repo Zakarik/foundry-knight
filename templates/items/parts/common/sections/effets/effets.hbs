@@ -14,12 +14,5 @@
         {{/if}}
     </h2>
 
-    <div class="effets">
-        {{#each systemData.effets.liste as | key effet|}}
-            {{~> knight.effets type='base'}}
-        {{/each}}
-        <a class="edit" data-action="editEffects" data-limit-effects="true" data-path="{{wpnPath}}effets">
-            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
-        </a>
-    </div>
+    {{~> knight.wpn.effects.onlyEffects effectsList=systemData.effets.liste effectType='base' limitedEffects='true' wpnPath=wpnPath}}
 </div>

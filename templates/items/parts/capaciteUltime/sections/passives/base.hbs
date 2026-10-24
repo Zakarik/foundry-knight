@@ -1,0 +1,26 @@
+{{~> knight.item.btnToggle
+    value=systemData.passives.sante
+    path="system.passives.sante"
+    localize="KNIGHT.CAPACITEULTIME.PASSIVE.Sante"
+}}
+
+<div class="data {{ifThen systemData.passives.contact.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.contact.actif
+        path="system.passives.contact.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.Contact"
+    }}
+
+    <label class="inputWithLabel" style="{{ifThen systemData.passives.contact.actif '' 'display:none;'}}">
+        <span>{{localize "KNIGHT.BONUS.Label"}}</span>
+        <input type="number"  data-dtype="Number"name="system.passives.contact.value" value="{{systemData.passives.contact.value}}" min="0"/>
+    </label>
+</div>
+
+<div class="double">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.actif
+        path="system.passives.capacites.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.Capacites"
+    }}
+</div>

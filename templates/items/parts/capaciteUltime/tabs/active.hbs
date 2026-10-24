@@ -1,0 +1,312 @@
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="active">
+    <div class="data checked">
+        <div class="textareaWithLabel">
+            <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+            <textarea name="system.actives.activation"
+                data-toupdate="actives.textarea.activation"
+                data-min="20"
+                style="height:{{systemData.actives.textarea.activation}}px;"
+                >{{systemData.actives.activation}}</textarea>
+        </div>
+        <div class="textareaWithLabelAndButton">
+            <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+            {{~> knight.item.btnToggle
+                value=systemData.actives.instant
+                path="system.actives.instant"
+                localize="KNIGHT.DUREE.Instantanee"
+            }}
+            <textarea name="system.actives.duree"
+                data-toupdate="actives.textarea.duree"
+                data-min="20"
+                style="height:{{systemData.actives.textarea.duree}}px;{{ifThen systemData.actives.instant 'display:none;' ''}}"
+            >{{systemData.actives.duree}}</textarea>
+        </div>
+        <label class="inputWithLabel">
+            <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+            <input type="number"
+                name="system.actives.energie"
+                value="{{systemData.actives.energie}}" min="0"/>
+        </label>
+        <label class="inputWithLabel">
+            <span class="label">{{localize "KNIGHT.LATERAL.Heroisme"}}</span>
+            <input type="number"
+                name="system.actives.heroisme"
+                value="{{systemData.actives.heroisme}}" min="0"/>
+        </label>
+    </div>
+
+    <div class="data listBtn checked">
+        {{~> knight.item.btnToggle
+            value=systemData.actives.recuperation.PA
+            path="system.actives.recuperation.PA"
+            localize="KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.Pa"
+        }}
+
+        {{~> knight.item.btnToggle
+            value=systemData.actives.recuperation.PS
+            path="system.actives.recuperation.PS"
+            localize="KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.Ps"
+        }}
+
+        {{~> knight.item.btnToggle
+            value=systemData.actives.recuperation.PE
+            path="system.actives.recuperation.PE"
+            localize="KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.Pe"
+        }}
+    </div>
+
+    <div class="data jet {{ifThen systemData.actives.jet.actif 'checked' ''}}">
+        {{~> knight.item.btnToggle
+            value=systemData.actives.jet.actif
+            path="system.actives.jet.actif"
+            localize="KNIGHT.CAPACITEULTIME.ACTIVE.JET.Label"
+        }}
+
+        {{#if systemData.actives.jet.actif}}
+            {{~> knight.item.btnToggle
+                value=systemData.actives.jet.isfixe
+                path="system.actives.jet.isfixe"
+                localize="KNIGHT.CAPACITEULTIME.ACTIVE.JET.Isfixe"
+            }}
+        {{/if}}
+
+        <div class="diceWithInputLabel" style="{{ifThen systemData.actives.jet.isfixe '' 'display:none;'}}">
+            <input type="text"
+                class="label"
+                name="system.actives.jet.fixe.label"
+                value="{{systemData.actives.jet.fixe.label}}"
+                placeholder="{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.JET.Labelfixe"}}" />
+
+            <div>
+                <input type="text"
+                    name="system.actives.jet.fixe.dice"
+                    value="{{systemData.actives.jet.fixe.dice}}" min="0" />
+                <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                <input type="text"
+                    name="system.actives.jet.fixe.fixe"
+                    value="{{systemData.actives.jet.fixe.fixe}}" min="0" />
+            </div>
+        </div>
+
+        {{#if systemData.actives.jet.actif}}
+        <div class="addCJet" style="{{ifThen systemData.actives.jet.isfixe 'display:none;' ''}}">
+            <span class="label">{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.JET.Caracteristique"}}</span>
+            <div class="list">
+                {{#each systemData.actives.jet.variable.caracteristiques}}
+                    <span>
+                        {{localize (getCarac this)}}
+                        <a data-action="deleteToList"
+                            data-index="{{@index}}"
+                            data-path="system.actives.jet.variable.caracteristiques">
+                            <img
+                            data-tooltip="{{localize "KNIGHT.AUTRE.Supprimer"}}"
+                             src="systems/knight/assets/icons/delete.svg">
+                        </a>
+                    </span>
+                {{/each}}
+            </div>
+
+            <div class="menu">
+                <select name="system.actives.jet.variable.select">
+                    {{selectOptions
+                    (getList 'grpCaracteristiques')
+                    selected=systemData.actives.jet.variable.select
+                    valueAttr="value"
+                    labelAttr="label"
+                    localize=true
+                    blank=""}}
+                </select>
+                <button type="action"
+                data-action="addToList"
+                data-list="system.actives.jet.variable.caracteristiques",
+                data-toAdd="{{systemData.actives.jet.variable.select}}">
+                    {{localize "KNIGHT.AUTRE.Ajouter"}}
+                </button>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+
+    <!--<label class="inputWithLabel">
+        <span class="label">{{localize "KNIGHT.BONUS.Reaction"}}</span>
+        <input type="number"
+            name="system.actives.reaction"
+            value="{{systemData.actives.reaction}}" min="0"/>
+    </label>
+
+    <label class="inputWithLabel">
+        <span class="label">{{localize "KNIGHT.BONUS.Defense"}}</span>
+        <input type="number"
+            name="system.actives.defense"
+            value="{{systemData.actives.defense}}" min="0"/>
+    </label>-->
+
+    <div class="data dmg {{ifThen systemData.actives.degats.actif 'checked' ''}}">
+        {{~> knight.item.btnToggle
+            value=systemData.actives.degats.actif
+            path="system.actives.degats.actif"
+            localize="KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.Label"
+        }}
+
+        {{#if systemData.actives.degats.actif}}
+            {{~> knight.item.btnToggle
+                value=systemData.actives.degats.isfixe
+                path="system.actives.degats.isfixe"
+                localize="KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.Isfixe"
+            }}
+
+            <div class="diceWithLabel" style="{{ifThen systemData.actives.degats.isfixe '' 'display:none;'}}">
+                <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+
+                <div>
+                    <input type="number"
+                        name="system.actives.degats.fixe.dice"
+                        value="{{systemData.actives.degats.fixe.dice}}" min="0" />
+                    <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number"
+                        name="system.actives.degats.fixe.fixe"
+                        value="{{systemData.actives.degats.fixe.fixe}}" min="0" />
+                </div>
+            </div>
+
+            <div class="paliersdmg" style="{{ifThen systemData.actives.degats.isfixe 'display:none;' ''}}">
+                <span class="header">{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.Paliers"}}</span>
+                <div class="list">
+                    {{#each systemData.actives.degats.variable.paliers}}
+                        <span>
+                            {{this}}
+                            <a data-action="deleteToList"
+                                    data-index="{{@index}}"
+                                    data-path="system.actives.degats.variable.paliers">
+                                <img data-tooltip="{{localize "KNIGHT.AUTRE.Supprimer"}}"
+                                    src="systems/knight/assets/icons/delete.svg">
+                            </a>
+                        </span>
+                    {{/each}}
+                </div>
+
+                <div class="menu">
+                    <div class="dice">
+                        <input type="number" name="system.actives.degats.variable.select.dice" class="dice" value="{{systemData.actives.degats.variable.select.dice}}" min="0" />
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" name="system.actives.degats.variable.select.fixe" class="fixe" value="{{systemData.actives.degats.variable.select.fixe}}" min="0" />
+                    </div>
+                    <button type="action"
+                    data-action="addToList"
+                    data-list="system.actives.degats.variable.paliers"
+                    data-toAdd="{{systemData.actives.degats.variable.select.dice}}D6+{{systemData.actives.degats.variable.select.fixe}}">
+                        {{localize "KNIGHT.AUTRE.Ajouter"}}
+                    </button>
+                </div>
+            </div>
+
+            <label class="inputWithLabel" style="{{ifThen systemData.actives.degats.isfixe 'display:none;' ''}}">
+                <span class="label">{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.Energie"}}</span>
+                <input type="number"
+                    name="system.actives.degats.variable.energie"
+                    value="{{systemData.actives.degats.variable.energie}}" min="0"/>
+            </label>
+
+            <div class="blockEffets">
+                {{~> knight.wpn.effects.onlyEffects
+                effectsList=systemData.actives.degats.effets.liste
+                effectType='base'
+                limitedEffects='true'
+                wpnPath='actives.degats.'}}
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="data dmg {{ifThen systemData.actives.violence.actif 'checked' ''}}">
+        {{~> knight.item.btnToggle
+            value=systemData.actives.violence.actif
+            path="system.actives.violence.actif"
+            localize="KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.Label"
+        }}
+
+        {{#if systemData.actives.violence.actif}}
+            {{~> knight.item.btnToggle
+                value=systemData.actives.violence.isfixe
+                path="system.actives.violence.isfixe"
+                localize="KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.Isfixe"
+            }}
+
+            <div class="diceWithLabel" style="{{ifThen systemData.actives.violence.isfixe '' 'display:none;'}}">
+                <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+
+                <div>
+                    <input type="number"
+                        name="system.actives.violence.fixe.dice"
+                        value="{{systemData.actives.violence.fixe.dice}}" min="0" />
+                    <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number"
+                        name="system.actives.violence.fixe.fixe"
+                        value="{{systemData.actives.violence.fixe.fixe}}" min="0" />
+                </div>
+            </div>
+
+            <div class="paliersdmg" style="{{ifThen systemData.actives.violence.isfixe 'display:none;' ''}}">
+                <span class="header">{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.Paliers"}}</span>
+                <div class="list">
+                    {{#each systemData.actives.violence.variable.paliers}}
+                        <span>
+                            {{this}}
+                            <a data-action="deleteToList"
+                                    data-index="{{@index}}"
+                                    data-path="system.actives.violence.variable.paliers">
+                                <img data-tooltip="{{localize "KNIGHT.AUTRE.Supprimer"}}"
+                                    src="systems/knight/assets/icons/delete.svg">
+                            </a>
+                        </span>
+                    {{/each}}
+                </div>
+
+                <div class="menu">
+                    <div class="dice">
+                        <input type="number" name="system.actives.violence.variable.select.dice" class="dice" value="{{systemData.actives.violence.variable.select.dice}}" min="0" />
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" name="system.actives.violence.variable.select.fixe" class="fixe" value="{{systemData.actives.violence.variable.select.fixe}}" min="0" />
+                    </div>
+                    <button type="action"
+                    data-action="addToList"
+                    data-list="system.actives.violence.variable.paliers"
+                    data-toAdd="{{systemData.actives.violence.variable.select.dice}}D6+{{systemData.actives.violence.variable.select.fixe}}">
+                        {{localize "KNIGHT.AUTRE.Ajouter"}}
+                    </button>
+                </div>
+            </div>
+
+            <label class="inputWithLabel" style="{{ifThen systemData.actives.violence.isfixe 'display:none;' ''}}">
+                <span class="label">{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.Energie"}}</span>
+                <input type="number"
+                    name="system.actives.violence.variable.energie"
+                    value="{{systemData.actives.violence.variable.energie}}" min="0"/>
+            </label>
+
+            <div class="blockEffets">
+                {{~> knight.wpn.effects.onlyEffects
+                effectsList=systemData.actives.violence.effets.liste
+                effectType='base'
+                limitedEffects='true'
+                wpnPath='actives.violence.'}}
+            </div>
+        {{/if}}
+    </div>
+
+    <div class="data {{ifThen systemData.actives.effets.actif 'checked' ''}}">
+        {{~> knight.item.btnToggle
+            value=systemData.actives.effets.actif
+            path="system.actives.effets.actif"
+            localize="KNIGHT.CAPACITEULTIME.ACTIVE.EFFETS.Label"
+        }}
+
+        <div class="blockEffets" style="{{ifThen systemData.actives.effets.actif '' 'display:none;'}}">
+            {{~> knight.wpn.effects.onlyEffects
+            effectsList=systemData.actives.effets.liste
+            effectType='base'
+            limitedEffects='true'
+            wpnPath='actives.'}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="data {{ifThen systemData.passives.capacites.mechanic.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.mechanic.actif
+        path="system.passives.capacites.mechanic.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.MECHANIC.Label"
+    }}
+
+    <div class="diceSpanWithLabel" style="{{ifThen systemData.passives.capacites.mechanic.actif '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+        <div>
+            <input type="number" name="system.passives.capacites.mechanic.update.bonus" value="{{systemData.passives.capacites.mechanic.update.bonus}}" min="0"/>
+            <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </div>
+    </div>
+</div>

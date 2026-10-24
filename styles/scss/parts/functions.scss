@@ -807,6 +807,47 @@ $news: #00ffcc44;
   }
 }
 
+@mixin dice() {
+  div.dice {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    background: $black;
+
+    span {
+      display: grid;
+
+      &.dice {
+        width: 100%;
+        text-align: center;
+        line-height: 23px;
+        background: transparent;
+        text-transform: uppercase;
+        align-items: center;
+      }
+    }
+
+    input {
+      height: 100%;
+      width: 100%;
+      background: transparent;
+      border: 0px;
+      border-radius: 0px;
+      color: $white;
+      padding: 0px;
+
+      &:first-of-type {
+        text-align: right;
+      }
+
+      &:last-of-type {
+        text-align: left;
+      }
+    }
+
+    @content;
+  }
+}
+
 @mixin diceWithLabel() {
   div.diceWithLabel {
     display: grid;
@@ -947,6 +988,68 @@ $news: #00ffcc44;
   }
 }
 
+@mixin diceWithInputLabel {
+  div.diceWithInputLabel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+
+    input {
+      &.label {
+        display: grid;
+        padding-left: 5px;
+        font-variant: small-caps;
+        width: 100%;
+        align-items: center;
+
+        height: 25px;
+        background: $black;
+        border: 0px;
+        border-radius: 0px;
+        color: $white;
+        padding: 0px;
+      }
+    }
+
+    span {
+      &.dice {
+        width: 100%;
+        text-align: center;
+        line-height: 25px;
+        background: transparent;
+        text-transform: uppercase;
+        align-items: center;
+      }
+    }
+
+    div {
+      display: grid;
+      grid-template-columns: 1fr 24px 1fr;
+      background: $black;
+
+      input {
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        border: 0px;
+        border-radius: 0px;
+        color: $white;
+        padding: 0px;
+
+        &:first-of-type {
+          text-align: right;
+        }
+
+        &:last-of-type {
+          text-align: left;
+        }
+      }
+    }
+
+    @content;
+  }
+}
+
 @mixin selectWithLabel {
   label.selectWithLabel {
     display: grid;
@@ -980,6 +1083,84 @@ $news: #00ffcc44;
       option {
         background: $lightBlack;
       }
+    }
+
+    @content;
+  }
+}
+
+@mixin textareaWithLabel {
+  div.textareaWithLabel {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+
+    span {
+      display: grid;
+
+      &.label {
+        padding-left: 5px;
+        line-height: 22px;
+        font-variant: small-caps;
+        background: $lightBlack;
+        width: 100%;
+        align-items: center;
+        border-bottom: 1px solid black;
+      }
+    }
+
+    textarea {
+      color: $white;
+      width: 100%;
+      border: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      padding-left: 5px;
+      padding-right: 5px;
+      text-align: left;
+      background: RGB(43 42 51);
+      font-family: "Signika";
+      height: 26px;
+      border-radius: 0px;
+    }
+
+    @content;
+  }
+}
+
+@mixin textareaWithLabelAndButton {
+  div.textareaWithLabelAndButton {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+
+    span {
+      display: grid;
+
+      &.label {
+        padding-left: 5px;
+        line-height: 22px;
+        font-variant: small-caps;
+        background: $lightBlack;
+        width: 100%;
+        align-items: center;
+        border-bottom: 1px solid black;
+      }
+    }
+
+    textarea {
+      color: $white;
+      width: 100%;
+      border: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      padding-left: 5px;
+      padding-right: 5px;
+      text-align: left;
+      background: RGB(43 42 51);
+      font-family: "Signika";
+      height: 26px;
+      border-radius: 0px;
     }
 
     @content;

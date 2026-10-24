@@ -1,0 +1,15 @@
+<div class="blockImg">
+  <div class="img">
+    <img
+      class="profile-img"
+      data-action="editImage"
+      src="{{item.img}}"
+      data-edit="img"
+      data-tooltip="{{item.name}}"
+    />
+  </div>
+
+  <select name="system.type">
+    {{selectOptions (getList "typecu") selected=systemData.type localize=true}}
+  </select>
+</div>

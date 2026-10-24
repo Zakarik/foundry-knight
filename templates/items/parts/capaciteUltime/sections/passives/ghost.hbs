@@ -1,0 +1,15 @@
+<div class="data {{ifThen systemData.passives.capacites.ghost.actif 'checked' ''}}">
+    {{~> knight.item.btnToggle
+        value=systemData.passives.capacites.ghost.actif
+        path="system.passives.capacites.ghost.actif"
+        localize="KNIGHT.CAPACITEULTIME.PASSIVE.GHOST.Label"
+    }}
+
+    <div style="{{ifThen systemData.passives.capacites.ghost.actif '' 'display:none;'}}">
+        {{~> knight.item.btnToggle
+            value=systemData.passives.capacites.ghost.update.desactivation
+            path="system.passives.capacites.ghost.update.desactivation"
+            localize="KNIGHT.CAPACITEULTIME.PASSIVE.GHOST.Desactivation"
+        }}
+    </div>
+</div>

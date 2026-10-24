@@ -345,6 +345,10 @@ KNIGHT.LIST = {
     prestige: "KNIGHT.ITEMS.MODULE.RARETE.Prestige",
     espoir: "KNIGHT.ITEMS.MODULE.RARETE.Espoir",
   },
+  typecu: {
+    active: "KNIGHT.CAPACITEULTIME.Active",
+    passive: "KNIGHT.CAPACITEULTIME.Passive",
+  },
   typearmes: {
     contact: "KNIGHT.COMBAT.ARMES.CONTACT.Label",
     distance: "KNIGHT.COMBAT.ARMES.DISTANCE.Label",
@@ -431,6 +435,83 @@ KNIGHT.LIST = {
     pnj: "KNIGHT.TYPE.Pnj",
     bande: "KNIGHT.TYPE.Bande",
   },
+  grpCaracteristiques: [
+    {
+      value: "deplacement",
+      label: "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label",
+      group: "KNIGHT.ASPECTS.CHAIR.Label",
+    },
+    {
+      value: "force",
+      label: "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label",
+      group: "KNIGHT.ASPECTS.CHAIR.Label",
+    },
+    {
+      value: "endurance",
+      label: "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.ENDURANCE.Label",
+      group: "KNIGHT.ASPECTS.CHAIR.Label",
+    },
+    {
+      value: "hargne",
+      label: "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.HARGNE.Label",
+      group: "KNIGHT.ASPECTS.BETE.Label",
+    },
+    {
+      value: "combat",
+      label: "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.COMBAT.Label",
+      group: "KNIGHT.ASPECTS.BETE.Label",
+    },
+    {
+      value: "instinct",
+      label: "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.INSTINCT.Label",
+      group: "KNIGHT.ASPECTS.BETE.Label",
+    },
+    {
+      value: "tir",
+      label: "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TIR.Label",
+      group: "KNIGHT.ASPECTS.MACHINE.Label",
+    },
+    {
+      value: "savoir",
+      label: "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.SAVOIR.Label",
+      group: "KNIGHT.ASPECTS.MACHINE.Label",
+    },
+    {
+      value: "technique",
+      label: "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TECHNIQUE.Label",
+      group: "KNIGHT.ASPECTS.MACHINE.Label",
+    },
+    {
+      value: "aura",
+      label: "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.AURA.Label",
+      group: "KNIGHT.ASPECTS.DAME.Label",
+    },
+    {
+      value: "parole",
+      label: "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.PAROLE.Label",
+      group: "KNIGHT.ASPECTS.DAME.Label",
+    },
+    {
+      value: "sangFroid",
+      label: "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.SANGFROID.Label",
+      group: "KNIGHT.ASPECTS.DAME.Label",
+    },
+    {
+      value: "discretion",
+      label: "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DISCRETION.Label",
+      group: "KNIGHT.ASPECTS.MASQUE.Label",
+    },
+    {
+      value: "dexterite",
+      label: "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DEXTERITE.Label",
+      group: "KNIGHT.ASPECTS.MASQUE.Label",
+    },
+    {
+      value: "perception",
+      label: "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.PERCEPTION.Label",
+      group: "KNIGHT.ASPECTS.MASQUE.Label",
+    },
+  ],
   EFFETS: {
     attaque: [
       "aneantirbande",
@@ -2079,6 +2160,7 @@ KNIGHT.EFFECTS = {
     "system.armure.aspectMultiplier.machine": "KNIGHT.LISTEFFECTS.ArmureMachineMultiplie",
     "system.armure.aspectMultiplier.masque": "KNIGHT.LISTEFFECTS.ArmureMasqueMultiplie",
     "item.system.aspectsLieSupplementaire": "KNIGHT.LISTEFFECTS.AddAspectLie",
+    "system.contact": "KNIGHT.LISTEFFECTS.Contact",
   },
   CAPACITE: {},
   TYPE: {
