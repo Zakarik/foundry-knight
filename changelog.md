@@ -1,3 +1,9 @@
+## v3.58.38
+
+### Bugfix
+
+- Correction d'un bug n'affichant plus les modules du Companions de type Lion.
+
 ## v3.58.37
 
 ### Bugfix
