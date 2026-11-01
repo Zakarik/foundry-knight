@@ -1,0 +1,62 @@
+<header class="sheet-header flexrow">
+    <h1 class="name">
+        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+    </h1>
+
+    <label class="inputWithLabel">
+        <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.Generation"}}</span>
+        <input type="number" name="system.generation" value="{{systemData.generation}}" min="1" max="4" />
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.jauges.armure '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+        <input type="number" name="system.armure.base" value="{{systemData.armure.base}}" min="0" />
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.jauges.champDeForce '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
+        <input type="number" name="system.champDeForce.base" value="{{systemData.champDeForce.base}}" min="0" />
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.jauges.energie '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.energie.base" value="{{systemData.energie.base}}" min="0" />
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.jauges.egide '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.BONUS.Egide"}}</span>
+        <input type="number" name="system.egide.value" value="{{systemData.egide.value}}" min="0" />
+    </label>
+
+    <label class="inputWithLabel" style="{{ifThen systemData.jauges.flux '' 'display:none;'}}">
+        <span class="label">{{localize "KNIGHT.LATERAL.Flux"}}</span>
+        <input type="number" name="system.jauges.flux" value="{{systemData.jauges.flux}}" min="0" />
+    </label>
+
+    <div class="data {{ifThen systemData.espoir.bonus 'checked' ''}}">
+        {{~> knight.item.btnToggle
+            value=systemData.espoir.bonus
+            path="system.espoir.bonus"
+            localize="KNIGHT.ITEMS.ARMURE.BonusEspoir"
+        }}
+
+        <label class="inputWithLabel" style="{{ifThen systemData.espoir.bonus '' 'display:none;'}}">
+            <span class="label">{{localize "KNIGHT.BONUS.Espoir"}}</span>
+            <input type="number" name="system.espoir.value" value="{{systemData.espoir.value}}" min="0" />
+        </label>
+    </div>
+
+    <div class="data {{ifThen systemData.espoir.remplaceEnergie 'checked' ''}}">
+        {{~> knight.item.btnToggle
+            value=systemData.espoir.remplaceEnergie
+            path="system.espoir.remplaceEnergie"
+            localize="KNIGHT.ITEMS.ARMURE.EspoirRemplaceEnergie"
+        }}
+
+        <label class="inputWithLabel" style="{{ifThen systemData.espoir.remplaceEnergie '' 'display:none;'}}">
+            <span class="label">{{localize "KNIGHT.REDUCTION.CoutEspoir"}}</span>
+            <input type="number" name="system.espoir.cout" value="{{systemData.espoir.cout}}" min="0" />
+        </label>
+    </div>
+
+</header>

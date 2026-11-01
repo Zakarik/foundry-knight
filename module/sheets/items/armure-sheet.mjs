@@ -1,28 +1,64 @@
-import {
-  SortByLabel,
-  listEffects,
-  getAllEffects,
-} from "../../helpers/common.mjs";
+import { SortByLabel, listEffects, getAllEffects } from "../../helpers/common.mjs";
+import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
 /**
  * @extends {ItemSheet}
  */
-export class ArmureSheet extends ItemSheet {
-
+export class ArmureSheet extends BaseItemSheet {
   /** @inheritdoc */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "item", "armure"],
-      template: "systems/knight/templates/items/armure-sheet.html",
-      width: 700,
-      height: 1000,
-      scrollY: [".attributes"],
-    });
+  static DEFAULT_OPTIONS = {
+    classes: ["armure"],
+    position: { width: 700, height: 1000 },
+    scrollY: [".attributes"],
+    actions: {},
+  };
+
+  static PARTS = {
+    img: {
+      template: "systems/knight/templates/items/parts/common/sections/img.hbs",
+    },
+    header: {
+      template: "systems/knight/templates/items/parts/armure/header.hbs",
+    },
+    description: {
+      template: "systems/knight/templates/items/parts/armure/description.hbs",
+    },
+    nav: { template: "templates/generic/tab-navigation.hbs" },
+    capacites: {
+      template: "systems/knight/templates/items/parts/armure/tab/capacites.hbs",
+      classes: ["tab", "capacites"],
+    },
+    /*body: {
+      template: "systems/knight/templates/items/parts/art/body.hbs",
+    },*/
+  };
+
+  static TABS = {
+    primary: {
+      tabs: [{ id: "capacites", label: "KNIGHT.CAPACITES.Label" }],
+      initial: "capacites",
+    },
+  };
+
+  async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+
+    switch (partId) {
+      case "description":
+        context.enrichedDescription =
+          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            context.document.system.description,
+            { async: true },
+          );
+        break;
+    }
+
+    return await super._preparePartContext(partId, context, options);
   }
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  getData() {
+  /*getData() {
     const context = super.getData();
     const evolutions = context.data.system.evolutions.liste;
 
@@ -32,10 +68,18 @@ export class ArmureSheet extends ItemSheet {
     const sImpregnation = context.data.system.special.selected?.impregnation || false;
     const sContrecoups = context.data.system.special.selected?.contrecoups || false;
 
-    if(sGhost != false) { sGhost.aspects = lAspect; }
-    if(sRage != false) { sRage.aspects = lAspect; }
-    if(sImpregnation != false) { sImpregnation.aspects = lAspect; }
-    if(sContrecoups != false) { sContrecoups.jet.aspects = lAspect; }
+    if (sGhost != false) {
+      sGhost.aspects = lAspect;
+    }
+    if (sRage != false) {
+      sRage.aspects = lAspect;
+    }
+    if (sImpregnation != false) {
+      sImpregnation.aspects = lAspect;
+    }
+    if (sContrecoups != false) {
+      sContrecoups.jet.aspects = lAspect;
+    }
 
     for (let [key, evolution] of Object.entries(evolutions)) {
       const sGhost = evolution.capacites?.ghost || false;
@@ -47,19 +91,19 @@ export class ArmureSheet extends ItemSheet {
       const bImpregnation = context.data.system.special.selected?.impregnation?.aspects || false;
       const bContrecoups = context.data.system.special.selected?.contrecoups?.jet?.aspects || false;
 
-      if(sGhost != false && bGhost != false) {
+      if (sGhost != false && bGhost != false) {
         sGhost.bonus.aspects = bGhost;
       }
 
-      if(sRage != false && bRage != false) {
+      if (sRage != false && bRage != false) {
         sRage.aspects = bRage;
       }
 
-      if(sImpregnation != false && bImpregnation != false) {
+      if (sImpregnation != false && bImpregnation != false) {
         sImpregnation.aspects = bImpregnation;
       }
 
-      if(sContrecoups != false && bContrecoups != false) {
+      if (sContrecoups != false && bContrecoups != false) {
         sContrecoups.jet.aspects = bContrecoups;
       }
     }
@@ -76,50 +120,54 @@ export class ArmureSheet extends ItemSheet {
     context.systemData = context.data.system;
 
     return context;
-  }
+  }*/
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-	activateListeners(html) {
+  /*activateListeners(html) {
     super.activateListeners(html);
 
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
-    html.find('.buttonJauge').click(ev => {
+    html.find(".buttonJauge").click((ev) => {
       const value = $(ev.currentTarget).data("value");
       const type = $(ev.currentTarget).data("type");
       let update = {};
       let result = false;
 
-      if(!value) { result = true; }
+      if (!value) {
+        result = true;
+      }
 
       update[`system.jauges.${type}`] = result;
 
       this.item.update(update);
     });
 
-    html.find('.buttonEspoir').click(ev => {
+    html.find(".buttonEspoir").click((ev) => {
       const value = $(ev.currentTarget).data("value");
       let update = {};
       let result = false;
 
-      if(!value) { result = true; }
+      if (!value) {
+        result = true;
+      }
 
-      update['system.espoir.bonus'] = result;
+      update["system.espoir.bonus"] = result;
 
       this.item.update(update);
     });
 
-    html.find('.buttonREnergie').click(ev => {
+    html.find(".buttonREnergie").click((ev) => {
       const value = $(ev.currentTarget).data("value");
 
       let update = {};
       let result = false;
       let energie = true;
 
-      if(!value) {
+      if (!value) {
         result = true;
         energie = false;
       }
@@ -130,18 +178,18 @@ export class ArmureSheet extends ItemSheet {
       this.item.update(update);
     });
 
-    html.find('.sheet-header div.armure input').change(ev => {
+    html.find(".sheet-header div.armure input").change((ev) => {
       const max = +$(ev.currentTarget).val();
       const actor = this?.actor || false;
       const value = actor !== false ? +actor.system.armure.value : 0;
 
-      if(actor && value > max) {
-        this.item.update({[`system.armure.value`]:max});
-        actor.update({[`system.armure.value`]:max});
+      if (actor && value > max) {
+        this.item.update({ [`system.armure.value`]: max });
+        actor.update({ [`system.armure.value`]: max });
       }
     });
 
-    html.find('.sarcophage input.paliers').change(ev => {
+    html.find(".sarcophage input.paliers").change((ev) => {
       const value = $(ev.currentTarget).val();
       const data = this.getData();
       let base = data.data.system.capacites.c2038Necromancer.sarcophage.bonus.liste;
@@ -149,57 +197,57 @@ export class ArmureSheet extends ItemSheet {
       let textarea = data.data.system.capacites.selected.sarcophage.textarea;
       let update = {};
 
-      for(let i = 0;i < value;i++) {
-        if(liste[`b${i}`] === undefined) {
-          if(base[`b${i}`] === undefined) {
-            if(i != value-1) {
-              if(liste[`b${i}`].pg.max === undefined) {
-                liste[`b${i-1}`] = {
-                  pg:{
-                    min:liste[`b${i-1}`].pg.min,
-                    max:liste[`b${i-1}`].pg.min+1
+      for (let i = 0; i < value; i++) {
+        if (liste[`b${i}`] === undefined) {
+          if (base[`b${i}`] === undefined) {
+            if (i != value - 1) {
+              if (liste[`b${i}`].pg.max === undefined) {
+                liste[`b${i - 1}`] = {
+                  pg: {
+                    min: liste[`b${i - 1}`].pg.min,
+                    max: liste[`b${i - 1}`].pg.min + 1,
                   },
-                  offert:liste[`b${i-1}`].offert
+                  offert: liste[`b${i - 1}`].offert,
                 };
               }
 
               liste[`b${i}`] = {
-                pg:{
-                  min:liste[`b${i-1}`].pg.max+1,
-                  max:liste[`b${i-1}`].pg.max+2
+                pg: {
+                  min: liste[`b${i - 1}`].pg.max + 1,
+                  max: liste[`b${i - 1}`].pg.max + 2,
                 },
-                offert:""
+                offert: "",
               };
             } else {
-              if(liste[`b${i-1}`].pg.max === undefined) {
-                liste[`b${i-1}`] = {
-                  pg:{
-                    min:liste[`b${i-1}`].pg.min,
-                    max:liste[`b${i-1}`].pg.min+1
+              if (liste[`b${i - 1}`].pg.max === undefined) {
+                liste[`b${i - 1}`] = {
+                  pg: {
+                    min: liste[`b${i - 1}`].pg.min,
+                    max: liste[`b${i - 1}`].pg.min + 1,
                   },
-                  offert:liste[`b${i-1}`].offert
+                  offert: liste[`b${i - 1}`].offert,
                 };
               }
 
               liste[`b${i}`] = {
-                pg:{
-                  min:liste[`b${i-1}`].pg.max+1
+                pg: {
+                  min: liste[`b${i - 1}`].pg.max + 1,
                 },
-                offert:""
+                offert: "",
               };
             }
           } else {
             liste[`b${i}`] = {
-              pg:{
-                min:base[`b${i}`].pg.min,
-                max:base[`b${i}`].pg.max
+              pg: {
+                min: base[`b${i}`].pg.min,
+                max: base[`b${i}`].pg.max,
               },
-              offert:base[`b${i}`].offert
+              offert: base[`b${i}`].offert,
             };
           }
         }
 
-        if(textarea[`b${i}`] === undefined) {
+        if (textarea[`b${i}`] === undefined) {
           textarea[`b${i}`] = 50;
         }
       }
@@ -210,18 +258,20 @@ export class ArmureSheet extends ItemSheet {
       this.item.update(update);
 
       for (let [key, palier] of Object.entries(liste)) {
-        const num = +key.replace("b","");
-        if(num > value-1) {
-          if(key === `b${value-1}`) {
-            this.item.update({[`system.capacites.selected.sarcophage.bonus.liste.${key}.pg.-=${max}`]:null});
+        const num = +key.replace("b", "");
+        if (num > value - 1) {
+          if (key === `b${value - 1}`) {
+            this.item.update({
+              [`system.capacites.selected.sarcophage.bonus.liste.${key}.pg.-=${max}`]: null,
+            });
           }
 
-          this.item.update({[`system.capacites.selected.sarcophage.textarea.-=${key}`]:null});
+          this.item.update({ [`system.capacites.selected.sarcophage.textarea.-=${key}`]: null });
         }
       }
     });
 
-    html.find('.evolutions >div button').click(ev => {
+    html.find(".evolutions >div button").click((ev) => {
       const carac = $(ev.currentTarget).data("caracteristique") || false;
       const aspect = $(ev.currentTarget).data("aspect");
 
@@ -239,98 +289,102 @@ export class ArmureSheet extends ItemSheet {
       let result = false;
       let capOrSpe = "capacites";
 
-      if(isSpecial) {capOrSpe = "special"; }
+      if (isSpecial) {
+        capOrSpe = "special";
+      }
 
-      if(!value) { result = true; }
+      if (!value) {
+        result = true;
+      }
 
       let update = {};
 
-      if(carac) {
+      if (carac) {
         update = {
-          system:{
-            evolutions:{
-              liste:{
-                [key]:{
-                  [capOrSpe]:{
-                    [type]:{
-                      aspects:{
-                        [aspect]:{
-                          caracteristiques:{
-                            [name]:{
-                              value:result
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          system: {
+            evolutions: {
+              liste: {
+                [key]: {
+                  [capOrSpe]: {
+                    [type]: {
+                      aspects: {
+                        [aspect]: {
+                          caracteristiques: {
+                            [name]: {
+                              value: result,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
-      } else if(!aSubtype && !evospecial) {
+      } else if (!aSubtype && !evospecial) {
         update = {
-          system:{
-            evolutions:{
-              liste:{
-                [key]:{
-                  [capOrSpe]:{
-                    [type]:{
-                      [subtype]:{
-                        [name]:result
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          system: {
+            evolutions: {
+              liste: {
+                [key]: {
+                  [capOrSpe]: {
+                    [type]: {
+                      [subtype]: {
+                        [name]: result,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
-      } else if(!aSubtype) {
+      } else if (!aSubtype) {
         update = {
-          system:{
-            evolutions:{
-              special:{
-                [key]:{
-                  [evospecial]:{
-                    [subtype]:{
-                      [type]:{
-                        [name]:result
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          system: {
+            evolutions: {
+              special: {
+                [key]: {
+                  [evospecial]: {
+                    [subtype]: {
+                      [type]: {
+                        [name]: result,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
       } else {
         update = {
-          system:{
-            evolutions:{
-              liste:{
-                [key]:{
-                  [capOrSpe]:{
-                    [type]:{
-                      [subtype]:{
-                        [aSubtype]:{
-                          [name]:result
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          system: {
+            evolutions: {
+              liste: {
+                [key]: {
+                  [capOrSpe]: {
+                    [type]: {
+                      [subtype]: {
+                        [aSubtype]: {
+                          [name]: result,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
       }
 
-      if(isDelete) {
+      if (isDelete) {
         for (let [kEvo, evolution] of Object.entries(listEvo)) {
-          if(kEvo > key) {
-            if(!aSubtype) {
+          if (kEvo > key) {
+            if (!aSubtype) {
               update.system.evolutions.liste[kEvo] = {};
               update.system.evolutions.liste[kEvo][capOrSpe] = {};
               update.system.evolutions.liste[kEvo][capOrSpe][type] = {};
@@ -341,8 +395,9 @@ export class ArmureSheet extends ItemSheet {
               update.system.evolutions.liste[kEvo][capOrSpe] = {};
               update.system.evolutions.liste[kEvo][capOrSpe][type] = {};
               update.system.evolutions.liste[kEvo][capOrSpe][type][subtype] = {};
-              update.system.evolutions.liste[kEvo][capOrSpe][type][subtype][aSubtype] = {}
-              update.system.evolutions.liste[kEvo][capOrSpe][type][subtype][aSubtype][name] = result;
+              update.system.evolutions.liste[kEvo][capOrSpe][type][subtype][aSubtype] = {};
+              update.system.evolutions.liste[kEvo][capOrSpe][type][subtype][aSubtype][name] =
+                result;
             }
           }
         }
@@ -351,8 +406,8 @@ export class ArmureSheet extends ItemSheet {
       this.item.update(update);
     });
 
-    html.find('.evolutions label.paliers button').click(ev => {
-      const value = +$(ev.currentTarget).data('value');
+    html.find(".evolutions label.paliers button").click((ev) => {
+      const value = +$(ev.currentTarget).data("value");
       const getData = this.getData();
       const capacites = getData.data.system.capacites.selected;
       const special = getData.data.system.special.selected;
@@ -360,44 +415,44 @@ export class ArmureSheet extends ItemSheet {
       const length = Object.entries(evolution).length;
 
       let update = {
-        system:{
-          evolutions:{
-            liste:{}
-          }
-        }
+        system: {
+          evolutions: {
+            liste: {},
+          },
+        },
       };
 
-      if(length > value) {
+      if (length > value) {
         for (let [key, evo] of Object.entries(evolution)) {
-          if(+key >= value) {
+          if (+key >= value) {
             update.system.evolutions.liste[`-=${key}`] = null;
           }
         }
       } else {
-        for(let i = 0; i < value;i++) {
+        for (let i = 0; i < value; i++) {
           const isExist = evolution?.[i] || false;
 
-          if(isExist == false) {
-
-            const previous = evolution?.[i-1]?.value+1 || false;
-            const prevValue = previous === false ? update.system.evolutions.liste?.[i-1]?.value+1 || 1 : previous;
+          if (isExist == false) {
+            const previous = evolution?.[i - 1]?.value + 1 || false;
+            const prevValue =
+              previous === false
+                ? update.system.evolutions.liste?.[i - 1]?.value + 1 || 1
+                : previous;
 
             update.system.evolutions.liste[i] = {};
             update.system.evolutions.liste[i].value = prevValue;
             update.system.evolutions.liste[i].description = "";
             update.system.evolutions.liste[i].data = {
-              armure:0,
-              champDeForce:0,
-              energie:0,
-              espoir:0
+              armure: 0,
+              champDeForce: 0,
+              energie: 0,
+              espoir: 0,
             };
             update.system.evolutions.liste[i].capacites = {};
             update.system.evolutions.liste[i].special = {};
 
-
-
             for (let [key, capacite] of Object.entries(capacites)) {
-              if(key != "companions") {
+              if (key != "companions") {
                 update.system.evolutions.liste[i].capacites[key] = capacite.evolutions;
               }
             }
@@ -412,35 +467,35 @@ export class ArmureSheet extends ItemSheet {
       this.item.update(update);
     });
 
-    html.find('.evolutions input.palier').change(ev => {
+    html.find(".evolutions input.palier").change((ev) => {
       const getData = this.getData();
       const evolution = getData.data.system.evolutions.liste;
       const target = $(ev.currentTarget);
-      const keyAct = +target.data('key');
+      const keyAct = +target.data("key");
       const value = +target.val();
       const oldValue = evolution[keyAct].value;
 
       const length = Object.entries(evolution).length;
 
       let update = {
-        system:{
-          evolutions:{
-            liste:{}
-          }
-        }
+        system: {
+          evolutions: {
+            liste: {},
+          },
+        },
       };
 
       let val = 0;
 
-      if(value > oldValue) {
-        for (let i = keyAct+1;i < length;i++) {
-          if(i !== keyAct) {
+      if (value > oldValue) {
+        for (let i = keyAct + 1; i < length; i++) {
+          if (i !== keyAct) {
             const newValue = Math.max(val, value);
             const actValue = +evolution[i].value;
 
-            if(actValue <= newValue) val = newValue+1;
+            if (actValue <= newValue) val = newValue + 1;
 
-            if(actValue <= val) {
+            if (actValue <= val) {
               update.system.evolutions.liste[i] = {};
               update.system.evolutions.liste[i].value = val;
             }
@@ -448,27 +503,26 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      if(value < oldValue) {
-        for (let i = keyAct-1;i > -1;i--) {
-          if(i !== keyAct) {
+      if (value < oldValue) {
+        for (let i = keyAct - 1; i > -1; i--) {
+          if (i !== keyAct) {
             const newValue = val > 0 ? Math.min(val, value) : value;
             const actValue = +evolution[i].value;
 
-            if(actValue >= newValue) val = newValue-1;
+            if (actValue >= newValue) val = newValue - 1;
 
-            if(actValue >= val) {
+            if (actValue >= val) {
               update.system.evolutions.liste[i] = {};
               update.system.evolutions.liste[i].value = val;
             }
           }
         }
       }
-
 
       this.item.update(update);
     });
 
-    html.find('div.capacites div button').click(ev => {
+    html.find("div.capacites div button").click((ev) => {
       const carac = $(ev.currentTarget).data("caracteristique") || false;
       const aspect = $(ev.currentTarget).data("aspect");
 
@@ -480,69 +534,71 @@ export class ArmureSheet extends ItemSheet {
 
       let result = true;
 
-      if(value) { result = false; }
+      if (value) {
+        result = false;
+      }
 
       let update = {};
 
-      if(carac) {
+      if (carac) {
         update = {
-          system:{
-            capacites:{
-              selected:{
-                [type]:{
-                  aspects:{
-                    [aspect]:{
-                      caracteristiques:{
-                        [name]:{
-                          value:result
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          system: {
+            capacites: {
+              selected: {
+                [type]: {
+                  aspects: {
+                    [aspect]: {
+                      caracteristiques: {
+                        [name]: {
+                          value: result,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
-      } else if(asubtype != undefined) {
+      } else if (asubtype != undefined) {
         update = {
-          system:{
-            capacites:{
-              selected:{
-                [type]:{
-                  [subtype]:{
-                    [asubtype]:{
-                      [name]:result
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+          system: {
+            capacites: {
+              selected: {
+                [type]: {
+                  [subtype]: {
+                    [asubtype]: {
+                      [name]: result,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        };
       } else {
         update = {
-          system:{
-            capacites:{
-              selected:{
-                [type]:{
-                  [subtype]:{
-                    [name]:result
-                  }
-                }
-              }
-            }
-          }
-        }
+          system: {
+            capacites: {
+              selected: {
+                [type]: {
+                  [subtype]: {
+                    [name]: result,
+                  },
+                },
+              },
+            },
+          },
+        };
       }
 
       this.item.update(update);
     });
 
-    html.find('div.capacites div.add a').click(async ev => {
+    html.find("div.capacites div.add a").click(async (ev) => {
       const value = $(ev.currentTarget).data("value");
 
-      if(value === "") return;
+      if (value === "") return;
       const data = this.getData();
       const type = data.data.system.capacites.liste[value].type;
       const capacites = data.data.system.capacites[type];
@@ -552,10 +608,12 @@ export class ArmureSheet extends ItemSheet {
       let rSpecial = result?.special || false;
       const hasSpecial = result?.specialEvolutions || false;
       const alreadySpecial = evolutionSpecial?.[value] || false;
-      const selected = Object.values(data.data.system.capacites.selected).filter(element => element.key == value).length;
+      const selected = Object.values(data.data.system.capacites.selected).filter(
+        (element) => element.key == value,
+      ).length;
       let val = value;
 
-      if(val === 'personnalise' && selected > 0) {
+      if (val === "personnalise" && selected > 0) {
         val += selected;
       }
 
@@ -564,47 +622,47 @@ export class ArmureSheet extends ItemSheet {
       result.softlock = true;
 
       let update = {
-        system:{
-          jauges:{},
-          capacites:{
-            actuel:"",
-            selected:{
-              [val]:result
-            }
+        system: {
+          jauges: {},
+          capacites: {
+            actuel: "",
+            selected: {
+              [val]: result,
+            },
           },
-          special:{
-            selected:{}
+          special: {
+            selected: {},
           },
-          evolutions:{
-            liste:{},
-            special:{}
-          }
-        }
+          evolutions: {
+            liste: {},
+            special: {},
+          },
+        },
       };
 
-      if(hasSpecial != false && alreadySpecial == false && value !== 'longbow') {
+      if (hasSpecial != false && alreadySpecial == false && value !== "longbow") {
         update.system.evolutions.special[value] = {};
         update.system.evolutions.special[value].value = 100;
         update.system.evolutions.special[value].description = "";
         update.system.evolutions.special[value].evolutions = {};
         update.system.evolutions.special[value].evolutions = hasSpecial;
-      } else if(hasSpecial != false && alreadySpecial == false && value === 'longbow') {
+      } else if (hasSpecial != false && alreadySpecial == false && value === "longbow") {
         update.system.evolutions.special[value] = {};
         update.system.evolutions.special[value] = hasSpecial;
       }
 
-      if(rSpecial !== false) {
+      if (rSpecial !== false) {
         for (let [key, special] of Object.entries(rSpecial)) {
           const oldSpecial = this.getData().data.system.special.selected?.[special] || false;
           const newSpecial = this.getData().data.system.special[key][special];
 
-          if(oldSpecial === false) {
+          if (oldSpecial === false) {
             update.system.special.selected[special] = {};
             update.system.special.selected[special] = newSpecial;
             update.system.special.selected[special].key = special;
             update.system.special.selected[special].softlock = true;
 
-            if(special === "recolteflux") {
+            if (special === "recolteflux") {
               update.system.jauges.flux = true;
             }
           }
@@ -612,7 +670,7 @@ export class ArmureSheet extends ItemSheet {
       }
 
       for (let [key, evolution] of Object.entries(evolutions)) {
-        if(value != "companions") {
+        if (value != "companions") {
           update.system.evolutions.liste[key] = {};
           update.system.evolutions.liste[key].capacites = {};
           update.system.evolutions.liste[key].special = {};
@@ -627,61 +685,63 @@ export class ArmureSheet extends ItemSheet {
       await this.item.update(update);
     });
 
-    html.find('div.capacites a.verrouillage').click(ev => {
+    html.find("div.capacites a.verrouillage").click((ev) => {
       const type = $(ev.currentTarget).data("type");
       const value = $(ev.currentTarget).data("value");
 
       let result = true;
 
-      if(value) { result = false; }
+      if (value) {
+        result = false;
+      }
 
       const update = {
-        system:{
-          capacites:{
-            selected:{
-              [type]:{
-                softlock:result
-              }
-            }
-          }
-        }
+        system: {
+          capacites: {
+            selected: {
+              [type]: {
+                softlock: result,
+              },
+            },
+          },
+        },
       };
 
       this.item.update(update);
     });
 
-    html.find('div.capacites a.delete').click(async ev => {
+    html.find("div.capacites a.delete").click(async (ev) => {
       const type = $(ev.currentTarget).data("type");
       const evolutions = this.getData().data.system.evolutions.liste;
 
-      this.item.update({[`system.capacites.selected.-=${type}`]:null});
-      this.item.update({[`system.evolutions.special.-=${type}`]:null});
+      this.item.update({ [`system.capacites.selected.-=${type}`]: null });
+      this.item.update({ [`system.evolutions.special.-=${type}`]: null });
 
       for (let [key, evolution] of Object.entries(evolutions)) {
-        this.item.update({[`system.evolutions.liste.${key}.capacites.-=${type}`]:null});
+        this.item.update({ [`system.evolutions.liste.${key}.capacites.-=${type}`]: null });
       }
 
-      if(this.actor != null) {
+      if (this.actor != null) {
         const update = {
-          system:{
-            equipements:{
-              armure:{
-                capacites:{
-                  ascension:{},
-                  warlord:{
-                    modes:{},
-                    action:{},
-                    guerre:{},
-                    force:{},
-                    esquive:{}
-                  }
-                }
-              }
-            }
-          }
+          system: {
+            equipements: {
+              armure: {
+                capacites: {
+                  ascension: {},
+                  warlord: {
+                    modes: {},
+                    action: {},
+                    guerre: {},
+                    force: {},
+                    esquive: {},
+                  },
+                },
+              },
+            },
+          },
         };
 
-        switch(type) {
+        switch (type) {
           case "warlord":
             update.system.equipements.armure.capacites.warlord.modes.action = false;
             update.system.equipements.armure.capacites.warlord.modes.esquive = false;
@@ -694,11 +754,13 @@ export class ArmureSheet extends ItemSheet {
             this.actor.update(update);
             break;
           case "ascension":
-            const remplaceEnergie = this.actor?.armureData?.system?.espoir?.remplaceEnergie || false;
+            const remplaceEnergie =
+              this.actor?.armureData?.system?.espoir?.remplaceEnergie || false;
             const id = this.actor.system.equipements.armure.capacites?.ascension?.id || false;
-            const depense = +this.actor.system.equipements.armure.capacites?.ascension?.depense || 0;
+            const depense =
+              +this.actor.system.equipements.armure.capacites?.ascension?.depense || 0;
 
-            if(id && id != 0) {
+            if (id && id != 0) {
               const actor = game.actors.get(id);
 
               await actor.delete();
@@ -708,21 +770,24 @@ export class ArmureSheet extends ItemSheet {
             update.system.equipements.armure.capacites.ascension.id = 0;
             update.system.equipements.armure.capacites.ascension.depense = 0;
 
-            if(remplaceEnergie) {
+            if (remplaceEnergie) {
               update.system.espoir = {};
-              update.system.espoir.malus = {armure:this.actor.system.espoir.malus.armure-depense};
+              update.system.espoir.malus = {
+                armure: this.actor.system.espoir.malus.armure - depense,
+              };
             } else {
-              this.item.update({[`system.energie.base`]:this.actor.system.energie.max+depense});
+              this.item.update({
+                [`system.energie.base`]: this.actor.system.energie.max + depense,
+              });
             }
 
             this.actor.update(update);
             break;
         }
       }
-
     });
 
-    html.find('div.special div button').click(ev => {
+    html.find("div.special div button").click((ev) => {
       const carac = $(ev.currentTarget).data("caracteristique") || false;
       const aspect = $(ev.currentTarget).data("aspect");
 
@@ -734,106 +799,109 @@ export class ArmureSheet extends ItemSheet {
 
       let result = true;
 
-      if(value) { result = false; }
+      if (value) {
+        result = false;
+      }
 
       let update = {};
 
-      if(carac) {
+      if (carac) {
         update = {
-          system:{
-            special:{
-              selected:{
-                [type]:{
-                  aspects:{
-                    [aspect]:{
-                      caracteristiques:{
-                        [name]:{
-                          value:result
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      } else if(asubtype != undefined) {
+          system: {
+            special: {
+              selected: {
+                [type]: {
+                  aspects: {
+                    [aspect]: {
+                      caracteristiques: {
+                        [name]: {
+                          value: result,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        };
+      } else if (asubtype != undefined) {
         update = {
-          system:{
-            special:{
-              selected:{
-                [type]:{
-                  [subtype]:{
-                    [asubtype]:{
-                      [name]:result
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+          system: {
+            special: {
+              selected: {
+                [type]: {
+                  [subtype]: {
+                    [asubtype]: {
+                      [name]: result,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        };
       } else {
         update = {
-          system:{
-            special:{
-              selected:{
-                [type]:{
-                  [subtype]:{
-                    [name]:result
-                  }
-                }
-              }
-            }
-          }
-        }
+          system: {
+            special: {
+              selected: {
+                [type]: {
+                  [subtype]: {
+                    [name]: result,
+                  },
+                },
+              },
+            },
+          },
+        };
       }
 
       this.item.update(update);
     });
 
-    html.find('div.special div.add a').click(ev => {
+    html.find("div.special div.add a").click((ev) => {
       const value = $(ev.currentTarget).data("value");
 
-      if(value === "") return;
+      if (value === "") return;
       const data = this.getData();
       const type = data.data.system.special.liste[value].type;
       const special = data.data.system.special[type];
       const evolutions = data.data.system.evolutions.liste;
-      const selected = Object.values(data.data.system.special.selected).filter(element => element.key == value).length;
+      const selected = Object.values(data.data.system.special.selected).filter(
+        (element) => element.key == value,
+      ).length;
       let result = special[value];
       let val = value;
 
-      if(val === 'personnalise' && selected > 0) {
+      if (val === "personnalise" && selected > 0) {
         val += selected;
       }
-
 
       result.key = val;
       result.main = value;
       result.softlock = true;
 
       let update = {
-        system:{
-          jauges:{},
-          special:{
-            selected:{
-              [val]:result
-            }
+        system: {
+          jauges: {},
+          special: {
+            selected: {
+              [val]: result,
+            },
           },
-          evolutions:{
-            liste:{}
-          }
-        }
+          evolutions: {
+            liste: {},
+          },
+        },
       };
 
-      if(value === "recolteflux") {
+      if (value === "recolteflux") {
         update.system.jauges.flux = true;
       }
 
       for (let [key, evolution] of Object.entries(evolutions)) {
-        if(value != "companions") {
+        if (value != "companions") {
           update.system.evolutions.liste[key] = {};
           update.system.evolutions.liste[key].special = {};
           update.system.evolutions.liste[key].special[value] = result.evolutions;
@@ -843,53 +911,55 @@ export class ArmureSheet extends ItemSheet {
       this.item.update(update);
     });
 
-    html.find('div.special a.verrouillage').click(ev => {
+    html.find("div.special a.verrouillage").click((ev) => {
       const type = $(ev.currentTarget).data("type");
       const value = $(ev.currentTarget).data("value");
 
       let result = true;
 
-      if(value) { result = false; }
+      if (value) {
+        result = false;
+      }
 
       const update = {
-        system:{
-          special:{
-            selected:{
-              [type]:{
-                softlock:result
-              }
-            }
-          }
-        }
+        system: {
+          special: {
+            selected: {
+              [type]: {
+                softlock: result,
+              },
+            },
+          },
+        },
       };
 
       this.item.update(update);
     });
 
-    html.find('div.special a.delete').click(ev => {
+    html.find("div.special a.delete").click((ev) => {
       const type = $(ev.currentTarget).data("type");
       const evolutions = this.getData().data.system.evolutions.liste;
 
-      this.item.update({[`system.special.selected.-=${type}`]:null});
+      this.item.update({ [`system.special.selected.-=${type}`]: null });
 
-      if(type === "recolteflux") {
-        this.item.update({[`system.jauges.flux`]:false});
+      if (type === "recolteflux") {
+        this.item.update({ [`system.jauges.flux`]: false });
       }
 
       for (let [key, evolution] of Object.entries(evolutions)) {
-        this.item.update({[`system.evolutions.liste.${key}.special.-=${type}`]:null});
+        this.item.update({ [`system.evolutions.liste.${key}.special.-=${type}`]: null });
       }
     });
 
-    html.find('div.capacites img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
+    html.find("div.capacites img.info").click((ev) => {
+      const span = $(ev.currentTarget).siblings("span.hideInfo");
       const width = $(ev.currentTarget).parents("div.mainData").width() / 2;
       const isW50 = $(ev.currentTarget).parents("div.data").width();
       let position = "";
       let borderRadius = "border-top-right-radius";
 
-      if(isW50 <= width) {
-        if($(ev.currentTarget).parents("div.data").position().left > width) {
+      if (isW50 <= width) {
+        if ($(ev.currentTarget).parents("div.data").position().left > width) {
           position = "right";
           borderRadius = "border-top-right-radius";
         } else {
@@ -897,7 +967,7 @@ export class ArmureSheet extends ItemSheet {
           borderRadius = "border-top-left-radius";
         }
       } else {
-        if($(ev.currentTarget).parent().position().left > width) {
+        if ($(ev.currentTarget).parent().position().left > width) {
           position = "right";
           borderRadius = "border-top-right-radius";
         } else {
@@ -906,19 +976,23 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
+      span
+        .width($(html).width() / 2)
+        .css(position, "0px")
+        .css(borderRadius, "0px")
+        .toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    html.find('div.special img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
+    html.find("div.special img.info").click((ev) => {
+      const span = $(ev.currentTarget).siblings("span.hideInfo");
       const width = $(ev.currentTarget).parents("div.mainData").width() / 2;
       const isW50 = $(ev.currentTarget).parents("div.data").width();
       let position = "";
       let borderRadius = "border-top-right-radius";
 
-      if(isW50 <= width) {
-        if($(ev.currentTarget).parents("div.data").position().left > width) {
+      if (isW50 <= width) {
+        if ($(ev.currentTarget).parents("div.data").position().left > width) {
           position = "right";
           borderRadius = "border-top-right-radius";
         } else {
@@ -926,7 +1000,7 @@ export class ArmureSheet extends ItemSheet {
           borderRadius = "border-top-left-radius";
         }
       } else {
-        if($(ev.currentTarget).parent().position().left > width) {
+        if ($(ev.currentTarget).parent().position().left > width) {
           position = "right";
           borderRadius = "border-top-right-radius";
         } else {
@@ -935,19 +1009,23 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
+      span
+        .width($(html).width() / 2)
+        .css(position, "0px")
+        .css(borderRadius, "0px")
+        .toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    html.find('div.evolutions img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
+    html.find("div.evolutions img.info").click((ev) => {
+      const span = $(ev.currentTarget).siblings("span.hideInfo");
       const width = $(ev.currentTarget).parents("div.mainData").width() / 2;
       const isW50 = $(ev.currentTarget).parents("div.data").width();
       let position = "";
       let borderRadius = "border-top-right-radius";
 
-      if(isW50 <= width) {
-        if($(ev.currentTarget).parents("div.data").position().left > width) {
+      if (isW50 <= width) {
+        if ($(ev.currentTarget).parents("div.data").position().left > width) {
           position = "right";
           borderRadius = "border-top-right-radius";
         } else {
@@ -955,7 +1033,7 @@ export class ArmureSheet extends ItemSheet {
           borderRadius = "border-top-left-radius";
         }
       } else {
-        if($(ev.currentTarget).parent().position().left > width) {
+        if ($(ev.currentTarget).parent().position().left > width) {
           position = "right";
           borderRadius = "border-top-right-radius";
         } else {
@@ -964,33 +1042,60 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
+      span
+        .width($(html).width() / 2)
+        .css(position, "0px")
+        .css(borderRadius, "0px")
+        .toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    html.find('div.effets a.edit').click(async ev => {
+    html.find("div.effets a.edit").click(async (ev) => {
       const stringPath = $(ev.currentTarget).data("path");
       let path = this.getData().data;
 
-      stringPath.split(".").forEach(function(key){
+      stringPath.split(".").forEach(function (key) {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({
+        actor: this.actor?._id || null,
+        item: this.item._id,
+        isToken: this.item?.parent?.isToken || false,
+        token: this.item?.parent || null,
+        raw: path.raw,
+        custom: path.custom,
+        activable: path.activable,
+        toUpdate: stringPath,
+        aspects: this.getData().data.system.overdrives,
+        title: `${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`,
+      }).render(true);
     });
 
-    html.find('div.distance a.edit').click(async ev => {
+    html.find("div.distance a.edit").click(async (ev) => {
       const stringPath = $(ev.currentTarget).data("path");
       let path = this.getData().data;
 
-      stringPath.split(".").forEach(function(key){
+      stringPath.split(".").forEach(function (key) {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({
+        actor: this.actor?._id || null,
+        item: this.item._id,
+        isToken: this.item?.parent?.isToken || false,
+        token: this.item?.parent || null,
+        raw: path.raw,
+        custom: path.custom,
+        activable: path.activable,
+        toUpdate: stringPath,
+        aspects: this.getData().data.system.overdrives,
+        typeEffets: "distance",
+        title: `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`,
+      }).render(true);
     });
 
-    html.find('textarea').blur(async ev => {
+    html.find("textarea").blur(async (ev) => {
       const textarea = $(ev.currentTarget);
       const capacite = textarea.data("capacite");
       const special = textarea.data("special") || false;
@@ -1000,48 +1105,59 @@ export class ArmureSheet extends ItemSheet {
       const key = textarea.data("key");
 
       textarea.height(min);
-      const height = ev.currentTarget.scrollHeight+1;
+      const height = ev.currentTarget.scrollHeight + 1;
 
       textarea.height(Math.max(height, min));
-      if(evo) {
-        if(special === true) {
-          this.item.update({[`system.evolutions.special.${capacite}.evolutions.textarea.${type}`]:Math.max(height, min)});
+      if (evo) {
+        if (special === true) {
+          this.item.update({
+            [`system.evolutions.special.${capacite}.evolutions.textarea.${type}`]: Math.max(
+              height,
+              min,
+            ),
+          });
         } else {
-          this.item.update({[`system.evolutions.liste.${key}.capacites.${capacite}.textarea.${type}`]:Math.max(height, min)});
+          this.item.update({
+            [`system.evolutions.liste.${key}.capacites.${capacite}.textarea.${type}`]: Math.max(
+              height,
+              min,
+            ),
+          });
         }
-
       } else {
-        this.item.update({[`system.capacites.selected.${capacite}.textarea.${type}`]:Math.max(height, min)});
+        this.item.update({
+          [`system.capacites.selected.${capacite}.textarea.${type}`]: Math.max(height, min),
+        });
       }
     });
 
-    html.find('a.btnChargeurPlus').click(async ev => {
+    html.find("a.btnChargeurPlus").click(async (ev) => {
       const tgt = $(ev.currentTarget);
-      const index = tgt.parents(".btnChargeur").data('index');
-      const type = tgt.parents(".btnChargeur").data('type');
+      const index = tgt.parents(".btnChargeur").data("index");
+      const type = tgt.parents(".btnChargeur").data("type");
 
       this.item.system.addMunition(index, type);
       this.item.render();
     });
 
-    html.find('a.btnChargeurMoins').click(async ev => {
+    html.find("a.btnChargeurMoins").click(async (ev) => {
       const tgt = $(ev.currentTarget);
-      const index = tgt.parents(".btnChargeur").data('index');
-      const type = tgt.parents(".btnChargeur").data('type');
+      const index = tgt.parents(".btnChargeur").data("index");
+      const type = tgt.parents(".btnChargeur").data("type");
 
       this.item.system.removeMunition(index, type);
       this.item.render();
     });
-  }
+  }*/
 
   //GESTION DES JAUGES
   _jaugeCheck(context) {
     const capacites = context.data.system.capacites.selected;
 
     for (let [key, capacite] of Object.entries(capacites)) {
-        const flux = capacite?.flux?.has || false;
+      const flux = capacite?.flux?.has || false;
 
-        context.data.system.jauges.flux = flux;
+      context.data.system.jauges.flux = flux;
     }
   }
 
@@ -1066,104 +1182,104 @@ export class ArmureSheet extends ItemSheet {
     let cObject = {};
 
     for (let [key, capacite] of Object.entries(capacitesBase)) {
-      if(Object.values(capacitesSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-        cArray.push(
-          {
-            key:key,
-            label:capacite.label,
-            type:"base"
-          }
-        );
+      if (
+        Object.values(capacitesSelected).findIndex((element) => element.key == key) == -1 &&
+        key != "personnalise"
+      ) {
+        cArray.push({
+          key: key,
+          label: capacite.label,
+          type: "base",
+        });
       }
     }
 
-    if(is2038) {
+    if (is2038) {
       for (let [key, capacite] of Object.entries(capacites2038)) {
-        if(Object.values(capacitesSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:capacite.label,
-              type:"c2038"
-            }
-          );
+        if (
+          Object.values(capacitesSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: capacite.label,
+            type: "c2038",
+          });
         }
       }
     }
 
-    if(is2038Necromancer) {
+    if (is2038Necromancer) {
       for (let [key, capacite] of Object.entries(capacites2038Necromancer)) {
-        if(Object.values(capacitesSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:capacite.label,
-              type:"c2038Necromancer"
-            }
-          );
+        if (
+          Object.values(capacitesSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: capacite.label,
+            type: "c2038Necromancer",
+          });
         }
       }
     }
 
-    if(is2038Sorcerer) {
+    if (is2038Sorcerer) {
       for (let [key, capacite] of Object.entries(capacites2038Sorcerer)) {
-        if(Object.values(capacitesSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:capacite.label,
-              type:"c2038Sorcerer"
-            }
-          );
+        if (
+          Object.values(capacitesSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: capacite.label,
+            type: "c2038Sorcerer",
+          });
         }
       }
     }
 
-    if(isCodex) {
+    if (isCodex) {
       for (let [key, capacite] of Object.entries(capacitesCodex)) {
-        if(Object.values(capacitesSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:capacite.label,
-              type:"codex"
-            }
-          );
+        if (
+          Object.values(capacitesSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: capacite.label,
+            type: "codex",
+          });
         }
       }
     }
 
-    if(isAtlas) {
+    if (isAtlas) {
       for (let [key, capacite] of Object.entries(capacitesAtlas)) {
-        if(Object.values(capacitesSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:capacite.label,
-              type:"atlas"
-            }
-          );
+        if (
+          Object.values(capacitesSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: capacite.label,
+            type: "atlas",
+          });
         }
       }
     }
 
-    if(isAtlasSpecial) {
+    if (isAtlasSpecial) {
       for (let [key, capacite] of Object.entries(capacitesAtlasSpecial)) {
-        if(Object.values(capacitesSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:capacite.label,
-              type:"atlasSpecial"
-            }
-          );
+        if (
+          Object.values(capacitesSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: capacite.label,
+            type: "atlasSpecial",
+          });
         }
       }
     }
@@ -1171,12 +1287,12 @@ export class ArmureSheet extends ItemSheet {
     cArray.sort(SortByLabel);
 
     cArray.unshift({
-      key:"personnalise",
-      label:capacitesBase["personnalise"].label,
-      type:"base"
+      key: "personnalise",
+      label: capacitesBase["personnalise"].label,
+      type: "base",
     });
 
-    for (let i = 0;i < cArray.length;i++) {
+    for (let i = 0; i < cArray.length; i++) {
       cObject[cArray[i].key] = {};
       cObject[cArray[i].key] = cArray[i];
     }
@@ -1202,88 +1318,89 @@ export class ArmureSheet extends ItemSheet {
     let cObject = {};
 
     for (let [key, special] of Object.entries(specialBase)) {
-      if(Object.values(specialSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-        cArray.push(
-          {
-            key:key,
-            label:special.label,
-            type:"base"
-          }
-        );
+      if (
+        Object.values(specialSelected).findIndex((element) => element.key == key) == -1 &&
+        key != "personnalise"
+      ) {
+        cArray.push({
+          key: key,
+          label: special.label,
+          type: "base",
+        });
       }
     }
 
-    if(is2038) {
+    if (is2038) {
       for (let [key, special] of Object.entries(special2038)) {
-        if(Object.values(specialSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:special.label,
-              type:"c2038"
-            }
-          );
+        if (
+          Object.values(specialSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: special.label,
+            type: "c2038",
+          });
         }
       }
     }
 
-    if(is2038Sorcerer) {
+    if (is2038Sorcerer) {
       for (let [key, special] of Object.entries(special2038Sorcerer)) {
-        if(Object.values(specialSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-          cArray.push(
-            {
-              key:key,
-              label:special.label,
-              type:"c2038Sorcerer"
-            }
-          );
+        if (
+          Object.values(specialSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: special.label,
+            type: "c2038Sorcerer",
+          });
         }
       }
     }
 
-    if(is2038Necromancer) {
+    if (is2038Necromancer) {
       for (let [key, special] of Object.entries(special2038Necromancer)) {
-        if(Object.values(specialSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:special.label,
-              type:"c2038Necromancer"
-            }
-          );
+        if (
+          Object.values(specialSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: special.label,
+            type: "c2038Necromancer",
+          });
         }
       }
     }
 
-    if(isAtlas) {
+    if (isAtlas) {
       for (let [key, special] of Object.entries(specialAtlas)) {
-        if(Object.values(specialSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:special.label,
-              type:"atlas"
-            }
-          );
+        if (
+          Object.values(specialSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: special.label,
+            type: "atlas",
+          });
         }
       }
     }
 
-    if(isAtlasSpecial) {
+    if (isAtlasSpecial) {
       for (let [key, special] of Object.entries(specialAtlasSpecial)) {
-        if(Object.values(specialSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
-
-          cArray.push(
-            {
-              key:key,
-              label:special.label,
-              type:"atlasSpecial"
-            }
-          );
+        if (
+          Object.values(specialSelected).findIndex((element) => element.key == key) == -1 &&
+          key != "personnalise"
+        ) {
+          cArray.push({
+            key: key,
+            label: special.label,
+            type: "atlasSpecial",
+          });
         }
       }
     }
@@ -1291,12 +1408,12 @@ export class ArmureSheet extends ItemSheet {
     cArray.sort(SortByLabel);
 
     cArray.unshift({
-      key:"personnalise",
-      label:specialBase["personnalise"].label,
-      type:"base"
+      key: "personnalise",
+      label: specialBase["personnalise"].label,
+      type: "base",
     });
 
-    for (let i = 0;i < cArray.length;i++) {
+    for (let i = 0; i < cArray.length; i++) {
       cObject[cArray[i].key] = {};
       cObject[cArray[i].key] = cArray[i];
     }
@@ -1341,10 +1458,14 @@ export class ArmureSheet extends ItemSheet {
     const capacitesAtlas = context.data.system.capacites.atlas;
 
     for (let [key, capacite] of Object.entries(capacitesBase)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       capacite.label = game.i18n.localize(CONFIG.KNIGHT.capacites[key]);
@@ -1352,10 +1473,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, capacite] of Object.entries(capacites2038)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       capacite.label = game.i18n.localize(CONFIG.KNIGHT.capacites[key]);
@@ -1363,10 +1488,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, capacite] of Object.entries(capacites2038Necromancer)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       capacite.label = game.i18n.localize(CONFIG.KNIGHT.capacites[key]);
@@ -1374,10 +1503,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, capacite] of Object.entries(capacites2038Sorcerer)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       capacite.label = game.i18n.localize(CONFIG.KNIGHT.capacites[key]);
@@ -1385,10 +1518,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, capacite] of Object.entries(capacitesCodex)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       capacite.label = game.i18n.localize(CONFIG.KNIGHT.capacites[key]);
@@ -1396,10 +1533,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, capacite] of Object.entries(capacitesAtlasSpecial)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       capacite.label = game.i18n.localize(CONFIG.KNIGHT.capacites[key]);
@@ -1407,10 +1548,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, capacite] of Object.entries(capacitesAtlas)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       capacite.label = game.i18n.localize(CONFIG.KNIGHT.capacites[key]);
@@ -1467,10 +1612,16 @@ export class ArmureSheet extends ItemSheet {
     const traRayon = CONFIG.KNIGHT.cea.rayon;
 
     eVague.description = game.i18n.localize(traVague.description);
-    eVague.portee = game.i18n.localize("KNIGHT.PORTEE.Contact") + " / "+game.i18n.localize("KNIGHT.PORTEE.Courte");
+    eVague.portee =
+      game.i18n.localize("KNIGHT.PORTEE.Contact") +
+      " / " +
+      game.i18n.localize("KNIGHT.PORTEE.Courte");
 
     vague.description = game.i18n.localize(traVague.description);
-    vague.portee = game.i18n.localize("KNIGHT.PORTEE.Contact") + " / "+game.i18n.localize("KNIGHT.PORTEE.Courte");
+    vague.portee =
+      game.i18n.localize("KNIGHT.PORTEE.Contact") +
+      " / " +
+      game.i18n.localize("KNIGHT.PORTEE.Courte");
 
     salve.description = game.i18n.localize(traSalve.description);
     salve.portee = game.i18n.localize("KNIGHT.PORTEE.Moyenne");
@@ -1506,17 +1657,21 @@ export class ArmureSheet extends ItemSheet {
     const capacite = context.data.system.capacites.selected?.ascension || false;
     const energie = context.data.system.energie.base || 0;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
-    if(energie < capacite.energie.min) { capacite.energie.min = energie }
-    if(energie < capacite.energie.max) { capacite.energie.max = energie }
+    if (energie < capacite.energie.min) {
+      capacite.energie.min = energie;
+    }
+    if (energie < capacite.energie.max) {
+      capacite.energie.max = energie;
+    }
 
     capacite.energie.limite = energie;
 
     const labelSansArmure = game.i18n.localize(CONFIG.KNIGHT.ascension["sansArmure"]);
     const labelNoSansArmure = game.i18n.localize(CONFIG.KNIGHT.ascension["noSansArmure"]);
 
-    if(capacite.sansarmure.acces === true) {
+    if (capacite.sansarmure.acces === true) {
       capacite.sansarmure.label = labelSansArmure;
     } else {
       capacite.sansarmure.label = labelNoSansArmure;
@@ -1527,16 +1682,20 @@ export class ArmureSheet extends ItemSheet {
     for (let [key, evo] of Object.entries(eEvo)) {
       const evolution = evo.capacites?.ascension || false;
 
-      if(!evolution) return;
+      if (!evolution) return;
 
-      if(energie < evolution.energie.min) { evolution.energie.min = energie }
-      if(energie < evolution.energie.max) { evolution.energie.max = energie }
+      if (energie < evolution.energie.min) {
+        evolution.energie.min = energie;
+      }
+      if (energie < evolution.energie.max) {
+        evolution.energie.max = energie;
+      }
       evolution.energie.limite = energie;
 
       const labelSansArmure = game.i18n.localize(CONFIG.KNIGHT.ascension["sansArmure"]);
       const labelNoSansArmure = game.i18n.localize(CONFIG.KNIGHT.ascension["noSansArmure"]);
 
-      if(evolution.sansarmure.acces === true) {
+      if (evolution.sansarmure.acces === true) {
         evolution.sansarmure.label = labelSansArmure;
       } else {
         evolution.sansarmure.label = labelNoSansArmure;
@@ -1547,12 +1706,12 @@ export class ArmureSheet extends ItemSheet {
   _prepareSelectedChangelingTranslation(context) {
     const capacite = context.data.system.capacites.selected?.changeling || false;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
     const labelDesactivation = game.i18n.localize(CONFIG.KNIGHT.changeling["desactivation"]);
     const labelNoDesactivation = game.i18n.localize(CONFIG.KNIGHT.changeling["noDesactivation"]);
 
-    if(capacite.desactivationexplosive.acces === true) {
+    if (capacite.desactivationexplosive.acces === true) {
       capacite.desactivationexplosive.label = labelDesactivation;
     } else {
       capacite.desactivationexplosive.label = labelNoDesactivation;
@@ -1562,12 +1721,17 @@ export class ArmureSheet extends ItemSheet {
   _prepareGoliathSelectedTranslation(context) {
     const capacite = context.data.system.capacites.selected?.goliath || false;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
-    const labelRack = game.i18n.localize(CONFIG.KNIGHT.goliath["armesrack"])+" "+capacite.armesRack.value+" "+game.i18n.localize(CONFIG.KNIGHT.goliath["metrebonus"]).toLowerCase();
+    const labelRack =
+      game.i18n.localize(CONFIG.KNIGHT.goliath["armesrack"]) +
+      " " +
+      capacite.armesRack.value +
+      " " +
+      game.i18n.localize(CONFIG.KNIGHT.goliath["metrebonus"]).toLowerCase();
     const labelNoRack = game.i18n.localize(CONFIG.KNIGHT.goliath["armesnorack"]);
 
-    if(capacite.armesRack.active === true) {
+    if (capacite.armesRack.active === true) {
       capacite.armesRack.label = labelRack;
     } else {
       capacite.armesRack.label = labelNoRack;
@@ -1577,12 +1741,12 @@ export class ArmureSheet extends ItemSheet {
   _prepareGhostSelectedTranslation(context) {
     const interruption = context.data.system.capacites.selected?.ghost?.interruption || false;
 
-    if(!interruption) return;
+    if (!interruption) return;
 
     const labelTrue = game.i18n.localize(CONFIG.KNIGHT.ghost["interruption"]);
     const labelFalse = game.i18n.localize(CONFIG.KNIGHT.ghost["nointerruption"]);
 
-    if(interruption.actif === true) {
+    if (interruption.actif === true) {
       interruption.label = labelTrue;
     } else {
       interruption.label = labelFalse;
@@ -1590,7 +1754,7 @@ export class ArmureSheet extends ItemSheet {
 
     const degats = context.data.system.capacites.selected?.ghost?.bonus?.degats || false;
 
-    if(!degats) return;
+    if (!degats) return;
 
     const odInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["odinclus"]);
     const odNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["odnoinclus"]);
@@ -1601,19 +1765,19 @@ export class ArmureSheet extends ItemSheet {
     const fixeInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["fixeinclus"]);
     const fixeNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["fixenoinclus"]);
 
-    if(degats.od === true) {
+    if (degats.od === true) {
       degats.inclus.od = odInclus;
     } else {
       degats.inclus.od = odNoInclus;
     }
 
-    if(degats.dice === true) {
+    if (degats.dice === true) {
       degats.inclus.dice = diceInclus;
     } else {
       degats.inclus.dice = diceNoInclus;
     }
 
-    if(degats.fixe === true) {
+    if (degats.fixe === true) {
       degats.inclus.fixe = fixeInclus;
     } else {
       degats.inclus.fixe = fixeNoInclus;
@@ -1623,21 +1787,29 @@ export class ArmureSheet extends ItemSheet {
   _prepareFalconTranslation(context) {
     const capacite = context.data.system.capacites.base.falcon;
 
-    capacite.informations = "<p>"+game.i18n.localize(CONFIG.KNIGHT.falcon["informations"])
-    .replaceAll("\n**", "\n<b>")
-    .replaceAll("**", "</b>")
-    .replaceAll("\r\n", "</p><p>")
-    .replaceAll(" _", " <em>")
-    .replaceAll("_", "</em>")
-    .replaceAll(" **", " <b>")+"</p>";
+    capacite.informations =
+      "<p>" +
+      game.i18n
+        .localize(CONFIG.KNIGHT.falcon["informations"])
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll("\r\n", "</p><p>")
+        .replaceAll(" _", " <em>")
+        .replaceAll("_", "</em>")
+        .replaceAll(" **", " <b>") +
+      "</p>";
 
-    capacite.evolutions.informations = "<p>"+game.i18n.localize(CONFIG.KNIGHT.falcon["informations"])
-    .replaceAll("\n**", "\n<b>")
-    .replaceAll("**", "</b>")
-    .replaceAll("\r\n", "</p><p>")
-    .replaceAll(" _", " <em>")
-    .replaceAll("_", "</em>")
-    .replaceAll(" **", " <b>")+"</p>";
+    capacite.evolutions.informations =
+      "<p>" +
+      game.i18n
+        .localize(CONFIG.KNIGHT.falcon["informations"])
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll("\r\n", "</p><p>")
+        .replaceAll(" _", " <em>")
+        .replaceAll("_", "</em>")
+        .replaceAll(" **", " <b>") +
+      "</p>";
   }
 
   _prepareSelectedTypeTranslation(context) {
@@ -1645,14 +1817,14 @@ export class ArmureSheet extends ItemSheet {
     const eType = context.data.system.evolutions.liste;
     const labels = {};
 
-    if(!sType) return;
+    if (!sType) return;
 
-    for (let [key, type] of Object.entries(sType)){
+    for (let [key, type] of Object.entries(sType)) {
       type.label = game.i18n.localize(CONFIG.KNIGHT.type[key]);
       labels[key] = {};
       labels[key].label = game.i18n.localize(CONFIG.KNIGHT.type[key]);
 
-      for (let [keyType, dType] of Object.entries(type.liste)){
+      for (let [keyType, dType] of Object.entries(type.liste)) {
         dType.label = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[keyType]);
         labels[key][keyType] = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[keyType]);
       }
@@ -1683,17 +1855,29 @@ export class ArmureSheet extends ItemSheet {
     capacite.guerre.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.guerre["duree"]);
     capacite.energie.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.energie["duree"]);
 
-    capacite.action.bonus.description = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.action["bonus"]);
-    capacite.energie.bonus.description = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.energie["bonus"]);
+    capacite.action.bonus.description = game.i18n.localize(
+      CONFIG.KNIGHT.warlord.impulsions.action["bonus"],
+    );
+    capacite.energie.bonus.description = game.i18n.localize(
+      CONFIG.KNIGHT.warlord.impulsions.energie["bonus"],
+    );
 
     evolutions.action.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.action["duree"]);
-    evolutions.esquive.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.esquive["duree"]);
+    evolutions.esquive.duree = game.i18n.localize(
+      CONFIG.KNIGHT.warlord.impulsions.esquive["duree"],
+    );
     evolutions.force.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.force["duree"]);
     evolutions.guerre.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.guerre["duree"]);
-    evolutions.energie.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.energie["duree"]);
+    evolutions.energie.duree = game.i18n.localize(
+      CONFIG.KNIGHT.warlord.impulsions.energie["duree"],
+    );
 
-    evolutions.action.bonus.description = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.action["bonus"]);
-    evolutions.energie.bonus.description = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.energie["bonus"]);
+    evolutions.action.bonus.description = game.i18n.localize(
+      CONFIG.KNIGHT.warlord.impulsions.action["bonus"],
+    );
+    evolutions.energie.bonus.description = game.i18n.localize(
+      CONFIG.KNIGHT.warlord.impulsions.energie["bonus"],
+    );
   }
 
   _prepareDiscordTranslation(context) {
@@ -1714,7 +1898,9 @@ export class ArmureSheet extends ItemSheet {
     capacite.reparation.distance.duree = game.i18n.localize(CONFIG.KNIGHT.mechanic.duree);
 
     capacite.evolutions.reparation.contact.duree = game.i18n.localize(CONFIG.KNIGHT.mechanic.duree);
-    capacite.evolutions.reparation.distance.duree = game.i18n.localize(CONFIG.KNIGHT.mechanic.duree);
+    capacite.evolutions.reparation.distance.duree = game.i18n.localize(
+      CONFIG.KNIGHT.mechanic.duree,
+    );
   }
 
   _prepareMorphTranslation(context) {
@@ -1726,14 +1912,20 @@ export class ArmureSheet extends ItemSheet {
     capacite.phase.duree = game.i18n.localize(CONFIG.KNIGHT.morph.phase.duree);
     capacite.etirement.description = game.i18n.localize(CONFIG.KNIGHT.morph.etirement.description);
     capacite.etirement.portee = game.i18n.localize(CONFIG.KNIGHT.morph.etirement.portee);
-    capacite.polymorphie.description = game.i18n.localize(CONFIG.KNIGHT.morph.polymorphie.description);
+    capacite.polymorphie.description = game.i18n.localize(
+      CONFIG.KNIGHT.morph.polymorphie.description,
+    );
 
     evolutions.vol.description = game.i18n.localize(CONFIG.KNIGHT.morph.vol.description);
     evolutions.phase.description = game.i18n.localize(CONFIG.KNIGHT.morph.phase.description);
     evolutions.phase.duree = game.i18n.localize(CONFIG.KNIGHT.morph.phase.duree);
-    evolutions.etirement.description = game.i18n.localize(CONFIG.KNIGHT.morph.etirement.description);
+    evolutions.etirement.description = game.i18n.localize(
+      CONFIG.KNIGHT.morph.etirement.description,
+    );
     evolutions.etirement.portee = game.i18n.localize(CONFIG.KNIGHT.morph.etirement.portee);
-    evolutions.polymorphie.description = game.i18n.localize(CONFIG.KNIGHT.morph.polymorphie.description);
+    evolutions.polymorphie.description = game.i18n.localize(
+      CONFIG.KNIGHT.morph.polymorphie.description,
+    );
   }
 
   _prepareIlluminationTranslation(context) {
@@ -1743,17 +1935,37 @@ export class ArmureSheet extends ItemSheet {
     capacite.candle.description = game.i18n.localize(CONFIG.KNIGHT.illumination.candle.description);
     capacite.beacon.description = game.i18n.localize(CONFIG.KNIGHT.illumination.beacon.description);
     capacite.torch.description = game.i18n.localize(CONFIG.KNIGHT.illumination.torch.description);
-    capacite.projector.description = game.i18n.localize(CONFIG.KNIGHT.illumination.projector.description);
-    capacite.lighthouse.description = game.i18n.localize(CONFIG.KNIGHT.illumination.lighthouse.description);
-    capacite.lantern.description = game.i18n.localize(CONFIG.KNIGHT.illumination.lantern.description);
+    capacite.projector.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.projector.description,
+    );
+    capacite.lighthouse.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.lighthouse.description,
+    );
+    capacite.lantern.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.lantern.description,
+    );
 
-    capacite.evolutions.blaze.description = game.i18n.localize(CONFIG.KNIGHT.illumination.blaze.description);
-    capacite.evolutions.candle.description = game.i18n.localize(CONFIG.KNIGHT.illumination.candle.description);
-    capacite.evolutions.beacon.description = game.i18n.localize(CONFIG.KNIGHT.illumination.beacon.description);
-    capacite.evolutions.torch.description = game.i18n.localize(CONFIG.KNIGHT.illumination.torch.description);
-    capacite.evolutions.projector.description = game.i18n.localize(CONFIG.KNIGHT.illumination.projector.description);
-    capacite.evolutions.lighthouse.description = game.i18n.localize(CONFIG.KNIGHT.illumination.lighthouse.description);
-    capacite.evolutions.lantern.description = game.i18n.localize(CONFIG.KNIGHT.illumination.lantern.description);
+    capacite.evolutions.blaze.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.blaze.description,
+    );
+    capacite.evolutions.candle.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.candle.description,
+    );
+    capacite.evolutions.beacon.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.beacon.description,
+    );
+    capacite.evolutions.torch.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.torch.description,
+    );
+    capacite.evolutions.projector.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.projector.description,
+    );
+    capacite.evolutions.lighthouse.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.lighthouse.description,
+    );
+    capacite.evolutions.lantern.description = game.i18n.localize(
+      CONFIG.KNIGHT.illumination.lantern.description,
+    );
   }
 
   _prepareRageTranslation(context) {
@@ -1774,7 +1986,7 @@ export class ArmureSheet extends ItemSheet {
   _prepareRageSelectedTranslation(context) {
     const capacite = context.data.system.capacites.selected?.rage || false;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
     const colereBonus = capacite.colere.combosBonus.has;
     const colereInterdits = capacite.colere.combosInterdits.has;
@@ -1785,40 +1997,52 @@ export class ArmureSheet extends ItemSheet {
     const fureurBonus = capacite.fureur.combosBonus.has;
     const fureurInterdits = capacite.fureur.combosInterdits.has;
 
-    if(colereBonus) {
+    if (colereBonus) {
       capacite.colere.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboBonus"]);
     } else {
       capacite.colere.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoBonus"]);
     }
 
-    if(colereInterdits) {
-      capacite.colere.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboInterdits"]);
+    if (colereInterdits) {
+      capacite.colere.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboInterdits"],
+      );
     } else {
-      capacite.colere.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoInterdits"]);
+      capacite.colere.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboNoInterdits"],
+      );
     }
 
-    if(rageBonus) {
+    if (rageBonus) {
       capacite.rage.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboBonus"]);
     } else {
       capacite.rage.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoBonus"]);
     }
 
-    if(rageInterdits) {
-      capacite.rage.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboInterdits"]);
+    if (rageInterdits) {
+      capacite.rage.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboInterdits"],
+      );
     } else {
-      capacite.rage.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoInterdits"]);
+      capacite.rage.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboNoInterdits"],
+      );
     }
 
-    if(fureurBonus) {
+    if (fureurBonus) {
       capacite.fureur.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboBonus"]);
     } else {
       capacite.fureur.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoBonus"]);
     }
 
-    if(fureurInterdits) {
-      capacite.fureur.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboInterdits"]);
+    if (fureurInterdits) {
+      capacite.fureur.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboInterdits"],
+      );
     } else {
-      capacite.fureur.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoInterdits"]);
+      capacite.fureur.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboNoInterdits"],
+      );
     }
   }
 
@@ -1826,13 +2050,27 @@ export class ArmureSheet extends ItemSheet {
     const companions = context.data.system.capacites.codex.companions;
     const evolutions = companions.special;
 
-    companions.lion.armes.contact.coups.label = game.i18n.localize(CONFIG.KNIGHT.companions["coups"]);
-    companions.wolf.armes.contact.coups.label = game.i18n.localize(CONFIG.KNIGHT.companions["coups"]);
-    companions.wolf.configurations.labor.description = game.i18n.localize(CONFIG.KNIGHT.companions.labor["description"]);
-    companions.wolf.configurations.medic.description = game.i18n.localize(CONFIG.KNIGHT.companions.medic["description"]);
-    companions.wolf.configurations.tech.description = game.i18n.localize(CONFIG.KNIGHT.companions.tech["description"]);
-    companions.wolf.configurations.fighter.description = game.i18n.localize(CONFIG.KNIGHT.companions.fighter["description"]);
-    companions.wolf.configurations.recon.description = game.i18n.localize(CONFIG.KNIGHT.companions.recon["description"]);
+    companions.lion.armes.contact.coups.label = game.i18n.localize(
+      CONFIG.KNIGHT.companions["coups"],
+    );
+    companions.wolf.armes.contact.coups.label = game.i18n.localize(
+      CONFIG.KNIGHT.companions["coups"],
+    );
+    companions.wolf.configurations.labor.description = game.i18n.localize(
+      CONFIG.KNIGHT.companions.labor["description"],
+    );
+    companions.wolf.configurations.medic.description = game.i18n.localize(
+      CONFIG.KNIGHT.companions.medic["description"],
+    );
+    companions.wolf.configurations.tech.description = game.i18n.localize(
+      CONFIG.KNIGHT.companions.tech["description"],
+    );
+    companions.wolf.configurations.fighter.description = game.i18n.localize(
+      CONFIG.KNIGHT.companions.fighter["description"],
+    );
+    companions.wolf.configurations.recon.description = game.i18n.localize(
+      CONFIG.KNIGHT.companions.recon["description"],
+    );
     companions.crow.capacites = game.i18n.localize(CONFIG.KNIGHT.companions["vol"]);
   }
 
@@ -1851,7 +2089,7 @@ export class ArmureSheet extends ItemSheet {
 
   _prepareEffetsSelectedBorealis(context) {
     const bEffets = context.data.system.capacites.selected?.borealis?.offensif?.effets || false;
-    if(!bEffets) return;
+    if (!bEffets) return;
 
     const bChargeur = bEffets.chargeur;
     const bLabels = getAllEffects();
@@ -1861,7 +2099,7 @@ export class ArmureSheet extends ItemSheet {
 
   _prepareEffetsSelectedChangeling(context) {
     const cEffets = context.data.system.capacites.selected?.changeling || false;
-    if(!cEffets) return;
+    if (!cEffets) return;
 
     const cLEffets = cEffets.desactivationexplosive.effets;
     const chargeur = cLEffets.chargeur;
@@ -1872,7 +2110,7 @@ export class ArmureSheet extends ItemSheet {
 
   _prepareEffetsSelectedMorph(context) {
     const capacite = context.data.system.capacites.selected?.morph || false;
-    if(!capacite) return;
+    if (!capacite) return;
 
     const effetsG = capacite.polymorphie.griffe.effets;
     const chargeurG = effetsG.chargeur;
@@ -1892,7 +2130,7 @@ export class ArmureSheet extends ItemSheet {
   _prepareEffetsSelectedLongbow(context) {
     const lEffets = context.data.system.capacites.selected?.longbow?.effets || false;
     const lAmelioration = context.data.system.capacites.selected?.longbow || false;
-    if(!lEffets) return;
+    if (!lEffets) return;
 
     const lEB = lEffets.base;
     const lChargeurB = lEB.chargeur;
@@ -1906,7 +2144,7 @@ export class ArmureSheet extends ItemSheet {
     const lE3 = lEffets.liste3;
     const lChargeur3 = lE3.chargeur;
 
-    const lA = lAmelioration?.distance || {raw:[], custom:[]};
+    const lA = lAmelioration?.distance || { raw: [], custom: [] };
     const lChargeurA = lA.chargeur;
 
     const labels = getAllEffects();
@@ -1919,7 +2157,7 @@ export class ArmureSheet extends ItemSheet {
     lE3.liste = listEffects(lE3, labels, lChargeur3);
     lA.liste = listEffects(lA, labels, lChargeurA);
 
-    if(lEffets3) {
+    if (lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
     } else {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["noeffets3"]);
@@ -1928,7 +2166,7 @@ export class ArmureSheet extends ItemSheet {
 
   _prepareEffetsSelectedOriflamme(context) {
     const bEffets = context.data.system.capacites.selected?.oriflamme?.effets || false;
-    if(!bEffets) return;
+    if (!bEffets) return;
 
     const bChargeur = bEffets.chargeur;
     const bLabels = getAllEffects();
@@ -1941,9 +2179,9 @@ export class ArmureSheet extends ItemSheet {
     const bSEffets = context.data.system.capacites.selected?.cea?.salve?.effets || false;
     const bREffets = context.data.system.capacites.selected?.cea?.rayon?.effets || false;
 
-    if(!bVEffets) return;
-    if(!bSEffets) return;
-    if(!bREffets) return;
+    if (!bVEffets) return;
+    if (!bSEffets) return;
+    if (!bREffets) return;
 
     const bVChargeur = bVEffets.chargeur;
     const bSChargeur = bSEffets.chargeur;
@@ -1964,21 +2202,21 @@ export class ArmureSheet extends ItemSheet {
 
     const labels = getAllEffects();
 
-    if(!companions) return;
+    if (!companions) return;
 
-    if(lEffets != false) {
+    if (lEffets != false) {
       const cLEffets = lEffets.contact.coups.effets;
 
       cLEffets.liste = listEffects(cLEffets, labels);
     }
 
-    if(wEffets != false) {
+    if (wEffets != false) {
       const cWEffets = wEffets.contact.coups.effets;
 
       cWEffets.liste = listEffects(cWEffets, labels);
     }
 
-    if(bEffets != false) {
+    if (bEffets != false) {
       bEffets.liste = listEffects(bEffets, labels);
     }
   }
@@ -1986,7 +2224,7 @@ export class ArmureSheet extends ItemSheet {
   _prepareEffetsSelectedPorteurLumiere(context) {
     const plEffets = context.data.system.special.selected?.porteurlumiere?.bonus?.effets || false;
 
-    if(!plEffets) return;
+    if (!plEffets) return;
 
     const labels = getAllEffects();
 
@@ -1996,7 +2234,7 @@ export class ArmureSheet extends ItemSheet {
   _prepareEffetsSelectedIllumination(context) {
     const iEffets = context.data.system.capacites.selected?.illumination?.lantern?.effets || false;
 
-    if(!iEffets) return;
+    if (!iEffets) return;
 
     const chargeur = iEffets.chargeur;
     const labels = getAllEffects();
@@ -2018,10 +2256,14 @@ export class ArmureSheet extends ItemSheet {
     const specialAtlasSpecial = context.data.system.special.atlasSpecial;
 
     for (let [key, special] of Object.entries(specialBase)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       special.label = game.i18n.localize(CONFIG.KNIGHT.special[key]);
@@ -2029,10 +2271,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, special] of Object.entries(specialC2038)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       special.label = game.i18n.localize(CONFIG.KNIGHT.special[key]);
@@ -2040,10 +2286,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, special] of Object.entries(specialC2038Sorcerer)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       special.label = game.i18n.localize(CONFIG.KNIGHT.special[key]);
@@ -2051,10 +2301,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, special] of Object.entries(specialC2038Necromancer)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       special.label = game.i18n.localize(CONFIG.KNIGHT.special[key]);
@@ -2062,10 +2316,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, special] of Object.entries(specialAtlas)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       special.label = game.i18n.localize(CONFIG.KNIGHT.special[key]);
@@ -2073,10 +2331,14 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, special] of Object.entries(specialAtlasSpecial)) {
-      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
-        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
-        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
-        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+      const description = `<p style="text-align:justify">${game.i18n
+        .localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>")
+        .replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>")
+        .replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>")
+        .replaceAll("]", "</u>")
         .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
 
       special.label = game.i18n.localize(CONFIG.KNIGHT.special[key]);
@@ -2087,25 +2349,29 @@ export class ArmureSheet extends ItemSheet {
   _preparePlusEspoirTranslation(context) {
     const special = context.data.system.special.selected?.plusespoir || false;
 
-    if(!special) return;
+    if (!special) return;
 
     const recuperation = special.espoir.recuperation.value;
     const perte = special.espoir.perte.value;
 
-    if(recuperation) {
-      special.espoir.recuperation.label = game.i18n.localize(CONFIG.KNIGHT.plusespoir["recuperation"]);
+    if (recuperation) {
+      special.espoir.recuperation.label = game.i18n.localize(
+        CONFIG.KNIGHT.plusespoir["recuperation"],
+      );
     } else {
-      special.espoir.recuperation.label = game.i18n.localize(CONFIG.KNIGHT.plusespoir["nonrecuperation"]);
+      special.espoir.recuperation.label = game.i18n.localize(
+        CONFIG.KNIGHT.plusespoir["nonrecuperation"],
+      );
     }
 
-    if(perte) {
+    if (perte) {
       special.espoir.perte.label = game.i18n.localize(CONFIG.KNIGHT.plusespoir["perte"]);
     } else {
       special.espoir.perte.label = game.i18n.localize(CONFIG.KNIGHT.plusespoir["nonperte"]);
     }
   }
 
-  _prepareContrecoupsTranslation(context){
+  _prepareContrecoupsTranslation(context) {
     const special = context.data.system.special.atlas.contrecoups;
     const evolution = context.data.system.special.atlas.contrecoups.evolutions;
 
@@ -2194,14 +2460,14 @@ export class ArmureSheet extends ItemSheet {
     evolution.tableau.c6.l6 = game.i18n.localize(CONFIG.KNIGHT.contrecoups.defaillance);
   }
 
-  _prepareContrecoupsSelectedTranslation(context){
+  _prepareContrecoupsSelectedTranslation(context) {
     const special = context.data.system.special.selected?.contrecoups || false;
 
-    if(!special) return;
+    if (!special) return;
 
     const relance = special.relance.value;
 
-    if(relance) {
+    if (relance) {
       special.relance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["relance"]);
     } else {
       special.relance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["norelance"]);
@@ -2209,7 +2475,7 @@ export class ArmureSheet extends ItemSheet {
 
     const maxeffets = special.maxeffets.value;
 
-    if(maxeffets) {
+    if (maxeffets) {
       special.maxeffets.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["maxeffets"]);
     } else {
       special.maxeffets.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["nomaxeffets"]);
@@ -2217,7 +2483,7 @@ export class ArmureSheet extends ItemSheet {
 
     const armedistance = special.armedistance.value;
 
-    if(armedistance) {
+    if (armedistance) {
       special.armedistance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["armedistance"]);
     } else {
       special.armedistance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["noarmedistance"]);
@@ -2246,12 +2512,12 @@ export class ArmureSheet extends ItemSheet {
   _prepareEvolutionsChangelingTranslation(context) {
     const capacite = context?.capacites?.changeling || false;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
     const labelDesactivation = game.i18n.localize(CONFIG.KNIGHT.changeling["desactivation"]);
     const labelNoDesactivation = game.i18n.localize(CONFIG.KNIGHT.changeling["noDesactivation"]);
 
-    if(capacite.desactivationexplosive.acces === true) {
+    if (capacite.desactivationexplosive.acces === true) {
       capacite.desactivationexplosive.label = labelDesactivation;
     } else {
       capacite.desactivationexplosive.label = labelNoDesactivation;
@@ -2261,12 +2527,17 @@ export class ArmureSheet extends ItemSheet {
   _prepareEvolutionsGoliathTranslation(context) {
     const capacite = context?.capacites?.goliath || false;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
-    const labelRack = game.i18n.localize(CONFIG.KNIGHT.goliath["armesrack"])+" "+capacite.armesRack.value+" "+game.i18n.localize(CONFIG.KNIGHT.goliath["metrebonus"]).toLowerCase();
+    const labelRack =
+      game.i18n.localize(CONFIG.KNIGHT.goliath["armesrack"]) +
+      " " +
+      capacite.armesRack.value +
+      " " +
+      game.i18n.localize(CONFIG.KNIGHT.goliath["metrebonus"]).toLowerCase();
     const labelNoRack = game.i18n.localize(CONFIG.KNIGHT.goliath["armesnorack"]);
 
-    if(capacite.armesRack.active === true) {
+    if (capacite.armesRack.active === true) {
       capacite.armesRack.label = labelRack;
     } else {
       capacite.armesRack.label = labelNoRack;
@@ -2276,12 +2547,12 @@ export class ArmureSheet extends ItemSheet {
   _prepareEvolutionsGhostTranslation(context) {
     const capacite = context?.capacites?.ghost || false;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
     const labelTrue = game.i18n.localize(CONFIG.KNIGHT.ghost["interruption"]);
     const labelFalse = game.i18n.localize(CONFIG.KNIGHT.ghost["nointerruption"]);
 
-    if(capacite.interruption.actif === true) {
+    if (capacite.interruption.actif === true) {
       capacite.interruption.label = labelTrue;
     } else {
       capacite.interruption.label = labelFalse;
@@ -2296,19 +2567,19 @@ export class ArmureSheet extends ItemSheet {
     const fixeInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["fixeinclus"]);
     const fixeNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["fixenoinclus"]);
 
-    if(capacite.bonus.degats.od === true) {
+    if (capacite.bonus.degats.od === true) {
       capacite.bonus.degats.inclus.od = odInclus;
     } else {
       capacite.bonus.degats.inclus.od = odNoInclus;
     }
 
-    if(capacite.bonus.degats.dice === true) {
+    if (capacite.bonus.degats.dice === true) {
       capacite.bonus.degats.inclus.dice = diceInclus;
     } else {
       capacite.bonus.degats.inclus.dice = diceNoInclus;
     }
 
-    if(capacite.bonus.degats.fixe === true) {
+    if (capacite.bonus.degats.fixe === true) {
       capacite.bonus.degats.inclus.fixe = fixeInclus;
     } else {
       capacite.bonus.degats.inclus.fixe = fixeNoInclus;
@@ -2318,7 +2589,7 @@ export class ArmureSheet extends ItemSheet {
   _prepareEvolutionsRageTranslation(context) {
     const capacite = context?.capacites?.rage || false;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
     const colereBonus = capacite?.colere?.combosBonus?.has ?? false;
     const colereInterdits = capacite?.colere?.combosInterdits?.has ?? false;
@@ -2329,54 +2600,66 @@ export class ArmureSheet extends ItemSheet {
     const fureurBonus = capacite?.fureur?.combosBonus?.has ?? false;
     const fureurInterdits = capacite?.fureur?.combosInterdits?.has ?? false;
 
-    if(colereBonus) {
+    if (colereBonus) {
       capacite.colere.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboBonus"]);
     } else {
       capacite.colere.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoBonus"]);
     }
 
-    if(colereInterdits) {
-      capacite.colere.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboInterdits"]);
+    if (colereInterdits) {
+      capacite.colere.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboInterdits"],
+      );
     } else {
-      capacite.colere.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoInterdits"]);
+      capacite.colere.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboNoInterdits"],
+      );
     }
 
-    if(rageBonus) {
+    if (rageBonus) {
       capacite.rage.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboBonus"]);
     } else {
       capacite.rage.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoBonus"]);
     }
 
-    if(rageInterdits) {
-      capacite.rage.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboInterdits"]);
+    if (rageInterdits) {
+      capacite.rage.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboInterdits"],
+      );
     } else {
-      capacite.rage.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoInterdits"]);
+      capacite.rage.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboNoInterdits"],
+      );
     }
 
-    if(fureurBonus) {
+    if (fureurBonus) {
       capacite.fureur.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboBonus"]);
     } else {
       capacite.fureur.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoBonus"]);
     }
 
-    if(fureurInterdits) {
-      capacite.fureur.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboInterdits"]);
+    if (fureurInterdits) {
+      capacite.fureur.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboInterdits"],
+      );
     } else {
-      capacite.fureur.combosInterdits.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboNoInterdits"]);
+      capacite.fureur.combosInterdits.label = game.i18n.localize(
+        CONFIG.KNIGHT.rage["comboNoInterdits"],
+      );
     }
   }
 
   _prepareEvolutionsZenTranslation(context) {
     const capacite = context?.capacites?.zen || false;
 
-    if(!capacite) return;
+    if (!capacite) return;
 
-    for (let [key, aspect] of Object.entries(capacite.aspects)){
+    for (let [key, aspect] of Object.entries(capacite.aspects)) {
       const traAspect = game.i18n.localize(CONFIG.KNIGHT.aspects[key]);
 
       aspect.label = traAspect;
 
-      for (let [keyC, carac] of Object.entries(aspect.caracteristiques)){
+      for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
         const traCarac = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[keyC]);
 
         carac.label = traCarac;
@@ -2388,48 +2671,54 @@ export class ArmureSheet extends ItemSheet {
   _prepareEvolutionsSpecialTranslation(context) {
     const special = context?.special || false;
 
-    if(!special) return;
+    if (!special) return;
 
     for (let [key, spe] of Object.entries(special)) {
       const bDelete = spe?.delete?.value;
 
-      if(bDelete != undefined) {
-        if(bDelete === true) { spe.delete.label = game.i18n.localize(CONFIG.KNIGHT.evolutions.supprime);}
-        else if(bDelete === false) { spe.delete.label = game.i18n.localize(CONFIG.KNIGHT.evolutions.noSupprime);}
+      if (bDelete != undefined) {
+        if (bDelete === true) {
+          spe.delete.label = game.i18n.localize(CONFIG.KNIGHT.evolutions.supprime);
+        } else if (bDelete === false) {
+          spe.delete.label = game.i18n.localize(CONFIG.KNIGHT.evolutions.noSupprime);
+        }
       }
-
     }
   }
 
   _prepareEvolutionsPlusEspoirTranslation(context) {
     const special = context?.special?.plusespoir || false;
 
-    if(!special) return;
+    if (!special) return;
 
     const recuperation = special.espoir.recuperation.value;
     const perte = special.espoir.perte.value;
 
-    if(recuperation) {
-      special.espoir.recuperation.label = game.i18n.localize(CONFIG.KNIGHT.plusespoir["recuperation"]);
+    if (recuperation) {
+      special.espoir.recuperation.label = game.i18n.localize(
+        CONFIG.KNIGHT.plusespoir["recuperation"],
+      );
     } else {
-      special.espoir.recuperation.label = game.i18n.localize(CONFIG.KNIGHT.plusespoir["nonrecuperation"]);
+      special.espoir.recuperation.label = game.i18n.localize(
+        CONFIG.KNIGHT.plusespoir["nonrecuperation"],
+      );
     }
 
-    if(perte) {
+    if (perte) {
       special.espoir.perte.label = game.i18n.localize(CONFIG.KNIGHT.plusespoir["perte"]);
     } else {
       special.espoir.perte.label = game.i18n.localize(CONFIG.KNIGHT.plusespoir["nonperte"]);
     }
   }
 
-  _prepareEvolutionsContrecoupsTranslation(context){
+  _prepareEvolutionsContrecoupsTranslation(context) {
     const special = context?.special?.contrecoups || false;
 
-    if(!special) return;
+    if (!special) return;
 
     const relance = special.relance.value;
 
-    if(relance) {
+    if (relance) {
       special.relance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["relance"]);
     } else {
       special.relance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["norelance"]);
@@ -2437,7 +2726,7 @@ export class ArmureSheet extends ItemSheet {
 
     const maxeffets = special.maxeffets.value;
 
-    if(maxeffets) {
+    if (maxeffets) {
       special.maxeffets.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["maxeffets"]);
     } else {
       special.maxeffets.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["nomaxeffets"]);
@@ -2445,7 +2734,7 @@ export class ArmureSheet extends ItemSheet {
 
     const armedistance = special.armedistance.value;
 
-    if(armedistance) {
+    if (armedistance) {
       special.armedistance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["armedistance"]);
     } else {
       special.armedistance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["noarmedistance"]);
@@ -2470,9 +2759,10 @@ export class ArmureSheet extends ItemSheet {
   }
 
   _prepareEffetsEvolutionsPorteurLumiere(key, context) {
-    const plEffets = context.data.system.evolutions.liste?.[key].special?.porteurlumiere?.bonus?.effets || false;
+    const plEffets =
+      context.data.system.evolutions.liste?.[key].special?.porteurlumiere?.bonus?.effets || false;
 
-    if(!plEffets) return;
+    if (!plEffets) return;
 
     const raw = plEffets.raw;
     const custom = plEffets.custom;
@@ -2482,8 +2772,9 @@ export class ArmureSheet extends ItemSheet {
   }
 
   _prepareEffetsEvolutionsBorealis(key, context) {
-    const bEffets = context.data.system.evolutions.liste?.[key].capacites?.borealis?.offensif?.effets || false;
-    if(!bEffets) return;
+    const bEffets =
+      context.data.system.evolutions.liste?.[key].capacites?.borealis?.offensif?.effets || false;
+    if (!bEffets) return;
 
     const bLabels = getAllEffects();
 
@@ -2491,8 +2782,9 @@ export class ArmureSheet extends ItemSheet {
   }
 
   _prepareEffetsEvolutionsOriflamme(key, context) {
-    const bEffets = context.data.system.evolutions.liste?.[key].capacites?.oriflamme?.effets || false;
-    if(!bEffets) return;
+    const bEffets =
+      context.data.system.evolutions.liste?.[key].capacites?.oriflamme?.effets || false;
+    if (!bEffets) return;
 
     const bLabels = getAllEffects();
 
@@ -2501,7 +2793,7 @@ export class ArmureSheet extends ItemSheet {
 
   _prepareEffetsEvolutionsChangeling(key, context) {
     const cEffets = context.data.system.evolutions.liste?.[key].capacites?.changeling || false;
-    if(!cEffets) return;
+    if (!cEffets) return;
 
     const cLEffets = cEffets.desactivationexplosive.effets;
     const labels = getAllEffects();
@@ -2510,9 +2802,10 @@ export class ArmureSheet extends ItemSheet {
   }
 
   _prepareEffetsEvolutionsIllumination(key, context) {
-    const iEffets = context.data.system.evolutions.liste?.[key].capacites?.illumination?.lantern?.effets || false;
+    const iEffets =
+      context.data.system.evolutions.liste?.[key].capacites?.illumination?.lantern?.effets || false;
 
-    if(!iEffets) return;
+    if (!iEffets) return;
 
     const labels = getAllEffects();
 
@@ -2522,21 +2815,21 @@ export class ArmureSheet extends ItemSheet {
   _prepareEffetsEvolutionsLongbow(context) {
     const lEffets = context.data.system.evolutions.special?.longbow || false;
 
-    if(!lEffets) return;
+    if (!lEffets) return;
 
-    const lEB = lEffets['3'].effets.base;
+    const lEB = lEffets["3"].effets.base;
 
-    const lE1 = lEffets['1'].effets.liste1;
+    const lE1 = lEffets["1"].effets.liste1;
 
-    const lE2 = lEffets['1'].effets.liste2;
+    const lE2 = lEffets["1"].effets.liste2;
 
-    const lE3 = lEffets['1'].effets.liste3;
+    const lE3 = lEffets["1"].effets.liste3;
 
     const lEffets3 = lE3.acces;
 
     const labels = getAllEffects();
 
-    if(lEffets3) {
+    if (lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
     } else {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["noeffets3"]);
@@ -2550,7 +2843,7 @@ export class ArmureSheet extends ItemSheet {
 
   _prepareEffetsEvolutionsMorph(key, context) {
     const cEffets = context.data.system.evolutions.liste?.[key].capacites?.morph || false;
-    if(!cEffets) return;
+    if (!cEffets) return;
 
     const effetsG = cEffets.polymorphie.griffe.effets;
     const labels = getAllEffects();
@@ -2565,13 +2858,16 @@ export class ArmureSheet extends ItemSheet {
   }
 
   _prepareEffetsEvolutionsCea(key, context) {
-    const bVEffets = context.data.system.evolutions.liste?.[key].capacites?.cea?.vague?.effets || false;
-    const bSEffets = context.data.system.evolutions.liste?.[key].capacites?.cea?.salve?.effets || false;
-    const bREffets = context.data.system.evolutions.liste?.[key].capacites?.cea?.rayon?.effets || false;
+    const bVEffets =
+      context.data.system.evolutions.liste?.[key].capacites?.cea?.vague?.effets || false;
+    const bSEffets =
+      context.data.system.evolutions.liste?.[key].capacites?.cea?.salve?.effets || false;
+    const bREffets =
+      context.data.system.evolutions.liste?.[key].capacites?.cea?.rayon?.effets || false;
 
-    if(!bVEffets) return;
-    if(!bSEffets) return;
-    if(!bREffets) return;
+    if (!bVEffets) return;
+    if (!bSEffets) return;
+    if (!bREffets) return;
 
     const bVRaw = bVEffets.raw;
     const bVCustom = bVEffets.custom;
@@ -2588,31 +2884,41 @@ export class ArmureSheet extends ItemSheet {
 
   //GESTION DES DUREES DES CAPACITES
   _prepareBaseDurationTranslation(context) {
-    const listCapacite = ["changeling", "falcon", "goliath", "ghost", "nanoc", "oriflamme", "shrine", "type", "vision", "watchtower"];
+    const listCapacite = [
+      "changeling",
+      "falcon",
+      "goliath",
+      "ghost",
+      "nanoc",
+      "oriflamme",
+      "shrine",
+      "type",
+      "vision",
+      "watchtower",
+    ];
 
-    for(let i = 0;i < listCapacite.length;i++) {
+    for (let i = 0; i < listCapacite.length; i++) {
       const capacite = context.data.system.capacites.base[listCapacite[i]];
       let evolution = capacite?.evolutions || false;
 
       capacite.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
 
-      if(evolution != false) {
+      if (evolution != false) {
         evolution.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
       }
-
     }
   }
 
   _prepare2038DurationTranslation(context) {
     const listCapacite = ["cea", "puppet", "windtalker"];
 
-    for(let i = 0;i < listCapacite.length;i++) {
+    for (let i = 0; i < listCapacite.length; i++) {
       const capacite = context.data.system.capacites.c2038[listCapacite[i]];
       let evolution = capacite?.evolutions || false;
 
       capacite.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
 
-      if(evolution != false) {
+      if (evolution != false) {
         evolution.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
       }
     }
@@ -2621,13 +2927,13 @@ export class ArmureSheet extends ItemSheet {
   _prepare2038SorcererDurationTranslation(context) {
     const listCapacite = ["morph"];
 
-    for(let i = 0;i < listCapacite.length;i++) {
+    for (let i = 0; i < listCapacite.length; i++) {
       const capacite = context.data.system.capacites.c2038Sorcerer[listCapacite[i]];
       let evolution = capacite?.evolutions || false;
 
       capacite.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
 
-      if(evolution != false) {
+      if (evolution != false) {
         evolution.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
       }
     }
@@ -2636,13 +2942,13 @@ export class ArmureSheet extends ItemSheet {
   _prepareCodexDurationTranslation(context) {
     const listCapacite = ["companions"];
 
-    for(let i = 0;i < listCapacite.length;i++) {
+    for (let i = 0; i < listCapacite.length; i++) {
       const capacite = context.data.system.capacites.codex[listCapacite[i]];
       let eSpecial = capacite?.specialEvolutions || false;
 
       capacite.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
 
-      if(eSpecial != false) {
+      if (eSpecial != false) {
         eSpecial.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
       }
     }
@@ -2651,13 +2957,13 @@ export class ArmureSheet extends ItemSheet {
   _prepareAtlasDurationTranslation(context) {
     const listCapacite = ["ascension", "totem", "forward", "record", "rewind"];
 
-    for(let i = 0;i < listCapacite.length;i++) {
+    for (let i = 0; i < listCapacite.length; i++) {
       const capacite = context.data.system.capacites.atlas[listCapacite[i]];
       let evolution = capacite?.evolutions || false;
 
       capacite.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
 
-      if(evolution != false) {
+      if (evolution != false) {
         evolution.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
       }
     }
@@ -2667,13 +2973,13 @@ export class ArmureSheet extends ItemSheet {
   _prepareAtlasSpecialDurationTranslation(context) {
     const listCapacite = ["illumination", "rage"];
 
-    for(let i = 0;i < listCapacite.length;i++) {
+    for (let i = 0; i < listCapacite.length; i++) {
       const capacite = context.data.system.capacites.atlasSpecial[listCapacite[i]];
       let evolution = capacite?.evolutions || false;
 
       capacite.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
 
-      if(evolution != false) {
+      if (evolution != false) {
         evolution.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
       }
     }
@@ -2683,13 +2989,13 @@ export class ArmureSheet extends ItemSheet {
   _prepareRangeTranslation(context) {
     const listCapacite = ["changeling", "mechanic"];
 
-    for(let i = 0;i < listCapacite.length;i++) {
+    for (let i = 0; i < listCapacite.length; i++) {
       const capacite = context.data.system.capacites.base[listCapacite[i]];
       let evolution = capacite?.evolutions || false;
 
       capacite.portee = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].portee);
 
-      if(evolution != false) {
+      if (evolution != false) {
         evolution.portee = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].portee);
       }
     }

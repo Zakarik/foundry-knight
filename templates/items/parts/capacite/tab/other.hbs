@@ -18,12 +18,13 @@
               {{selectOptions (getList 'portee') selected=systemData.attaque.portee localize=true}}
           </select>
       </label>
+
       <div class="diceWithLabel borderTop">
         <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
         <div>
-          <input type="number"  data-dtype="Number"name="system.attaque.degats.dice" value="{{systemData.attaque.degats.dice}}" min="0" />
+          <input type="number" name="system.attaque.degats.dice" value="{{systemData.attaque.degats.dice}}" min="0" />
           <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}+</span>
-          <input type="number"  data-dtype="Number"name="system.attaque.degats.fixe" value="{{systemData.attaque.degats.fixe}}" min="0" />
+          <input type="number" name="system.attaque.degats.fixe" value="{{systemData.attaque.degats.fixe}}" min="0" />
         </div>
       </div>
 
@@ -54,9 +55,9 @@
         <div class="diceWithLabel borderTop">
           <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
           <div>
-            <input type="number"  data-dtype="Number"name="system.degats.system.dice" value="{{systemData.degats.system.dice}}" min="0" />
+            <input type="number" name="system.degats.system.dice" value="{{systemData.degats.system.dice}}" min="0" />
             <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}+</span>
-            <input type="number"  data-dtype="Number"name="system.degats.system.fixe" value="{{systemData.degats.system.fixe}}" min="0" />
+            <input type="number" name="system.degats.system.fixe" value="{{systemData.degats.system.fixe}}" min="0" />
           </div>
         </div>
 

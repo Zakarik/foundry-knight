@@ -304,6 +304,38 @@ export const PreloadTemplates = async function () {
     "knight.cu.passive.warlord": `${path}/items/parts/capaciteUltime/sections/passives/warlord.hbs`,
   };
 
+  const armurePartials = {
+    "knight.armure.capacites.ascension": `${path}/items/parts/armure/tab/capacites/ascension.html`,
+    "knight.armure.capacites.borealis": `${path}/items/parts/armure/tab/capacites/borealis.html`,
+    "knight.armure.capacites.cea": `${path}/items/parts/armure/tab/capacites/cea.html`,
+    "knight.armure.capacites.changeling": `${path}/items/parts/armure/tab/capacites/changeling.html`,
+    "knight.armure.capacites.discord": `${path}/items/parts/armure/tab/capacites/discord.html`,
+    "knight.armure.capacites.falcon": `${path}/items/parts/armure/tab/capacites/falcon.html`,
+    "knight.armure.capacites.forward": `${path}/items/parts/armure/tab/capacites/forward.html`,
+    "knight.armure.capacites.ghost": `${path}/items/parts/armure/tab/capacites/ghost.html`,
+    "knight.armure.capacites.goliath": `${path}/items/parts/armure/tab/capacites/goliath.html`,
+    "knight.armure.capacites.illumination": `${path}/items/parts/armure/tab/capacites/illumination.html`,
+    "knight.armure.capacites.longbow": `${path}/items/parts/armure/tab/capacites/longbow.html`,
+    "knight.armure.capacites.mechanic": `${path}/items/parts/armure/tab/capacites/mechanic.html`,
+    "knight.armure.capacites.morph": `${path}/items/parts/armure/tab/capacites/morph.html`,
+    "knight.armure.capacites.nanoc": `${path}/items/parts/armure/tab/capacites/nanoc.html`,
+    "knight.armure.capacites.oriflamme": `${path}/items/parts/armure/tab/capacites/oriflamme.html`,
+    "knight.armure.capacites.personnalise": `${path}/items/parts/armure/tab/capacites/personnalise.html`,
+    "knight.armure.capacites.puppet": `${path}/items/parts/armure/tab/capacites/puppet.html`,
+    "knight.armure.capacites.rage": `${path}/items/parts/armure/tab/capacites/rage.html`,
+    "knight.armure.capacites.record": `${path}/items/parts/armure/tab/capacites/record.html`,
+    "knight.armure.capacites.rewind": `${path}/items/parts/armure/tab/capacites/rewind.html`,
+    "knight.armure.capacites.sarcophage": `${path}/items/parts/armure/tab/capacites/sarcophage.html`,
+    "knight.armure.capacites.shrine": `${path}/items/parts/armure/tab/capacites/shrine.html`,
+    "knight.armure.capacites.totem": `${path}/items/parts/armure/tab/capacites/totem.html`,
+    "knight.armure.capacites.type": `${path}/items/parts/armure/tab/capacites/type.html`,
+    "knight.armure.capacites.vision": `${path}/items/parts/armure/tab/capacites/vision.html`,
+    "knight.armure.capacites.warlord": `${path}/items/parts/armure/tab/capacites/warlord.html`,
+    "knight.armure.capacites.watchtower": `${path}/items/parts/armure/tab/capacites/watchtower.html`,
+    "knight.armure.capacites.windtalker": `${path}/items/parts/armure/tab/capacites/windtalker.html`,
+    "knight.armure.capacites.zen": `${path}/items/parts/armure/tab/capacites/zen.html`,
+  };
+
   // Précharger
   return foundry.applications.handlebars.loadTemplates({
     ...commonPartials,
@@ -318,6 +350,7 @@ export const PreloadTemplates = async function () {
     ...cyberwarePartials,
     ...modulePartials,
     ...capaciteUltimePartials,
+    ...armurePartials,
     ...dialogPartials,
   });
 };

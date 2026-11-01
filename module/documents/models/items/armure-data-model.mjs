@@ -78,8 +78,8 @@ export class ArmureDataModel extends ItemSpecialEffectsInternalMixinModel(BaseIt
           value: ["num", { initial: 0, nullable: false, integer: true }],
         },
       ],
-      capacites: ["embedded", { ArmureCapaciteDataModel }],
-      special: ["embedded", { ArmureSpecialDataModel }],
+      capacites: ["embedded", ArmureCapaciteDataModel],
+      special: ["embedded", ArmureSpecialDataModel],
       slots: [
         "schema",
         {

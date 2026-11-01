@@ -1,8 +1,8 @@
 <div class="optionsmunitions">
     {{#each systemData.optionsmunitions.liste as | key munition|}}
     <div class="blockEffets" data-id="{{munition}}">
-        <h2 class="header js-toggler">
-            <i class="far fa-minus-square"></i>
+        <h2 class="header">
+            <i data-action="jsToggle" class="far fa-minus-square"></i>
             {{localize "KNIGHT.EFFETS.Label"}} - {{key.nom}}
         </h2>
 
