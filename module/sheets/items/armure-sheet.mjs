@@ -1,15 +1,20 @@
 import { SortByLabel, listEffects, getAllEffects } from "../../helpers/common.mjs";
 import BaseItemSheet from "../bases/items/base-item-sheet.mjs";
+import EffectsMixin from "../bases/items/mixin-item-effects.mjs";
 /**
  * @extends {ItemSheet}
  */
-export class ArmureSheet extends BaseItemSheet {
+export class ArmureSheet extends EffectsMixin(BaseItemSheet) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     classes: ["armure"],
     position: { width: 700, height: 1000 },
     scrollY: [".attributes"],
-    actions: {},
+    dragDrop: [{ dragSelector: null, dropSelector: null }],
+    actions: {
+      addCapacity: this.#onAddCapacity,
+      deleteCapacity: this.#onDeleteCapacity,
+    },
   };
 
   static PARTS = {
@@ -39,6 +44,16 @@ export class ArmureSheet extends BaseItemSheet {
     },
   };
 
+  get effectsPath() {
+    return [
+      "capacites.selected.cea.rayon.effets",
+      "capacites.selected.cea.vague.effets",
+      "capacites.selected.cea.salve.effets",
+      "capacites.selected.borealis.offensif.effets",
+      "capacites.selected.changeling.desactivationexplosive.effets",
+    ];
+  }
+
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
@@ -50,10 +65,121 @@ export class ArmureSheet extends BaseItemSheet {
             { async: true },
           );
         break;
+
+      case "capacites":
+        context.enrichedCapacites = {};
+        const capacity = context.document.system.capacites.selected;
+
+        for (const c in capacity) {
+          if (!capacity[c]) continue;
+
+          context.enrichedCapacites[c] =
+            await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+              capacity[c].description,
+              { async: true },
+            );
+        }
+        break;
     }
 
-    return await super._preparePartContext(partId, context, options);
+    return context;
   }
+
+  static async #onAddCapacity(event, target) {
+    const capacity = target.dataset.capacity;
+
+    const list = `system.capacites.allCapacity.${capacity}`;
+    const fullPath = `system.capacites.selected.${capacity}`;
+    const dataCapacity = foundry.utils.getProperty(this.item, list);
+    const allSelectedCapacity = foundry.utils.getProperty(this.item, "system.capacites.selected");
+
+    if (!dataCapacity) return;
+
+    const maxOrder = Object.values(allSelectedCapacity).reduce(
+      (max, data) => Math.max(max, Number(data?.order) || 0),
+      0,
+    );
+
+    const update = { [fullPath]: this.prepareDataCapacity(capacity, dataCapacity, maxOrder) };
+
+    await this.item.update(update);
+  }
+
+  static async #onDeleteCapacity(event, target) {
+    const capacity = target.dataset.path;
+    const update = { [capacity]: null };
+
+    console.error(update);
+
+    await this.item.update(update);
+  }
+
+  prepareDataCapacity(capacity, dataCapacity, maxOrder) {
+    const CFG = CONFIG.KNIGHT;
+    const CFGCapacity = CFG[capacity];
+
+    dataCapacity.label = game.i18n.localize(CFG.capacites[capacity]);
+    dataCapacity.description = game.i18n.localize(CFGCapacity.description);
+    dataCapacity.duree = game.i18n.localize(CFGCapacity.duree);
+    dataCapacity.order = maxOrder + 1;
+    let list;
+
+    switch (capacity) {
+      case "borealis":
+        list = ["support", "offensif", "utilitaire"];
+
+        for (const l of list) {
+          dataCapacity[l].description = game.i18n.localize(CFGCapacity[l].description);
+          dataCapacity[l].duree = game.i18n.localize(CFGCapacity[l].duree);
+        }
+        break;
+
+      case "cea":
+        list = ["vague", "salve", "rayon"];
+
+        for (const l of list) {
+          dataCapacity[l].description = game.i18n.localize(CFGCapacity[l].description);
+
+          if (l === "vague")
+            dataCapacity[l].portee =
+              `${game.i18n.localize("KNIGHT.PORTEE.Contact")} / ${game.i18n.localize("KNIGHT.PORTEE.Courte")}`;
+          else dataCapacity[l].portee = game.i18n.localize("KNIGHT.PORTEE.Moyenne");
+        }
+        break;
+    }
+
+    return dataCapacity;
+  }
+  /*async _preparePartContext(partId, context, options) {
+    context = await super._preparePartContext(partId, context, options);
+
+    switch (partId) {
+      case "header":
+        context.enrichedDescription =
+          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            context.document.system.description,
+            { async: true },
+          );
+        break;
+
+      case "capacites":
+        const capacity = context.systemData.capacites.selected;
+        context.enrichedCapacites = {};
+
+        for (let c in capacity) {
+          if (!capacity[c]) continue;
+
+          context.enrichedCapacites[c] =
+            await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+              capacity[c].description,
+              { async: true },
+            );
+        }
+        break;
+    }
+
+    return context;
+  }*/
 
   /* -------------------------------------------- */
 
@@ -1563,7 +1689,7 @@ export class ArmureSheet extends BaseItemSheet {
     }
   }
 
-  _prepareBorealisTranslation(context) {
+  /*_prepareBorealisTranslation(context) {
     const capacite = context.data.system.capacites.base.borealis;
     const support = capacite.support;
     const offensif = capacite.offensif;
@@ -1594,9 +1720,9 @@ export class ArmureSheet extends BaseItemSheet {
 
     eUtilitaire.description = game.i18n.localize(traUtilitaire.description);
     eUtilitaire.duree = game.i18n.localize(traUtilitaire.duree);
-  }
+  }*/
 
-  _prepareCeaTranslation(context) {
+  /*_prepareCeaTranslation(context) {
     const capacite = context.data.system.capacites.c2038.cea;
     const evolutions = context.data.system.capacites.c2038.cea.evolutions;
     const vague = capacite.vague;
@@ -1634,7 +1760,7 @@ export class ArmureSheet extends BaseItemSheet {
 
     eRayon.description = game.i18n.localize(traRayon.description);
     eRayon.portee = game.i18n.localize("KNIGHT.PORTEE.Moyenne");
-  }
+  }*/
 
   _prepareSarcophageTranslation(context) {
     const capacite = context.data.system.capacites.c2038Necromancer.sarcophage;
@@ -1653,7 +1779,7 @@ export class ArmureSheet extends BaseItemSheet {
     evolution.portee = `${game.i18n.localize(CONFIG.KNIGHT.shrine.portee.personnelle)} / ${game.i18n.localize(CONFIG.KNIGHT.shrine.portee.moyenne)}`;
   }
 
-  _prepareAscensionSelectedTranslation(context) {
+  /*_prepareAscensionSelectedTranslation(context) {
     const capacite = context.data.system.capacites.selected?.ascension || false;
     const energie = context.data.system.energie.base || 0;
 
@@ -1701,7 +1827,7 @@ export class ArmureSheet extends BaseItemSheet {
         evolution.sansarmure.label = labelNoSansArmure;
       }
     }
-  }
+  }*/
 
   _prepareSelectedChangelingTranslation(context) {
     const capacite = context.data.system.capacites.selected?.changeling || false;

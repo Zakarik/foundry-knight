@@ -1,0 +1,149 @@
+<div class="dataCapacity cea">
+    {{~> knight.armure.capacites.common.header
+        path="capacites.selected.cea"
+        label=label
+    }}
+
+    {{~> knight.armure.capacites.common.description
+        field=@root.systemFields.capacites.fields.selected.fields.cea.fields.description
+        path="capacites.selected.cea"
+        value=description
+        enriched=@root.enrichedCapacites.cea
+    }}
+
+    <fieldset class="mainData" {{ifThen softlock 'disabled' ''}}>
+        <div class="col">
+            <div class="data">
+                <label class="inputWithLabel">
+                    <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                    <input type="number" name="{{path.string}}.energie"
+                    value="{{energie}}"
+                    min="0" />
+                </label>
+                <label class="selectWithLabel">
+                    <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                    <select name="{{path.string}}.activation">
+                        {{selectOptions (getList 'activationcapacites') selected=activation localize=true}}
+                    </select>
+                </label>
+                <div class="textareaWithLabel">
+                    <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+                    <textarea name="{{path.string}}.duree"
+                    data-capacite="cea" data-type="duree" data-min="50" style="height:{{textarea.duree}}px;"
+                   >{{duree}}</textarea>
+                </div>
+                <label class="inputWithLabel forceSimpleBlack">
+                    <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Espoir"}}</span>
+                    <input type="number" name="{{path.string}}.espoir"
+                    value="{{espoir}}" />
+                </label>
+            </div>
+
+            <div class="data">
+                <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label"}}</h4>
+                <textarea name="{{path.string}}.salve.description"
+                data-capacite="cea" data-type="descriptionSalve" data-min="70" style="height:{{textarea.descriptionSalve}}px;"
+               >{{salve.description}}</textarea>
+
+                <div class="diceSpanWithLabel">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <div>
+                        <input type="number" name="{{path.string}}.salve.degats.dice"
+                        value="{{salve.degats.dice}}"
+                        min="0"/>
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+
+                <div class="diceSpanWithLabel">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <div>
+                        <input type="number" name="{{path.string}}.salve.violence.dice"
+                        value="{{salve.violence.dice}}"
+                        min="0" />
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+
+                <div class="textareaWithLabel">
+                    <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <textarea name="{{path.string}}.salve.portee"
+                        data-capacite="cea" data-type="porteeSalve" data-min="50" style="height:{{textarea.porteeSalve}}px;"
+                       >{{salve.portee}}</textarea>
+                </div>
+                {{~> knight.armure.capacites.common.effects liste=salve.effets.liste type='cea_salve' path="capacites.selected.cea.salve.effets"}}
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="data">
+                <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label"}}</h4>
+                <textarea name="{{path.string}}.vague.description"
+                data-capacite="cea" data-type="descriptionVague" data-min="70" style="height:{{textarea.descriptionVague}}px;"
+               >{{vague.description}}</textarea>
+                <div class="diceSpanWithLabel">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <div>
+                        <input type="number" name="{{path.string}}.vague.degats.dice"
+                        value="{{vague.degats.dice}}"
+                        min="0"/>
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+
+                <div class="diceSpanWithLabel">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <div>
+                        <input type="number" name="{{path.string}}.vague.violence.dice"
+                        value="{{vague.violence.dice}}"
+                        min="0"
+                        />
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+
+                <div class="textareaWithLabel">
+                    <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <textarea name="{{path.string}}.vague.portee"
+                        data-capacite="cea" data-type="porteeVague" data-min="50" style="height:{{textarea.porteeVague}}px;"
+                       >{{vague.portee}}</textarea>
+                </div>
+                {{~> knight.armure.capacites.common.effects liste=vague.effets.liste type='cea_vague' path="capacites.selected.cea.vague.effets"}}
+            </div>
+
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label"}}</h4>
+                <textarea name="{{path.string}}.rayon.description"
+                data-capacite="cea" data-type="descriptionRayon" data-min="150" style="height:{{textarea.descriptionRayon}}px;"
+               >{{rayon.description}}</textarea>
+                <div class="diceSpanWithLabel">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <div>
+                        <input type="number" name="{{path.string}}.rayon.degats.dice"
+                        value="{{rayon.degats.dice}}"
+                        min="0"/>
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+
+                <div class="diceSpanWithLabel">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <div>
+                        <input type="number" name="{{path.string}}.rayon.violence.dice"
+                        value="{{rayon.violence.dice}}"
+                        min="0"/>
+                        <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+                <div class="textareaWithLabel">
+                    <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <textarea name="{{path.string}}.rayon.portee"
+                        data-capacite="cea" data-type="porteeRayon" data-min="50" style="height:{{textarea.porteeRayon}}px;"
+                       >{{rayon.portee}}</textarea>
+                </div>
+
+                {{~> knight.armure.capacites.common.effects liste=rayon.effets.liste type='cea_rayon' path="capacites.selected.cea.rayon.effets"}}
+            </div>
+        </div>
+    </fieldset>
+</div>

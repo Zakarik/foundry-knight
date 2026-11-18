@@ -8,14 +8,12 @@
       {{localize "KNIGHT.CAPACITEULTIME.Condition"}}
     </h2>
 
-    {{formInput
-      systemFields.condition
-      enriched=enrichedCondition
-      value=systemData.condition
-      documentUUID=item.uuid
-      name="system.condition"
-      collaborate="false"
-      toggled="true"
+    {{~> knight.prose
+        field=systemFields.condition
+        enriched=enrichedCondition
+        name="condition"
+        value=systemData.condition
+        uuid=item.uuid
     }}
   </div>
 
@@ -24,14 +22,12 @@
       {{localize "KNIGHT.Description"}}
     </h2>
 
-    {{formInput
-      systemFields.description
-      enriched=enrichedDescription
-      value=systemData.description
-      documentUUID=item.uuid
-      name="system.description"
-      collaborate="false"
-      toggled="true"
+    {{~> knight.prose
+        field=systemFields.description
+        enriched=enrichedDescription
+        name="description"
+        value=systemData.description
+        uuid=item.uuid
     }}
   </div>
 </header>

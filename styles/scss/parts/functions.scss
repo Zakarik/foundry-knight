@@ -988,6 +988,56 @@ $news: #00ffcc44;
   }
 }
 
+@mixin inputWithLabelSpan {
+  div.inputWithLabelSpan {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+
+    span {
+      display: grid;
+
+      &.label {
+        padding-left: 5px;
+        line-height: 22px;
+        font-variant: small-caps;
+        background: $lightBlack;
+        width: 100%;
+        align-items: center;
+      }
+    }
+
+    label {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: $black;
+
+      input {
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        border: 0px;
+        border-radius: 0px;
+        color: $white;
+        padding: 0px;
+        text-align: right;
+      }
+
+      span {
+        line-height: 22px;
+        font-variant: small-caps;
+        background: $black;
+        width: 100%;
+        align-items: center;
+        text-align: left;
+        padding-left: 5px;
+      }
+    }
+
+    @content;
+  }
+}
+
 @mixin diceWithInputLabel {
   div.diceWithInputLabel {
     display: grid;
@@ -1161,6 +1211,32 @@ $news: #00ffcc44;
       font-family: "Signika";
       height: 26px;
       border-radius: 0px;
+    }
+
+    @content;
+  }
+}
+
+@mixin prosemirror {
+  div {
+    &.inner {
+      border: 1px solid $lightBlue;
+      background: $lightBlack;
+      overflow: auto;
+      flex: 1;
+    }
+  }
+
+  prose-mirror {
+    flex: 1;
+    width: 100%;
+    min-height: 130px;
+    overflow: unset;
+
+    div.editor-content {
+      overflow: unset;
+      padding-left: 5px;
+      padding-right: 5px;
     }
 
     @content;

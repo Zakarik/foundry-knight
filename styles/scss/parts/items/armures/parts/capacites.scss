@@ -1,127 +1,382 @@
 div.capacites {
   border: 1px solid $lightBlue;
 
-  div.add {
-    display: flex;
-    width: 100%;
-    justify-content: right;
+  @include prosemirror;
 
-    a {
-      line-height: 27px;
-      padding-right: 5px;
-      padding-left: 5px;
-      border-right: 1px solid $black;
-
-      background: $lightBlack;
-
-      &:hover {
-        box-shadow: inset 1px 1px 10px black;
-      }
-    }
-
-    select {
-      color: $white;
-      border-radius: 0px;
-      padding: 0px;
-      background: $lightBlack;
-      border: 0px;
-
-      option {
-        background: $black;
-      }
-    }
+  div.inner {
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom-color: black;
+    border-top-color: black;
   }
 
   h3 {
-    display: grid;
-    grid-template-columns: min-content 1fr 205px;
-    grid-gap: 5px;
-    position: relative;
-    width: 100%;
-    text-transform: uppercase;
-    color: $white;
-    background: $lightBlack;
-    margin: 0px;
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    border-bottom: 1px solid $black;
-    line-height: 21px;
-    font-size: 20px;
-    padding-left: 20px;
-    font-weight: bold;
-    letter-spacing: 1px;
-
-    .far {
-      cursor: pointer;
-      margin-top: 2px;
-    }
-
-    div {
-      position: absolute;
-      right: 5px;
-      top: 0px;
-
-      a.verrouillage {
-        width: max-content;
-        line-height: 21px;
-        color: $white;
-        font-variant: small-caps;
-        font-size: 12px;
-
-        &:hover {
-          text-shadow: 0 0 10px $white;
-        }
-      }
-
-      span {
-        margin-left: 2px;
-        margin-right: 2px;
-      }
-
-      a.delete {
-        width: max-content;
-        line-height: 21px;
-        color: $white;
-        font-variant: small-caps;
-        font-size: 12px;
-
-        &:hover {
-          text-shadow: 0 0 10px $white;
-        }
-      }
-    }
-
-    input {
-      height: 23px;
-      background: $black;
-      border-radius: 0px;
-      border: 0px;
+    &.header {
+      display: grid;
+      grid-template-columns: min-content 1fr min-content;
+      grid-gap: 5px;
+      position: relative;
+      width: 100%;
       text-transform: uppercase;
+      color: $white;
+      background: $lightBlack;
+      margin: 0px;
+      border-top: 0px;
+      border-left: 0px;
+      border-right: 0px;
+      border-bottom: 1px solid $black;
+      line-height: 21px;
+      font-size: 20px;
+      padding-left: 20px;
       font-weight: bold;
+      letter-spacing: 1px;
+      align-items: center;
 
-      &[disabled] {
-        background: $lightBlack;
+      div {
+        display: grid;
+        grid-template-columns: 1fr 8px 1fr;
+        grid-gap: 5px;
+        align-items: center;
+        align-content: center;
+
+        button {
+          width: max-content;
+          line-height: 21px;
+          border: 0px;
+          background: transparent;
+          color: $white;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          font-size: 12px;
+
+          cursor: pointer;
+
+          i {
+            &.green {
+              color: $lightGreen;
+            }
+
+            &.red {
+              color: $lightRed;
+            }
+          }
+
+          &:hover {
+            text-shadow: 0 0 10px $white;
+          }
+        }
+
+        span {
+          display: grid;
+          align-items: center;
+          align-content: center;
+        }
+      }
+
+      input {
+        height: 23px;
+        background: $black;
+        border-radius: 0px;
+        border: 0px;
+        text-transform: uppercase;
+        font-weight: bold;
+
+        &[disabled] {
+          background: $lightBlack;
+        }
       }
     }
   }
 
-  div.editor {
-    width: 100%;
-    min-height: 30px;
-    border-bottom: 1px solid $lightBlack;
-    background: $lightBlack;
+  div {
+    &.add {
+      display: flex;
+      width: 100%;
+      justify-content: right;
 
-    div.editor-content {
-      padding-left: 5px;
-      padding-right: 5px;
+      button {
+        border-radius: 0px;
+        height: 32px;
+        border: 0px;
+        border-right: 1px solid $black;
+        color: $white;
+        background: $lightBlack;
+        font-variant: small-caps;
+
+        &:hover {
+          box-shadow: inset 1px 1px 10px black;
+        }
+      }
+
+      select {
+        color: $white;
+        border-radius: 0px;
+        padding: 0px;
+        background: $lightBlack;
+        border: 0px;
+
+        option {
+          background: $black;
+        }
+      }
+    }
+
+    &.dataCapacity {
+      > h3 {
+        &.header {
+          border-top: 1px solid $black;
+          border-bottom: 0px;
+
+          i {
+            cursor: pointer;
+          }
+        }
+      }
+
+      div,
+      fieldset {
+        &.mainData {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          align-items: flex-start;
+          align-content: flex-start;
+          grid-gap: 5px;
+          margin: 0px;
+          padding: 0px;
+          border: 0px;
+        }
+
+        &.data {
+          @include inputWithLabel;
+          @include inputWithLabelSpan;
+          @include selectWithLabel;
+          @include textareaWithLabel;
+          @include diceSpanWithLabel;
+          @include diceWithLabel;
+          @include buttons;
+          @import "../../common/effets";
+
+          display: grid;
+          align-items: flex-start;
+          margin: 5px;
+          border: 1px solid black;
+
+          h4 {
+            width: 100%;
+            background: $lightBlack;
+            margin: 0px;
+            padding-left: 5px;
+            line-height: 26px;
+            border-bottom: 1px solid black;
+            color: $white;
+          }
+
+          > textarea {
+            color: $white;
+            width: 100%;
+            border: 0px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: left;
+            background: RGB(43 42 51);
+            font-family: "Signika";
+            height: 26px;
+            border-radius: 0px;
+            border-bottom: 1px solid black;
+          }
+
+          label {
+            &:not(:first-of-type) {
+              span {
+                border-top: 1px solid $black;
+              }
+
+              input,
+              select {
+                border-top: 1px solid $lightBlack;
+              }
+            }
+
+            &.double {
+              &:not(:first-of-type) {
+                span {
+                  border-top: 5px double $black;
+                }
+
+                input,
+                select {
+                  border-top: 5px double $lightBlack;
+                }
+              }
+            }
+
+            &.forceSimple {
+              span {
+                border-top: 1px solid $black;
+              }
+
+              input,
+              select {
+                border-top: 1px solid $lightBlack;
+              }
+            }
+
+            &.forceDouble {
+              span {
+                border-top: 5px double $black;
+              }
+
+              input,
+              select {
+                border-top: 5px double $lightBlack;
+              }
+            }
+
+            &.forceSimpleBlack {
+              border-top: 1px solid black;
+              span {
+                border-top: 0px;
+              }
+
+              input,
+              select {
+                border-top: 0px;
+              }
+            }
+          }
+
+          div {
+            &:not(:first-of-type) {
+              span.label {
+                border-top: 1px solid $black;
+              }
+
+              label,
+              div {
+                border-top: 1px solid $lightBlack;
+              }
+            }
+
+            &.forceSimple {
+              span.label {
+                border-top: 1px solid $black;
+              }
+
+              label,
+              div {
+                border-top: 1px solid $lightBlack;
+              }
+            }
+
+            &.double {
+              &:not(:first-of-type) {
+                span.label {
+                  border-top: 5px double $black;
+                }
+
+                label {
+                  border-top: 5px double $lightBlack;
+                }
+              }
+            }
+
+            &.forceDouble {
+              span.label {
+                border-top: 5px double $black;
+              }
+
+              label {
+                border-top: 5px double $lightBlack;
+              }
+            }
+
+            &.forceSimpleBlack {
+              border-top: 1px solid black;
+
+              span.label {
+                border-top: 0px;
+              }
+
+              label {
+                border-top: 0px;
+              }
+            }
+
+            &.textareaWithLabel {
+              span.label {
+                border-top: 0px;
+              }
+            }
+          }
+
+          div {
+            &.blockEffets {
+              grid-column: 1;
+              border: 0px;
+              border-top: 1px solid black;
+
+              div.effets {
+                border: 0px;
+
+                span.label {
+                  border: 0px;
+                }
+              }
+            }
+
+            &.textareaWithLabel {
+              border-top: 1px solid black;
+            }
+
+            &.notBorderTop {
+              span {
+                &.label {
+                  border-top: 0px;
+                }
+              }
+
+              textarea,
+              input,
+              select {
+                border-top: 0px;
+              }
+            }
+          }
+
+          button {
+            border-radius: 0px;
+            border-bottom: 0px;
+            border-left: 0px;
+            border-right: 0px;
+          }
+        }
+
+        &.col {
+          display: grid;
+          align-items: flex-start;
+          grid-gap: 5px;
+        }
+      }
+
+      &.changeling div.data {
+        button {
+          border-top: 0px;
+
+          &.selected {
+            border-bottom: 1px solid black;
+          }
+        }
+
+        div.blockEffets {
+          margin-top: 0px;
+        }
+      }
     }
   }
 
-  div.borealis,
   div.shrine,
-  div.cea,
-  div.changeling,
   div.falcon,
   div.goliath,
   div.ghost,
@@ -142,7 +397,6 @@ div.capacites {
   div.illumination,
   div.rage,
   div.totem,
-  div.ascension,
   div.forward,
   div.record,
   div.rewind {
@@ -273,8 +527,7 @@ div.capacites {
             }
 
             input,
-            select,
-            textarea {
+            select {
               border-top: 1px solid $lightBlack;
             }
           }
@@ -463,152 +716,6 @@ div.capacites {
 
     div.editor {
       min-height: 100px;
-    }
-  }
-
-  div.changeling {
-    div.explosion {
-      width: calc(50% - 5px);
-      border: 1px solid black;
-      margin-top: 5px;
-
-      button {
-        border-left: 0px;
-        border-top: 0px;
-        border-right: 0px;
-        border-bottom: 0px;
-        font-variant: small-caps;
-        border-radius: 0px;
-        color: $white;
-        margin: 0px;
-
-        &.notDisabled {
-          cursor: pointer;
-        }
-
-        &.selected {
-          background: $lightBlack;
-          border-bottom: 1px solid black;
-        }
-      }
-
-      label {
-        display: flex;
-        width: 100%;
-        line-height: 26px;
-        justify-content: space-between;
-        flex: none;
-
-        span {
-          background: $lightBlack;
-          padding-left: 5px;
-        }
-
-        input,
-        select {
-          color: $white;
-          border: 0px;
-          padding: 0px;
-          background: $black;
-        }
-
-        input {
-          text-align: center;
-        }
-
-        select {
-          text-align: left;
-          font-size: 12px;
-          letter-spacing: 0.5px;
-
-          option {
-            background: $lightBlack;
-          }
-        }
-
-        &.shortspan {
-          > span {
-            width: 90px;
-          }
-
-          > input,
-          > select,
-          > textarea {
-            width: calc(100% - 90px);
-          }
-
-          > textarea {
-            max-width: calc(100% - 90px);
-            min-width: calc(100% - 90px);
-          }
-        }
-
-        &.double {
-          div {
-            display: flex;
-            width: calc(100% - 90px);
-            justify-content: space-between;
-
-            span {
-              width: 25px;
-              padding: 0px;
-              line-height: 26px;
-              background: $black;
-            }
-
-            input {
-              width: calc(50% - (25px / 2));
-
-              &:first-of-type {
-                text-align: right;
-              }
-
-              &:last-of-type {
-                text-align: left;
-              }
-            }
-          }
-        }
-
-        &.hidden {
-          display: none;
-        }
-
-        &:not(:first-of-type) {
-          span {
-            border-top: 1px solid $black;
-          }
-
-          div {
-            border-top: 1px solid $lightBlack;
-
-            input {
-              height: 27px;
-            }
-          }
-        }
-      }
-
-      > div {
-        &.effets {
-          display: flex;
-          position: relative;
-          width: 100%;
-          justify-content: space-evenly;
-          flex-wrap: wrap;
-          padding-right: 5px;
-          padding-bottom: 19px;
-          padding-left: 5px;
-          border-top: 1px solid black;
-          align-items: flex-start;
-
-          @include effets();
-        }
-
-        &.hidden {
-          display: none;
-        }
-      }
     }
   }
 
@@ -1155,112 +1262,6 @@ div.capacites {
     }
   }
 
-  div.borealis {
-    div.mainData {
-      div.data {
-        h4 {
-          &.title {
-            font-variant: small-caps;
-            font-size: 17px;
-            border-bottom: 2px solid black;
-          }
-
-          &:not(:first-of-type) {
-            border-top: 1px solid black;
-          }
-        }
-
-        textarea {
-          color: $white;
-          border: 0px;
-          padding-top: 0px;
-          padding-bottom: 0px;
-          padding-left: 5px;
-          padding-right: 5px;
-          text-align: left;
-          background: $black;
-          font-family: "Signika";
-          width: 100%;
-          min-width: 100%;
-          max-width: 100%;
-        }
-
-        label.simpleSeparation {
-          border-top: 1px solid black;
-        }
-
-        div.double {
-          display: flex;
-          width: 100%;
-          justify-content: space-between;
-
-          div.doubleLine {
-            display: flex;
-            width: 50%;
-            flex-wrap: wrap;
-            border-top: 1px solid black;
-
-            > span {
-              width: 100%;
-              text-align: center;
-              border-top: 0px;
-              padding: 0px;
-              line-height: 26px;
-              background: $lightBlack;
-            }
-
-            label {
-              input {
-                width: 50%;
-                text-align: right;
-                height: 26px;
-              }
-
-              span {
-                line-height: 26px;
-                width: 50%;
-                text-align: left;
-                background: $black;
-                padding: 0px;
-              }
-            }
-
-            &:last-of-type {
-              label {
-                input {
-                  border-left: 1px solid $lightBlack;
-                }
-              }
-
-              span {
-                border-left: 1px solid $black;
-              }
-            }
-          }
-        }
-
-        div.effets {
-          display: flex;
-          position: relative;
-          width: 100%;
-          justify-content: space-evenly;
-          flex-wrap: wrap;
-          padding-right: 5px;
-          padding-bottom: 19px;
-          padding-left: 5px;
-          border-top: 1px solid black;
-          align-items: flex-start;
-
-          @include effets();
-        }
-
-        &:not(:nth-of-type(1)):not(:nth-of-type(2)) {
-          margin-top: 5px;
-        }
-      }
-    }
-  }
-
   div.oriflamme {
     div.mainData {
       div.data {
@@ -1322,113 +1323,6 @@ div.capacites {
           select,
           textarea {
             border-top: 1px solid $lightBlack;
-          }
-        }
-
-        div.effets {
-          display: flex;
-          position: relative;
-          width: 100%;
-          justify-content: space-evenly;
-          flex-wrap: wrap;
-          padding-right: 5px;
-          padding-bottom: 19px;
-          padding-left: 5px;
-          border-top: 1px solid black;
-          align-items: flex-start;
-
-          @include effets();
-        }
-      }
-    }
-  }
-
-  div.cea {
-    div.mainData {
-      div.col {
-        width: calc(50% - 5px);
-
-        > * {
-          width: 100%;
-
-          &:not(:first-of-type) {
-            margin-top: 5px;
-          }
-        }
-      }
-      div.data {
-        h4.title {
-          font-variant: small-caps;
-          font-size: 17px;
-        }
-
-        > textarea {
-          color: $white;
-          border: 0px;
-          padding-top: 0px;
-          padding-bottom: 0px;
-          padding-left: 5px;
-          padding-right: 5px;
-          text-align: left;
-          background: $black;
-          font-family: "Signika";
-          height: 26px;
-          min-width: 100%;
-          max-width: 100%;
-        }
-
-        div.line {
-          display: flex;
-          justify-content: space-between;
-
-          div.doubleLine {
-            display: flex;
-            flex-wrap: wrap;
-            width: 50%;
-            flex: none;
-            border-bottom: 1px solid black;
-
-            span {
-              width: 100%;
-              padding: 0px;
-              line-height: 26px;
-              background: $lightBlack;
-              text-align: center;
-            }
-
-            label {
-              display: flex;
-              width: 100%;
-              justify-content: space-between;
-              line-height: 26px;
-
-              input {
-                width: calc(50% - 6px);
-                text-align: right;
-              }
-
-              span {
-                line-height: 26px;
-                width: calc(50% + 6px);
-                text-align: left;
-                background: $black;
-                padding: 0px;
-
-                &.notdisabled {
-                  cursor: text;
-                }
-              }
-            }
-
-            &:not(:first-of-type) {
-              > span {
-                border-left: 1px solid $black;
-              }
-
-              label {
-                border-left: 1px solid $lightBlack;
-              }
-            }
           }
         }
 

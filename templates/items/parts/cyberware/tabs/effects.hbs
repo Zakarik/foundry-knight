@@ -3,14 +3,12 @@
         <span class="header">
             {{localize "KNIGHT.CYBERWARE.Autre"}}
         </span>
-        {{formInput
-            systemFields.effects.fields.other
+        {{~> knight.prose
+            field=systemFields.effects.fields.other
             enriched=enrichedEffects
+            name="effects.other"
             value=systemData.effects.other
-            documentUUID=item.uuid
-            name="system.effects.other"
-            collaborate="false"
-            toggled="true"
+            uuid=item.uuid
         }}
     </div>
     <div class="mod">

@@ -1,12 +1,5 @@
-
 div.description {
-    flex: 1;
+  flex: 1;
 
-    prose-mirror {
-        min-height:130px;
-        border-bottom: 1px solid $lightBlue;
-        border-left: 1px solid $lightBlue;
-        border-right: 1px solid $lightBlue;
-        background:$lightBlack;
-    }
+  @include prosemirror();
 }

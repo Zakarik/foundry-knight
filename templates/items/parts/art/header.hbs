@@ -8,15 +8,12 @@
             {{~> knight.jsToggle}}
             {{localize "KNIGHT.Description"}}
         </h2>
-
-        {{formInput
-            systemFields.description
+        {{~> knight.prose
+            field=systemFields.description
             enriched=enrichedDescription
+            name="description"
             value=systemData.description
-            documentUUID=item.uuid
-            name="system.description"
-            collaborate="false"
-            toggled="true"
+            uuid=item.uuid
         }}
     </div>
 

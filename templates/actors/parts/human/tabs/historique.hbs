@@ -102,14 +102,12 @@
     <div class="histoire">
         <h2 class="header">{{localize "KNIGHT.HISTORIQUE.Histoire"}}</h2>
 
-        {{formInput
-            systemFields.histoire
+        {{~> knight.prose
+            field=systemFields.histoire
             enriched=enrichedHistoire
+            name="histoire"
             value=systemData.histoire
-            documentUUID=actor.uuid
-            name="system.histoire"
-            collaborate="false"
-            toggled="true"
+            uuid=actor.uuid
         }}
     </div>
 </div>

@@ -124,14 +124,12 @@
             {{~> knight.hideLimited path='showDescriptionFull'}}
         </h2>
 
-        {{formInput
-            systemFields.description
+        {{~> knight.prose
+            field=systemFields.description
             enriched=enrichedDescription
+            name="description"
             value=systemData.description
-            documentUUID=actor.uuid
-            name="system.description"
-            collaborate="false"
-            toggled="true"
+            uuid=actor.uuid
         }}
     </div>
 
@@ -141,14 +139,12 @@
             {{~> knight.hideLimited path='showDescriptionLimited'}}
         </h2>
 
-        {{formInput
-            systemFields.descriptionLimitee
+        {{~> knight.prose
+            field=systemFields.descriptionLimitee
             enriched=enrichedDescriptionLimitee
+            name="descriptionLimitee"
             value=systemData.descriptionLimitee
-            documentUUID=actor.uuid
-            name="system.descriptionLimitee"
-            collaborate="false"
-            toggled="true"
+            uuid=actor.uuid
         }}
     </div>
 </div>

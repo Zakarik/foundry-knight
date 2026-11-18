@@ -1,0 +1,21 @@
+<h3 class="header">
+    {{~> knight.jsToggle}}
+    <input type="text" name="system.{{path}}.label" value="{{label}}"
+            {{#if softlock}}disabled{{/if}}/>
+
+    <div>
+        {{~> knight.item.btnToggle
+            value=softlock
+            path=(concat path ".softlock")
+            localize="KNIGHT.AUTRE.Verrouiller"
+        }}
+        <span>·</span>
+        <button
+            type="button"
+            data-action="deleteCapacity"
+            data-path="system.{{path}}"
+            >
+            {{localize "KNIGHT.AUTRE.Supprimer"}}
+        </button>
+    </div>
+</h3>

@@ -9,13 +9,13 @@
                 <input type="text" name="custom.label" value="{{system.custom.label}}" />
                 <button data-action="addCustom">{{ifThen system.custom.edit (localize "KNIGHT.AUTRE.Editer") (localize "KNIGHT.AUTRE.Ajouter")}}</button>
             </div>
-            {{formInput
-                fields.custom.fields.description
+            {{~> knight.prose
+                field=fields.custom.fields.description
                 enriched=enriched.description
-                value=system.custom.description
                 name="custom.description"
-                collaborate=false
-                toggled=true
+                value=systemData.equipements.ia.caractere
+                uuid=actor.uuid
+                collaborate="false"
             }}
             {{#each custom}}
             <div class="effetCustom {{ifThen (or (eq @index 0) (eq @index 2)) 'border' ''}}">

@@ -65,17 +65,18 @@ export class ArtSheet extends BaseItemSheet {
   async _preparePartContext(partId, context, options) {
     context = await super._preparePartContext(partId, context, options);
 
-    switch (partId) {
-      case "header":
-        context.enrichedDescription =
-          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-            context.document.system.description,
-            { async: true },
-          );
-        break;
+    if (partId === "header") {
+      context.enrichedDescription = await TextEditor.enrichHTML(
+        context.document.system.description,
+        {
+          secrets: context.document.isOwner, // affiche les blocs secrets si owner
+          relativeTo: context.document, // résout les liens @UUID relatifs
+          rollData: context.document.getRollData?.(), // si tu utilises des inline rolls
+        },
+      );
     }
 
-    return await super._preparePartContext(partId, context, options);
+    return context; // ← et pas un 2e appel à super
   }
 
   /* -------------------------------------------- */

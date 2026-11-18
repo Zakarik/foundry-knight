@@ -10,11 +10,13 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             support: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 energie: [
                   "schema",
                   {
@@ -29,7 +31,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             offensif: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 energie: ["num", { initial: 2 }],
                 activation: ["str", { initial: "combat" }],
                 duree: ["str", { initial: "" }],
@@ -68,7 +70,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             utilitaire: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 energie: ["num", { initial: 6 }],
                 activation: ["str", { initial: "tour" }],
                 duree: ["str", { initial: "" }],
@@ -80,7 +82,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 support: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     energie: [
                       "schema",
                       {
@@ -95,7 +97,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 offensif: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     energie: ["num", { initial: 2 }],
                     activation: ["str", { initial: "combat" }],
                     duree: ["str", { initial: "" }],
@@ -132,7 +134,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 utilitaire: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     energie: ["num", { initial: 6 }],
                     activation: ["str", { initial: "tour" }],
                     duree: ["str", { initial: "" }],
@@ -174,10 +176,12 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "tour6Sec" }],
             duree: ["str", { initial: "" }],
             portee: ["str", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             energie: [
               "schema",
               {
@@ -312,11 +316,13 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             energie: ["num", { initial: 6 }],
             activation: ["str", { initial: "deplacement" }],
             duree: ["str", { initial: "" }],
             informations: ["str", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             textarea: [
               "schema",
               {
@@ -344,10 +350,12 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             energie: ["num", { initial: 2 }],
             activation: ["str", { initial: "deplacement" }],
             duree: ["str", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             taille: [
               "schema",
               {
@@ -508,7 +516,9 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             interruption: [
               "schema",
               {
@@ -614,7 +624,9 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             degats: [
               "schema",
               {
@@ -744,7 +756,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     value: ["num", { initial: 50 }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     effets: [
                       "schema",
                       {
@@ -821,7 +833,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     value: ["num", { initial: 50 }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     degats: [
                       "schema",
                       {
@@ -842,7 +854,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     value: ["num", { initial: 50 }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     effets: [
                       "schema",
                       {
@@ -866,7 +878,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     value: ["num", { initial: 100 }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     effets: [
                       "schema",
                       {
@@ -900,7 +912,9 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             activation: [
               "schema",
               {
@@ -992,9 +1006,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "toutes" }],
             duree: ["str", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             energie: [
               "schema",
               {
@@ -1038,11 +1054,13 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "deplacement" }],
             duree: ["str", { initial: "" }],
             portee: ["str", { initial: "courte" }],
             energie: ["num", { initial: 12 }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             degats: [
               "schema",
               {
@@ -1119,10 +1137,12 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "aucune" }],
             duree: ["str", { initial: "" }],
             portee: ["str", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             energie: [
               "schema",
               {
@@ -1187,10 +1207,12 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "deplacement" }],
             duree: ["str", { initial: "" }],
             nbreType: ["num", { initial: 3 }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             energie: [
               "schema",
               {
@@ -1531,9 +1553,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "deplacement6Sec" }],
             duree: ["str", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             energie: [
               "schema",
               {
@@ -1573,7 +1597,9 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             impulsions: [
               "schema",
               {
@@ -1586,7 +1612,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                     bonus: [
                       "schema",
                       {
-                        description: ["str", { initial: "" }],
+                        description: ["html", { initial: "" }],
                       },
                     ],
                     energie: [
@@ -1671,7 +1697,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                     bonus: [
                       "schema",
                       {
-                        description: ["str", { initial: "" }],
+                        description: ["html", { initial: "" }],
                       },
                     ],
                     energie: [
@@ -1712,7 +1738,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                         bonus: [
                           "schema",
                           {
-                            description: ["str", { initial: "" }],
+                            description: ["html", { initial: "" }],
                           },
                         ],
                         energie: [
@@ -1797,7 +1823,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                         bonus: [
                           "schema",
                           {
-                            description: ["str", { initial: "" }],
+                            description: ["html", { initial: "" }],
                           },
                         ],
                         energie: [
@@ -1831,10 +1857,12 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "deplacement3Sec" }],
             duree: ["str", { initial: "" }],
             energie: ["num", { initial: 2 }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             textarea: [
               "schema",
               {
@@ -1861,7 +1889,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            order: ["num", { initial: null }],
           },
         ],
       },
@@ -1876,7 +1905,9 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             bonus: [
               "schema",
               {
@@ -2004,22 +2035,24 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             energie: ["num", { initial: 10 }],
             activation: ["str", { initial: "aucune" }],
             duree: ["str", { initial: "" }],
             espoir: ["num", { initial: 1 }],
             capacites: ["num", { initial: 3 }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             vol: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
               },
             ],
             phase: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 activation: ["str", { initial: "deplacement" }],
                 energie: ["num", { initial: 5 }],
                 duree: ["str", { initial: "" }],
@@ -2037,7 +2070,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             etirement: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 portee: ["str", { initial: "" }],
                 bonus: ["num", { initial: 3 }],
               },
@@ -2068,7 +2101,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             polymorphie: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 griffe: [
                   "schema",
                   {
@@ -2193,13 +2226,13 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 vol: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                   },
                 ],
                 phase: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     activation: ["str", { initial: "deplacement" }],
                     energie: ["num", { initial: 5 }],
                     duree: ["str", { initial: "" }],
@@ -2217,7 +2250,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 etirement: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     portee: ["str", { initial: "" }],
                     bonus: ["num", { initial: 3 }],
                   },
@@ -2248,7 +2281,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 polymorphie: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     griffe: [
                       "schema",
                       {
@@ -2372,11 +2405,13 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             energie: ["num", { initial: 3 }],
             activation: ["str", { initial: "combat" }],
             duree: ["str", { initial: "" }],
             espoir: ["num", { initial: 1 }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             vague: [
               "schema",
               {
@@ -2394,6 +2429,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                     fixe: ["num", { initial: 0 }],
                   },
                 ],
+                description: ["str", { initial: "" }],
                 portee: ["str", { initial: "" }],
                 effets: [
                   "schema",
@@ -2427,6 +2463,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                     fixe: ["num", { initial: 0 }],
                   },
                 ],
+                description: ["str", { initial: "" }],
                 portee: ["str", { initial: "" }],
                 effets: [
                   "schema",
@@ -2462,6 +2499,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                     fixe: ["num", { initial: 0 }],
                   },
                 ],
+                description: ["str", { initial: "" }],
                 portee: ["str", { initial: "" }],
                 effets: [
                   "schema",
@@ -2620,7 +2658,9 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             special: [
               "schema",
               {
@@ -2704,7 +2744,9 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             special: [
               "schema",
               {
@@ -2774,7 +2816,9 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             special: [
               "schema",
               {
@@ -2812,9 +2856,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             espoir: ["num", { initial: 0 }],
             difficulte: ["num", { initial: 5 }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             aspects: [
               "schema",
               {
@@ -3126,9 +3172,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "tour6Sec" }],
             duree: ["str", { initial: "" }],
+            softlock: ["bool", { initial: true }],
+            order: ["num", { initial: null }],
             energie: [
               "schema",
               {
@@ -3452,7 +3500,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                       "schema",
                       {
                         niveau: ["num", { initial: 1 }],
-                        description: ["str", { initial: "" }],
+                        description: ["html", { initial: "" }],
                         energie: ["num", { initial: 1 }],
                         bonus: [
                           "schema",
@@ -3466,7 +3514,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                       "schema",
                       {
                         niveau: ["num", { initial: 1 }],
-                        description: ["str", { initial: "" }],
+                        description: ["html", { initial: "" }],
                         energie: ["num", { initial: 1 }],
                         bonus: [
                           "schema",
@@ -3481,7 +3529,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                       "schema",
                       {
                         niveau: ["num", { initial: 1 }],
-                        description: ["str", { initial: "" }],
+                        description: ["html", { initial: "" }],
                         energie: ["num", { initial: 2 }],
                         bonus: [
                           "schema",
@@ -3496,7 +3544,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                       "schema",
                       {
                         niveau: ["num", { initial: 1 }],
-                        description: ["str", { initial: "" }],
+                        description: ["html", { initial: "" }],
                         energie: ["num", { initial: 2 }],
                         degats: ["num", { initial: 1 }],
                         violence: ["num", { initial: 1 }],
@@ -3520,7 +3568,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                       "schema",
                       {
                         niveau: ["num", { initial: 1 }],
-                        description: ["str", { initial: "" }],
+                        description: ["html", { initial: "" }],
                         energie: ["num", { initial: 1 }],
                         bonus: [
                           "schema",
@@ -3626,7 +3674,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 activation: ["str", { initial: "tour6Sec" }],
                 duree: ["str", { initial: "" }],
                 adistribuer: ["num", { initial: 1 }],
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 energie: [
                   "schema",
                   {
@@ -3702,11 +3750,13 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             duree: ["str", { initial: "" }],
             activation: ["str", { initial: "tour6Sec" }],
             portee: ["str", { initial: "contact" }],
             impregnation: ["num", { initial: 3 }],
+            softlock: ["bool", { initial: false }],
+            order: ["num", { initial: null }],
             sansarmure: [
               "schema",
               {
@@ -3724,7 +3774,6 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               {
                 min: ["num", { initial: 10 }],
                 max: ["num", { initial: 50 }],
-                limite: ["num", { initial: 0 }],
               },
             ],
             textarea: [
@@ -3775,9 +3824,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             duree: ["str", { initial: "" }],
             activation: ["str", { initial: "aucune" }],
+            softlock: ["bool", { initial: false }],
+            order: ["num", { initial: null }],
             special: [
               "schema",
               {
@@ -3817,9 +3868,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             duree: ["str", { initial: "" }],
             activation: ["str", { initial: "aucune" }],
+            softlock: ["bool", { initial: false }],
+            order: ["num", { initial: null }],
             special: [
               "schema",
               {
@@ -3859,9 +3912,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             duree: ["str", { initial: "" }],
             activation: ["str", { initial: "aucune" }],
+            softlock: ["bool", { initial: false }],
+            order: ["num", { initial: null }],
             special: [
               "schema",
               {
@@ -3901,12 +3956,14 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "aucune" }],
             duree: ["str", { initial: "" }],
             portee: ["str", { initial: "courte" }],
             nombre: ["num", { initial: 2 }],
             impregnation: ["num", { initial: 1 }],
+            softlock: ["bool", { initial: false }],
+            order: ["num", { initial: null }],
             special: [
               "schema",
               {
@@ -3963,15 +4020,16 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "deplacement" }],
             duree: ["str", { initial: "" }],
             nbreCapacitesSelected: ["num", { initial: 3 }],
             nbreCapacitesTotale: ["num", { initial: 7 }],
+            order: ["num", { initial: null }],
             blaze: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 degats: ["num", { initial: 2 }],
                 violence: ["num", { initial: 2 }],
                 portee: ["str", { initial: "contact" }],
@@ -3987,7 +4045,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             candle: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 portee: ["str", { initial: "contact" }],
                 espoir: [
                   "schema",
@@ -4001,7 +4059,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             beacon: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 bonus: ["num", { initial: 2 }],
                 portee: ["str", { initial: "courte" }],
                 espoir: [
@@ -4016,7 +4074,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             torch: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 bonus: ["num", { initial: 2 }],
                 portee: ["str", { initial: "courte" }],
                 espoir: [
@@ -4031,7 +4089,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             projector: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 portee: ["str", { initial: "courte" }],
                 espoir: [
                   "schema",
@@ -4045,7 +4103,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             lighthouse: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 portee: ["str", { initial: "courte" }],
                 espoir: [
                   "schema",
@@ -4059,7 +4117,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             lantern: [
               "schema",
               {
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 portee: ["str", { initial: "courte" }],
                 degats: ["num", { initial: 1 }],
                 effets: [
@@ -4103,7 +4161,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 blaze: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     degats: ["num", { initial: 2 }],
                     violence: ["num", { initial: 2 }],
                     portee: ["str", { initial: "contact" }],
@@ -4119,7 +4177,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 candle: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     portee: ["str", { initial: "contact" }],
                     espoir: ["num", { initial: 1 }],
                   },
@@ -4127,7 +4185,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 beacon: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     bonus: ["num", { initial: 2 }],
                     portee: ["str", { initial: "courte" }],
                     espoir: [
@@ -4142,7 +4200,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 torch: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     bonus: ["num", { initial: 2 }],
                     portee: ["str", { initial: "courte" }],
                     espoir: [
@@ -4157,7 +4215,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 projector: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     portee: ["str", { initial: "courte" }],
                     espoir: [
                       "schema",
@@ -4171,7 +4229,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 lighthouse: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     portee: ["str", { initial: "courte" }],
                     espoir: [
                       "schema",
@@ -4185,7 +4243,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 lantern: [
                   "schema",
                   {
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     portee: ["str", { initial: "courte" }],
                     degats: ["num", { initial: 1 }],
                     effets: [
@@ -4226,16 +4284,17 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           "schema",
           {
             label: ["str", { initial: "" }],
-            description: ["str", { initial: "" }],
+            description: ["html", { initial: "" }],
             activation: ["str", { initial: "aucune" }],
             duree: ["str", { initial: "" }],
             espoir: ["num", { initial: 0 }],
             aspects: ["schema", {}],
+            order: ["num", { initial: null }],
             nourri: [
               "schema",
               {
                 label: ["str", { initial: "" }],
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 humain: [
                   "schema",
                   {
@@ -4316,7 +4375,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               "schema",
               {
                 label: ["str", { initial: "" }],
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 degats: ["str", { initial: "bete" }],
                 violence: ["str", { initial: "bete" }],
                 egide: ["num", { initial: 3 }],
@@ -4360,7 +4419,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               "schema",
               {
                 label: ["str", { initial: "" }],
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 degats: ["str", { initial: "bete" }],
                 violence: ["str", { initial: "bete" }],
                 egide: ["num", { initial: 3 }],
@@ -4404,7 +4463,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               "schema",
               {
                 label: ["str", { initial: "" }],
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 degats: ["str", { initial: "bete" }],
                 violence: ["str", { initial: "bete" }],
                 egide: ["num", { initial: 6 }],
@@ -4448,7 +4507,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               "schema",
               {
                 label: ["str", { initial: "" }],
-                description: ["str", { initial: "" }],
+                description: ["html", { initial: "" }],
                 degats: ["num", { initial: 2 }],
                 violence: ["num", { initial: 2 }],
                 portee: ["str", { initial: "contact" }],
@@ -4482,7 +4541,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     label: ["str", { initial: "" }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     humain: [
                       "schema",
                       {
@@ -4563,7 +4622,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     label: ["str", { initial: "" }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     degats: ["str", { initial: "bete" }],
                     violence: ["str", { initial: "bete" }],
                     egide: ["num", { initial: 3 }],
@@ -4607,7 +4666,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     label: ["str", { initial: "" }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     degats: ["str", { initial: "bete" }],
                     violence: ["str", { initial: "bete" }],
                     egide: ["num", { initial: 3 }],
@@ -4651,7 +4710,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     label: ["str", { initial: "" }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     degats: ["str", { initial: "bete" }],
                     violence: ["str", { initial: "bete" }],
                     egide: ["num", { initial: 6 }],
@@ -4695,7 +4754,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                   "schema",
                   {
                     label: ["str", { initial: "" }],
-                    description: ["str", { initial: "" }],
+                    description: ["html", { initial: "" }],
                     degats: ["num", { initial: 2 }],
                     violence: ["num", { initial: 2 }],
                     portee: ["str", { initial: "contact" }],
@@ -4727,11 +4786,37 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     ];
   }
 
+  static get capaciteGroups() {
+    return [
+      this.base,
+      this.c2038Necromancer,
+      this.c2038Sorcerer,
+      this.c2038,
+      this.codex,
+      this.atlas,
+      this.atlasSpecial,
+    ];
+  }
+
+  static get selectedDefinition() {
+    const selected = {};
+    for (const group of this.capaciteGroups) {
+      // Selon ce que renvoient tes getters : ["schema", {...}] ou un objet plat
+      const blocks = Array.isArray(group) ? group[1] : group;
+      for (const [key, def] of Object.entries(blocks)) {
+        if (key in selected) throw new Error(`Capacité en double : ${key}`);
+        const inner = Array.isArray(def) ? def[1] : def;
+        selected[key] = ["schema", inner, { nullable: true, initial: null }];
+      }
+    }
+    return selected;
+  }
+
   static get baseDefinition() {
     return {
       actuel: ["str", { initial: "personnalise" }],
       liste: ["obj", {}],
-      selected: ["obj", {}],
+      selected: ["schema", this.selectedDefinition],
       base: this.base,
       c2038: this.c2038,
       c2038Necromancer: this.c2038Necromancer,
@@ -4744,6 +4829,32 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
 
   static defineSchema() {
     return fields(this.baseDefinition);
+  }
+
+  static migrateData(source) {
+    const F = foundry.data.fields;
+    const selected = source.selected;
+    let order = 0;
+
+    for (const c in selected) {
+      const block = selected[c];
+      if (!block) continue;
+
+      const desc = block.description;
+
+      if (desc?.constructor === F.StringField) {
+        // ignore les HTMLField
+        block.description = new F.HTMLField({ ...desc.options });
+      }
+
+      if (block.order === null) {
+        // on ajoute aussi le order...
+        block.order = order;
+        order++;
+      }
+    }
+
+    return super.migrateData(source);
   }
 
   get actor() {
@@ -4772,6 +4883,28 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     }
 
     return result;
+  }
+
+  get listSelected() {
+    const selected = [];
+
+    for (const c in this.selected) {
+      if (this.selected[c]) selected.push(c);
+    }
+
+    return selected;
+  }
+
+  get allCapacity() {
+    const liste = Object.assign(
+      {},
+      ...["base", "c2038Necromancer", "c2038Sorcerer", "c2038", "codex", "atlas", "atlasSpecial"]
+        .map((path) => foundry.utils.getProperty(this, path))
+        .filter(Boolean)
+        .map((data) => data.toObject?.() ?? data),
+    );
+
+    return liste;
   }
 
   #prepareLabels() {
@@ -4806,8 +4939,32 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     }
   }
 
+  #prepareListe() {
+    const exclusions = this.listSelected;
+    const liste = [
+      "base",
+      "c2038Necromancer",
+      "c2038Sorcerer",
+      "c2038",
+      "codex",
+      "atlas",
+      "atlasSpecial",
+    ]
+      .map((path) => foundry.utils.getProperty(this, path))
+      .filter(Boolean)
+      .flatMap((data) => Object.entries(data.toObject?.() ?? data))
+      .filter(([key]) => !exclusions.includes(key))
+      .filter(([key], i, arr) => arr.findIndex(([k]) => k === key) === i) // dédoublonnage
+      .map(([key]) => ({ key, label: game.i18n.localize(CONFIG.KNIGHT.capacites[key] ?? key) }))
+      .sort((a, b) => a.label.localeCompare(b.label, game.i18n.lang, { sensitivity: "base" }));
+
+    foundry.utils.setProperty(this, "liste", liste);
+  }
+
   prepareData() {
-    if (this.morph) {
+    this.#prepareListe();
+
+    /*if (this.morph) {
       const choisi = this?.morph?.choisi ?? {};
       const active = this?.morph?.active ?? {};
 
@@ -4871,7 +5028,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
       this.#prepareCapacity(c, this.selected[c]);
     }
 
-    this.#prepareLabels();
+    this.#prepareLabels();*/
   }
 
   #prepareCapacity = (capacity, data) => {

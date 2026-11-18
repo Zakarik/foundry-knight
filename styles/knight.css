@@ -17122,12 +17122,22 @@ li.chat-message.emote {
 .actor.knight div.personnage div.description {
   flex: 1;
 }
-.actor.knight div.personnage div.description prose-mirror {
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
+.actor.knight div.personnage div.description div.inner {
+  border: 1px solid RGB(87 110 178);
   background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
+.actor.knight div.personnage div.description prose-mirror {
+  flex: 1;
+  width: 100%;
+  min-height: 130px;
+  overflow: unset;
+}
+.actor.knight div.personnage div.description prose-mirror div.editor-content {
+  overflow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .actor.knight div.personnage div.pointsfaibles {
   display: grid;
@@ -19388,13 +19398,22 @@ li.chat-message.emote {
   flex-direction: column;
   margin-top: 10px;
 }
+.actor.knight div.historique div.histoire div.inner {
+  border: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
 .actor.knight div.historique div.histoire prose-mirror {
   flex: 1;
+  width: 100%;
   min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
+  overflow: unset;
+}
+.actor.knight div.historique div.histoire prose-mirror div.editor-content {
+  overflow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .actor.knight div.autre div.phase2 {
   display: grid;
@@ -20031,12 +20050,22 @@ li.chat-message.emote {
 .bande div.personnage div.description {
   flex: 1;
 }
-.bande div.personnage div.description prose-mirror {
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
+.bande div.personnage div.description div.inner {
+  border: 1px solid RGB(87 110 178);
   background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
+.bande div.personnage div.description prose-mirror {
+  flex: 1;
+  width: 100%;
+  min-height: 130px;
+  overflow: unset;
+}
+.bande div.personnage div.description prose-mirror div.editor-content {
+  overflow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .bande div.personnage div.pointsfaibles {
   display: grid;
@@ -21602,13 +21631,22 @@ li.chat-message.emote {
   flex-direction: column;
   margin-top: 10px;
 }
+.bande div.historique div.histoire div.inner {
+  border: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
 .bande div.historique div.histoire prose-mirror {
   flex: 1;
+  width: 100%;
   min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
+  overflow: unset;
+}
+.bande div.historique div.histoire prose-mirror div.editor-content {
+  overflow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .bande div.autre div.phase2 {
   display: grid;
@@ -22617,12 +22655,22 @@ li.chat-message.emote {
 .creature div.personnage div.description {
   flex: 1;
 }
-.creature div.personnage div.description prose-mirror {
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
+.creature div.personnage div.description div.inner {
+  border: 1px solid RGB(87 110 178);
   background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
+.creature div.personnage div.description prose-mirror {
+  flex: 1;
+  width: 100%;
+  min-height: 130px;
+  overflow: unset;
+}
+.creature div.personnage div.description prose-mirror div.editor-content {
+  overflow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .creature div.personnage div.pointsfaibles {
   display: grid;
@@ -25173,13 +25221,22 @@ li.chat-message.emote {
   flex-direction: column;
   margin-top: 10px;
 }
+.creature div.historique div.histoire div.inner {
+  border: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
 .creature div.historique div.histoire prose-mirror {
   flex: 1;
+  width: 100%;
   min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
+  overflow: unset;
+}
+.creature div.historique div.histoire prose-mirror div.editor-content {
+  overflow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .creature div.autre div.phase2 {
   display: grid;
@@ -26188,12 +26245,22 @@ li.chat-message.emote {
 .actor.pnj div.personnage div.description {
   flex: 1;
 }
-.actor.pnj div.personnage div.description prose-mirror {
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
+.actor.pnj div.personnage div.description div.inner {
+  border: 1px solid RGB(87 110 178);
   background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
+.actor.pnj div.personnage div.description prose-mirror {
+  flex: 1;
+  width: 100%;
+  min-height: 130px;
+  overflow: unset;
+}
+.actor.pnj div.personnage div.description prose-mirror div.editor-content {
+  overflow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .actor.pnj div.personnage div.pointsfaibles {
   display: grid;
@@ -28744,13 +28811,22 @@ li.chat-message.emote {
   flex-direction: column;
   margin-top: 10px;
 }
+.actor.pnj div.historique div.histoire div.inner {
+  border: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
 .actor.pnj div.historique div.histoire prose-mirror {
   flex: 1;
+  width: 100%;
   min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
+  overflow: unset;
+}
+.actor.pnj div.historique div.histoire prose-mirror div.editor-content {
+  overflow: unset;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .actor.pnj div.autre div.phase2 {
   display: grid;
@@ -38761,13 +38837,20 @@ form.item.armure section.window-content div.description {
   width: 100%;
   flex: none;
 }
-form.item.armure section.window-content div.description prose-mirror {
-  width: 100%;
-  min-height: 130px;
+form.item.armure section.window-content div.description div.inner {
   border: 1px solid RGB(87 110 178);
   background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
+form.item.armure section.window-content div.description prose-mirror {
+  flex: 1;
+  width: 100%;
+  min-height: 130px;
+  overflow: unset;
 }
 form.item.armure section.window-content div.description prose-mirror div.editor-content {
+  overflow: unset;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -38786,34 +38869,32 @@ form.item.armure section.window-content nav a.active {
 form.item.armure section.window-content div.capacites {
   border: 1px solid RGB(87 110 178);
 }
-form.item.armure section.window-content div.capacites div.add {
-  display: flex;
+form.item.armure section.window-content div.capacites div.inner {
+  border: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
+  overflow: auto;
+  flex: 1;
+}
+form.item.armure section.window-content div.capacites prose-mirror {
+  flex: 1;
   width: 100%;
-  justify-content: right;
+  min-height: 130px;
+  overflow: unset;
 }
-form.item.armure section.window-content div.capacites div.add a {
-  line-height: 27px;
-  padding-right: 5px;
+form.item.armure section.window-content div.capacites prose-mirror div.editor-content {
+  overflow: unset;
   padding-left: 5px;
-  border-right: 1px solid RGB(43 42 51);
-  background: RGB(76 74 90);
+  padding-right: 5px;
 }
-form.item.armure section.window-content div.capacites div.add a:hover {
-  box-shadow: inset 1px 1px 10px black;
+form.item.armure section.window-content div.capacites div.inner {
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom-color: black;
+  border-top-color: black;
 }
-form.item.armure section.window-content div.capacites div.add select {
-  color: white;
-  border-radius: 0px;
-  padding: 0px;
-  background: RGB(76 74 90);
-  border: 0px;
-}
-form.item.armure section.window-content div.capacites div.add select option {
-  background: RGB(43 42 51);
-}
-form.item.armure section.window-content div.capacites h3 {
+form.item.armure section.window-content div.capacites h3.header {
   display: grid;
-  grid-template-columns: min-content 1fr 205px;
+  grid-template-columns: min-content 1fr min-content;
   grid-gap: 5px;
   position: relative;
   width: 100%;
@@ -38830,41 +38911,41 @@ form.item.armure section.window-content div.capacites h3 {
   padding-left: 20px;
   font-weight: bold;
   letter-spacing: 1px;
+  align-items: center;
 }
-form.item.armure section.window-content div.capacites h3 .far {
+form.item.armure section.window-content div.capacites h3.header div {
+  display: grid;
+  grid-template-columns: 1fr 8px 1fr;
+  grid-gap: 5px;
+  align-items: center;
+  align-content: center;
+}
+form.item.armure section.window-content div.capacites h3.header div button {
+  width: max-content;
+  line-height: 21px;
+  border: 0px;
+  background: transparent;
+  color: white;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 12px;
   cursor: pointer;
-  margin-top: 2px;
 }
-form.item.armure section.window-content div.capacites h3 div {
-  position: absolute;
-  right: 5px;
-  top: 0px;
+form.item.armure section.window-content div.capacites h3.header div button i.green {
+  color: #59d13e;
 }
-form.item.armure section.window-content div.capacites h3 div a.verrouillage {
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
+form.item.armure section.window-content div.capacites h3.header div button i.red {
+  color: #c50000;
 }
-form.item.armure section.window-content div.capacites h3 div a.verrouillage:hover {
+form.item.armure section.window-content div.capacites h3.header div button:hover {
   text-shadow: 0 0 10px white;
 }
-form.item.armure section.window-content div.capacites h3 div span {
-  margin-left: 2px;
-  margin-right: 2px;
+form.item.armure section.window-content div.capacites h3.header div span {
+  display: grid;
+  align-items: center;
+  align-content: center;
 }
-form.item.armure section.window-content div.capacites h3 div a.delete {
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-form.item.armure section.window-content div.capacites h3 div a.delete:hover {
-  text-shadow: 0 0 10px white;
-}
-form.item.armure section.window-content div.capacites h3 input {
+form.item.armure section.window-content div.capacites h3.header input {
   height: 23px;
   background: RGB(43 42 51);
   border-radius: 0px;
@@ -38872,23 +38953,776 @@ form.item.armure section.window-content div.capacites h3 input {
   text-transform: uppercase;
   font-weight: bold;
 }
-form.item.armure section.window-content div.capacites h3 input[disabled] {
+form.item.armure section.window-content div.capacites h3.header input[disabled] {
   background: RGB(76 74 90);
 }
-form.item.armure section.window-content div.capacites div.editor {
+form.item.armure section.window-content div.capacites div.add {
+  display: flex;
   width: 100%;
-  min-height: 30px;
-  border-bottom: 1px solid RGB(76 74 90);
+  justify-content: right;
+}
+form.item.armure section.window-content div.capacites div.add button {
+  border-radius: 0px;
+  height: 32px;
+  border: 0px;
+  border-right: 1px solid RGB(43 42 51);
+  color: white;
+  background: RGB(76 74 90);
+  font-variant: small-caps;
+}
+form.item.armure section.window-content div.capacites div.add button:hover {
+  box-shadow: inset 1px 1px 10px black;
+}
+form.item.armure section.window-content div.capacites div.add select {
+  color: white;
+  border-radius: 0px;
+  padding: 0px;
+  background: RGB(76 74 90);
+  border: 0px;
+}
+form.item.armure section.window-content div.capacites div.add select option {
+  background: RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity > h3.header {
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity > h3.header i {
+  cursor: pointer;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.mainData,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.mainData {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+  grid-gap: 5px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data {
+  display: grid;
+  align-items: flex-start;
+  margin: 5px;
+  border: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.inputWithLabel,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.inputWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.inputWithLabel span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.inputWithLabel span {
+  display: grid;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.inputWithLabel span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.inputWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.inputWithLabel input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.inputWithLabel input {
+  height: 100%;
+  width: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.inputWithLabelSpan,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.inputWithLabelSpan {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.inputWithLabelSpan span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.inputWithLabelSpan span {
+  display: grid;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.inputWithLabelSpan span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.inputWithLabelSpan span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.inputWithLabelSpan label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.inputWithLabelSpan label {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.inputWithLabelSpan label input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.inputWithLabelSpan label input {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+  text-align: right;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.inputWithLabelSpan label span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.inputWithLabelSpan label span {
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(43 42 51);
+  width: 100%;
+  align-items: center;
+  text-align: left;
+  padding-left: 5px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.selectWithLabel,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.selectWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.selectWithLabel span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.selectWithLabel span {
+  display: grid;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.selectWithLabel span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.selectWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  height: 100%;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.selectWithLabel select,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.selectWithLabel select {
+  height: 100%;
+  width: 100%;
+  background: RGB(43 42 51);
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.selectWithLabel select option,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.selectWithLabel select option {
   background: RGB(76 74 90);
 }
-form.item.armure section.window-content div.capacites div.editor div.editor-content {
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.textareaWithLabel,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.textareaWithLabel {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.textareaWithLabel span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.textareaWithLabel span {
+  display: grid;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.textareaWithLabel span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.textareaWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.textareaWithLabel textarea,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.textareaWithLabel textarea {
+  color: white;
+  width: 100%;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   padding-left: 5px;
   padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: "Signika";
+  height: 26px;
+  border-radius: 0px;
 }
-form.item.armure section.window-content div.capacites div.borealis,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceSpanWithLabel,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceSpanWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceSpanWithLabel span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceSpanWithLabel span {
+  display: grid;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceSpanWithLabel span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceSpanWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceSpanWithLabel span.dice,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceSpanWithLabel span.dice {
+  width: 100%;
+  text-align: left;
+  line-height: 23px;
+  background: transparent;
+  text-transform: uppercase;
+  align-items: center;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceSpanWithLabel div,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceSpanWithLabel div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceSpanWithLabel div input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceSpanWithLabel div input {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+  padding-top: 1px;
+  text-align: right;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceWithLabel,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceWithLabel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceWithLabel span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceWithLabel span {
+  display: grid;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceWithLabel span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceWithLabel span.label {
+  padding-left: 5px;
+  line-height: 22px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  width: 100%;
+  align-items: center;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceWithLabel span.dice,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceWithLabel span.dice {
+  width: 100%;
+  text-align: center;
+  line-height: 23px;
+  background: transparent;
+  text-transform: uppercase;
+  align-items: center;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceWithLabel div,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceWithLabel div {
+  display: grid;
+  grid-template-columns: 1fr 24px 1fr;
+  background: RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceWithLabel div input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceWithLabel div input {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  padding: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceWithLabel div input:first-of-type,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceWithLabel div input:first-of-type {
+  text-align: right;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.diceWithLabel div input:last-of-type,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.diceWithLabel div input:last-of-type {
+  text-align: left;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data button,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  min-height: 32px;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  border-radius: 5px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data button.unselected,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data button.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data button.selected,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data button.selected {
+  background: RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data button i.red,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data button i.red {
+  color: #c50000;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data button i.green,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data button i.green {
+  color: #59d13e;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: 1/3;
+  width: 100%;
+  margin-top: 5px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding-right: 5px;
+  padding-bottom: 19px;
+  padding-left: 5px;
+  border: 1px solid RGB(87 110 178);
+  flex: none;
+  align-items: flex-start;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div {
+  display: block;
+  position: relative;
+  width: max-content;
+  padding-left: 15px;
+  padding-right: 25px;
+  background: RGB(76 74 90);
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div span.label input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div span.label input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div span.label input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div span.label input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div span.label input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div span.label input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div span.label input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div img.info,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div img.info,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div img.info,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div img.info,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div img.info,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div img.info,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div img.info,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div img.info {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  background: RGB(76 74 90);
+  top: 4px;
+  right: 2px;
+  cursor: pointer;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div img.info.clicked, form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div img.info:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div img.info.clicked,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div img.info:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div img.info.clicked,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div img.info:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div img.info.clicked,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div img.info:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div img.info.clicked,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div img.info:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div img.info.clicked,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div img.info:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div img.info.clicked,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div img.info:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div img.info.clicked,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div img.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div span.hideInfo,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div span.hideInfo,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div span.hideInfo,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div span.hideInfo,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div span.hideInfo,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div span.hideInfo,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div span.hideInfo,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div span.hideInfo {
+  display: none;
+  position: absolute;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  padding: 5px;
+  z-index: 90;
+  margin-top: -2px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  right: 0;
+  top: 100%;
+  text-align: justify;
+  word-break: break-word;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div section.btnChargeur,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div section.btnChargeur,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div section.btnChargeur,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div section.btnChargeur,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div section.btnChargeur,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div section.btnChargeur,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div section.btnChargeur,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div section.btnChargeur a.btnEffChange,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div section.btnChargeur a.btnEffChange,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div section.btnChargeur a.btnEffChange,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div section.btnChargeur a.btnEffChange,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div section.btnChargeur a.btnEffChange,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div section.btnChargeur a.btnEffChange,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div section.btnChargeur a.btnEffChange,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div i.activable,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div i.activable,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div i.activable,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div i.activable,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div i.activable,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div i.activable,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div i.activable,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div i.activable {
+  cursor: pointer;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div i.activable.inactive,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div i.activable.inactive,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div i.activable.inactive,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div i.activable.inactive,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div i.activable.inactive,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div i.activable.inactive,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div i.activable.inactive,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div i.activable.inactive {
+  color: #c50000;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div i.activable.active,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div i.activable.active,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div i.activable.active,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div i.activable.active,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div i.activable.active,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div i.activable.active,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div i.activable.active,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div i.activable.active {
+  color: #59d13e;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div i.activable:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div i.activable:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div i.activable:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div i.activable:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div i.activable:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div i.activable:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div i.activable:hover,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div i.activable:hover {
+  color: white;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div i.red,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div i.red,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div i.red,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div i.red,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div i.red,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div i.red,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div i.red,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div i.red {
+  color: #c50000;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets div i.green,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance div i.green,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles div i.green,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales div i.green,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets div i.green,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance div i.green,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles div i.green,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales div i.green {
+  color: #59d13e;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets a.edit,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance a.edit,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles a.edit,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales a.edit,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets a.edit,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance a.edit,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles a.edit,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales a.edit {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  color: white;
+  font-variant: small-caps;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets.hidden,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.distance.hidden,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.structurelles.hidden,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.ornementales.hidden,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets.hidden,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.distance.hidden,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.structurelles.hidden,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.ornementales.hidden {
+  display: none;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.allEffects,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.allEffects {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  grid-column: 1/3;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data h4,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data h4 {
+  width: 100%;
+  background: RGB(76 74 90);
+  margin: 0px;
+  padding-left: 5px;
+  line-height: 26px;
+  border-bottom: 1px solid black;
+  color: white;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data > textarea,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data > textarea {
+  color: white;
+  width: 100%;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: "Signika";
+  height: 26px;
+  border-radius: 0px;
+  border-bottom: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label:not(:first-of-type) span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label:not(:first-of-type) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label:not(:first-of-type) input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label:not(:first-of-type) select,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label:not(:first-of-type) input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label:not(:first-of-type) select {
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.double:not(:first-of-type) span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.double:not(:first-of-type) span {
+  border-top: 5px double RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.double:not(:first-of-type) input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.double:not(:first-of-type) select,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.double:not(:first-of-type) input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.double:not(:first-of-type) select {
+  border-top: 5px double RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceSimple span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceSimple span {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceSimple input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceSimple select,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceSimple input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceSimple select {
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceDouble span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceDouble span {
+  border-top: 5px double RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceDouble input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceDouble select,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceDouble input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceDouble select {
+  border-top: 5px double RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceSimpleBlack,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceSimpleBlack {
+  border-top: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceSimpleBlack span,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceSimpleBlack span {
+  border-top: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceSimpleBlack input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data label.forceSimpleBlack select,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceSimpleBlack input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data label.forceSimpleBlack select {
+  border-top: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div:not(:first-of-type) span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div:not(:first-of-type) span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div:not(:first-of-type) label,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div:not(:first-of-type) div,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div:not(:first-of-type) label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div:not(:first-of-type) div {
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.forceSimple span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.forceSimple span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.forceSimple label,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.forceSimple div,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.forceSimple label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.forceSimple div {
+  border-top: 1px solid RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.double:not(:first-of-type) span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.double:not(:first-of-type) span.label {
+  border-top: 5px double RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.double:not(:first-of-type) label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.double:not(:first-of-type) label {
+  border-top: 5px double RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.forceDouble span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.forceDouble span.label {
+  border-top: 5px double RGB(43 42 51);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.forceDouble label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.forceDouble label {
+  border-top: 5px double RGB(76 74 90);
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.forceSimpleBlack,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.forceSimpleBlack {
+  border-top: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.forceSimpleBlack span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.forceSimpleBlack span.label {
+  border-top: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.forceSimpleBlack label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.forceSimpleBlack label {
+  border-top: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.textareaWithLabel span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.textareaWithLabel span.label {
+  border-top: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets {
+  grid-column: 1;
+  border: 0px;
+  border-top: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets {
+  border: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.blockEffets div.effets span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.blockEffets div.effets span.label {
+  border: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.textareaWithLabel,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.textareaWithLabel {
+  border-top: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.notBorderTop span.label,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.notBorderTop span.label {
+  border-top: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.notBorderTop textarea,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.notBorderTop input,
+form.item.armure section.window-content div.capacites div.dataCapacity div.data div.notBorderTop select,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.notBorderTop textarea,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.notBorderTop input,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data div.notBorderTop select {
+  border-top: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.data button,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.data button {
+  border-radius: 0px;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity div.col,
+form.item.armure section.window-content div.capacites div.dataCapacity fieldset.col {
+  display: grid;
+  align-items: flex-start;
+  grid-gap: 5px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity.changeling div.data button {
+  border-top: 0px;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity.changeling div.data button.selected {
+  border-bottom: 1px solid black;
+}
+form.item.armure section.window-content div.capacites div.dataCapacity.changeling div.data div.blockEffets {
+  margin-top: 0px;
+}
 form.item.armure section.window-content div.capacites div.shrine,
-form.item.armure section.window-content div.capacites div.cea,
-form.item.armure section.window-content div.capacites div.changeling,
 form.item.armure section.window-content div.capacites div.falcon,
 form.item.armure section.window-content div.capacites div.goliath,
 form.item.armure section.window-content div.capacites div.ghost,
@@ -38909,17 +39743,13 @@ form.item.armure section.window-content div.capacites div.companions,
 form.item.armure section.window-content div.capacites div.illumination,
 form.item.armure section.window-content div.capacites div.rage,
 form.item.armure section.window-content div.capacites div.totem,
-form.item.armure section.window-content div.capacites div.ascension,
 form.item.armure section.window-content div.capacites div.forward,
 form.item.armure section.window-content div.capacites div.record,
 form.item.armure section.window-content div.capacites div.rewind {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData,
 form.item.armure section.window-content div.capacites div.shrine div.mainData,
-form.item.armure section.window-content div.capacites div.cea div.mainData,
-form.item.armure section.window-content div.capacites div.changeling div.mainData,
 form.item.armure section.window-content div.capacites div.falcon div.mainData,
 form.item.armure section.window-content div.capacites div.goliath div.mainData,
 form.item.armure section.window-content div.capacites div.ghost div.mainData,
@@ -38940,7 +39770,6 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData,
 form.item.armure section.window-content div.capacites div.rage div.mainData,
 form.item.armure section.window-content div.capacites div.totem div.mainData,
-form.item.armure section.window-content div.capacites div.ascension div.mainData,
 form.item.armure section.window-content div.capacites div.forward div.mainData,
 form.item.armure section.window-content div.capacites div.record div.mainData,
 form.item.armure section.window-content div.capacites div.rewind div.mainData {
@@ -38953,10 +39782,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData {
   margin-top: 5px;
   padding: 5px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data,
@@ -38977,17 +39803,13 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data {
   width: calc(50% - 5px);
   border: 1px solid black;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data h4,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data h4,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data h4,
@@ -39008,7 +39830,6 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data h4,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data h4,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data h4 {
@@ -39019,10 +39840,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
   line-height: 26px;
   border-bottom: 1px solid black;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label,
@@ -39043,7 +39861,6 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label {
@@ -39053,10 +39870,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
   justify-content: space-between;
   flex: none;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label span,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label span,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label span,
@@ -39077,21 +39891,14 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label span,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label span,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label span {
   background: RGB(76 74 90);
   padding-left: 5px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label input,
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label select,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label input,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label select,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label input,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label input,
@@ -39132,8 +39939,6 @@ form.item.armure section.window-content div.capacites div.rage div.mainData div.
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label select,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label input,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label input,
@@ -39146,10 +39951,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
   background: RGB(43 42 51);
   border-radius: 0px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label input,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label input,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label input,
@@ -39170,16 +39972,12 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label input,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label input,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label input {
   text-align: center;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label select,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label select,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label select,
@@ -39200,7 +39998,6 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label select,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label select,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label select {
@@ -39209,10 +40006,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
   letter-spacing: 0.5px;
   border-radius: 0px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label select option,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label select option,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label select option,
@@ -39233,16 +40027,12 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label select option,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label select option,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label select option {
   background: RGB(76 74 90);
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label textarea,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label textarea,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label textarea,
@@ -39263,7 +40053,6 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label textarea,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label textarea,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label textarea {
@@ -39279,10 +40068,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
   height: 26px;
   border-radius: 0px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.longspan span,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.longspan span,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label.longspan span,
@@ -39303,20 +40089,13 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.longspan span,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label.longspan span,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label.longspan span {
   width: calc(100% - 50px);
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.longspan input,
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.longspan select,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.longspan input,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.longspan select,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.longspan input,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.longspan select,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.longspan input,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.longspan select,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.longspan input,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.longspan select,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label.longspan input,
@@ -39357,8 +40136,6 @@ form.item.armure section.window-content div.capacites div.rage div.mainData div.
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label.longspan select,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.longspan input,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.longspan select,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.longspan input,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.longspan select,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.longspan input,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.longspan select,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label.longspan input,
@@ -39367,10 +40144,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label.longspan select {
   width: 50px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.shortspan span,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.shortspan span,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label.shortspan span,
@@ -39391,24 +40165,14 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.shortspan span,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label.shortspan span,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label.shortspan span {
   width: 90px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.shortspan input,
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.shortspan select,
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.shortspan input,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.shortspan select,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.shortspan textarea,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.shortspan input,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.shortspan select,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.shortspan textarea,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.shortspan input,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.shortspan select,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.shortspan input,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.shortspan select,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.shortspan textarea,
@@ -39469,9 +40233,6 @@ form.item.armure section.window-content div.capacites div.rage div.mainData div.
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.shortspan input,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.shortspan select,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.shortspan textarea,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.shortspan input,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.shortspan select,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.shortspan input,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.shortspan select,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.shortspan textarea,
@@ -39483,10 +40244,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label.shortspan textarea {
   width: calc(100% - 90px);
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.shortspan textarea,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.shortspan textarea,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label.shortspan textarea,
@@ -39507,17 +40265,13 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.shortspan textarea,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label.shortspan textarea,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label.shortspan textarea {
   max-width: calc(100% - 90px);
   min-width: calc(100% - 90px);
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.separation span,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.separation span,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label.separation span,
@@ -39538,20 +40292,13 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.separation span,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label.separation span,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label.separation span {
   border-top: 5px double RGB(43 42 51) !important;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.separation input,
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.separation select,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.separation input,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.separation select,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.separation input,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.separation select,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.separation input,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.separation select,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.separation input,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.separation select,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label.separation input,
@@ -39592,8 +40339,6 @@ form.item.armure section.window-content div.capacites div.rage div.mainData div.
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label.separation select,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.separation input,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.separation select,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.separation input,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.separation select,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.separation input,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.separation select,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label.separation input,
@@ -39603,10 +40348,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
   border-top: 5px double RGB(76 74 90) !important;
   height: 31px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label.hidden,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label.hidden,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label.hidden,
@@ -39627,16 +40369,12 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label.hidden,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label.hidden,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label.hidden {
   display: none;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label:not(:first-of-type) span,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label:not(:first-of-type) span,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label:not(:first-of-type) span,
@@ -39657,102 +40395,62 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label:not(:first-of-type) span,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label:not(:first-of-type) span,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label:not(:first-of-type) span {
   border-top: 1px solid RGB(43 42 51);
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label:not(:first-of-type) input,
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.shrine div.mainData div.data label:not(:first-of-type) textarea,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label:not(:first-of-type) input,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data label:not(:first-of-type) textarea,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label:not(:first-of-type) input,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.falcon div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.goliath div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.ghost div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.longbow div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.longbow div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.longbow div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.mechanic div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.mechanic div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.mechanic div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.nanoc div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.nanoc div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.nanoc div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.oriflamme div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.oriflamme div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.oriflamme div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.type div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.type div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.type div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.warlord div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.warlord div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.warlord div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.watchtower div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.watchtower div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.watchtower div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.zen div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.zen div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.zen div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.sarcophage div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.sarcophage div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.sarcophage div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.puppet div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.puppet div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.puppet div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.discord div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.discord div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.discord div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.windtalker div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.windtalker div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.windtalker div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.morph div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.morph div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.morph div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.companions div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.companions div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.companions div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.illumination div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.rage div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.totem div.mainData div.data label:not(:first-of-type) textarea,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label:not(:first-of-type) input,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.forward div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label:not(:first-of-type) input,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.record div.mainData div.data label:not(:first-of-type) textarea,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label:not(:first-of-type) input,
-form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label:not(:first-of-type) select,
-form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label:not(:first-of-type) textarea {
+form.item.armure section.window-content div.capacites div.rewind div.mainData div.data label:not(:first-of-type) select {
   border-top: 1px solid RGB(76 74 90);
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data button,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data button,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data button,
@@ -39773,7 +40471,6 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data button,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data button,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data button {
@@ -39786,10 +40483,7 @@ form.item.armure section.window-content div.capacites div.rewind div.mainData di
   color: white;
   margin: 0px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data button.notDisabled,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data button.notDisabled,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data button.notDisabled,
@@ -39810,16 +40504,12 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data button.notDisabled,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data button.notDisabled,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data button.notDisabled {
   cursor: pointer;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.shrine div.mainData div.data button.selected,
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data button.selected,
-form.item.armure section.window-content div.capacites div.changeling div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.falcon div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.ghost div.mainData div.data button.selected,
@@ -39840,7 +40530,6 @@ form.item.armure section.window-content div.capacites div.companions div.mainDat
 form.item.armure section.window-content div.capacites div.illumination div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.rage div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.totem div.mainData div.data button.selected,
-form.item.armure section.window-content div.capacites div.ascension div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.forward div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.record div.mainData div.data button.selected,
 form.item.armure section.window-content div.capacites div.rewind div.mainData div.data button.selected {
@@ -39974,217 +40663,6 @@ form.item.armure section.window-content div.capacites div.personnalise {
 }
 form.item.armure section.window-content div.capacites div.personnalise div.editor {
   min-height: 100px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion {
-  width: calc(50% - 5px);
-  border: 1px solid black;
-  margin-top: 5px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion button {
-  border-left: 0px;
-  border-top: 0px;
-  border-right: 0px;
-  border-bottom: 0px;
-  font-variant: small-caps;
-  border-radius: 0px;
-  color: white;
-  margin: 0px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion button.notDisabled {
-  cursor: pointer;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion button.selected {
-  background: RGB(76 74 90);
-  border-bottom: 1px solid black;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label {
-  display: flex;
-  width: 100%;
-  line-height: 26px;
-  justify-content: space-between;
-  flex: none;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label span {
-  background: RGB(76 74 90);
-  padding-left: 5px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label input,
-form.item.armure section.window-content div.capacites div.changeling div.explosion label select {
-  color: white;
-  border: 0px;
-  padding: 0px;
-  background: RGB(43 42 51);
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label input {
-  text-align: center;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label select {
-  text-align: left;
-  font-size: 12px;
-  letter-spacing: 0.5px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label select option {
-  background: RGB(76 74 90);
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.shortspan > span {
-  width: 90px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.shortspan > input,
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.shortspan > select,
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.shortspan > textarea {
-  width: calc(100% - 90px);
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.shortspan > textarea {
-  max-width: calc(100% - 90px);
-  min-width: calc(100% - 90px);
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.double div {
-  display: flex;
-  width: calc(100% - 90px);
-  justify-content: space-between;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.double div span {
-  width: 25px;
-  padding: 0px;
-  line-height: 26px;
-  background: RGB(43 42 51);
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.double div input {
-  width: calc(50% - (25px / 2));
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.double div input:first-of-type {
-  text-align: right;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.double div input:last-of-type {
-  text-align: left;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label.hidden {
-  display: none;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label:not(:first-of-type) span {
-  border-top: 1px solid RGB(43 42 51);
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label:not(:first-of-type) div {
-  border-top: 1px solid RGB(76 74 90);
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion label:not(:first-of-type) div input {
-  height: 27px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets {
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  padding-right: 5px;
-  padding-bottom: 19px;
-  padding-left: 5px;
-  border-top: 1px solid black;
-  align-items: flex-start;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div {
-  display: block;
-  position: relative;
-  width: max-content;
-  padding-left: 15px;
-  padding-right: 25px;
-  background: RGB(76 74 90);
-  border-radius: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-top: 5px;
-  border: 1px solid black;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div span.label {
-  font-variant: small-caps;
-  color: white;
-  line-height: 20px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div span.label input {
-  width: 15px;
-  min-width: 0px;
-  padding: 0px;
-  line-height: 15px;
-  text-align: right;
-  border: 0px;
-  background: transparent;
-  height: 15px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div img.info {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  right: 2px;
-  cursor: pointer;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div img.info.clicked, form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div img.info:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div span.hideInfo {
-  display: none;
-  position: absolute;
-  background: RGB(76 74 90);
-  border: 1px solid black;
-  padding: 5px;
-  z-index: 90;
-  margin-top: -2px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  right: 0;
-  top: 100%;
-  text-align: justify;
-  word-break: break-word;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div section.btnChargeur {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div section.btnChargeur a.btnEffChange {
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
-  border: 0px;
-  height: 15px;
-  line-height: 8px;
-  background: RGB(43 42 51);
-  color: white;
-  font-size: 20px;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div i.activable {
-  cursor: pointer;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div i.activable.inactive {
-  color: #c50000;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div i.activable.active {
-  color: #59d13e;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div i.activable:hover {
-  color: white;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div i.red {
-  color: #c50000;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets div i.green {
-  color: #59d13e;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.effets a.edit {
-  position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: white;
-  font-variant: small-caps;
-}
-form.item.armure section.window-content div.capacites div.changeling div.explosion > div.hidden {
-  display: none;
 }
 form.item.armure section.window-content div.capacites div.goliath div.mainData div.col {
   width: calc(50% - 5px);
@@ -40676,184 +41154,6 @@ form.item.armure section.window-content div.capacites div.warlord div.mainData d
 form.item.armure section.window-content div.capacites div.warlord div.mainData div.data label.noBorderTop select {
   border-top: 0px;
 }
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data h4.title {
-  font-variant: small-caps;
-  font-size: 17px;
-  border-bottom: 2px solid black;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data h4:not(:first-of-type) {
-  border-top: 1px solid black;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data textarea {
-  color: white;
-  border: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
-  text-align: left;
-  background: RGB(43 42 51);
-  font-family: "Signika";
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data label.simpleSeparation {
-  border-top: 1px solid black;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.double {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.double div.doubleLine {
-  display: flex;
-  width: 50%;
-  flex-wrap: wrap;
-  border-top: 1px solid black;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.double div.doubleLine > span {
-  width: 100%;
-  text-align: center;
-  border-top: 0px;
-  padding: 0px;
-  line-height: 26px;
-  background: RGB(76 74 90);
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.double div.doubleLine label input {
-  width: 50%;
-  text-align: right;
-  height: 26px;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.double div.doubleLine label span {
-  line-height: 26px;
-  width: 50%;
-  text-align: left;
-  background: RGB(43 42 51);
-  padding: 0px;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.double div.doubleLine:last-of-type label input {
-  border-left: 1px solid RGB(76 74 90);
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.double div.doubleLine:last-of-type span {
-  border-left: 1px solid RGB(43 42 51);
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets {
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  padding-right: 5px;
-  padding-bottom: 19px;
-  padding-left: 5px;
-  border-top: 1px solid black;
-  align-items: flex-start;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div {
-  display: block;
-  position: relative;
-  width: max-content;
-  padding-left: 15px;
-  padding-right: 25px;
-  background: RGB(76 74 90);
-  border-radius: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-top: 5px;
-  border: 1px solid black;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div span.label {
-  font-variant: small-caps;
-  color: white;
-  line-height: 20px;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div span.label input {
-  width: 15px;
-  min-width: 0px;
-  padding: 0px;
-  line-height: 15px;
-  text-align: right;
-  border: 0px;
-  background: transparent;
-  height: 15px;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div img.info {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  right: 2px;
-  cursor: pointer;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div img.info.clicked, form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div img.info:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div span.hideInfo {
-  display: none;
-  position: absolute;
-  background: RGB(76 74 90);
-  border: 1px solid black;
-  padding: 5px;
-  z-index: 90;
-  margin-top: -2px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  right: 0;
-  top: 100%;
-  text-align: justify;
-  word-break: break-word;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div section.btnChargeur {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2px;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
-  border: 0px;
-  height: 15px;
-  line-height: 8px;
-  background: RGB(43 42 51);
-  color: white;
-  font-size: 20px;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div i.activable {
-  cursor: pointer;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div i.activable.inactive {
-  color: #c50000;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div i.activable.active {
-  color: #59d13e;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div i.activable:hover {
-  color: white;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div i.red {
-  color: #c50000;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets div i.green {
-  color: #59d13e;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data div.effets a.edit {
-  position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: white;
-  font-variant: small-caps;
-}
-form.item.armure section.window-content div.capacites div.borealis div.mainData div.data:not(:nth-of-type(1)):not(:nth-of-type(2)) {
-  margin-top: 5px;
-}
 form.item.armure section.window-content div.capacites div.oriflamme div.mainData div.data div.double {
   display: flex;
   justify-content: space-between;
@@ -41007,190 +41307,6 @@ form.item.armure section.window-content div.capacites div.oriflamme div.mainData
   color: #59d13e;
 }
 form.item.armure section.window-content div.capacites div.oriflamme div.mainData div.data div.effets a.edit {
-  position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: white;
-  font-variant: small-caps;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.col {
-  width: calc(50% - 5px);
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.col > * {
-  width: 100%;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.col > *:not(:first-of-type) {
-  margin-top: 5px;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data h4.title {
-  font-variant: small-caps;
-  font-size: 17px;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data > textarea {
-  color: white;
-  border: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
-  text-align: left;
-  background: RGB(43 42 51);
-  font-family: "Signika";
-  height: 26px;
-  min-width: 100%;
-  max-width: 100%;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line {
-  display: flex;
-  justify-content: space-between;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line div.doubleLine {
-  display: flex;
-  flex-wrap: wrap;
-  width: 50%;
-  flex: none;
-  border-bottom: 1px solid black;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line div.doubleLine span {
-  width: 100%;
-  padding: 0px;
-  line-height: 26px;
-  background: RGB(76 74 90);
-  text-align: center;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line div.doubleLine label {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  line-height: 26px;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line div.doubleLine label input {
-  width: calc(50% - 6px);
-  text-align: right;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line div.doubleLine label span {
-  line-height: 26px;
-  width: calc(50% + 6px);
-  text-align: left;
-  background: RGB(43 42 51);
-  padding: 0px;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line div.doubleLine label span.notdisabled {
-  cursor: text;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line div.doubleLine:not(:first-of-type) > span {
-  border-left: 1px solid RGB(43 42 51);
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.line div.doubleLine:not(:first-of-type) label {
-  border-left: 1px solid RGB(76 74 90);
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets {
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  padding-right: 5px;
-  padding-bottom: 19px;
-  padding-left: 5px;
-  border-top: 1px solid black;
-  align-items: flex-start;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div {
-  display: block;
-  position: relative;
-  width: max-content;
-  padding-left: 15px;
-  padding-right: 25px;
-  background: RGB(76 74 90);
-  border-radius: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-top: 5px;
-  border: 1px solid black;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div span.label {
-  font-variant: small-caps;
-  color: white;
-  line-height: 20px;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div span.label input {
-  width: 15px;
-  min-width: 0px;
-  padding: 0px;
-  line-height: 15px;
-  text-align: right;
-  border: 0px;
-  background: transparent;
-  height: 15px;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div img.info {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  right: 2px;
-  cursor: pointer;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div img.info.clicked, form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div img.info:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div span.hideInfo {
-  display: none;
-  position: absolute;
-  background: RGB(76 74 90);
-  border: 1px solid black;
-  padding: 5px;
-  z-index: 90;
-  margin-top: -2px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  right: 0;
-  top: 100%;
-  text-align: justify;
-  word-break: break-word;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div section.btnChargeur {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 2px;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  padding: 0px;
-  border: 0px;
-  height: 15px;
-  line-height: 8px;
-  background: RGB(43 42 51);
-  color: white;
-  font-size: 20px;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div i.activable {
-  cursor: pointer;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div i.activable.inactive {
-  color: #c50000;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div i.activable.active {
-  color: #59d13e;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div i.activable:hover {
-  color: white;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div i.red {
-  color: #c50000;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets div i.green {
-  color: #59d13e;
-}
-form.item.armure section.window-content div.capacites div.cea div.mainData div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
   right: 5px;

@@ -147,6 +147,7 @@ export const PreloadTemplates = async function () {
   const commonPartials = {
     "knight.armes": `${path}/actors/parts/common/sections/armes.hbs`,
     "knight.effets": `${path}/common/parts/sections/effets.hbs`,
+    "knight.prose": `${path}/common/parts/prose.hbs`,
     "knight.itemButtons": `${path}/actors/parts/common/itemButtons.hbs`,
     "knight.itemCreate": `${path}/actors/parts/common/itemCreate.hbs`,
     "knight.jsToggle": `${path}/common/parts/jsToggle.hbs`,
@@ -305,10 +306,13 @@ export const PreloadTemplates = async function () {
   };
 
   const armurePartials = {
-    "knight.armure.capacites.ascension": `${path}/items/parts/armure/tab/capacites/ascension.html`,
-    "knight.armure.capacites.borealis": `${path}/items/parts/armure/tab/capacites/borealis.html`,
-    "knight.armure.capacites.cea": `${path}/items/parts/armure/tab/capacites/cea.html`,
-    "knight.armure.capacites.changeling": `${path}/items/parts/armure/tab/capacites/changeling.html`,
+    "knight.armure.capacites.common.header": `${path}/items/parts/armure/tab/capacites/common/header.hbs`,
+    "knight.armure.capacites.common.description": `${path}/items/parts/armure/tab/capacites/common/description.hbs`,
+    "knight.armure.capacites.common.effects": `${path}/items/parts/armure/tab/capacites/common/effects.hbs`,
+    "knight.armure.capacites.ascension": `${path}/items/parts/armure/tab/capacites/ascension.hbs`,
+    "knight.armure.capacites.borealis": `${path}/items/parts/armure/tab/capacites/borealis.hbs`,
+    "knight.armure.capacites.cea": `${path}/items/parts/armure/tab/capacites/cea.hbs`,
+    "knight.armure.capacites.changeling": `${path}/items/parts/armure/tab/capacites/changeling.hbs`,
     "knight.armure.capacites.discord": `${path}/items/parts/armure/tab/capacites/discord.html`,
     "knight.armure.capacites.falcon": `${path}/items/parts/armure/tab/capacites/falcon.html`,
     "knight.armure.capacites.forward": `${path}/items/parts/armure/tab/capacites/forward.html`,
@@ -327,7 +331,7 @@ export const PreloadTemplates = async function () {
     "knight.armure.capacites.rewind": `${path}/items/parts/armure/tab/capacites/rewind.html`,
     "knight.armure.capacites.sarcophage": `${path}/items/parts/armure/tab/capacites/sarcophage.html`,
     "knight.armure.capacites.shrine": `${path}/items/parts/armure/tab/capacites/shrine.html`,
-    "knight.armure.capacites.totem": `${path}/items/parts/armure/tab/capacites/totem.html`,
+    "knight.armure.capacites.totem": `${path}/items/parts/armure/tab/capacites/totem.hbs`,
     "knight.armure.capacites.type": `${path}/items/parts/armure/tab/capacites/type.html`,
     "knight.armure.capacites.vision": `${path}/items/parts/armure/tab/capacites/vision.html`,
     "knight.armure.capacites.warlord": `${path}/items/parts/armure/tab/capacites/warlord.html`,

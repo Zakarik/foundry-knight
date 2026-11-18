@@ -127,6 +127,8 @@ export class CapaciteDataModel extends ItemSpecialEffectsPathMixinModel(
         list: result,
       };
     }
+
+    return super.migrateData(source);
   }
 
   get listEffect() {

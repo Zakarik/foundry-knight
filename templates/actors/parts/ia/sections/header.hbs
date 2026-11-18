@@ -16,14 +16,12 @@
                 {{localize "KNIGHT.IA.Caractere"}}
             </h2>
 
-            {{formInput
-                systemFields.caractere
+            {{~> knight.prose
+                field=systemFields.caractere
                 enriched=enrichedCaractere
+                name="caractere"
                 value=systemData.caractere
-                documentUUID=actor.uuid
-                name="system.caractere"
-                collaborate="false"
-                toggled="true"
+                uuid=actor.uuid
             }}
         </div>
     </div>

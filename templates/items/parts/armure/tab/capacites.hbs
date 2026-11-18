@@ -1,15 +1,27 @@
-<div class="{{ tabs.capacites.cssClass }}" data-group="primary" data-tab="capacites">
-    <h2 class="header js-toggler">
-        <i class="far fa-minus-square"></i>
-        {{localize "KNIGHT.CAPACITES.Label"}}
-    </h2>
-    <div class="add">
-        <a data-value="{{systemData.capacites.actuel}}">{{localize "KNIGHT.AUTRE.Ajouter"}}</a>
-        <select name="system.capacites.actuel">
-            {{selectOptions systemData.capacites.liste selected=systemData.capacites.actuel localize=true blank='' valueAttr="key" labelAttr="label"}}
-        </select>
-    </div>
-    {{#each systemData.capacites.selected as | key selected|}}
-        {{~> (concat "knight.armure.capacites." selected) path=(concat "system.capacites.selected." selected)}}
-    {{/each}}
+<div class="{{tabs.capacites.cssClass}}" data-group="primary" data-tab="capacites">
+  <h2 class="header js-toggler">
+    <i class="far fa-minus-square"></i>
+    {{localize "KNIGHT.CAPACITES.Label"}}
+  </h2>
+  <div class="add">
+    <button
+      data-action="addCapacity"
+      data-capacity="{{systemData.capacites.actuel}}">
+      {{localize "KNIGHT.AUTRE.Ajouter"}}
+    </button>
+    <select name="system.capacites.actuel">
+      {{selectOptions
+        systemData.capacites.liste
+        selected=systemData.capacites.actuel
+        localize=true
+        blank=""
+        valueAttr="key"
+        labelAttr="label"
+      }}
+    </select>
+  </div>
+
+  {{#each (prepareArmorCapacity systemData.capacites.selected)}}
+    {{~> (concat "knight.armure.capacites." id) path=(concat "system.capacites.selected." id)}}
+  {{/each}}
 </div>

@@ -1,0 +1,105 @@
+<div class="dataCapacity changeling">
+    {{~> knight.armure.capacites.common.header
+        path="capacites.selected.changeling"
+        label=label
+    }}
+
+    {{~> knight.armure.capacites.common.description
+        field=@root.systemFields.capacites.fields.selected.fields.changeling.fields.description
+        path="capacites.selected.changeling"
+        value=description
+        enriched=@root.enrichedCapacites.changeling
+    }}
+
+    <fieldset class="mainData" {{ifThen softlock 'disabled' ''}}>
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <label class="inputWithLabel">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.Personnelle"}}</span>
+                <input type="number" name="{{path.string}}.energie.personnel"
+                value="{{energie.personnel}}"
+                min="0"/>
+            </label>
+            <label class="inputWithLabel">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.Etendue"}}</span>
+                <input type="number" name="{{path.string}}.energie.etendue"
+                value="{{energie.etendue}}"
+                min="0" />
+            </label>
+            <label class="inputWithLabel">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.ParFauxEtres"}}</span>
+                <input type="number" name="{{path.string}}.energie.fauxEtre.value"
+                value="{{energie.fauxEtre.value}}"
+                min="0" />
+            </label>
+            <label class="inputWithLabel double">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtresMax"}}</span>
+                <input type="number" name="{{path.string}}.energie.fauxEtre.max"
+                value="{{energie.fauxEtre.max}}"
+                min="0" />
+            </label>
+        </div>
+
+        <div class="data">
+            <label class="selectWithLabel">
+                <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="{{path.string}}.activation">
+                    {{selectOptions (getList 'activation6sec') selected=this.activation localize=true}}
+                </select>
+            </label>
+            <div class="textareaWithLabel">
+                <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="{{path.string}}.duree"
+                data-capacite="changeling" data-type="duree" data-min="50" style="height:{{textarea.duree}}px;">{{duree}}</textarea>
+            </div>
+            <div class="textareaWithLabel">
+                <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <textarea name="{{path.string}}.portee"
+                    data-capacite="changeling" data-type="portee" data-min="50" style="height:{{textarea.portee}}px;">{{portee}}</textarea>
+            </div>
+        </div>
+
+        <div class="data">
+            {{~> knight.item.btnToggle
+                value=desactivationexplosive.acces
+                path="capacites.selected.changeling.desactivationexplosive.acces"
+                localize="KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive"
+            }}
+            <label class="selectWithLabel" style="{{#unless desactivationexplosive.acces}}display:none;{{/unless}}">
+                <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <select name="{{path.string}}.desactivationexplosive.portee" {{#if this.softlock}}disabled{{/if}}>
+                    {{selectOptions (getList 'porteerestreint') selected=this.desactivationexplosive.portee localize=true}}
+                </select>
+            </label>
+            <div class="diceWithLabel forceSimple" style="{{#unless desactivationexplosive.acces}}display:none;{{/unless}}">
+               <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+               <div>
+                    <input type="number" name="{{path.string}}.desactivationexplosive.degats.dice"
+                    value="{{desactivationexplosive.degats.dice}}"
+                    min="0"/>
+                    <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="{{path.string}}.desactivationexplosive.degats.fixe"
+                    value="{{desactivationexplosive.degats.fixe}}"
+                    min="0" />
+                </div>
+            </div>
+            <div class="diceWithLabel" style="{{#unless desactivationexplosive.acces}}display:none;{{/unless}}">
+               <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+               <div>
+                    <input type="number" name="{{path.string}}.desactivationexplosive.violence.dice"
+                    value="{{desactivationexplosive.violence.dice}}"
+                    min="0" />
+                    <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="{{path.string}}.desactivationexplosive.violence.fixe"
+                    value="{{desactivationexplosive.violence.fixe}}"
+                    min="0" />
+                </div>
+            </div>
+{{#if desactivationexplosive.acces}}
+
+                {{~> knight.armure.capacites.common.effects liste=desactivationexplosive.effets.liste type='changeling' path="capacites.selected.changeling.desactivationexplosive.effets"}}
+
+{{/if}}
+        </div>
+    </fieldset>
+</div>

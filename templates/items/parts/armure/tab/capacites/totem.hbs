@@ -1,0 +1,62 @@
+
+<div class="dataCapacity totem">
+    {{~> knight.armure.capacites.common.header
+        path="capacites.selected.totem"
+        label=label
+    }}
+
+    {{~> knight.armure.capacites.common.description
+        field=@root.systemFields.capacites.fields.selected.fields.totem.fields.description
+        path="capacites.selected.totem"
+        value=description
+        enriched=@root.enrichedCapacites.totem
+    }}
+
+    <fieldset class="mainData" {{ifThen softlock 'disabled' ''}}>
+        <div class="data">
+            <label class="selectWithLabel">
+                <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="{{path.string}}.activation">
+                    {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
+                </select>
+            </label>
+            <div class="textareaWithLabel">
+                <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea data-capacite="totem" data-type="duree" data-min="50" style="height:{{textarea.duree}}px;" name="{{path.string}}.duree">{{duree}}</textarea>
+            </div>
+        </div>
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <div class="inputWithLabelSpan">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.ENERGIE.Matérialiser"}}</span>
+                <label>
+                    <input type="number" name="{{path.string}}.energie.base"
+                    value="{{energie.base}}"
+                    min="0"/>
+                    <span> / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem"}}</span>
+                </label>
+            </div>
+            <div class="inputWithLabelSpan">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.ENERGIE.Prolonger"}}</span>
+                <label>
+                    <input type="number" name="{{path.string}}.energie.prolonger"
+                    value="{{energie.prolonger}}"
+                    min="0" />
+                    <span> / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem"}}</span>
+                </label>
+            </div>
+            <label class="inputWithLabel forceDouble">
+                <span class="label">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Nombre"}}</span>
+                <input type="number" name="{{path.string}}.nombre"
+                value="{{nombre}}"
+                min="0" />
+            </label>
+            <label class="inputWithLabel">
+                <span class="label">{{localize "KNIGHT.AUTRE.GainImpregnation"}}</span>
+                <input type="number" name="{{path.string}}.impregnation"
+                value="{{impregnation}}"
+                min="0" />
+            </label>
+        </div>
+    </fieldset>
+</div>

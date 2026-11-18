@@ -9,7 +9,7 @@ const TYPES = {
   html: (opts) => new F.HTMLField(opts),
   arr: (element, opts) => new F.ArrayField(element, opts),
   tObj: (model, opts) => new F.TypedObjectField(model, opts),
-  schema: (fields) => new F.SchemaField(fields),
+  schema: (fields, opts) => new F.SchemaField(fields, opts),
   embedded: (model) => new F.EmbeddedDataField(model),
 };
 
@@ -31,10 +31,8 @@ function buildField(value) {
     if (type === "embedded") return TYPES.embedded(arg1, arg2 ?? {});
     if (type === "schema") {
       const built = {};
-      for (const [k, v] of Object.entries(arg1)) {
-        built[k] = buildField(v);
-      }
-      return TYPES.schema(built);
+      for (const [k, v] of Object.entries(arg1)) built[k] = buildField(v);
+      return TYPES.schema(built, arg2 ?? {});
     }
 
     return TYPES[type]?.(arg1);
@@ -65,7 +63,10 @@ export function combine(...defs) {
         Array.isArray(value) &&
         value[0] === "schema"
       ) {
-        result[key] = ["schema", combine(result[key][1], value[1])];
+        const merged = ["schema", combine(result[key][1], value[1])];
+        const opts = value[2] ?? result[key][2];
+        if (opts) merged.push(opts);
+        result[key] = merged;
       } else {
         result[key] = value;
       }

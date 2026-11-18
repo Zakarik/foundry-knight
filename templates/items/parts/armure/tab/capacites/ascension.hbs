@@ -1,0 +1,56 @@
+
+<div class="dataCapacity ascension">
+    {{~> knight.armure.capacites.common.header
+        path="capacites.selected.ascension"
+        label=label
+    }}
+
+    {{~> knight.armure.capacites.common.description
+        field=@root.systemFields.capacites.fields.selected.fields.ascension.fields.description
+        path="capacites.selected.ascension"
+        value=description
+        enriched=@root.enrichedCapacites.ascension
+    }}
+
+    <fieldset class="mainData" {{ifThen softlock 'disabled' ''}}>
+            <div class="data">
+                <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+                <label class="inputWithLabel">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                    <input type="number" name="{{path.string}}.energie.min"
+                    value="{{energie.min}}"
+                    min="0"
+                    max="{{energie.max}}" />
+                </label>
+                <label class="inputWithLabel">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                    <input type="number" name="{{path.string}}.energie.max"
+                    value="{{energie.max}}"
+                    min="0"/>
+                </label>
+                <label class="inputWithLabel double">
+                    <span class="label">{{localize "KNIGHT.AUTRE.GainImpregnation"}}</span>
+                    <input type="number" name="{{path.string}}.impregnation"
+                    value="{{impregnation}}"
+                    min="0" />
+                </label>
+            </div>
+            <div class="data">
+                <label class="selectWithLabel">
+                    <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                    <select name="{{path.string}}.activation">
+                        {{selectOptions (getList 'activation6sec') selected=activation localize=true}}
+                    </select>
+                </label>
+                <div class="textareaWithLabel">
+                    <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+                    <textarea data-capacite="ascension" data-type="duree" data-min="50" style="height:{{textarea.duree}}px;" name="{{path.string}}.duree">{{duree}}</textarea>
+                </div>
+                {{~> knight.item.btnToggle
+                    value=sansarmure.acces
+                    path="capacites.selected.ascension.sansarmure.acces"
+                    localize="KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.SansArmure"
+                }}
+            </div>
+    </fieldset>
+</div>

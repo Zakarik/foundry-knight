@@ -1,0 +1,11 @@
+<div class="inner">
+  {{formInput
+    field
+    enriched=enriched
+    value=value
+    documentUUID=uuid
+    name=(concat "system." name)
+    collaborate=(ifThen (eq collaborate "false") false true)
+    toggled=true
+  }}
+</div>

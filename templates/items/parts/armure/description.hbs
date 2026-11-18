@@ -1,16 +1,13 @@
 <div class="description">
-    <h2 class="header">
-        {{~> knight.jsToggle}}
-        {{localize "KNIGHT.Description"}}
-    </h2>
+  <h2 class="header">
+    {{localize "KNIGHT.Description"}}
+  </h2>
 
-    {{formInput
-        systemFields.description
-        enriched=enrichedDescription
-        value=systemData.description
-        documentUUID=item.uuid
-        name="system.description"
-        collaborate="false"
-        toggled="true"
-    }}
+  {{~> knight.prose
+      field=systemFields.description
+      enriched=enrichedDescription
+      name="description"
+      value=systemData.description
+      uuid=item.uuid
+  }}
 </div>

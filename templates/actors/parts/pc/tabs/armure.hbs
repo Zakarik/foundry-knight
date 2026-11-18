@@ -191,14 +191,12 @@
                     <div class="data">
                         <div class="description">
                             <h2>{{localize "KNIGHT.IA.Caractere"}}</h2>
-                            {{formInput
-                                systemFields.equipements.fields.ia.fields.caractere
+                            {{~> knight.prose
+                                field=systemFields.equipements.fields.ia.fields.caractere
                                 enriched=enrichedIaCaractere
+                                name="equipements.ia.caractere"
                                 value=systemData.equipements.ia.caractere
-                                documentUUID=actor.uuid
-                                name="system.equipements.ia.caractere"
-                                collaborate="false"
-                                toggled="true"
+                                uuid=actor.uuid
                             }}
                         </div>
                     </div>

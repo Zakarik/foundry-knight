@@ -1421,4 +1421,21 @@ export const RegisterHandlebars = function () {
   Handlebars.registerHelper("uppercase", function (str) {
     return str.toString().toUpperCase();
   });
+
+  Handlebars.registerHelper("prepareArmorCapacity", function (listCapacity) {
+    // Sécurité si listCapacity n'est pas défini
+    if (!listCapacity) return [];
+
+    return (
+      Object.entries(listCapacity)
+        // Filtre pour ne garder que les capacités valides / cochées
+        .filter(([name, capacity]) => capacity)
+        // Tri basé sur la propriété 'order' de la valeur
+        .sort(([nameA, capacityA], [nameB, capacityB]) => capacityA.order - capacityB.order)
+        // On transforme en tableau d'objets pour que Handlebars l'affiche dans le bon ordre
+        .map(([name, capacity]) => {
+          return { id: name, ...capacity };
+        })
+    );
+  });
 };
